@@ -1,0 +1,465 @@
+"""v56 THE BOOK IS HYPERTEXT: are some Voynich words pointers to other pages?
+
+Corpus format: dict(pages=[...], toks=[...]) built by build(); a page = dict(id, sec, quire, folio, lines=[[w..]..],
+lflags=[(para_start, ltype)..]); a word = string of single-character glyph units.
+
+Core objects
+  R[i, t]   residual context->page affinity for token i and target page t: how much the rare vocabulary
+            (payload skeletons) of the lines around token i (token itself removed) is shared with page t,
+            minus the mean over pages of the same section and the same distance band from i's own page,
+            then standardised per token. A pointer rule maps token i to an address -> page; its score is
+            z = sum_i R[i, target_i] / sqrt(n_selected) (invalid addresses count 0).
+  Rf, Rq    the same aggregated to folios (leaves) and quires.
+
+Rule = selector (which tokens are pointers) + feature (count or positional weight of each glyph in the full word
+or in its skeleton) + value vector d (one integer per glyph) + address mode (absolute/relative, space, offset,
+mod/clip). addr = C_feature @ d. Everything is linear, so random rules are evaluated in batches and a
+coordinate ascent can retune one glyph value at a time over all its candidate values at once.
+"""
+import os, sys, json, random, math, re, collections
+import numpy as np
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+CK = os.path.join(ROOT, 'data', 'v56_ckpt')
+os.makedirs(CK, exist_ok=True)
+
+GALL = set('ktpfKTPF')
+FRAME = set('oainylr')
+SKEL_MAP = {'K': 'k', 'T': 't', 'P': 'p', 'F': 'f'}
+
+
+def skel_voy(w):
+    """payload skeleton (v52/v54): drop q, e, d, ch/sh, s, other padding; keep o a i n y l r + gallows."""
+    return ''.join(SKEL_MAP.get(c, c) for c in w if c in FRAME or c in GALL)
+
+
+# ------------------------------------------------------------------ corpora
+def voynich(name='ZL3b', ltypes=('P', 'L', 'R', 'C')):
+    import vlib
+    L = vlib.load_voynich(name, ltypes=ltypes)
+    pages = collections.OrderedDict()
+    for r in L:
+        ws = [''.join(vlib.glyphs(w)) for w in r['words'] if '?' not in w and '*' not in w and w]
+        ws = [w for w in ws if re.fullmatch(r'[a-zA-Z]+', w)]
+        if not ws: continue
+        f = r['folio']
+        p = pages.setdefault(f, dict(id=f, sec=r['illus'], quire=r['quire'], folio=int(re.match(r'f(\d+)', f).group(1)),
+                                     lang=r['lang'] or '-', hand=r['hand'], lines=[], lflags=[]))
+        p['lines'].append(ws); p['lflags'].append((bool(r['para_start']), r['ltype']))
+    return dict(pages=list(pages.values()), skel=skel_voy, name=name)
+
+
+def markov_corpus(C, seed=1):
+    """unit-trigram word resynthesis per section (generator; keeps page/line layout)."""
+    rng = random.Random(seed)
+    by = collections.defaultdict(list)
+    for p in C['pages']:
+        by[p['sec']] += [w for l in p['lines'] for w in l]
+    tabs = {}
+    for k, ws in by.items():
+        tri = collections.defaultdict(collections.Counter)
+        for w in ws:
+            s = '\x01\x01' + w + '\x02'
+            for i in range(2, len(s)): tri[s[i - 2:i]][s[i]] += 1
+        tabs[k] = {c: (list(v.keys()), list(v.values())) for c, v in tri.items()}
+    P = []
+    for p in C['pages']:
+        tab = tabs[p['sec']]; nl = []
+        for l in p['lines']:
+            q = []
+            for _ in l:
+                ctx, w = '\x01\x01', ''
+                while True:
+                    ks, vs = tab[ctx]; c = rng.choices(ks, vs)[0]
+                    if c == '\x02' or len(w) > 15: break
+                    w += c; ctx = ctx[1] + c
+                q.append(w or 'o')
+            nl.append(q)
+        P.append(dict(p, lines=nl))
+    return dict(C, pages=P, name=C['name'] + '_markov')
+
+
+def selfcit_corpus(C, seed=1, window=60, p_mod=0.5):
+    """copy-and-modify generator per section (the strongest generator in v54)."""
+    import v54_lib
+    pages = [dict(id=p['id'], vars=dict(sec=p['sec']), lines=p['lines']) for p in C['pages']]
+    out = v54_lib.null_selfcit(pages, seed=seed, key='sec', window=window, p_mod=p_mod)
+    return dict(C, pages=[dict(p, lines=o['lines']) for p, o in zip(C['pages'], out)], name=C['name'] + '_selfcit')
+
+
+def relabel_corpus(C, seed=1):
+    """pages relabelled: the binding order is randomly permuted (sections and quires travel with their pages)."""
+    rng = random.Random(seed)
+    P = list(C['pages']); rng.shuffle(P)
+    return dict(C, pages=P, name=C['name'] + '_relab')
+
+
+# ------------------------------------------------------------------ Culpeper control (real cross-references)
+ROMAN_ADD = [(100, 'c'), (50, 'l'), (10, 'x'), (5, 'v'), (1, 'i')]
+
+
+def roman_add(n):
+    s = ''
+    for v, c in ROMAN_ADD:
+        while n >= v: s += c; n -= v
+    return s
+
+
+def culpeper_chapters():
+    t = open(os.path.join(CK, 'culpeper.txt'), encoding='utf-8').read().replace('\r', '')
+    i = t.find('    ADDER’S TONGUE'); j = t.find('THE DISPENSATORY', i) if 'THE DISPENSATORY' in t[i:] else len(t)
+    t = t[i:j]
+    lines = t.split('\n'); chaps = []; cur = None
+    for ln in lines:
+        m = re.match(r'^ {2,}([A-Z][A-Z’\'\-, ]{2,60})\.?\s*$', ln)
+        if m and not ln.strip().startswith(('THE ', 'OF ')) or (m and len(chaps) and cur and len(cur['body']) > 40):
+            name = m.group(1).strip().rstrip('.').strip()
+            if cur: chaps.append(cur)
+            cur = dict(head=name, body=[]); continue
+        if cur is not None: cur['body'].append(ln)
+    if cur: chaps.append(cur)
+    out = []
+    for c in chaps:
+        txt = ' '.join(c['body'])
+        txt = re.sub(r'_[A-Za-z. ]+\._\]', ' ', txt)
+        words = re.findall(r"[a-z’']+", txt.lower().replace('’', "'"))
+        if len(words) < 60: continue
+        names = [n.strip().lower().replace('’', "'") for n in re.split(r'\bOR\b|,', c['head']) if n.strip()]
+        out.append(dict(head=c['head'], names=names, words=words))
+    return out
+
+
+def culpeper(seed=56, max_words=260, line_w=9, pad=True, numerals=True):
+    """Culpeper's herbal chapters (= pages, kept in their alphabetical order). Real cross-references: a mention in
+    chapter i of the name of another chapter j. Each mention is replaced by an additive Roman numeral giving j's
+    chapter number (as 'vide cap. xxxxii' minus the 'vide cap.'), the whole text is mapped to opaque glyphs and
+    Voynich-like padding is added (optional prefix glyph, two-way alternation of one letter, doubled vowel glyph)."""
+    rng = random.Random(seed)
+    ch = culpeper_chapters()
+    # name phrases; drop names that are common words (appear in > 8% of chapters as plain text)
+    df = collections.Counter()
+    for c in ch:
+        txt = ' ' + ' '.join(c['words']) + ' '
+        for n in {n for cc in ch for n in cc['names']}:
+            pass
+    allnames = {}
+    for j, c in enumerate(ch):
+        for n in c['names']:
+            n2 = n.replace('-', ' ').strip()
+            if len(n2) >= 4: allnames.setdefault(n2, j)
+    texts = [' '.join(c['words']).replace('-', ' ') for c in ch]
+    for n in allnames:
+        pat = re.compile(r'\b' + re.escape(n) + r's?\b')
+        df[n] = sum(1 for t in texts if pat.search(t))
+    good = {n: j for n, j in allnames.items() if df[n] <= 0.08 * len(ch)}
+    pats = sorted(good, key=len, reverse=True)
+    rx = re.compile(r'\b(' + '|'.join(re.escape(n) for n in pats) + r')s?\b')
+    pages = []; truth = []
+    for i, c in enumerate(ch):
+        t = texts[i]
+        ws = []; pos = 0
+        for m in rx.finditer(t):
+            ws += t[pos:m.start()].split()
+            j = good[m.group(1)]
+            if j != i and numerals:
+                ws.append('#%d' % j); truth.append((i, len(ws) - 1, j))
+            else:
+                ws += m.group(0).split()
+            pos = m.end()
+        ws += t[pos:].split()
+        # keep a window of max_words that includes as many references as possible: take the first max_words
+        ws = ws[:max_words]
+        pages.append(dict(id='cu%03d' % i, sec='G%d' % (i * 6 // len(ch)), quire='Q%02d' % (i // 16), folio=i // 2,
+                          words=ws))
+    alpha = sorted({ch_ for p in pages for w in p['words'] if not w.startswith('#') for ch_ in w if ch_.isalpha()})
+    syms = [chr(c) for c in range(0x3B1, 0x3B1 + 25)] + [chr(c) for c in range(0x410, 0x410 + 32)]
+    r2 = random.Random(seed + 1); r2.shuffle(syms)
+    M = {a: syms[k] for k, a in enumerate(alpha)}
+    PADQ, ALT, DUP = syms[40], syms[41], syms[42]
+    alt_src = M['e']
+    def enc(w):
+        if w.startswith('#'):
+            w = roman_add(int(w[1:]) + 1)   # chapters numbered from 1
+        g = [M[c] for c in w if c in M]
+        if not pad: return ''.join(g)
+        out = []
+        if rng.random() < 0.25: out.append(PADQ)
+        for c in g:
+            if c == alt_src and rng.random() < 0.5: c = ALT
+            out.append(c)
+            if c in (M['o'], M['a']) and rng.random() < 0.2: out.append(DUP)
+        return ''.join(out)
+    P = []
+    nref = 0
+    for i, p in enumerate(pages):
+        ws = [enc(w) for w in p['words']]
+        lines = [ws[k:k + line_w] for k in range(0, len(ws), line_w)]
+        P.append(dict(id=p['id'], sec=p['sec'], quire=p['quire'], folio=p['folio'], lang='-', hand='-', lines=lines,
+                      lflags=[(k == 0, 'P') for k in range(len(lines))]))
+    # truth restricted to kept words
+    tr = [(i, k, j) for i, k, j in truth if k < max_words]
+    pad_set = {PADQ, DUP}
+    def skel(w):
+        return ''.join(alt_src if c == ALT else c for c in w if c not in pad_set)
+    roman_g = {c: M[c] for c in 'ivxlc'}
+    return dict(pages=P, skel=skel, name='CULP' + ('' if numerals else '_names'), truth=tr, roman=roman_g, M=M)
+
+
+# ------------------------------------------------------------------ planted pointer system inside the Voynich text
+def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3):
+    """Replace ~rate_per_page random tokens per page by a pointer word that encodes (positional base 7 over the
+    frame glyphs o a i n y l r, most significant first) the 1-based index of a page relevant to the context (drawn
+    from the context's top-10 residual pages at distance >= 3), then pad it Voynich-style (q-, ch, e/ee, -dy)."""
+    rng = random.Random(seed)
+    E = R_builder(C)
+    R, tokpage = E['R'], E['tok_page']
+    digits = list('oainylr'); rng.shuffle(digits)
+    dval = {g: k for k, g in enumerate(digits)}
+    P = [dict(p, lines=[list(l) for l in p['lines']]) for p in C['pages']]
+    truth = []
+    N = len(P)
+    for pi, p in enumerate(P):
+        locs = [(li, k) for li, l in enumerate(p['lines']) for k in range(len(l))]
+        if len(locs) < 10: continue
+        for li, k in rng.sample(locs, min(rate_per_page, len(locs))):
+            ti = E['tok_index'][(pi, li, k)]
+            row = R[ti].copy()
+            for t in range(N):
+                if abs(t - pi) < 3: row[t] = -1e9
+            cand = np.argsort(-row)[:10]
+            t = int(rng.choice(list(cand)))
+            a = t + 1
+            ds = []
+            for _ in range(ndig): ds.append(a % base); a //= base
+            ds = ds[::-1]
+            w = ''
+            if rng.random() < 0.4: w += 'q'
+            for x, dd in enumerate(ds):
+                w += digits[dd]
+                if x == 0 and rng.random() < 0.5: w += 'k'
+                if rng.random() < 0.3: w += 'C' if rng.random() < 0.5 else 'S'
+            w += rng.choice(['', 'dy', 'edy', 'eey', 'y'])
+            p['lines'][li][k] = w
+            truth.append((pi, li, k, t))
+    return dict(C, pages=P, name=C['name'] + '_planted', truth=truth, digits=digits)
+
+
+# ------------------------------------------------------------------ residual affinity
+def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 7, 16, 41), order=None):
+    """tokens + residual affinity matrices. order: optional list of page indices giving an alternative binding
+    order (address space); default = given order."""
+    pages = C['pages']
+    if order is not None: pages = [pages[k] for k in order]
+    N = len(pages)
+    sk = C['skel'] if use_skel else (lambda w: w)
+    ptypes = [set(sk(w) for l in p['lines'] for w in l) - {''} for p in pages]
+    df = collections.Counter(t for s in ptypes for t in s)
+    rare = {t for t, c in df.items() if 2 <= c <= df_max}
+    vocab = {t: k for k, t in enumerate(sorted(rare))}
+    V = len(vocab)
+    idf = np.zeros(V, np.float32)
+    for t, k in vocab.items(): idf[k] = math.log(N / df[t])
+    PM = np.zeros((N, V), np.float32)
+    for pi, s in enumerate(ptypes):
+        for t in s & rare: PM[pi, vocab[t]] = 1.0
+    pnorm = np.sqrt(PM.sum(1) + 5.0)
+    secs = [p['sec'] for p in pages]
+    # tokens
+    toks = []; tok_index = {}
+    for pi, p in enumerate(pages):
+        nl = len(p['lines'])
+        for li, l in enumerate(p['lines']):
+            for k, w in enumerate(l):
+                tok_index[(pi, li, k)] = len(toks)
+                toks.append((pi, li, k, w))
+    T = len(toks)
+    R = np.zeros((T, N), np.float32)
+    bandid = np.zeros((N, N), np.int32)
+    for a in range(N):
+        for b in range(N):
+            d = abs(a - b); bandid[a, b] = sum(d >= x for x in bands)
+    secid = {s: k for k, s in enumerate(sorted(set(secs)))}
+    sarr = np.array([secid[s] for s in secs])
+    for pi, p in enumerate(pages):
+        idxs = [tok_index[(pi, li, k)] for li, l in enumerate(p['lines']) for k in range(len(l))]
+        if not idxs: continue
+        rows = np.zeros((len(idxs), V), np.float32)
+        r = 0
+        for li, l in enumerate(p['lines']):
+            ctx = collections.Counter()
+            for lj in range(max(0, li - ctx_lines), min(len(p['lines']), li + ctx_lines + 1)):
+                for w in p['lines'][lj]:
+                    t = sk(w)
+                    if t in vocab: ctx[t] += 1
+            for k, w in enumerate(l):
+                c2 = dict(ctx); t = sk(w)
+                if t in vocab:
+                    c2[t] -= 1
+                for t2, n in c2.items():
+                    if n > 0: rows[r, vocab[t2]] = idf[vocab[t2]]
+                r += 1
+        S = rows @ PM.T / pnorm[None, :]                      # (n, N)
+        # residual vs same (band, section) group, excluding own page
+        g = bandid[pi] * 100 + sarr
+        g[pi] = -1
+        Rr = np.zeros_like(S)
+        for gv in np.unique(g):
+            if gv < 0: continue
+            m = g == gv
+            Rr[:, m] = S[:, m] - S[:, m].mean(1, keepdims=True)
+        Rr[:, pi] = 0.0
+        sd = Rr.std(1, keepdims=True) + 1e-6
+        Rr = Rr / sd
+        R[idxs] = Rr
+    # aggregate to folios and quires (own unit excluded)
+    fol = [p['folio'] for p in pages]; ufol = sorted(set(fol), key=lambda x: fol.index(x))
+    qu = [p['quire'] for p in pages]; uqu = sorted(set(qu), key=lambda x: qu.index(x))
+    def agg(keys, ukeys):
+        A = np.zeros((N, len(ukeys)), np.float32)
+        for pi, kk in enumerate(keys): A[pi, ukeys.index(kk)] = 1
+        A = A / np.maximum(A.sum(0, keepdims=True), 1)
+        out = R @ A
+        tp = np.array([t[0] for t in toks])
+        own = np.array([ukeys.index(keys[t]) for t in tp])
+        out[np.arange(T), own] = 0.0
+        return out
+    Rf = agg(fol, ufol); Rq = agg(qu, uqu)
+    return dict(R=R, Rf=Rf, Rq=Rq, toks=toks, tok_index=tok_index, tok_page=np.array([t[0] for t in toks]),
+                N=N, Nf=len(ufol), Nq=len(uqu), pages=pages,
+                page_folio=np.array([ufol.index(f) for f in fol]), page_quire=np.array([uqu.index(q) for q in qu]))
+
+
+# ------------------------------------------------------------------ token features
+def token_table(C, E):
+    """per-token selector flags and glyph feature matrices."""
+    pages = E['pages']; toks = E['toks']
+    glyphs = sorted({c for (_, _, _, w) in toks for c in w})
+    gi = {g: k for k, g in enumerate(glyphs)}
+    sk = C['skel']
+    T = len(toks); G = len(glyphs)
+    cnt_full = np.zeros((T, G), np.int64)
+    cnt_skel = np.zeros((T, G), np.int64)
+    ln_full = np.zeros(T, np.int64); ln_skel = np.zeros(T, np.int64)
+    first = np.zeros(T, bool); last = np.zeros(T, bool); pfirst = np.zeros(T, bool); pline = np.zeros(T, bool)
+    label = np.zeros(T, bool)
+    words = []
+    for i, (pi, li, k, w) in enumerate(toks):
+        s = sk(w)
+        for c in w: cnt_full[i, gi[c]] += 1
+        for c in s:
+            if c in gi: cnt_skel[i, gi[c]] += 1
+        ln_full[i] = len(w); ln_skel[i] = len(s)
+        L = pages[pi]['lines'][li]
+        first[i] = k == 0; last[i] = k == len(L) - 1
+        ps, lt = pages[pi]['lflags'][li]
+        pline[i] = ps; pfirst[i] = ps and k == 0; label[i] = lt != 'P'
+        words.append((w, s))
+    return dict(glyphs=glyphs, gi=gi, cnt_full=cnt_full, cnt_skel=cnt_skel, ln_full=ln_full, ln_skel=ln_skel,
+                first=first, last=last, pfirst=pfirst, pline=pline, label=label, words=words)
+
+
+def pos_weights(TT, use_skel, base, from_right=True, maxlen=10):
+    """(T, G) coefficient matrix: sum over positions of glyph g of base**place."""
+    G = len(TT['glyphs']); gi = TT['gi']
+    out = np.zeros((len(TT['words']), G), np.int64)
+    for i, (w, s) in enumerate(TT['words']):
+        x = s if use_skel else w
+        x = [c for c in x if c in gi][:maxlen]
+        n = len(x)
+        for k, c in enumerate(x):
+            place = (n - 1 - k) if from_right else k
+            out[i, gi[c]] += base ** place
+    return out
+
+
+# ------------------------------------------------------------------ selectors
+def random_selector(TT, rng):
+    G = TT['glyphs']; T = len(TT['words'])
+    kinds = ['all', 'gall', 'first', 'last', 'pline', 'pfirst', 'label', 'glyph', 'skellen', 'subset', 'nogall']
+    parts = []; m = np.ones(T, bool)
+    for _ in range(rng.choice([1, 1, 2])):
+        k = rng.choice(kinds)
+        if k == 'all': mm = np.ones(T, bool); d = 'all'
+        elif k == 'gall':
+            idx = [TT['gi'][g] for g in G if g in GALL]
+            mm = TT['cnt_full'][:, idx].sum(1) > 0 if idx else np.ones(T, bool); d = 'has-gallows'
+        elif k == 'nogall':
+            idx = [TT['gi'][g] for g in G if g in GALL]
+            mm = TT['cnt_full'][:, idx].sum(1) == 0 if idx else np.ones(T, bool); d = 'no-gallows'
+        elif k in ('first', 'last', 'pline', 'pfirst', 'label'): mm = TT[k].copy(); d = k
+        elif k == 'glyph':
+            g = rng.choice(G); mm = TT['cnt_full'][:, TT['gi'][g]] > 0; d = 'has-' + g
+        elif k == 'skellen':
+            a = rng.randint(1, 5); b = a + rng.randint(0, 3)
+            mm = (TT['ln_skel'] >= a) & (TT['ln_skel'] <= b); d = 'skel%d-%d' % (a, b)
+        else:
+            S = set(rng.sample(G, rng.randint(3, max(3, min(9, len(G))))))
+            idx = [TT['gi'][g] for g in G if g not in S]
+            mm = TT['cnt_full'][:, idx].sum(1) == 0; d = 'only{' + ''.join(sorted(S)) + '}'
+        m &= mm; parts.append(d)
+    return m, '&'.join(parts)
+
+
+# ------------------------------------------------------------------ evaluation
+def targets(addr, tp, mode, E):
+    """addr (n, V) int -> (target index, valid) in the chosen space. mode = (space, kind, offset)
+    space: 'page'|'folio'|'quire'; kind: 'abs_mod'|'abs_clip'|'rel_fwd'|'rel_back'."""
+    space, kind, off = mode
+    Nsp = {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
+    if kind == 'abs_mod':
+        t = (addr + off) % Nsp; v = np.ones_like(t, bool)
+    elif kind == 'abs_clip':
+        t = addr + off; v = (t >= 0) & (t < Nsp)
+    else:
+        own = {'page': tp, 'folio': E['page_folio'][tp], 'quire': E['page_quire'][tp]}[space]
+        s = 1 if kind == 'rel_fwd' else -1
+        t = own[:, None] + s * (addr + off) if addr.ndim == 2 else own + s * (addr + off)
+        v = (t >= 0) & (t < Nsp) & (addr + off != 0)
+    t = np.where(v, t, 0)
+    return t, v
+
+
+def Rspace(E, space):
+    return {'page': E['R'], 'folio': E['Rf'], 'quire': E['Rq']}[space]
+
+
+def score_many(coef, sel_idx, D, mode, E):
+    """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> z (K,)."""
+    c = coef[sel_idx]                              # (n, G)
+    addr = c @ D                                   # (n, K)
+    tp = E['tok_page'][sel_idx]
+    t, v = targets(addr, tp, mode, E)
+    RS = Rspace(E, mode[0])
+    vals = RS[sel_idx[:, None], t] * v
+    return vals.sum(0) / math.sqrt(max(len(sel_idx), 1))
+
+
+def score_one(coef, sel_idx, d, mode, E):
+    return float(score_many(coef, sel_idx, d[:, None], mode, E)[0])
+
+
+def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None):
+    """coordinate ascent: for each glyph try every value 0..vmax-1 at once."""
+    c = coef[sel_idx]; tp = E['tok_page'][sel_idx]; RS = Rspace(E, mode[0])
+    n = len(sel_idx); sq = math.sqrt(max(n, 1))
+    d = d.copy()
+    base = c @ d
+    best = None
+    vals_range = np.arange(vmax, dtype=np.int64)
+    used = np.where(c.sum(0) > 0)[0]
+    for sw in range(sweeps):
+        order = list(used)
+        if rng: rng.shuffle(order)
+        changed = False
+        for g in order:
+            b0 = base - c[:, g] * d[g]
+            addr = b0[:, None] + c[:, g][:, None] * vals_range[None, :]
+            t, v = targets(addr, tp, mode, E)
+            z = (RS[np.arange(n)[:, None] * 0 + sel_idx[:, None], t] * v).sum(0) / sq
+            k = int(np.argmax(z))
+            if k != d[g]: changed = True
+            d[g] = k; base = b0 + c[:, g] * k; best = float(z[k])
+        if not changed: break
+    if best is None: best = score_one(coef, sel_idx, d, mode, E)
+    return d, best

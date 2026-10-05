@@ -123,9 +123,8 @@ if __name__ == '__main__':
     qpool = [e[2] for d in L for e in d['entries']]
     LB = lb_docs()
     DS = [('LA', L), ('LB_KN', [d for d in LB if d['site'] == 'KN']), ('LB_PY', [d for d in LB if d['site'] == 'PY'])]
-    for r in range(3):
+    for r in range(2):
         DS.append(('UR_n393_%d' % r, ur3_docs(393, random.Random(seed('urdraw%d' % r)))))
-    DS.append(('UR_n2000', ur3_docs(2000, random.Random(seed('urdraw2000')))))
     for sv in (1.0, 0.5, 0.2):
         DS.append(('PL_s%.1f' % sv, planted_docs(393, random.Random(seed('pl%.1f' % sv)), qpool, survival=sv)))
     for sv in (1.0, 0.3):
@@ -134,7 +133,7 @@ if __name__ == '__main__':
     for name, docs in DS:
         for obj in OBJ:
             jobs.append((name, docs, obj, 'REAL', 0))
-            for r in range(3 if name in ('LA', 'PL_s1.0', 'PL_s0.2', 'UR_n2000') else 1):
+            for r in range(3 if name in ('LA', 'PL_s1.0', 'PLAGG_s0.3') else 1):
                 jobs.append((name, docs, obj, 'QSHUF', r))
     fn = os.path.join(CK, 'c2_results.jsonl')
     done = set()
