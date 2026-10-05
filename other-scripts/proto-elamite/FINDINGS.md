@@ -469,3 +469,9 @@ Controls passed: planted errors were recovered, and real proto-cuneiform errors 
 
 ## pe40 duty rota (5 Oct 2026)
 **B (negative): there is no rota.** About 10,000 random rotas were fitted to 244 rare name signs on 724 Susa tablets. Their held-out scores (1.05–1.16) match planted teams (1.05–1.13), not a planted rota. The ring order does not beat a straight-line order, and shared names never return in shifted order. The only excess is identical order, the habitual order already found in pe13. There is no internal calendar. The Ur III month control also failed, so this is not a calibrated negative for time order. C: a weak rota hidden under the tablet name pools cannot be ruled out at this corpus size.
+
+## pe44 which numbers are guesses (5 Oct 2026)
+- **A (method limit):** a single number cannot be sorted into counted, measured or planned. On Ur III, matched for system and size, the AUC is 0.50. "Planned = round" is false, because rations and harvest projections are less round than measured grain.
+- **B (negative):** no sign group goes with planned or actual quantities on held-out tablets (a planted sign was found, z 8.1). There are no plan-versus-actual tablets.
+- **B- (small n):** five same-sign series held at one numeral within a tablet, i.e. fixed one-unit allotments (e.g. P008215 M075 1(N39B) ×15).
+- **C:** P009258, M297 = 8, 10, 7, 10, 8, 9: deliveries against a norm of 10. Would support: other M297 series that scatter around 10. Would kill: M297 series with no common centre.

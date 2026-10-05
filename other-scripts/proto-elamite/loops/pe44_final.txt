@@ -1,0 +1,18 @@
+pe44 WHICH NUMBERS ARE GUESSES? (5 Oct 2026)  scripts: tools/pe44_*.py   checkpoints: data/pe44_ckpt/ (git-ignored)
+
+Prior art: pe23 had already typed PE numbers by group digit fingerprints against Ur III. The idea was
+changed to hidden-plan deconvolution: each single quantity = anchor + deviation, using relational
+fingerprints pe23 did not use (just below / above a round anchor, the same item and value on other
+tablets, an exact simple ratio to a neighbour), 1,000 random latent-class mixtures, plan-vs-actual
+tablets and quota ceilings. Web search: no planned-vs-actual study of PE numbers.
+
+| PE-44.F1 | Per-quantity typing, Ur III control (305k quantities, kinds known from wording) | 1,000 random mixtures: system+size-matched AUC planned vs measured 0.50, best class even with labels 0.51 (max 0.57); supervised logistic: each planned kind separates (rations 0.71, projections 0.72, obligations 0.63-0.83) but in OPPOSITE directions (rations, projections LESS round than measured grain), pooled planned vs grain only 0.56 | A (method limit): a single number cannot be typed counted / measured / planned; 'planned = round' is false per quantity even where plans are certain |
+| PE-44.F2 | Shortfall signature (values just below vs just above round anchors vs smooth null) | Ur III every kind within +-0.06 (quotas leave no pile-up below the anchor); PE counts avoid both sides (heaping) | NULL as a plan marker |
+| PE-44.F3 | Sign / layout scan with an ensemble that passes only in pooled form (Ur III groups of 40: 0.73 vs 0.42 shuffled); size-stratified shuffle null, planted fake sign z 8.1, 6 held-out halves | replicated: top-edge numerals 'planned' (6/6), reverse numbers ragged (6/6), M157-headed tablets lean planned (2/2); M354 (+) and M288-initial (-) do not replicate; synthetic Poisson null unusable (all keys z 4-56) | B: no sign group is tied to planned or actual quantities beyond pe23's edge / reverse / M157 effects |
+| PE-44.F4 | Plan-vs-actual tablets from numbers alone (round target + ragged shortfall twins, differences, mixing); Ur III balanced accounts as positive control (AUC 0.60-0.63, weak); 30 planted twin tablets (14/30 found) | PE has FEWER twins than chance (z -2.4 / -7.1) and tablets are pure (all round or all ragged, z -7), but Ur III is purer still (z -9 to -25); no PE tablet q < 0.05 | NULL: no PE reconciliation tablet; purity is generic for archives |
+| PE-44.F5 | Quota ceilings: same-sign series on one tablet held at a round value (Ur III ration tablets 61 vs 38, z 7; counted tablets z 0.9; planted z 14) | PE 6 of 333 series vs 2.5 / 3.4 (p 0.01 / 0.055): 5 constant one-numeral series (P008215 M075 1(N39B) x15; P009000 M297 1(N24) x6, M002~b 1(N30C) x7; P009123 M311~b 1(N24) x4; P008216 M096 1(N14) x4), mostly capacity; series held at a ceiling with shortfalls: 1 vs 0.7-2.8 (none in excess) | B-: fixed one-unit allotments per sign exist on a few tablets. C: P009258 M297 counts 8, 10, 7, 10, 8, 9 = deliveries against a norm of 10 (would support: another M297 count series capped at a round mode; would kill: an M297 series on one tablet exceeding its round mode) |
+
+Verdict: the fingerprint of a single number does not tell a guess from a count (calibrated on Ur III).
+Nothing in PE marks plan-versus-actual reconciliation. The only planned-type traces are fixed one-unit
+allotments repeated per sign (B-) and the known edge, reverse and M157 effects. Nothing is read; not cracked.
+FINDINGS.md / STRATEGIES.md not edited by this loop (parallel loops pe39, pe40 and pe43 are writing); rows above are ready to insert.
