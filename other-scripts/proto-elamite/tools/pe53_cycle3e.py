@@ -1,7 +1,6 @@
 """pe53 cycle 3e: same-tablet clock with a TYPE-MATCHED null.
-Records are regrouped into pseudo-tablets only within their record type (stratum = which
-of the 8 herd signs are written with a non-zero count, coarsened to 'has M362 count' x
-'has any ~a/@g count'), so tablet-level clumping of record types cannot pass the test.
+Records are regrouped into pseudo-tablets only within their record type (stratum = coarse:
+'has M362 count' x 'has any ~a/@g count'; fine: exact pattern of non-zero herd signs), so tablet-level clumping of record types cannot pass the test.
 (Ur III Drehem cannot calibrate this: receipts are single records. Planted shared-time
 archives are in cycle 3, job sametab_plant.)
 """
@@ -42,7 +41,9 @@ def strat_test(M, groups, strata, a, rng, nperm=1000):
     return dict(dLL=float(obs), null_mean=float(null.mean()), p_hi=float((np.sum(null >= obs) + 1) / (nperm + 1)))
 
 
-def strata_of(M):
+def strata_of(M, fine=False):
+    if fine:   # exact pattern of which herd signs carry a non-zero count
+        return [tuple(int(v > 0) for v in m) for m in M]
     return [(int(m[0] > 0), int((m[4:] > 0).any())) for m in M]
 
 
@@ -54,5 +55,15 @@ if __name__ == '__main__':
     S = np.load(os.path.join(CK, 'c1_pe_scores.npy'))[:, 0]
     top = np.argsort(-np.nan_to_num(S, nan=-1e9))[:5]
     out = {'pe': [dict(a=''.join('OYF'[c] for c in A8[i]), **strat_test(M, groups, st, A8[i], rng)) for i in top]}
+    st2 = [str(s) for s in strata_of(M, fine=True)]
+    out['pe_fine'] = [dict(a=''.join('OYF'[c] for c in A8[i]), **strat_test(M, groups, st2, A8[i], rng)) for i in top]
+    # restricted to records whose young share is not fixed by the pattern (0 < y < n)
+    a = A8[top[0]]
+    y, n = yn_from(M, a)
+    mid = (y > 0) & (y < n)
+    out['n_mid'] = int(mid.sum())
+    out['mid_tablets'] = sorted(set(groups[mid]))
+    out['pe_mid'] = strat_test(M[mid], groups[mid], [str(s) for s in strata_of(M[mid], fine=True)], a, rng)
+    out['pe_mid_coarse'] = strat_test(M[mid], groups[mid], ['all'] * int(mid.sum()), a, rng)
     print(out, flush=True)
     dump(out, os.path.join(DATA, 'pe53_cycle3e.json'))

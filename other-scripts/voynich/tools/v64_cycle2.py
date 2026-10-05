@@ -98,7 +98,6 @@ def climb(k):
         C2 = [dict(L, sec=m[L['fol']]) for L in C]
         perm.append(V.section_info(C2, parse, len(alpha)))
     # concept profiles per section (top concepts by log-ratio)
-    from collections import Counter
     prof = {}
     tot = Counter(); bysec = {}
     for L in C:
@@ -120,9 +119,11 @@ def climb(k):
         if k == name:
             res['jacc'] = V.jaccard(alpha, codes.values())
             res['jacc_start'] = [V.jaccard(a, codes.values()) for a in starts]
-        res['truth_sel'] = V.score(ps, [sorted(codes.values())])[0]
-        res['truth_held'] = V.score(ph, [sorted(codes.values())])[0]
-        res['jacc_finals'] = [V.jaccard(a, codes.values()) for a, _ in finals]
+            res['truth_sel'] = V.score(ps, [sorted(codes.values())])[0]
+            res['truth_held'] = V.score(ph, [sorted(codes.values())])[0]
+            res['jacc_finals'] = [V.jaccard(a, codes.values()) for a, _ in finals]
+    # reference: plain glyph alphabet (all glyphs, as concepts) on the held split
+    res['glyph_held'] = V.score(ph, [sorted(gl)[:40]])[0]
     json.dump(res, open(out, 'w'))
     return k
 

@@ -44,6 +44,7 @@ def mag(v):
 
 # ------------------------------------------------------------------ Linear A
 MARK = {'KU-RO', 'PO-TO-KU-RO'}
+SIGN_AS_LOGO = os.environ.get('LA56_SIGNLOGO', '0') == '1'
 
 
 def _w(t):
@@ -54,7 +55,12 @@ def tab_of(i):
     return re.sub(r'[ab]$', '', i)
 
 
-def _side_items(T):
+def _side_items(T, sign_logo=None):
+    SL = SIGN_AS_LOGO if sign_logo is None else sign_logo
+    return _side_items0(T, SL)
+
+
+def _side_items0(T, SIGN_AS_LOGO):
     """All numbers of one side with attributes; marks totals (number right after KU-RO/PO-TO-KU-RO)."""
     out = []; word = None; logo = None; line = 0; lastword_line = -1
     tot_next = None
@@ -65,6 +71,12 @@ def _side_items(T):
             w = _w(t)
             if w in MARK:
                 tot_next = (w, i); word = None; continue
+            # a single unknown sign (*304, *308 ...) written straight before a number acts as a commodity sign
+            if SIGN_AS_LOGO and len(t['s']) == 1 and t['s'][0].startswith('*') and i + 1 < len(T) and T[i + 1]['t'] == 'num':
+                logo = t['s'][0]
+                if tot_next and i - tot_next[1] <= 2:
+                    continue
+                word = None; continue
             word = w; lastword_line = line; tot_next = tot_next if tot_next and i - tot_next[1] < 3 else None
             continue
         if t['t'] == 'logo':
@@ -96,7 +108,7 @@ def _feats(it, tcom, pos, n, multi):
     return f
 
 
-def load_la():
+def load_la(sign_logo=None):
     C = json.load(open(os.path.join(D_DIR, 'corpus.json')))
     by = {c['id']: c for c in C}
     sides = defaultdict(list)
@@ -105,13 +117,13 @@ def load_la():
     for ins in C:
         T = ins['tokens']
         if not any(_w(t) in MARK for t in T): continue
-        its = _side_items(T)
+        its = _side_items(T, sign_logo)
         dam_side = any(t['t'] == 'unk' for t in T)
         # other side items (non-totals) and its totals
         oth = [o for o in sides[tab_of(ins['id'])] if o != ins['id']]
         oits = []
         for o in oth:
-            for it in _side_items(by[o]['tokens']):
+            for it in _side_items(by[o]['tokens'], sign_logo):
                 oits.append(dict(it, _side=o))
         start = 0
         for k, it in enumerate(its):
@@ -181,6 +193,8 @@ def load_lb():
                     if has:
                         quants.append({'ln': ln, 'com': cur, 'v': ival, 'l': dict(lets), 'dam': dam,
                                        'tot': is_tot_line and seen, 'word': lastw})
+                    elif not is_com:
+                        i += 1
                     continue
                 if re.match(r'^[a-z]', t) and not re.match(r'^to-s[oa]', t): lastw = t
                 i += 1
@@ -192,7 +206,6 @@ def load_lb():
             main = [e for e in quants[start:k] if not e['tot']]
             start = k + 1
             if len(main) < 2: continue
-            if any(e['dam'] for e in main) or q['dam']: continue
             lines = Counter(e['ln'] for e in main)
             items = []
             for p, e in enumerate(main):
@@ -200,7 +213,7 @@ def load_lb():
                 items.append({'v': e['v'], 'l': e['l'], 'role': 'main', 'word': e['word'],
                               'f': _feats(x, q['com'], p, len(main), lines[e['ln']] > 1)})
             secs.append({'id': d['heading'].split('(')[0].strip() + '@%d' % k, 'tab': d['heading'].split('(')[0].strip(),
-                         'kind': 'to-so', 'dam': False, 'total': (q['v'], q['l']), 'tcom': q['com'], 'items': items})
+                         'kind': 'to-so', 'dam': any(e['dam'] for e in main) or q['dam'], 'total': (q['v'], q['l']), 'tcom': q['com'], 'items': items})
     return secs
 
 
@@ -232,6 +245,7 @@ class Engine:
     def __init__(self, secs, D=1000, seed=0):
         self.secs = secs
         lets = sorted({L for s in secs for it in s['items'] for L in it['l']} | {L for s in secs for L in s['total'][1]})
+        if not lets: D = 1
         self.lets = lets; self.li = {L: i for i, L in enumerate(lets)}
         rng = np.random.default_rng(seed)
         self.V = GRID[rng.integers(0, len(GRID), size=(D, max(1, len(lets))))]   # D x nL
@@ -314,7 +328,7 @@ def weights(eng, k, rule):
 
 def apply_rule(eng, k, rule):
     frac = [p for p in rule if p[0] in ('IGN', 'EQ', 'WHOLE', 'TIGN', 'DROPFR')]
-    item = [p for p in rule if p not in frac]
+    item = [p for p in rule if p not in frac and p[0] != 'COUNT']
     w = weights(eng, k, item) if item else None
     if item and w is None and not frac: return None
     itouch = w is not None
@@ -336,6 +350,10 @@ def apply_rule(eng, k, rule):
             Ve = Ve * 0; ftouch = True
         elif q[0] == 'TIGN' and p['tl'].any():
             Vt = Vt * 0; ftouch = True
+    if any(q[0] == 'COUNT' for q in rule):
+        # total = number of counted items (a tally of lines, not of quantities)
+        n = int((w != 0).sum())
+        return np.full(eng.D, 1.0 if p['tint'] == n * U and not p['tl'].any() else 0.0)
     if not itouch and not ftouch: return None
     return eng._closes(k, w, Ve, Vt)
 
@@ -374,7 +392,7 @@ def candidate_rules(secs, min_secs=2, n_pairs=3000, seed=0):
         singles.append((('IGN', L),)); singles.append((('WHOLE', L),))
         for L2 in lets:
             if L2 != L: singles.append((('EQ', L, L2),))
-    singles.append((('DROPFR',),)); singles.append((('TIGN',),))
+    singles.append((('DROPFR',),)); singles.append((('TIGN',),)); singles.append((('COUNT',),))
     rng = random.Random(seed)
     pairs = set()
     tries = 0
@@ -400,3 +418,40 @@ def score_rules(eng, rules, idx=None):
 def closes_report(eng):
     """Per section: probability (over value draws) that the default reading closes."""
     return eng.base.mean(1)
+
+
+def eval_rows(eng, rules):
+    """Rows (bool, per touched section) of every rule over the whole corpus."""
+    out = []
+    for r in rules:
+        rows = eng.apply(r)
+        out.append({k: v.astype(bool) for k, v in rows.items()})
+    return out
+
+
+def gains(eng, rows_list, idx):
+    """Log marginal-likelihood gain over the default reading on section subset idx."""
+    idx = list(idx); sidx = set(idx)
+    B = eng.base_log[idx].sum(0)
+    def lme(s):
+        m = s.max(); return m + np.log(np.mean(np.exp(s - m)))
+    b0 = lme(B)
+    out = np.zeros(len(rows_list))
+    for i, rows in enumerate(rows_list):
+        s = B
+        ch = False
+        for k, r in rows.items():
+            if k in sidx:
+                if not ch: s = B.copy(); ch = True
+                s += np.log(r + DELTA) - eng.base_log[k]
+        out[i] = lme(s) - b0 if ch else 0.0
+    return out
+
+
+def split_tabs(secs, rng):
+    tabs = sorted({s['tab'] for s in secs})
+    rng.shuffle(tabs)
+    A = set(tabs[:len(tabs) // 2])
+    a = [k for k, s in enumerate(secs) if s['tab'] in A]
+    b = [k for k, s in enumerate(secs) if s['tab'] not in A]
+    return a, b

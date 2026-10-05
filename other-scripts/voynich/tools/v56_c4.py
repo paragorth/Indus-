@@ -75,10 +75,7 @@ def job(arg):
 
 if __name__ == '__main__':
     which = sys.argv[5].split(',') if len(sys.argv) > 5 else ['PLH', 'ZL']
-    jobs = []
-    for nm in which:
-        jobs.append((nm, 'cur', 0))
-        if nm == 'PLH': jobs.append((nm, 'hidden', 0))
-        for k in range(K): jobs += [(nm, 'bif', k), (nm, 'relab', k)]
+    jobs = [('PLH', 'hidden', 0), ('PLH', 'cur', 0), ('ZL', 'cur', 0), ('PLH', 'bif', 0)]
+    jobs += [('ZL', 'bif', k) for k in range(3)] + [('ZL', 'relab', k) for k in range(2)]
     with Pool(2) as P:
         for r in P.imap_unordered(job, jobs): print(r, flush=True)

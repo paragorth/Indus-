@@ -1,0 +1,19 @@
+pe53 FINAL -- "the lambs tell the month"
+Tools: tools/pe53_common.py, pe53_cycle1.py, pe53_cycle2.py, pe53_cycle3.py, pe53_cycle3e.py. Numbers: data/pe53_cycle1.json, pe53_cycle2.json, pe53_cycle3.json, pe53_cycle3e.json. Cycle rows: loops/pe53_cycle1..3.txt. Logs and score arrays: data/pe53_ckpt/ (git-ignored).
+Prior art (web search, 5 Oct 2026): nothing found that assigns PE or Ur III age signs by a birth-pulse shape. Related repo work: pe11 (yearly ring in general features, null), pe20 (flock arithmetic), pe37 (bones).
+Outside data: birth season 3-4 months (Balasse et al. 2017, Animal 11); western Iran extensive flocks mate in July and lamb in December (Kurdi sheep, Ilam, J. Agric. Sci. Technol. 2011, 13(5): 701-708); Arabi sheep of Khuzestan lamb in autumn-winter, weaned ~100 days (Ramin Agricultural University studies). Ur III Drehem receipts with month names: CDLI (9,882 dated livestock receipts).
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-53.F1 | Ur III Drehem, true terms, known months | lamb+kid share of (young + ewes + nannies) peaks in month 10 (about Jan) at 0.88 and falls to 0.28-0.44 in months 4-8 (p < 0.001), as biology predicts for winter lambing; month explains only 1.3% of per-receipt variance | A: the birth pulse is in the Ur III books, but only in pooled totals |
+| PE-53.F2 | Blind assignment on Drehem (6,050 assignments of 8 opaque terms; 16 samples) | truth rank 0.14-0.17 (never top); blind phases place receipts no better than chance (0.27-0.31 vs 0.28); month names not found (oracle finds 6/6) | A (control fails): one record's young share does not carry its month; it tracks transaction type |
+| PE-53.F3 | Planted seasonal archives at PE size | truth in the top ~2%, exact 1/12; planted season marker never found (FWER 1.0 in 16/16) | A (method limit at 45 records) |
+| PE-53.F4 | PE, all 6,050 assignments of M362, M367, M346, M006 and ~a / @g forms | best by S1: young = M362, M362~a (+/- M367~a), adult female = M367, M006 (S1 32.5, above flat plants <= 9.4 and 12/12 shuffles 18-26). But the birth-pulse shape does not beat a generic two-group mixture (S2 2.9; best S2 6.0, inside shuffles 3.5-7.9) | C- at most, and contradicted by pe20 (M362 = herd reference count) |
+| PE-53.F5 | Within-year order of PE records | two clumps: 27 records with an M362 count (phase ~4) vs 18 without (phase 10). This is record type, not time | killed |
+| PE-53.F6 | Seasonal signs | M383 FWER 0.008 (3 records, 2 tablets), but the test failed its plant and the phase is record type | not seasonal (C- co-occurrence only) |
+| PE-53.F7 | Held-out, written-only, bootstrap, same-tablet clock with type-matched null | transfer equals flat plants and Drehem; written-only S1 6.6 with a different assignment; bootstrap mode 4/24; same-tablet excess vanishes with sign-pattern strata (p 0.06-0.11; mixed-share records p 1.0) | B (negative) |
+
+Best age and sex assignment: none supported. The nominal top (M362, M362~a young; M367, M006 adult female) is C-: would support a new herd tablet where M362~a/M362 ratios co-vary with an independently dated season; would kill: (already) pe20's reading of M362 as the reference count, and the written-only re-run.
+Within-year order: not recoverable (the 'order' is presence or absence of an M362 count).
+Seasonal signs: none.
+Plain answer: the biology is real and the Ur III books show it (lambs peak in about January), but only when hundreds of dated receipts are pooled. A single tablet's young share is set by what kind of record it is, not by when it was written, so the lambs cannot tell the month of an undated tablet. The calibrated Ur III control fails, the planted archive is recovered only roughly, and every PE 'season' collapses into record type. Not cracked; nothing read.
