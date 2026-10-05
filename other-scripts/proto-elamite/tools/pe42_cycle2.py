@@ -59,6 +59,8 @@ def keys_for(case, corp, pool):
                         K.add((famk, f))
             elif fam == 'SYS':
                 K.add(('SYS_T', rest[1], rest[2]))
+            elif fam == 'CODE':
+                K.add(('CODE', rest[0], rest[1], rest[2])); K.add(('CODE', '*', rest[1], rest[2]))
             elif fam == 'WHOLE':
                 for s in tsig | {'*'}:
                     K.add(('WHOLE', mn, rest[1], s))
@@ -108,15 +110,35 @@ def planted_corpus(name, sign, seed):
     return out
 
 
+def plant_candidates():
+    C = load_cases('PE'); corp = CORP['PE']
+    cnt = collections.Counter()
+    for c in C:
+        p = c['hyps'][0][0]
+        if p['cls'] == 'cnt' and closes(c, corp):
+            sg = set()
+            for e in p['E']:
+                if any(cc == 'N14' for _, cc in e['nums']):
+                    sg |= {base(x) for x in e['signs']}
+            cnt.update(sg)
+    return [s for s, _ in cnt.most_common(2)]
+
+
+PLANT_SIGNS = plant_candidates()
+
 if __name__ == '__main__':
+    print('plant signs', PLANT_SIGNS)
     tasks = []
     for name in ('PE', 'PC', 'UR3'):
         tasks.append((name, -1, None))
         tasks += [(name, s, None) for s in range(NREP)]
+    for sg in PLANT_SIGNS:
+        tasks.append(('PE', -1, sg))
+        tasks += [('PE', s, sg) for s in range(100)]
     with Pool(2) as pool:
         res = pool.map(job, tasks, chunksize=4)
     out = collections.defaultdict(dict)
-    for (name, seed, _), r in zip(tasks, res):
-        out[name][seed] = r
+    for (name, seed, sg), r in zip(tasks, res):
+        out[name + ('' if not sg else ':' + sg)][seed] = r
     json.dump(out, open(os.path.join(CK, 'c2_keys.json'), 'w'))
     print('done')

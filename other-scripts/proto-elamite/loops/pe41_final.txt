@@ -1,0 +1,24 @@
+pe41 final -- LET MACHINES REINVENT WRITING, THEN COMPARE (5 Oct 2026)
+Tools: tools/pe41_lib.py (economy, population learning, features, graph alignment), pe41_run.py, pe41_analyze.py,
+pe41_analyze2.py, pe41_diff.py, pe41_calib.py. Numbers: data/pe41_c1.json, pe41_c1_diff.json, pe41_c2.json, pe41_c3_calib.json,
+pe41_c4.json, pe41_c4_calib.json. Runs (git-ignored): data/pe41_ckpt/.
+Not done before (web search 4 Oct 2026: emergent-communication work invents pictographs, e.g. arXiv 2502.01568, but nobody aligns
+machine-invented accounting scripts to PE; pe6 hand-coded an economy and r3 evolved scripts for corpus statistics, neither votes
+sign meanings).
+
+What was run: 2,238 machine societies (964 + 974 + 300), each with a random toy economy, inventing a sign system through a
+Lewis signalling game, a name-length trade-off, cultural hill-climbing of what to write where, and order conventions.
+Each invented system was aligned to PE, PE halves, shuffled PE, proto-cuneiform (PC), shuffled PC and 8-12 held-out invented
+systems by structure only (16 behaviour features + co-occurrence-graph Hungarian matching). Votes were pooled.
+
+| PE-41.F1 | Method on machine scripts | held-out invented systems: balanced accuracy 0.43-0.53 vs 0.15-0.18 by permutation (26 of 28 targets p<0.05) | A (method works on invented scripts) |
+| PE-41.F2 | Method on a real script with known signs (PC, 67 pre-registered signs) | COMMODITY vote for grain/animal/worker/product signs at or below random signs (p 0.70, 0.91, 0.99 in three worlds); replicated votes on known signs 1/33 and 1/23 correct; PC-calibrated selection stays below chance (0.16-0.18 vs 0.25) and not better than random pools | A (negative): machine-invented meaning classes do not transfer to a real archaic script. KILLS every label vote below |
+| PE-41.F3 | Cycle-1 artefact | rank-normalised features + population-half stability gave shuffled PE as many 'stable' votes as PE (167-176 vs 171) | A (method lesson): stability must be checked across target halves against shuffled halves |
+| PE-41.F4 | PE structure is reproducible | PE half-split agreement 0.50-0.54 vs shuffled 0.20-0.29; profile r 0.52-0.62 vs 0.10-0.15 | B: PE signs have stable behaviour profiles (restates FINDINGS tests a-d in another language) |
+| PE-41.F5 | Stable PE votes (both halves, both worlds) | NAME: M218, M004, M370, M288, M371, M096, M219, M066, M347, M259, M387~c, M386~a. ACTION (= tablet-type in the header): M157, M157~a, |M327+M342|, |M327+X|. TOTAL: M297~b (21/79 tokens on reverse numbered lines), M149~a. M297 (a capacity sign by test b) is voted NAME | C, uncalibrated (F2). Would support: a machine pool that passes PC gives the same labels. Would kill: any PC-passing pool disagrees. M157 'action/tablet type' only restates its header role |
+| PE-41.F6 | Economy that best reproduces PE's corpus shape (only parameters the recovery control can recover) | large sign budget (K ~255-325 vs prior ~170), high rate of new variant forms (0.10-0.11 vs 0.04 per token), cheap writing; in the paid-scribe world fewer entries per tablet. Office count, persons, tablet-type mix: not recoverable | B: PE behaves like a big, open inventory with constant variant coinage, not a small fixed code |
+| PE-41.F7 | What makes machine scripts read PC least badly | redundancy: commodity written in every entry, actions written, big inventory, cheap or paid writing (z 5-9) | B (simulator diagnosis): a reader-reconstruction game teaches economy of signs, archaic scribes did not economise |
+
+Verdict: NOT CRACKED. Machines reinvented writing and could read each other, but not proto-cuneiform, so their meaning votes
+on PE are C at best. Two B results survive: PE's corpus shape needs a large inventory with frequent new variants, and archaic
+scribes wrote redundantly in a way that reconstruction games do not reward.

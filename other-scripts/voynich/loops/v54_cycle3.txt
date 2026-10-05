@@ -1,0 +1,14 @@
+v54 cycle 3: stemma and the transcribers as a third witness (5 Oct 2026)
+Tools: tools/v54_c3.py; checkpoint data/v54_ckpt/c3.json. (a) Stemma: for every substitution between two witnesses
+on different pages, which page carries which variant; statistic = sum over substitutions (>= 40 sides) of n x mutual
+information between the page's label and the variant chosen; null = labels permuted among pages WITHIN each section
+(200x), so section vocabulary cannot fake a hand or quire effect. (b) Transcribers: ZL3b vs IT2a on the same line
+with the same word count (23,717 words, 1,501 read differently); their edit classes compared with the scribal
+collation classes and with chance-pair classes (Spearman over 136 operations), and with the excess of each
+operation in real witnesses over chance pairs.
+
+| V-54.3.1 | Stemma, planted control: three scribes with different spelling preferences in 6-page blocks | Scribe MI 8,880 vs 1,286 (z 14.8, p 0.005) | PASS: the test finds copyists from their variants |
+| V-54.3.2 | Stemma, generator controls | Unit-Markov trained per section: hand z -1.5, quire z 0.2 (no false stemma). Unit-Markov trained per HAND: hand z 10.2 (a hand-specific generator is found). Section (unstratified) z 14-18 in real and Markov alike (section statistics alone produce it) | Calibrated: hand-specific glyph habits would be seen |
+| V-54.3.3 | Stemma, Voynich | ZL: hand z 1.2 (p 0.09), quire z 2.5 (p 0.005), Currier language z 1.6 (p 0.04). IT2a: hand z 2.5 (p 0.01), quire z 1.3 (p 0.09). The two transcriptions disagree on which is significant | Grade B negative: inside a section, the choice between witness variants carries at most a trace of hand or quire (z 1-2.5, vs 14.8 for planted scribes and 10.2 for a hand-specific generator). The variants are not copyists' spellings that cluster like a stemma |
+| V-54.3.4 | Transcriber disagreements as witnesses | Transcriber classes: c deleted, g~m, r~s, a~o, F~P, f~p, gallows~h. Rank correlation transcriber vs scribal-witness classes 0.43, transcriber vs chance-pair classes 0.45, scribal vs chance 0.89; transcriber vs (scribal excess over chance) 0.19. Ops most over-represented in real witnesses: F deleted (19 vs 15 in a smaller null; tiny), ch~F, r~s (572 real vs 89 chance-pair edits; x2.2 per unit occurrence; also the 3rd transcriber confusion), i/ii (x1.5), a deleted, K~T, n~r, ch~cth | Grade B: scribal witness classes are mostly chance neighbour classes (0.89). Grade C: r~s and i/ii, which the transcribers also confuse, are over-represented between witnesses; part of the "variation" may be reading ambiguity of the glyphs, not the scribe's choice. Would kill: r~s witness pairs on clean, unambiguous images |
+| V-54.3.5 | Cycle verdict | No stemma; variant classes = neighbour classes plus a reading-ambiguity residue | Not cracked |

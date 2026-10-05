@@ -1,0 +1,12 @@
+pe41 cycle 4 -- the stranger world: scribes PAID per sign (sign cost drawn from -0.30..+0.05 instead of 0..0.5), so the
+reader game rewards redundancy (tools/pe41_run.py PE41_MODE=c4 PE41_COST=-0.3,0.05; numbers data/pe41_c4.json,
+data/pe41_c4_calib.json; runs data/pe41_ckpt/c4_clean.jsonl.gz). Run stopped at 300 populations once the decisive control had failed.
+Motivation: cycle 3's best proto-cuneiform readers were the more redundant writers.
+
+| PE-41.4a | CONTROL held-out invented (8, same paid-scribe world) | balanced accuracy 0.44 vs 0.15 (7/8 p<0.05) | PASS |
+| PE-41.4b | CONTROL shuffled halves | PE 0.54 vs perm 0.21 (r 0.62); shuffled PE 0.29 vs 0.21 (p 0.02, r 0.15); PC 0.44 vs 0.19; shuffled PC 0.25 vs 0.19 (p 0.005) | PE still far above shuffled, but the control weakens: with paid scribes, frequency alone starts to vote |
+| PE-41.4c | CONTROL proto-cuneiform known classes | COMMODITY share 0.36 vs random signs 0.40 (p 0.99; top label for 64% of known commodities, but only because COMMODITY is now the commonest vote everywhere); replicated votes on known signs 1/23 correct (UDU~a TOTAL, SAL NAME, TUG2~a NAME, EN~a NAME, GU7 TOTAL) | FAIL again |
+| PE-41.4d | PC-calibrated selection on the pooled 1,274 societies (cycle 2 + 4), 50 CV splits | held-out balanced accuracy 0.16-0.17 vs unselected 0.09-0.10 vs random pools 0.13-0.14 (p 0.34-0.42); chance 0.25. Best PC readers: big budget (K 296 vs 171, z 9), cheap or paid writing (cost 0.05 vs 0.16, z -6), commodity written in every entry (0.33 vs 0.17, z 5), actions written in entries | FAIL (below chance); but the direction is stable: what makes machine scripts look like PC is redundancy and a big inventory |
+| PE-41.4e | PE economy under paid scribes (shape match, best 5%; recovery control as 2d) | variant innovation 0.11 vs 0.04 (z 5.4), budget K 326 vs 170 (z 3.9), fewer entries per tablet (3.7 vs 5.8, recoverable +0.83 sd), more labour tablets (0.30 vs 0.19; mix not recoverable) | replicates 2d for the recoverable parameters: large inventory + frequent new variants |
+| PE-41.4f | PE votes stable across both worlds (cycle 2 cost>0 and cycle 4 paid scribes, both halves z>=3) | NAME: M218, M004, M370, M288, M371, M096, M219, M066, M347, M259, M387~c, M386~a; ACTION/header: M157, M157~a; TOTAL: M297~b, M149~a | robust to the world, still uncalibrated (4c) |
+| PE-41.4V | Cycle verdict | Paying scribes does not make the machine read proto-cuneiform; label semantics remain wrong on the only script with known signs | KILLED (labels) |

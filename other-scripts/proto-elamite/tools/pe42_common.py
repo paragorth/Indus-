@@ -79,7 +79,7 @@ UR_BASE = {'ur': ['sex']}
 UR_ALT = ['sex', 'dec']
 
 CONVF = (Fr(3), Fr(5), Fr(6), Fr(10), Fr(1, 2), Fr(1, 3), Fr(1, 5), Fr(1, 6), Fr(1, 10))
-FAMS = ['OMITH', 'OMITO', 'DOUBLE', 'SYS', 'WHOLE', 'CONV', 'CARRY', 'XCARRY', 'NOCARRY', 'DIGIT', 'FOREIGN']
+FAMS = ['OMITH', 'OMITO', 'DOUBLE', 'SYS', 'WHOLE', 'CONV', 'CARRY', 'XCARRY', 'NOCARRY', 'DIGIT', 'FOREIGN', 'CODE']
 
 
 class Corpus:
@@ -403,6 +403,20 @@ def instances(p, mname, corp, pool):
             n['WHOLE'] += 1
             if pa is not None and pa[0] == sum(pa[1]):
                 out.append(('WHOLE', (mname, a), T))
+    # code-level system slip: one numeral code read with another map's value
+    codes0 = sorted({c.split('@')[0] for x in p['E'] + [p['T']] for _, c in x['nums']})
+    for c in codes0:
+        for a in corp.alts:
+            va = corp.maps[a].get(c)
+            if a == mname or va is None or va == m.get(c):
+                continue
+            mm = dict(m); mm[c] = va
+            Ta = val(p['T']['nums'], mm); Sa = sum(val(e['nums'], mm) for e in p['E'])
+            n['CODE'] += 3
+            out.append(('CODE', ('T', c, a), S - (Ta - T)))   # total's c misread: T_written(c@a) == S
+            out.append(('CODE', ('E', c, a), Sa))             # entries' c misread
+            if Ta == Sa:
+                out.append(('CODE', ('A', c, a), T))
     ci, noc = column_add([e['nums'] for e in p['E']], m)
     carrycodes = set()
     if ci is not None:
