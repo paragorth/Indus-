@@ -1,0 +1,25 @@
+v55 THE SKY IS THE ANSWER KEY, cycle 1: the zodiac nymph labels as day-by-day sequences on the real sky (5 Oct 2026)
+Tools: tools/v55_sky.py (self-written ephemeris: Sun, Moon, Mercury-Saturn, tropical longitudes of date, after
+Schlyter's published elements and perturbation terms), tools/v55_validate.py, tools/v55_lib.py, tools/v55_cycle1.py,
+tools/v55_report.py. Checkpoints data/v55_ckpt/ (sky tables 1289-1613, c1_*.json/.npz).
+Ephemeris check (V-55.1.0): against JPL DE421 at 400 random dates 1900-2050 the median error is 0.007-0.018 deg
+(99th pct <= 0.07 deg), same zodiac sign 100 %; it recovers the recorded solar eclipses of 16 June 1406, 7 June 1415
+and 17 June 1433 and gives Easter 1404 = 30 March (Julian). Sky taken at noon, central Europe / N Italy, Julian calendar.
+Reading tested: nymph i of a sign (299 labels, 10 signs, order = page, ring, transcription order) = the day the Sun
+stands at degree i (+ rotation 0-29, forward or reversed) of that sign in year Y, every Y 1290-1611 (1300 and 1550
+skies included). 240 random word classes without sound values (first/second/last/penultimate glyph groupings, length,
+counts of o and gallows, 20 substring pairs, random hash partitions of label types; 2-6 classes) x 8 daily sky
+classes (Moon sign, Moon element, Moon modality, phase in 8 and 4, weekday, Moon-Sun sign distance, Moon north/south of
+the ecliptic) x 322 years x 60 alignments = 37 million G-tests per condition (~1.4 billion over all conditions).
+Held-out replication: alignment chosen on half A (Pisces, Taurus, Cancer, Virgo, Scorpio) and scored on half B, and
+vice versa. Statistics per condition: max score; replicated pairs (in-sample >= 2 and held-out >= 2; >= 3 and >= 3);
+mean held-out score; z of the 1404-1438 years' maxima against all other years ('window z'), the same for replicated
+counts; fraction of class-feature pairs whose best year falls in 1404-1438 (chance 0.109).
+
+| V-55.1.1 | POSITIVE CONTROL plantP1: synthetic almanac for 1421 in opaque code glyphs: in 50 % of labels an initial code glyph (q/y/d/s) gives the element of that day's Moon sign (rotation 0, forward) | max 43.5 at year 1421, rotation 0, forward (first-glyph grouping x Moon element); peak year by maxima and by mean profile both 1421; next years 1550 29.7 (Metonic-type near-repeat) | Recovered: right year among 322, right rotation and direction |
+| V-55.1.2 | POWER LIMIT plantP2: same code in 30 % of labels | max 7.38, year 1479 | NOT recovered: a Moon code in under ~1/3 of labels is below the noise floor |
+| V-55.1.3 | plantW: weekday code as a final glyph in 50 % of labels | max 40.4 but at 1512, not 1421 | Detected, not datable: any year matches a weekday pattern after a rotation (weekday is useless for dating; kept only as a detector) |
+| V-55.1.4 | REAL labels | max 9.07 (has al x has d vs Moon sign, 1482, rotation 4); n_rep 5,989; n_rep3 117; held-out mean 0.480; window z 0.25; replication window z 0.37 (replication peak year 1424); best years in window 0.101 | See nulls |
+| V-55.1.5 | NULLS (38): 16 within-sign label shuffles, 13 fake skies (Moon period changed 4-9 %, planetary periods rescaled 0.6-1.6x; the label order kept), 1 glyph-bigram generator ring, 8 sign-block permutations (every sign's label ring moved whole to another sign) | max 6.62-9.85 (1 of 38 >= real; sign permutation 5 reaches 9.85, also on Moon sign, peak 1424); n_rep 4,688-11,104 (68 % >= real); n_rep3 24-444 (61 %); held-out 0.471-0.533 (87 % >= real); window z max 0.27 (3 %); replication window z max 0.41 (3 %); best-in-window fraction 0.074-0.128 (63 %) | Three correlated statistics sit at p ~0.03 (max, window z, replication window z), four are ordinary; none survives correction for 7 statistics; held-out replication is BELOW the nulls |
+| V-55.1.6 | Survivor inspection: the best window hypothesis 'labels with d follow the Moon sign', 1424, rotation 2 (A 5.64 / held-out 3.53, both directions) | d-rate 0.68 with the Moon in Gemini, 0.59 Sagittarius, 0.52 Scorpio, 0.00 Cancer; the same pattern recurs at 1405 and 1443 (19-year cycle); unrelated patterns score as high at 1482, 1341, 1593 | Passed to cycle 5 as a pre-registered prediction (grade C); killed there |
+| V-55.1.V | Verdict, cycle 1 | - | No word class of the zodiac labels follows the real Moon (sign, phase, latitude) or the weekday of any year 1290-1611 under the degree = day reading, beyond 38 nulls including fake skies and sign permutations. The method dates a planted 50 % almanac to the exact year. Grade A negative at >= 50 % code density; Grade B negative at ~30 % (power falls off); below that untested |

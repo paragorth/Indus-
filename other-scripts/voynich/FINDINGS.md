@@ -755,3 +755,6 @@ Voynich words do not behave like record keys with attribute fields (grade B, neg
 - Grade C: consistent with writing in reading order. The ink clock crosses line breaks at about 40% of the Latin strength (z 1.85 vs 3.2). There is no separate pass for line-initial words or columns.
 - Grade C+: only the Voynich shows a stable word-level ink sawtooth (increment skew +0.28, z 6.5). It survives word-type control, both page halves and the removal of y|q junctions. Latin's skew is unstable. Would kill: an equal stable skew in another single-hand manuscript with short words.
 
+
+## v55 the real sky as answer key (5 Oct 2026)
+**A (negative):** the zodiac labels, ring texts and circular texts do not fit the real sky of any year from 1290 to 1611. About 48 billion hypotheses were tested against our own ephemeris, which was checked against JPL DE421 and the eclipses of 1406, 1415 and 1433. The hypotheses covered day-by-day labels against Moon sign, phase and weekday; event markers for phases, eclipses and Easter; a horoscope over all 117,603 days; and day runs. Planted almanacs and charts at 50% or more density were found to the exact year and position. 1300 and 1550 score like 1420. The one survivor ("d"-words follow the Moon sign in 1424) failed out of sample (p 0.92). C, still open: sparse codes, or a different label-to-day mapping.
