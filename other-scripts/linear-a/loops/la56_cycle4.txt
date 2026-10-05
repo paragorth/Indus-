@@ -1,0 +1,9 @@
+LA-56 cycle 4 (5 Oct 2026). Repair our own parse and re-run: single unknown signs (*304, *308, *312 ...) written straight before a number are commodity signs (LA-6 rule), so 'same / different commodity as the total' becomes testable.
+Tools: tools/la56_common.py (load_la(sign_logo=True)), la56_c1.py and la56_c2.py with corpus 'LAs'. Checkpoints: data/la56_ckpt/c1_LAs_*.json, c2_LAs_*.json.
+
+| LA-<n>.<cycle> | method and control | result | verdict |
+|---|---|---|---|
+| LA-56.4a | Cycle-1 rule search on the repaired parse; N1, N2, N3 (6 each), planted exclusion (6). | Real best 3.07, held -3.68, 0 replicated; N1 3.55, N2 6.09, N3 4.08; planted ranked 1st among singles 6/6. | NULL (unchanged). |
+| LA-56.4b | The commodity rule by hand: EXCL different-commodity entries / ONLY same commodity. | EXCL com=DIFF: net 0 nats. It closes HT 123+124a (OLIV 31 + 31 J + 16 + 15 = KU-RO OLIV 93 J; the *308 and KI-RO lines have their own KU-RO and KI-RO) and PH 31a, and BREAKS HT 9b (24 includes TA-I AROM 2) and HT 89 (87 includes VIR+*313a 13). ONLY com=SAME: -9.1. | Linear A KU-RO sometimes adds across logograms and sometimes keeps one per commodity. Post hoc reading (C): a logogram written after a name (TA-I AROM, VIR+*313a in a list of names) is counted like any entry; a commodity column (OLIV vs *308, CAPm vs *21M/*21F) gets its own total. |
+| LA-56.4c | Cycle-2 cost profile and blame on the repaired parse; N3 (3). | Same as LA-56.2: 0.16 / 0.48 / 0.64 vs N3 0.23 / 0.49 / 0.69; best blame KI-TA-I drop, family-wise P 0.084. | NULL (unchanged). |
+| LA-56.4 | Cycle verdict | Repairing the commodity parse does not reveal an excluded category; it shows that 'different commodity' is not one rule in Linear A. | Negative (B); commodity reading C. |
