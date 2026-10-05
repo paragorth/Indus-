@@ -50,7 +50,7 @@ class Model:
     def __init__(self, K, toeplitz, rng):
         self.K, self.T, self.rng = K, toeplitz, rng
 
-    def fit(self, big, sweeps=12):
+    def fit(self, big, sweeps=30, init=None):
         K = self.K
         E = sorted(set(e for e, _, _ in big)); S = sorted(set(s for _, s, _ in big))
         ei = {x: i for i, x in enumerate(E)}; si = {x: i for i, x in enumerate(S)}
@@ -63,7 +63,14 @@ class Model:
         for r, c, v in zip(rows, cols, vals):
             self.out_by_e[r].append((c, v)); self.in_by_s[c].append((r, v))
         ce = self.rng.integers(0, K, ne); cs = self.rng.integers(0, K, ns)
-        for sw in range(sweeps):
+        if init is not None:
+            ie, is_ = init
+            for x, i in ei.items():
+                if x in ie: ce[i] = ie[x]
+            for x, i in si.items():
+                if x in is_: cs[i] = is_[x]
+        for sw in range(max(sweeps, 1)):
+            if sweeps == 0: break
             C = np.zeros((K, K))
             np.add.at(C, (ce[rows], cs[cols]), vals)
             logP = self.cond(C)
@@ -92,7 +99,9 @@ class Model:
                 best = int(np.argmax(sc))
                 if best != cur:
                     nS[cur] -= tot; nS[best] += tot; cs[c] = best; moved += 1
-            if moved == 0:
+            if moved == 0 and sw >= 2:
+                break
+            if sweeps == 0:
                 break
         C = np.zeros((K, K)); np.add.at(C, (ce[rows], cs[cols]), vals)
         self.C = C; self.logP = self.cond(C); self.ce, self.cs = ce, cs
@@ -183,34 +192,88 @@ def corpus(name, rng):
     return tr, te, truth
 
 
+def full_ll(m):
+    C = m.C
+    nS = C.sum(0)
+    return float((C * m.logP).sum() - (nS[nS > 0] * np.log(nS[nS > 0])).sum())
+
+
+def seriate(m):
+    """order exit and entry classes of a free model jointly by the Fiedler vector of the bipartite PMI graph."""
+    K = m.K; C = m.C + 0.5
+    pmi = np.log(C * C.sum() / C.sum(1, keepdims=True) / C.sum(0, keepdims=True))
+    A = np.zeros((2 * K, 2 * K)); A[:K, K:] = np.maximum(pmi, 0); A[K:, :K] = A[:K, K:].T
+    Lp = np.diag(A.sum(1)) - A
+    w, v = np.linalg.eigh(Lp)
+    f = v[:, 1]
+    re = np.argsort(np.argsort(f[:K])); rs = np.argsort(np.argsort(f[K:]))
+    ie = {x: int(re[m.ce[i]]) for x, i in m.ei.items()}
+    is_ = {x: int(rs[m.cs[i]]) for x, i in m.si.items()}
+    return ie, is_
+
+
+def ca_init(btr, K, dim=0, flip=False):
+    """correspondence analysis of the exit x entry table; axis 'dim' cut into K weighted quantile classes."""
+    E = sorted(set(e for e, _, _ in btr)); S = sorted(set(s for _, s, _ in btr))
+    ei = {x: i for i, x in enumerate(E)}; si = {x: i for i, x in enumerate(S)}
+    N = np.zeros((len(E), len(S)))
+    for e, s_, _ in btr:
+        N[ei[e], si[s_]] += 1
+    P = N / N.sum(); r = P.sum(1); c = P.sum(0)
+    Sm = (P - np.outer(r, c)) / np.sqrt(np.outer(r, c))
+    U, d, Vt = np.linalg.svd(Sm, full_matrices=False)
+    xr = U[:, dim] / np.sqrt(r); xc = Vt[dim] / np.sqrt(c)
+    if flip:
+        xc = -xc
+    def q(x, w):
+        o = np.argsort(x); cw = np.cumsum(w[o]) / w.sum()
+        cl = np.empty(len(x), int); cl[o] = np.minimum(K - 1, (cw * K).astype(int))
+        return cl
+    ce = q(xr, r); cs = q(xc, c)
+    return {x: int(ce[i]) for x, i in ei.items()}, {x: int(cs[i]) for x, i in si.items()}
+
+
 def run(name, K, R, seed=0):
     rng = np.random.default_rng(seed); prng = random.Random(seed)
     tr, te, truth = corpus(name, prng)
     keep = vocab(tr)
     btr, bte = build(tr, keep), build(te, keep)
     res = {'name': name, 'K': K, 'ntr': len(btr), 'nte': len(bte), 'nkeep': len(keep)}
-    for tp in (False, True):
-        best = None
-        for r in range(R):
-            m = Model(K, tp, rng).fit(btr)
-            ll = m.train_ll()
-            if best is None or ll > best[0]:
-                best = (ll, m)
-        m = best[1]
-        key = 'pitch' if tp else 'free'
-        res[key] = {'train_ll_per': best[0] / len(btr) / math.log(2), 'heldout_gain': m.score(btr, bte)}
-        if tp:
-            res['kernel'] = [round(float(x), 2) for x in m.kernel]
-            if truth:
-                # recovery: correlation of fitted entry class with true entry pitch over kept words
-                xs, ys, xe, ye = [], [], [], []
-                for w in keep:
-                    if w in truth and w in m.si and w in m.ei:
-                        xs.append(m.cs[m.si[w]]); ys.append(truth[w][0])
-                        xe.append(m.ce[m.ei[w]]); ye.append(truth[w][1])
-                from scipy.stats import spearmanr
-                res['recover_entry_rho'] = float(abs(spearmanr(xs, ys)[0]))
-                res['recover_exit_rho'] = float(abs(spearmanr(xe, ye)[0]))
+    frees = [Model(K, False, rng).fit(btr) for _ in range(R)]
+    fb = max(frees, key=full_ll)
+    res['free'] = {'ll': full_ll(fb) / len(btr), 'heldout_gain': fb.score(btr, bte)}
+    cands = [('rand', Model(K, True, rng).fit(btr)) for _ in range(R)]
+    for f in sorted(frees, key=full_ll)[-3:]:
+        cands.append(('seriated', Model(K, True, rng).fit(btr, init=seriate(f))))
+    for dim in (0, 1):
+        for fl in (False, True):
+            cands.append(('ca%d%s' % (dim, 'f' if fl else ''), Model(K, True, rng).fit(btr, init=ca_init(btr, K, dim, fl))))
+    res['cand'] = {}
+    for tag, m in cands:
+        if tag not in res['cand'] or full_ll(m) / len(btr) > res['cand'][tag][0]:
+            res['cand'][tag] = (full_ll(m) / len(btr), m.score(btr, bte))
+    blind = max(cands, key=lambda c: full_ll(c[1]))
+    if truth:
+        lo = min(p for e in truth.values() for p in e)
+        ie = {w: min(K - 1, max(0, p[1] - 2)) for w, p in truth.items()}
+        is_ = {w: min(K - 1, max(0, p[0] - 2)) for w, p in truth.items()}
+        om = Model(K, True, rng).fit(btr, sweeps=0, init=(ie, is_))
+        res['oracle_pitch'] = {'ll': full_ll(om) / len(btr), 'heldout_gain': om.score(btr, bte),
+                               'kernel': [round(float(x), 2) for x in om.kernel]}
+        cands.append(('oracle+sweep', Model(K, True, rng).fit(btr, init=(ie, is_))))
+    best = max(cands, key=lambda c: full_ll(c[1]))
+    m = best[1]
+    res['pitch'] = {'ll': full_ll(m) / len(btr), 'heldout_gain': m.score(btr, bte), 'from': best[0],
+                    'kernel': [round(float(x), 2) for x in m.kernel]}
+    res['pitch_from_counts'] = dict(__import__('collections').Counter(c[0] for c in cands))
+    if truth:
+        from scipy.stats import spearmanr
+        xs, ys, xe, ye = [], [], [], []
+        for w in keep:
+            if w in truth and w in m.si and w in m.ei:
+                xs.append(m.cs[m.si[w]]); ys.append(truth[w][0]); xe.append(m.ce[m.ei[w]]); ye.append(truth[w][1])
+        res['recover_entry_rho'] = float(abs(spearmanr(xs, ys)[0]))
+        res['recover_exit_rho'] = float(abs(spearmanr(xe, ye)[0]))
     res['R'] = res['pitch']['heldout_gain'] / max(1e-9, res['free']['heldout_gain'])
     return res
 
