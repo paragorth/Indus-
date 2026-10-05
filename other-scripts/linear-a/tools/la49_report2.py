@@ -58,8 +58,14 @@ def analyse(corp):
         out[key + '_top'] = sorted(((round(v, 2), w) for w, (v, n) in cs.items()), reverse=True)[:12]
         out[key + '_truth'] = rank_of(out[key + '_all'], tw[tk])
     # transplant: per-word dup sensitivity on fixed hosts
-    for comp in ('next_dup', 'prev_dup', 'next_scale'):
-        vs = [zdict({w: v[IDX[comp]] for w, v in m['fv'].items()}) for m in ms]
+    def comp_val(v, comp):
+        if comp.endswith('_E'):
+            o = 0 if comp.startswith('next') else NB + 2
+            p = np.exp(np.array(v[o:o + NB])); p /= p.sum()
+            return float(p @ np.array(L.CENT))
+        return v[IDX[comp]]
+    for comp in ('next_dup', 'prev_dup', 'next_scale', 'next_E', 'prev_E'):
+        vs = [zdict({w: comp_val(v, comp) for w, v in m['fv'].items()}) for m in ms]
         out['tp_' + comp + '_cons'] = consistency(vs)[0]
         cs = consensus(vs)
         out['tp_' + comp + '_all'] = {w: v for w, (v, n) in cs.items()}
@@ -126,13 +132,13 @@ if __name__ == '__main__':
         print('   truth', a['dpre_truth'])
         print(' dup POST cons %.3f top %s' % (a['dpost_cons'], a['dpost_top'][:8]))
         print('   truth', a['dpost_truth'])
-        for comp in ('next_dup', 'prev_dup', 'next_scale'):
+        for comp in ('next_dup', 'prev_dup', 'next_scale', 'next_E', 'prev_E'):
             print(' transplant %s cons %.3f top %s' % (comp, a['tp_' + comp + '_cons'], a['tp_' + comp + '_top'][:8]))
             print('   truth', a['tp_' + comp + '_truth'])
         print(' fv rsa %.3f' % a['fv_rsa'], {k: v for k, v in a.items() if k.startswith('fv_') and k not in ('fv_rsa', 'fv_keys', 'fv_k6', 'fv_nn')})
         print(' fv nn', a.get('fv_nn'))
     sh = [R[c] for c in R if c.startswith('LASHUF')]
-    for key in ('dpre_all', 'dpost_all', 'tp_next_dup_all', 'tp_prev_dup_all'):
+    for key in ('dpre_all', 'dpost_all', 'tp_next_dup_all', 'tp_prev_dup_all', 'tp_next_E_all', 'tp_prev_E_all'):
         allv = [v for a in sh for v in a[key].values()]
         if allv:
             print('NULL', key, '95%% %.2f 99%% %.2f max %.2f' % (np.quantile(allv, .95), np.quantile(allv, .99), max(allv)))

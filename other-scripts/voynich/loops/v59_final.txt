@@ -1,0 +1,24 @@
+v59 final - The book contains its own Rosetta stone? (Currier A and B as a parallel corpus without alignment)
+Cycles: loops/v59_cycle1.txt (random transducers scored by context preservation), v59_cycle2.txt (spelling-blind
+unsupervised word translation), v59_cycle3.txt (drawings and subject matter as the pivot). Tools: tools/v59_*.py.
+Novelty check (web, 5 Oct 2026): statistical A-vs-B comparisons and the v30 form rewrite exist; no learned A->B
+translation scored by meaning preservation was found.
+
+| V-59.1 | ~45,000 random rule sets (substitutions, prefix/suffix swaps, insertions, deletions) + greedy stacking, scored by whether translated A words land in the same line contexts as B words, held-out pages; controls: Czech modern->pre-reform spelling, planted Voynich ending shift, planted scribal Latin; nulls A->A, Markov/shuffled/bigram B; unrelated Czech->Latin | Czech spelling change found from scratch (+0.09 to +0.14 held-out, truth +0.23). Voynich: no set survives held-out pages (greedy -0.012 to -0.029); the v30 A->B rewrite carries no contexts (A->B -0.015 to +0.009; B->A +0.014 to +0.019, the unrelated-language floor is +0.013). Planted Voynich-size shift is confirmed by the score (+0.12) but not found by search | NEGATIVE (B), with a power limit (A): at Voynich size the score can confirm a given A->B transducer but random search cannot find a weak one |
+| V-59.2 | Spelling-blind self-learning word aligner (usage features + anchor contexts, 20-40 seeds, 8 page-half replicates); controls through an opaque verbose encoding | Czech through opaque encoding 44-52% P@1 (chance 0.7%), Isidore 24-26%. Voynich: shared words self-align 3.5-4.2% (A vs A 14%, nulls 1-3%, Bav vs Alem 6%); recurrent pairs 4-8 vs 2-5 in nulls and 5 for unrelated languages; the only cross-transcription pair, daiin->chedy, recurs in every null (top frequency on each side) | NEGATIVE (B): A and B do not align as one language written two ways; no A->B word pair survives the nulls |
+| V-59.3 | Drawing pivot (DINOv2/EffB0 centroids) and subject transfer (B herbal vs B other sections scored against A herbal vs A pharma), random transducers on that score | Drawing pivot has no power even in Gerard at 91 vs 27 pages. Subject transfer under identity: AUC 0.71 / 0.77 (z 2.4 / 2.6), from line-interior words (z 2.5 / 2.8) and word beginnings; the spelling-blind dictionary adds +0.05 (n.s.); random transducers fail a permuted-label search | B (measurement): B herbal pages lean to A-herbal vocabulary. C: one subject vocabulary across A and B. Transducer search negative (B) |
+
+VERDICT: NO ROSETTA STONE INSIDE THE BOOK. Nothing was cracked.
+- The surviving transducer: none. Neither a random rule set nor the v30 ending shift (-chy/-chor/-chol -> -chedy/-edy,
+  word-initial cth cut) makes A words appear in B's line contexts on held-out pages. Grade B: the A->B change is a
+  change of form, and in this score it does not carry meaning with it.
+- Which glyph positions are kept: from the subject test, the first three glyphs of a word carry the shared
+  herbal vocabulary across A and B (AUC 0.76 / 0.81, as good as whole words), and the last three do not (0.56 / 0.64).
+  Grade C: word beginnings are kept and endings are re-encoded between A and B. This fits v30 and v54, where the
+  rewriting sits in the endings and the e-run. Would support: a B->A map that rewrites only endings, learned on
+  some pages, raising subject transfer on disjoint B pages. Would kill: endings-only maps doing no better than
+  random ending maps.
+- The implied A-B word pairs: none survive the nulls. daiin->chedy is a frequency artefact.
+- Shared words keep their usage profile across A/B about as well as two German dialects writing different texts
+  (context consistency 0.05 vs A-A 0.155; Bav->Alem 0.07). So A and B are distant in usage, not only in spelling.
+  Grade B measurement.

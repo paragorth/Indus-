@@ -1,0 +1,18 @@
+v59 cycle 3 - the drawings and the subject matter as the Rosetta stone
+(tools/v59_c3.py, v59_c3b.py, v59_c3c.py; checkpoints data/v59_ckpt/c3_*.json, c3b.json, c3c.json)
+
+(a) Drawing pivot: each word placed at the centroid of the plant-drawing embeddings (v38 DINOv2 / EfficientNet-B0)
+of the pages it occurs on; a word shared by A and B (or an A word and its B translation) should sit at the same
+drawing centroid on both sides. Spelling-blind, so opaque encoding changes nothing. Null: drawings permuted
+among side-2 pages (1,000x). Control: Gerard's Herball (OCR + woodcuts) split 91 vs 27 pages.
+(b) Subject transfer: side-2 pages translated into side-1 words (identity, cycle-2 dictionary, shuffled
+dictionary, v30 rewrite, glyph skeletons) and scored s = cos(A-herbal centroid) - cos(A-pharma centroid);
+AUC of B herbal pages vs B biological/stars/cosmological pages. Null: A's H/P labels permuted (2,000x).
+Control: Isidore odd vs even chapters, book XVI (stones) vs book IV (medicine), other = books XI-XIII.
+(c) 1,500 random B->A transducers scored on that AUC in ZL3b, top 20 re-tested in IT2a, against the same
+search run with permuted A labels.
+
+| V-59.3.1 | Drawing pivot, shared words, A herbal (91 pp) vs B herbal (27 pp); control Gerard 91 vs 27 (6 splits + opaque) | Gerard z -1.4 to +0.7 (DINOv2), -0.9 to +1.8 (EffB0): control FAILS. Voynich A-B shared words z +0.3 / -0.7 (DINOv2), -0.1 / -0.1 (EffB0); A-A splits z -1.5 to +2.2 | No power at word level with 27 pages even in a real herbal; uninformative, dropped (grade A limit) |
+| V-59.3.2 | Subject transfer, identity map | Isidore plain AUC 0.87 (z 2.3), scribal 0.81 (z 2.0). Voynich ZL 0.71 (z 2.4, p 0.01), IT2a 0.77 (z 2.6, p 0.004). Line-interior words only 0.73 / 0.79 (z 2.5 / 2.8); line-edge words 0.57 / 0.69 (z 2.8 / 3.5); first three glyphs only 0.76 / 0.81; last three glyphs 0.56 / 0.64 (z 1.5 / 1.7) | Grade B measurement: B herbal pages lean to A-herbal rather than A-pharma vocabulary more than B's other sections do, carried by word beginnings and by line-interior words. Fits one subject vocabulary across A and B, but a shared page genre would also produce it |
+| V-59.3.3 | Subject transfer through the cycle-2 spelling-blind dictionary (B->A), shuffled dictionary, v30 B->A rewrite | Voynich dictionary 0.76 / 0.82 (z 2.4 / 2.7) vs shuffled 0.35 / 0.45 (null level); v30 0.66 / 0.71. Isidore opaque: dictionary 0.68 (z 2.3) but shuffled dictionary 0.66 (z 1.9) | The dictionary adds +0.05 AUC over identity in both transcriptions (not significant); the control cannot tell dictionary content from coverage at this size. Grade C: would support - the gain holding on disjoint B pages with a dictionary learned without them; would kill - an equal gain from a dictionary pairing words only by frequency and line position |
+| V-59.3.4 | Random transducer search on the subject AUC (1,500 sets), ZL -> IT2a replication vs permuted-label search | Real labels: top 20 +0.135 (ZL), +0.102 in IT2a, 20/20 positive. Permuted labels: top 20 +0.213, +0.195 in IT2a, 20/20 positive | Fails its null: ZL->IT2a 'replication' is the same pages twice, and fake labels replicate better. No transducer survives. NEGATIVE (grade B) |

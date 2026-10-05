@@ -175,13 +175,13 @@ def encode_entries(ents, seed=60, pad=0.35, max_len=None, page_of=None):
     out = []
     for j, e in enumerate(ents):
         toks = e['toks'][:max_len] if max_len else e['toks']
-        tt = []
+        tt, so = [], []
         for t in toks:
             while rng.random() < pad:
-                tt.append(rng.choices(pool, pw)[0])
-            tt.append(''.join(code[c] for c in t))
+                tt.append(rng.choices(pool, pw)[0]); so.append(None)
+            tt.append(''.join(code[c] for c in t)); so.append(t)
         out.append(dict(id='e%d' % j, page='p%d' % (j if page_of is None else page_of[j]), strat='X', toks=tt,
-                        cx=e.get('cx'), src_toks=toks))
+                        cx=e.get('cx'), src_toks=toks, src_of=so))
     return out
 
 
@@ -420,3 +420,213 @@ def summarize(r):
                 med_test_llp=float(np.median([x['test_ll_per'] for x in t])),
                 frac_excl=float(np.mean([(x['test_z1'] >= 2) and (x['test_z2'] >= 2) for x in t])),
                 med_test_used=float(np.median([x['test_used'] for x in t])))
+
+
+# ------------------------------------------------------------------ engine v2: locked slot pairs (quality1 -> quality2)
+def token_items(ents, keep_items=None, rmin=0.05, rmax=0.9, max_items=1200):
+    """Token x item boolean matrix (items = word types and word parts), entry boundaries."""
+    if keep_items is None:
+        cnt = collections.Counter()
+        tokc = collections.Counter()
+        for e in ents:
+            s = set()
+            for t in e['toks']:
+                its = items_of(t); s |= its; tokc.update(its)
+            cnt.update(s)
+        n = len(ents)
+        keep_items = [it for it, c in cnt.items() if rmin * n <= c <= rmax * n]
+        keep_items.sort(key=lambda it: -tokc[it])
+        keep_items = keep_items[:max_items]
+    idx = {it: j for j, it in enumerate(keep_items)}
+    rows, bounds = [], [0]
+    for e in ents:
+        for t in e['toks']:
+            rows.append([idx[it] for it in items_of(t) if it in idx])
+        bounds.append(len(rows))
+    M = np.zeros((len(rows), len(keep_items)), np.float32)
+    for r, js in enumerate(rows):
+        M[r, js] = 1
+    return keep_items, M, bounds
+
+
+def same_token_ok(a, b):
+    return (a[:2], b[:2]) == ('p:', 's:')
+
+
+def lock_pairs(keep, M, bounds, w=3, top=3000, zmin=3.0):
+    I = len(keep)
+    obs = np.zeros((I, I)); exp = np.zeros((I, I))
+    for e in range(len(bounds) - 1):
+        Me = M[bounds[e]:bounds[e + 1]]
+        n = Me.shape[0]
+        if n < 2: continue
+        c = Me.sum(0)
+        for k in range(1, w + 1):
+            if n > k: obs += Me[:-k].T @ Me[k:]
+        npairs = sum(n - k for k in range(1, w + 1) if n > k)
+        exp += np.outer(c, c) * npairs / (n * n)
+    st = np.array([[same_token_ok(a, b) for b in keep] for a in keep])
+    obs0 = M.T @ M
+    rate = M.mean(0)
+    exp0 = np.outer(rate, rate) * M.shape[0]
+    obs = np.where(st, obs + obs0, obs); exp = np.where(st, exp + exp0, exp)
+    Z = (obs - exp) / np.sqrt(exp + 1.0)
+    np.fill_diagonal(Z, -1e9)
+    nest = np.array([[nested(a, b) for b in keep] for a in keep])
+    Z[nest] = -1e9
+    flat = np.argsort(-Z, axis=None)[:top]
+    out = []
+    for f in flat:
+        a, b = divmod(int(f), I)
+        if Z[a, b] < zmin: break
+        out.append((a, b, float(Z[a, b])))
+    return out
+
+
+def event_tensor(M, bounds, A, B, keep, w=3):
+    """E[e, i, j] = entry e has item A[i] followed within w tokens (or in the same token, prefix->suffix) by B[j]."""
+    n = len(bounds) - 1
+    E = np.zeros((n, len(A), len(B)), np.uint8)
+    st = np.array([[same_token_ok(keep[a], keep[b]) for b in B] for a in A], np.float32)
+    for e in range(n):
+        Me = M[bounds[e]:bounds[e + 1]]
+        if Me.shape[0] < 1: continue
+        Ma, Mb = Me[:, A], Me[:, B]
+        acc = (Ma.T @ Mb) * st
+        for k in range(1, w + 1):
+            if Me.shape[0] > k: acc += Ma[:-k].T @ Mb[k:]
+        E[e] = acc > 0
+    return E
+
+
+def kl_best(T, Q):
+    """T (..., 4) counts -> (KL(T^||Q) under the best of the 8 relabelings, relabel index)."""
+    tot = T.sum(-1, keepdims=True)
+    P = (T + 1e-9) / np.maximum(tot, 1e-9)
+    best = np.full(T.shape[:-1], 1e9); bi = np.zeros(T.shape[:-1], int)
+    lq = np.log(Q)
+    lP = np.log(P)
+    for k, perm in enumerate(_PERMS):
+        v = (P * (lP - lq[perm])).sum(-1)
+        upd = v < best
+        best[upd] = v[upd]; bi[upd] = k
+    return best, bi
+
+
+from scipy.special import gammaln
+
+
+def logbf(T, Q, bi):
+    """log Bayes factor of counts T under external Q (relabeling bi) against a Dirichlet(1,1,1,1) table."""
+    T = np.asarray(T, float)
+    lq = np.log(Q)[np.array(_PERMS)[bi]]
+    ll = (T * lq).sum(-1)
+    n = T.sum(-1)
+    lm = gammaln(4.0) - gammaln(n + 4.0) + gammaln(T + 1.0).sum(-1)
+    return ll - lm
+
+
+def kl_fixed(T, Q, k):
+    P = np.asarray(T, float) + 1e-9; P = P / P.sum()
+    return float((P * (np.log(P) - np.log(Q)[_PERMS[k]])).sum())
+
+
+def quad_search(E, locks_idx, Q, min_cov=0.3, min_exact=0.5, top=50, max_quads=4_000_000, seed=0, nestA=None, nestB=None):
+    """Pairs of lock pairs (a->c) and (b->d); per entry the 2x2 cells [ac, ad, bc, bd]. Gates: coverage (entries with any
+    cell) and exactness (share of covered entries with exactly one cell). Rank by KL(T^||Q), best relabeling."""
+    rng = np.random.default_rng(seed)
+    L_ = np.array(locks_idx, int)
+    nL = len(L_)
+    ii, jj = np.triu_indices(nL, 1)
+    if len(ii) > max_quads:
+        sel = rng.choice(len(ii), max_quads, replace=False); ii, jj = ii[sel], jj[sel]
+    a, c = L_[ii, 0], L_[ii, 1]; b, d = L_[jj, 0], L_[jj, 1]
+    ok = (a != b) & (c != d)
+    if nestA is not None:
+        ok &= ~nestA[a, b] & ~nestB[c, d]
+    a, b, c, d = a[ok], b[ok], c[ok], d[ok]
+    R = dict(kl=[], bi=[], cov=[], ex=[], T=[])
+    for s in range(0, len(a), 100_000):
+        sa, sb, sc, sd = a[s:s + 100_000], b[s:s + 100_000], c[s:s + 100_000], d[s:s + 100_000]
+        X = np.stack([E[:, sa, sc], E[:, sa, sd], E[:, sb, sc], E[:, sb, sd]], -1)
+        k = X.sum(-1, dtype=np.int16)
+        one = (k == 1)
+        cov = (k > 0).mean(0); ex = one.sum(0) / np.maximum((k > 0).sum(0), 1)
+        T = (X * one[..., None]).sum(0, dtype=np.int32).astype(float)
+        kl, bi = kl_best(T, Q)
+        kl = -logbf(T, Q, bi)          # rank by (minus) log Bayes factor: Q vs any 2x2 table (Dirichlet 1)
+        R['kl'].append(kl); R['bi'].append(bi); R['cov'].append(cov); R['ex'].append(ex); R['T'].append(T)
+    if not R['kl']:
+        return dict(n_hyp=0, n_pass=0, top=[])
+    for k_ in R: R[k_] = np.concatenate(R[k_])
+    good = (R['cov'] >= min_cov) & (R['ex'] >= min_exact) & (R['T'].sum(-1) >= 20)
+    score = np.where(good, R['kl'], 1e9)
+    order = np.argsort(score)[:top]
+    out = []
+    for o in order:
+        if score[o] >= 1e8: break
+        out.append(dict(a=int(a[o]), b=int(b[o]), c=int(c[o]), d=int(d[o]), kl=float(R['kl'][o]), perm=int(R['bi'][o]),
+                        cov=float(R['cov'][o]), ex=float(R['ex'][o]), T=R['T'][o].tolist()))
+    return dict(n_hyp=int(len(a)), n_pass=int(good.sum()), top=out)
+
+
+def entry_values(E, q):
+    X = np.stack([E[:, q['a'], q['c']], E[:, q['a'], q['d']], E[:, q['b'], q['c']], E[:, q['b'], q['d']]], -1).astype(int)
+    k = X.sum(-1)
+    return X, k
+
+
+def rescore(E, q, Q):
+    X, k = entry_values(E, q)
+    T = (X * (k == 1)[:, None]).sum(0).astype(float)
+    return dict(T=T.tolist(), kl=kl_fixed(T, Q, q['perm']) if T.sum() else 9.0,
+                lbf=float(logbf(T[None], Q, np.array([q['perm']]))[0]), cov=float((k > 0).mean()),
+                ex=float((k == 1).sum() / max(1, (k > 0).sum())))
+
+
+def run_slot_search(ents, Q, train, test, w=3, n_locks=3000, top=50, seed=0, max_items=1200):
+    """Full pipeline: items and locks learned on train entries, quadruples ranked on train, re-scored on test."""
+    tr = [ents[i] for i in train]; te = [ents[i] for i in test]
+    keep, M, bnd = token_items(tr, max_items=max_items)
+    locks = lock_pairs(keep, M, bnd, w=w, top=n_locks)
+    if len(locks) < 2:
+        return dict(n_locks=len(locks), n_hyp=0, top=[])
+    A = sorted(set(l[0] for l in locks)); B = sorted(set(l[1] for l in locks))
+    ai = {x: i for i, x in enumerate(A)}; bi = {x: i for i, x in enumerate(B)}
+    li = [(ai[l[0]], bi[l[1]]) for l in locks]
+    E = event_tensor(M, bnd, A, B, keep, w)
+    nestA = np.array([[nested(keep[x], keep[y]) for y in A] for x in A])
+    nestB = np.array([[nested(keep[x], keep[y]) for y in B] for x in B])
+    R = quad_search(E, li, Q, top=top, seed=seed, nestA=nestA, nestB=nestB)
+    _, Mt, bt = token_items(te, keep_items=keep)
+    Et = event_tensor(Mt, bt, A, B, keep, w)
+    for q in R['top']:
+        q['items'] = [keep[A[q['a']]], keep[A[q['b']]], keep[B[q['c']]], keep[B[q['d']]]]
+        q['test'] = rescore(Et, q, Q)
+    R['n_locks'] = len(locks)
+    R['_ctx'] = (keep, A, B, E, Et)
+    return R
+
+
+def summ(R):
+    t = R['top']
+    if not t:
+        return dict(n_locks=R.get('n_locks', 0), n_hyp=R.get('n_hyp', 0), n_pass=R.get('n_pass', 0), best_kl=None,
+                    med_test_kl=None, med_test_cov=None)
+    return dict(n_locks=R['n_locks'], n_hyp=R['n_hyp'], n_pass=R['n_pass'], best_lbf=round(-t[0]['kl'], 2),
+                med_test_lbf=round(float(np.median([q['test']['lbf'] for q in t])), 2),
+                max_test_lbf=round(float(np.max([q['test']['lbf'] for q in t])), 2),
+                med_train_kl=round(float(np.median([q['kl'] for q in t])), 4),
+                med_test_kl=round(float(np.median([q['test']['kl'] for q in t])), 4),
+                best_test_kl=round(float(t[0]['test']['kl']), 4),
+                med_test_cov=round(float(np.median([q['test']['cov'] for q in t])), 3),
+                med_test_ex=round(float(np.median([q['test']['ex'] for q in t])), 3))
+
+
+def decode_item(ents, item, k=4):
+    """For encoded controls: the source words most often carrying an item."""
+    c = collections.Counter()
+    for e in ents:
+        for t, so in zip(e['toks'], e.get('src_of') or []):
+            if item in items_of(t): c[so or '<pad>'] += 1
+    return [w for w, _ in c.most_common(k)]
