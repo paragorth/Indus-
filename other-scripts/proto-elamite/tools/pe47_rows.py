@@ -129,6 +129,27 @@ def row_identity(corpus, seed, n_hyp=3000, shuffle_headers=False):
                 single_top=top, n_tok=len(toks), varB=float(varB))
 
 
+def pair1(corpus):
+    """Tablet pairs joined by a value seen exactly twice in the corpus (value >= 5, same system),
+    validated by token Jaccard and (Ur III) same king-year."""
+    from pe47_links import toks, jac
+    occ = collections.defaultdict(list)
+    for ti, t in enumerate(corpus):
+        for e in t['ents']:
+            if e[1] >= 5:
+                occ[(e[2], round(e[1], 4))].append(ti)
+    P = [tuple(L) for L in occ.values() if len(L) == 2 and L[0] != L[1]]
+    TK = [toks(t) for t in corpus]
+    out = dict(n_pairs=len(P), jac=float(np.mean([jac(TK[a], TK[b]) for a, b in P])) if P else None)
+    # same-last-token pairs only
+    if 'year' in corpus[0]['meta']:
+        def same(a, b):
+            ma, mb = corpus[a]['meta'], corpus[b]['meta']
+            return ma['king'] == mb['king'] and ma['year'] == mb['year'] and ma['year'] not in ('', '00')
+        out['sameyear'] = float(np.mean([same(a, b) for a, b in P])) if P else None
+    return out
+
+
 def get(name, seed):
     pe = build_pe()
     if name == 'PE':
@@ -148,7 +169,9 @@ def job(a):
         c = null_shuffle_values(c, 700 + seed)
     elif null == 'N2':
         c = null_permute_entries(c, 700 + seed)
-    if part == 'scale':
+    if part == 'pair1':
+        v = pair1(c)
+    elif part == 'scale':
         v = row_scale_test(c, seed)
     else:
         v = row_identity(c, seed, shuffle_headers=(null == 'HSHUF'))
@@ -166,6 +189,9 @@ if __name__ == '__main__':
                 jobs.append((name, null, s, 'scale'))
             for null in ('real', 'HSHUF'):
                 jobs.append((name, null, s, 'rows'))
+        jobs.append((name, 'real', 0, 'pair1'))
+        for s in range(20):
+            jobs.append((name, 'N1', s, 'pair1'))
     res = []
     with Pool(2) as p:
         for v in p.imap_unordered(job, jobs):
