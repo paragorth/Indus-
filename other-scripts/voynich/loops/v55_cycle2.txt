@@ -1,0 +1,15 @@
+v55 THE SKY IS THE ANSWER KEY, cycle 2: recurrent label words as EVENT MARKERS on the real sky (5 Oct 2026)
+Tools: tools/v55_sky.py (ephemeris), tools/v55_lib.py, tools/v55_cycle2.py, tools/v55_report.py. Checkpoints data/v55_ckpt/c2_*.
+Data: 299 zodiac nymph labels (10 signs) from data/derived/v4_zodiac_labels.json; nymph i of a sign = the day the Sun
+stands at degree i (rotation 0-29, both directions) of that sign in year Y, every Y 1290-1611 (real sky computed for
+noon in central Europe; Julian calendar). 99-115 binary word classes (every label type seen >= 2 times, every 2/3-unit
+prefix and suffix seen >= 4 times, 20 substrings; no sound values) x 21 daily sky events (new / first quarter / full /
+last quarter Moon +-1 day, eclipse +-1 day, Moon sign ingress, Moon within 6.5 deg of each planet, each planet's sign
+ingress, Mercury retrograde and station, Sunday, Julian-computus Easter +-1 and movable feasts) x 322 years x 60
+alignments = ~44 million G-tests per condition; held-out replication by halves (A = Pisces, Taurus, Cancer, Virgo,
+Scorpio; B = the rest): best alignment chosen on one half, scored on the other.
+
+| V-55.2.1 | POSITIVE CONTROL plantE: synthetic almanac for 1421 written into the real labels: the label of every nymph whose day is within 1 day of a full Moon becomes the marker word 'otolal', of a new Moon 'okolal' | max -log10 p 44.4 at type=otolal x full Moon, year 1421, rotation 0, forward; replicated pairs (A>=3 and held-out >=3) 14,271 | Recovered: the exact year, rotation and direction of the planted almanac out of 322 years x 60 alignments |
+| V-55.2.2 | REAL labels, same search | max 6.73 (suffix -ls x Venus sign ingress, year 1290, the first year of the range); n_rep(>=2/>=2) 2,164; n_rep3 11; mean held-out score 0.325; window 1404-1438 z of yearly maxima 0.08; replication window z 0.14 | Nothing: every statistic inside the nulls (V-55.2.3) |
+| V-55.2.3 | NULLS: labels permuted within sign (6), fake skies with the Moon's period changed 4-9 % and planetary periods rescaled (2), glyph-bigram generator ring (1) | max 6.45-8.63 (real 6.73 at the 78th null percentile); n_rep 1,503-2,829 (real 67th pct); n_rep3 2-80 (real 44th); held-out 0.307-0.328 (real 22nd pct); window z -0.32..0.32; replication window z -0.16..0.30 (real 0.14, 11th pct); fraction of best years inside 1404-1438 0.063-0.111 (real 0.063, lowest) | Real labels behave exactly like shuffled labels on a real sky and like real labels on a fake sky |
+| V-55.2.V | Verdict, cycle 2 | - | No recurrent label word, prefix or suffix marks new/full/quarter Moons, eclipses, Moon-planet conjunctions, ingresses, Mercury stations, Sundays or Easter in any year 1290-1611 under the degree = day reading. The test finds a planted marker almanac at the exact year. Grade A negative (for markers in >= the planted density: every full/new Moon day of every sign); sparser markers are below reach |
