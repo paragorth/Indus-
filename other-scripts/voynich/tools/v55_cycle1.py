@@ -13,6 +13,8 @@ labels = V.load_labels()
 skyk = cond if cond.startswith('fake') else 'real'
 T = V.get_sky(skyk)
 dd = V.degree_days(T)
+if cond.startswith('sperm'):
+    labels = V.sign_permute(labels, int(cond[5:]))
 assert (dd[:, list(range(0, 270)) + list(range(330, 360))] >= 0).all()
 idx = V.alignments(labels, dd)
 feats = list(V.day_features(T).items())

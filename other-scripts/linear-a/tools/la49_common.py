@@ -31,7 +31,7 @@ os.makedirs(CK, exist_ok=True)
 sys.path.insert(0, HERE)
 import la45_common as C45  # corpus loaders and control truth tables (truth used for scoring only)
 
-MAXLEN = 64
+MAXLEN = int(os.environ.get('LA49_MAXLEN', '64'))
 BUCKETS = [0, 1, 2, 3, 4, 5, 6, 10, 20, 50, 100, 300, 1000]  # lower edges
 CENT = [math.log(0.5), 0, math.log(2), math.log(3), math.log(4), math.log(5), math.log(7.5),
         math.log(14), math.log(32), math.log(71), math.log(170), math.log(550), math.log(2000)]
@@ -477,8 +477,53 @@ def function_vectors(m, ch, voc, nhost=120, seedv=0):
             lb = m(pad(xm))[idx, cols]
             p = la[:, voc.num0:voc.num0 + voc.nnum].softmax(-1).view(len(xs), nb, 2).sum(-1).mean(0)
             sens = (numexp(lb, voc) - numexp(la, voc)).mean()
-            vec += [float(x) for x in torch.log(p + 1e-6)] + [float(sens)]
+            # duplication: copy the latest earlier (token, number) entry in front of the slot
+            xd, cd, xo, co = [], [], [], []
+            for ci, j, t in H:
+                ids = list(ch[ci][1]); ids[j] = wid; ids[t] = 1
+                ks = [k for k in range(1, min(j, t)) if voc.kind(ids[k]) == 2 and voc.kind(ids[k - 1]) in (0, 1)]
+                if not ks:
+                    continue
+                k = ks[-1]
+                new = ids[:k + 1] + ids[k - 1:k + 1] + ids[k + 1:]
+                if len(new) > MAXLEN:
+                    continue
+                xo.append(ids); co.append(t); xd.append(new); cd.append(t + 2)
+            if xd:
+                i2 = torch.arange(len(xd))
+                dsens = float((numexp(m(pad(xd))[i2, torch.tensor(cd)], voc) - numexp(m(pad(xo))[i2, torch.tensor(co)], voc)).mean())
+            else:
+                dsens = 0.0
+            vec += [float(x) for x in torch.log(p + 1e-6)] + [float(sens), dsens]
         out[w] = vec
+    return out
+
+
+@torch.no_grad()
+def dup_sens(m, ch, voc):
+    """F3b running-sum test that separates SUM from SCALE: mask number at t, insert a copy of the latest
+    earlier (token, number) entry right after it; a running total must rise, a scale-tracker need not.
+    Returns {(ci, t): shift of predicted log value}."""
+    rows = []
+    for ci, (di, ids, raw) in enumerate(ch):
+        for t, u in enumerate(ids):
+            if voc.kind(u) != 2:
+                continue
+            ks = [k for k in range(1, t) if voc.kind(ids[k]) == 2 and voc.kind(ids[k - 1]) in (0, 1)]
+            if ks and len(ids) + 2 <= MAXLEN:
+                rows.append((ci, t, ks[-1]))
+    out = {}
+    for s in range(0, len(rows), 256):
+        part = rows[s:s + 256]
+        xo, xd = [], []
+        for ci, t, k in part:
+            ids = list(ch[ci][1]); ids[t] = 1
+            xo.append(ids); xd.append(ids[:k + 1] + ids[k - 1:k + 1] + ids[k + 1:])
+        idx = torch.arange(len(part))
+        a = numexp(m(pad(xo))[idx, torch.tensor([t for _, t, _ in part])], voc)
+        b = numexp(m(pad(xd))[idx, torch.tensor([t + 2 for _, t, _ in part])], voc)
+        for q, (ci, t, k) in enumerate(part):
+            out[(ci, t)] = float(b[q] - a[q])
     return out
 
 
@@ -497,5 +542,11 @@ def run_model2(cfg):
     res = {'cfg': cfg}
     res['loss'], res['n'] = heldout_loss(m, ch_te, voc)
     res['fv'] = function_vectors(m, ch, voc)
+    ds = dup_sens(m, ch, voc)
+    pre, post = attribute(ch, ds)
+    allv = np.array(list(ds.values())) if ds else np.zeros(1)
+    res['dup_mean'] = float(allv.mean()); res['dup_sd'] = float(allv.std())
+    res['dpre'] = {w: [float(np.sum(v)), len(v)] for w, v in pre.items()}
+    res['dpost'] = {w: [float(np.sum(v)), len(v)] for w, v in post.items()}
     res['train_docs'] = sorted(tr_docs)
     return res, m

@@ -366,7 +366,7 @@ def make_condition(cond, labels, idx, T, plant_year=1421):
     return labs
 
 
-def marker_classifiers(labs, min_type=2, min_affix=4):
+def marker_classifiers(labs, min_type=2, min_affix=4, prefix1=False):
     """Binary classes: recurrent label types, recurrent 2/3-glyph prefixes and suffixes, substrings."""
     from collections import Counter
     G = [glyphs(x['label']) for x in labs]
@@ -375,7 +375,7 @@ def marker_classifiers(labs, min_type=2, min_affix=4):
     for w, v in sorted(ct.items()):
         if v >= min_type:
             out.append(('type=' + w, np.array([int(x['label'] == w) for x in labs])))
-    for k in (2, 3):
+    for k in ((1, 2, 3) if prefix1 else (2, 3)):
         for side in ('pre', 'suf'):
             aff = [''.join(g[:k]) if side == 'pre' else ''.join(g[-k:]) for g in G]
             for a, v in sorted(Counter(aff).items()):
@@ -427,4 +427,22 @@ def load_ring_words():
                 ws += per.get(p, [])
         for i, w in enumerate(ws):
             out.append(dict(sign=SIGNS.index(s), name=s, i=i, n=len(ws), label=w, words=[w], page=None, ring=0))
+    return out
+
+
+def sign_permute(labels, seed):
+    """Null that keeps every sign's label/word sequence intact but moves whole blocks to other
+    signs (a derangement of the 10 signs present): breaks the sky link, keeps all text order."""
+    r = np.random.default_rng(seed)
+    signs = sorted(set(x['sign'] for x in labels))
+    while True:
+        p = r.permutation(signs)
+        if all(a != b for a, b in zip(signs, p)):
+            break
+    mp = dict(zip(signs, p))
+    out = []
+    for x in labels:
+        y = dict(x); y['sign'] = int(mp[x['sign']]); y['name'] = SIGNS[y['sign']]
+        out.append(y)
+    out.sort(key=lambda z: (z['sign'], z['i']))
     return out

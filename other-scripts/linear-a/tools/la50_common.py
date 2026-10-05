@@ -70,6 +70,7 @@ def cls_la(v):
     if b in ('NI',): return 'FIC'
     if b in ('CAP', 'OVIS', 'SUS', 'BOS'): return 'LIV'
     if b in ('VIR', 'MUL', 'TELA', 'HIDE'): return None      # persons / cloth / hides: not crops
+    if b in AEGEAN: return 'x' + b                          # LA sign named like an LB class (e.g. SA): not identified
     return b                                                  # unidentified: kept under its own name
 
 

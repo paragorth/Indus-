@@ -1,0 +1,15 @@
+v55 THE SKY IS THE ANSWER KEY, cycle 3: the zodiac rings as a HOROSCOPE (one moment of the real sky) (5 Oct 2026)
+Tools: tools/v55_cycle3.py, tools/v55_c/horo.c (C kernel; binary kept in data/v55_ckpt/), tools/v55_sky.py. Checkpoints data/v55_ckpt/c3_*.
+Reading tested: nymph i of a sign = ecliptic degree i (rotation 0-29, both directions; 299 labelled degrees of 360,
+Capricorn and Aquarius missing). On a given day the Sun, Moon and five planets each stand on one degree. If the rings
+were drawn for a nativity, an election or a conjunction, the labels on the occupied degrees should share a written
+mark. Search: every day 1290-1611 (117,603 days) x 60 alignments x 223-230 binary word classes (every type seen >= 2
+times, every 1/2/3-unit prefix and suffix seen >= 4 times, substrings, random 2-way merges; no sound values) =
+~1.6 billion date-alignment-class tests per condition. Score: -log10 hypergeometric tail of the number of occupied
+degrees whose label is in the class.
+
+| V-55.3.1 | POSITIVE CONTROL plantH7: horoscope for 1 May 1421 planted: every occupied degree's label (rotation 0, forward) gets an initial q, plus 3 decoy labels | max 11.08 at prefix q-, date 1421-05-01, rotation 0, forward (best non-planted class 8.73) | Recovered: exact day, rotation and direction among 117,603 days x 60 alignments |
+| V-55.3.2 | POWER LIMIT plantH: only 4 of the occupied degrees marked, plus 6 decoys | plant class best 5.30 (pre1=q, wrong year 1323), overall max 8.73 from an unplanted class | NOT recovered: a partial horoscope (4 of 7 bodies, 10 marks) is below the noise floor of this search |
+| V-55.3.3 | REAL labels | max 8.73: prefix ol- on 14 June 1474 (rotation 3, reversed); best date inside 1404-1438: 7.12; window z of yearly maxima -0.06 | Nothing beyond the nulls (V-55.3.4) |
+| V-55.3.4 | NULLS: 20 within-sign label shuffles, 3 fake skies (Moon period changed 4-9 %, planetary periods rescaled), 2 glyph-bigram generator rings | max 7.39-9.09 (5 of 25 nulls >= real 8.73, p ~0.23); window maxima 6.62-9.09; window z -0.15..0.20 | Real behaves as the nulls |
+| V-55.3.V | Verdict, cycle 3 | - | The zodiac labels do not mark the positions of the Sun, Moon and planets of any day 1290-1611 under the degree reading, in any affix, type or substring class. Detector reach: a complete planted horoscope is found to the day; a half-marked one is not. Grade A negative for a fully marked horoscope; partial marking untested (Grade C open) |

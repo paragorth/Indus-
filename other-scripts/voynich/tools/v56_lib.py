@@ -130,7 +130,7 @@ def culpeper_chapters():
     return out
 
 
-def culpeper(seed=56, max_words=260, line_w=9, pad=True, numerals=True):
+def culpeper(seed=56, max_words=180, line_w=9, pad=True, numerals=True):
     """Culpeper's herbal chapters (= pages, kept in their alphabetical order). Real cross-references: a mention in
     chapter i of the name of another chapter j. Each mention is replaced by an additive Roman numeral giving j's
     chapter number (as 'vide cap. xxxxii' minus the 'vide cap.'), the whole text is mapped to opaque glyphs and
@@ -529,6 +529,24 @@ def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None
     return d, best
 
 
+def score_robust(coef, sel_idx, d, mode, E, TT):
+    """held-out score, cluster-robust by word type: per-token value minus its target-shuffle expectation, summed
+    within skeleton type, z = sum_types X / sqrt(sum_types X^2). Tokens of one type share target and context, so the
+    plain z is over-dispersed; this one is not."""
+    if len(sel_idx) < 5: return 0.0
+    RS = Rspace(E, mode[0]); Nsp = _nsp(E, mode[0])
+    addr = coef[sel_idx] @ d
+    t, v = targets(addr, E['tok_page'][sel_idx], mode, E)
+    h = np.bincount(t[v], minlength=Nsp).astype(np.float64)
+    n = len(sel_idx)
+    x = RS[sel_idx, t] * v - (RS[sel_idx] @ h) / n
+    keys = [TT['words'][i][1] for i in sel_idx]
+    agg = collections.defaultdict(float)
+    for k, xi in zip(keys, x): agg[k] += float(xi)
+    X = np.array(list(agg.values()))
+    return float(X.sum() / math.sqrt((X ** 2).sum() + 1e-12))
+
+
 def ascent_offset(coef, sel_idx, d, mode, E):
     """choose the address offset (-2..2) and, for absolute addresses, mod vs clip."""
     best = (score_one(coef, sel_idx, d, mode, E), mode)
@@ -540,6 +558,19 @@ def ascent_offset(coef, sel_idx, d, mode, E):
             z = score_one(coef, sel_idx, d, m, E)
             if z > best[0]: best = (z, m)
     return best[1], best[0]
+
+
+def split_types(TT, seed=0):
+    """held-out by WORD TYPE (skeleton): a compositional address code generalises to word types never seen in
+    training; a learned type->page table (topical words) does not."""
+    import hashlib
+    def h(s): return int(hashlib.md5(('%d|%s' % (seed, s)).encode()).hexdigest()[:8], 16) % 2 == 0
+    cache = {}
+    out = np.zeros(len(TT['words']), bool)
+    for i, (w, s) in enumerate(TT['words']):
+        if s not in cache: cache[s] = h(s)
+        out[i] = cache[s]
+    return out
 
 
 def split_pages(E, seed=0):
@@ -667,7 +698,8 @@ def fixed_selectors(TT):
 
 def grid_configs():
     feats = [('count', sk, nm) for sk in (True, False) for nm in ('numeral', 'free')]
-    feats += [('pos', sk, B, fr) for sk in (True, False) for B in range(2, 13) for fr in (True, False)]
+    feats += [('pos', True, B, fr) for B in range(2, 13) for fr in (True, False)]
+    feats += [('pos', False, B, True) for B in range(2, 13)]
     modes = [('page', 'abs_clip', 0), ('page', 'rel_fwd', 0), ('page', 'rel_back', 0), ('folio', 'abs_clip', 0),
              ('quire', 'abs_clip', 0)]
     return feats, modes
@@ -678,7 +710,7 @@ def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=N
     t0 = time.time()
     if E is None: E = build_R(C)
     TT = token_table(C, E)
-    tok_tr = split_pages(E, seed)[E['tok_page']]
+    tok_tr = split_types(TT, seed)
     sels = fixed_selectors(TT)
     feats, modes = grid_configs()
     cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
@@ -733,9 +765,10 @@ def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=N
         ztr, d, mode, itr_k, S_k = best
         ite_k = ite if S_k is None else np.where(subset_mask(TT, S_k) & ~tok_tr)[0]
         if len(ite_k) < 10: continue
-        zte = score_one(coef, ite_k, d, mode, E)
+        zte = score_robust(coef, ite_k, d, mode, E, TT)
         rows.append(dict(sel=sname if S_k is None else 'only{' + ''.join(sorted(S_k)) + '}', feat=list(feat),
                          mode=list(mode), ntr=len(itr_k), nte=len(ite_k), z_tr=ztr, z_te=zte,
+                         z_te_plain=score_one(coef, ite_k, d, mode, E), z_tr_robust=score_robust(coef, itr_k, d, mode, E, TT),
                          d={G_all[g]: int(d[g]) for g in range(G) if d[g] and coef[itr_k, g].sum() > 0}))
         if log and done % 100 == 0:
             print('%s cfg %d/%d evals %.2e best_tr %.2f best_te %.2f elapsed %.0fs' % (C['name'], ci, len(cfgs), n_eval,

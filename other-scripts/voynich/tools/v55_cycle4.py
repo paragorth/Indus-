@@ -12,6 +12,8 @@ t0 = time.time()
 words = V.load_ring_words()
 T = V.get_sky(cond if cond.startswith('fake') else 'real')
 dd = V.degree_days(T)
+if cond.startswith('sperm'):
+    words = V.sign_permute(words, int(cond[5:]))
 idx = V.alignments(words, dd)
 labs = V.make_condition(cond, words, idx, T)
 feats = [(k, v) for k, v in V.day_features(T).items() if k in ("moon_sign", "phase8", "moon_rel")] + V.event_features(T)

@@ -29,17 +29,20 @@ for li, x in enumerate(labels):
             amap[di * 30 + o, 30 * s + int(np.floor(ii * 30.0 / n + o)) % 30] = li
 labs = [dict(x) for x in labels]
 PLANT_DAY = int(np.where((T['year'][keep] == 1421) & (T['month'][keep] == 5) & (T['day'][keep] == 1))[0][0])
-if cond == 'plantH':
+if cond.startswith('plantH'):
+    # plantH: 4 of the occupied degrees + 6 decoys; plantH7: every occupied degree + 3 decoys
     r = np.random.default_rng(3)
     occ = [amap[0, d] for d in deg[PLANT_DAY] if amap[0, d] >= 0]
-    pick = list(r.choice(occ, 4, replace=False))
+    nh, nd = (4, 6) if cond == 'plantH' else (len(occ), 3)
+    pick = list(r.choice(occ, nh, replace=False))
     others = [k for k in range(L) if k not in occ]
-    pick += list(r.choice(others, 6, replace=False))
+    pick += list(r.choice(others, nd, replace=False))
     for k in pick:
         labs[k]['label'] = 'q' + labs[k]['label']
 else:
     labs = V.make_condition(cond, labels, idx, T)
-classes = V.marker_classifiers(labs) + V.random_classifiers(labs, 150, seed=56, kmax=2)
+classes = V.marker_classifiers(labs, prefix1=True) + V.random_classifiers(labs, 150, seed=56, kmax=2)
+classes = [(n_, c) for n_, c in classes if c.max() == 1]
 C = np.array([c for _, c in classes], np.uint8)
 inp = os.path.join(V.CK, f'c3_{cond}.bin'); outp = os.path.join(V.CK, f'c3_{cond}.out')
 with open(inp, 'wb') as f:
@@ -63,8 +66,8 @@ summ = dict(cond=cond, ncls=nc, max=float(best.max()), peak_year=int(years[ymax.
             win_max=float(ymax[win].max()), out_max=float(ymax[~win].max()),
             best=dict(classifier=classes[ci][0][:80], date='%d-%02d-%02d' % (T['year'][keep][d], T['month'][keep][d], T['day'][keep][d]),
                       align=int(ba[ci, y])), secs=round(time.time() - t0))
-if cond == 'plantH':
-    qi = [k for k, (n_, _) in enumerate(classes) if n_ == 'pre2=qo' or n_.startswith('pre2=q')]
+if cond.startswith('plantH'):
+    qi = [k for k, (n_, _) in enumerate(classes) if n_.startswith(('pre1=q', 'pre2=q'))]
     summ['plant_class_best'] = [(classes[k][0], float(best[k].max()), int(years[best[k].argmax()])) for k in qi]
 np.save(os.path.join(V.CK, f'c3_{cond}_best.npy'), best)
 json.dump(summ, open(os.path.join(V.CK, f'c3_{cond}.json'), 'w'))
