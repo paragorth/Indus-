@@ -24,6 +24,7 @@ sys.path.insert(0, HERE)
 os.environ['LA10_V2'] = '1'
 import la10_common as T10
 
+V2 = bool(os.environ.get('LA44_V2'))   # cycle 3: OCP priors (consonant identity / place dissimilation) + bigger lexicons
 MORPH = ['ISOL', 'AGG_SUF', 'AGG_PRE', 'AGG_BOTH', 'FUS_SUF', 'TEMPL']
 SYL = ['CV', 'CVC', 'CCVC']
 CK = os.path.join(HERE, '..', 'data', 'la44_ckpt')
@@ -91,6 +92,9 @@ def draw_phonotactics(rnd, L, syl=None):
     elif L.syl == 1: L.pcl = rnd.uniform(0, 0.03); L.pcoda = rnd.uniform(0.15, 0.6); L.pfin = rnd.uniform(0.15, 0.85)
     else: L.pcl = rnd.uniform(0.12, 0.5); L.pcoda = rnd.uniform(0.0, 0.5); L.pfin = rnd.uniform(0.0, 0.85)
     L.rootlen = rnd.uniform(1.0, 3.0)
+    L.ocp_id = L.ocp_pl = 0.0
+    if V2:
+        L.ocp_id = rnd.uniform(0, 1); L.ocp_pl = rnd.uniform(0, 1) if rnd.random() < 0.5 else 0.0
 
 
 def cons(rnd, L, pos='on'):
@@ -122,7 +126,16 @@ def root(rnd, L, nsyl=None):
     if nsyl is None:
         nsyl = max(1, int(round(rnd.gauss(L.rootlen, 0.7))))
     out = []
-    for i in range(nsyl): out += syllable(rnd, L, i == 0, i == nsyl - 1)
+    for i in range(nsyl):
+        for _ in range(6):
+            sy = syllable(rnd, L, i == 0, i == nsyl - 1)
+            if not out or not (L.ocp_id or L.ocp_pl): break
+            pc = next((x for x in reversed(out) if not isv(x)), None); nc = sy[0] if not isv(sy[0]) else None
+            if pc is None or nc is None: break
+            if nc == pc and rnd.random() < L.ocp_id: continue
+            if nc != pc and cplace(nc) == cplace(pc) and rnd.random() < L.ocp_pl: continue
+            break
+        out += sy
     return out
 
 
@@ -175,7 +188,14 @@ def make_roots(rnd, L, nroots, donor=None):
     for _ in range(nroots):
         src = donor if (donor is not None and rnd.random() < L.pborrow) else L
         if L.morph == 5 and src is L:
-            r = [cons(rnd, L) for _ in range(3)]
+            r = [cons(rnd, L)]
+            while len(r) < 3:
+                c = cons(rnd, L)
+                for _ in range(5):
+                    if c == r[-1] and rnd.random() < L.ocp_id: c = cons(rnd, L); continue
+                    if c != r[-1] and cplace(c) == cplace(r[-1]) and rnd.random() < L.ocp_pl: c = cons(rnd, L); continue
+                    break
+                r.append(c)
         else:
             r = root(rnd, src)
             if L.morph == 5:  # loans into a templatic language: consonantal skeleton of the loan
@@ -477,7 +497,7 @@ def simulate(seed, n_target, fixed=None):
     draw_morph(rnd, L, fixed.get('morph'))
     L.pborrow = 0.0 if rnd.random() < 0.3 else rnd.uniform(0, 0.4)
     D = Lang(); draw_inventory(rnd, D); D.cons, D.cw = L.cons, L.cw; draw_phonotactics(rnd, D)
-    nroots = max(20, int(n_target * rnd.uniform(0.3, 1.5)))
+    nroots = max(20, int(n_target * rnd.uniform(0.3, 3.0 if V2 else 1.5)))
     roots = make_roots(rnd, L, nroots, donor=D)
     zs = rnd.uniform(0.5, 1.3); rw = []; acc = 0.0
     for k in range(nroots): acc += 1.0 / (k + 1) ** zs; rw.append(acc)
@@ -510,7 +530,7 @@ def simulate(seed, n_target, fixed=None):
              pcl=L.pcl, pcoda=L.pcoda, pfin=L.pfin, p0i=L.p0i, pborrow=L.pborrow, plate=plate, nsc=nsc,
              hist=hist, dead=conv['dead'], om_fin=int(conv['om_fin_son']) + int(conv['om_fin_obs']),
              om_med=int(conv['om_med_son']) + int(conv['om_med_obs']), noise=conv['noise'], nroots=nroots, zs=zs,
-             ntypes=len(types))
+             ntypes=len(types), ocp_id=L.ocp_id, ocp_pl=L.ocp_pl)
     return P, types
 
 

@@ -105,6 +105,8 @@ def main(which, ntrain):
     rng = random.Random(4545)
     C, inv = encode([t['names'] for t in D[which]])
     clf, ev = train(which, ntrain, C, rng)
+    import pickle
+    pickle.dump(clf, open(os.path.join(CK, 'clf_%s.pkl' % which), 'wb'))
     out = {'planted': {k: [float(np.nanmedian(v)) if v else None, len(v)] for k, v in ev.items()}}
     keys, F, pf, pg, pm = apply(clf, C)
     freq = collections.Counter(e for t in C for n in t for e in n)

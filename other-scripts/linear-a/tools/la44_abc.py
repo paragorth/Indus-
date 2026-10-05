@@ -21,7 +21,8 @@ INV = {'len2', 'len3', 'len4', 'len5p', 'H', 'zslope', 'nsign', 'mlen', 'sdlen'}
 DEL = [k for k in A.panel_names() if k not in INV]
 names = {'all': A.panel_names(), 'vf': A.VALUE_FREE, 'delta': ['d_' + k for k in DEL],
          'both': A.panel_names() + ['d_' + k for k in DEL],
-         'vfdelta': ['d_' + k for k in A.VALUE_FREE if k not in INV]}[mode]
+         'vfdelta': ['d_' + k for k in A.VALUE_FREE if k not in INV],
+         'robust': A.panel_names() + ['d_' + k for k in DEL]}[mode]
 def feat(f, fs):
     g = dict(f)
     for k in DEL: g['d_' + k] = f[k] - fs[k]
@@ -54,10 +55,21 @@ else:
 TX = np.nan_to_num(np.array([feat(A.panel(t), A.panel(C5.shuffle_global(t, random.Random(999 + j))))
                              for j, t in enumerate(T.values())], float))
 
+if mode == 'robust':
+    # drop every statistic on which the KNOWN control (mean of the LB subsamples) lies outside the central 95 % of the
+    # simulations; the rule looks only at LB, never at LA or the shuffles.
+    lbrows = [j for j, tn in enumerate(T) if tn.startswith('LB_sub')]
+    lbm = TX[lbrows].mean(0)
+    lo = np.percentile(X, 2.5, 0); hi = np.percentile(X, 97.5, 0)
+    keep = [i for i in range(X.shape[1]) if lo[i] <= lbm[i] <= hi[i] and hi[i] > lo[i]]
+    dropped = [names[i] for i in range(X.shape[1]) if i not in keep]
+    print('robust: dropped', len(dropped), dropped, flush=True)
+    X = X[:, keep]; TX = TX[:, keep]; names = [names[i] for i in keep]
+
 # where does each target sit relative to the simulated cloud? (Mahalanobis-free: share of sims farther, robust z)
 med = np.median(X, 0); mad = np.median(np.abs(X - med), 0) * 1.4826 + 1e-9
 dz = np.sqrt((((X - med) / mad) ** 2).mean(1))
-out = {'names': names, 'nsims': len(rows), 'targets': {}}
+out = {'names': names, 'nsims': len(rows), 'targets': {}, 'excl': sorted(excl)}
 
 def proj_class(y, ncls):
     rf = RandomForestClassifier(n_estimators=300, min_samples_leaf=3, oob_score=True, n_jobs=nj, random_state=1,

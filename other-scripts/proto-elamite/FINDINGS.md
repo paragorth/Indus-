@@ -475,3 +475,11 @@ Controls passed: planted errors were recovered, and real proto-cuneiform errors 
 - **B (negative):** no sign group goes with planned or actual quantities on held-out tablets (a planted sign was found, z 8.1). There are no plan-versus-actual tablets.
 - **B- (small n):** five same-sign series held at one numeral within a tablet, i.e. fixed one-unit allotments (e.g. P008215 M075 1(N39B) ×15).
 - **C:** P009258, M297 = 8, 10, 7, 10, 8, 9: deliveries against a norm of 10. Would support: other M297 series that scatter around 10. Would kill: M297 series with no common centre.
+
+## The form tree is not a dictionary (pe43, 5 Oct 2026; `loops/pe43_final.txt`)
+Each sign's variants (~a, @g) and compounds (|A+B|) treated as a family tree of forms; thousands of random phylogenies and seriations scored on held-out tablets, calibrated on a planted coining world and on proto-cuneiform with its lexical lists as the answer key.
+- **A:** a PE variant is used like its own root (company 0.78, numeral system 0.66, slot 0.71 percentile vs frequency-matched roots; z 8-14). Shuffling variants among roots halves the family signal.
+- **B:** compound parts are kin. In proto-cuneiform they come from the same lexical list 1.7x as often as chance (p 0.015); in PE they share tablets, numeral system and slot (p < 0.005).
+- **A (negative, calibrated):** the tree gives no time order. Birth order is just frequency; Uruk III is less derived than Uruk IV (variants are pruned over time); tree-based dates are tablet size (AUC 0.49 within size strata). No PE seriation is reported.
+- **B (PC, real time):** signs that already have many variants coin the next ones (AUC 0.715 -> 0.802 beyond frequency). Coining does not spread within meaning families (PC p 0.63-0.72; PE p 0.21-0.60), though the planted world shows it (p 0.01).
+- **C:** PE twig families from the tree, e.g. the capacity family {M387, M297, M036, M260, M111, M264, M265, M002 ...}, the header family {M288, M157, M153, M175, M106, M010 ...}, and name-string families {M388, M218, M263, M057, M066 ...} and {M371, M377, M320, M347, M386 ...}. Proto-cuneiform twigs match the lexical lists only weakly (p 0.02), so these are slot and number-system groups, not meanings. Speciated variants M056~f (travels with M383) and M005~a (header slot, unlike M005) are also C.
