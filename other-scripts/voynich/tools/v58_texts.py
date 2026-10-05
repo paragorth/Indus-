@@ -107,18 +107,20 @@ def regimen():
     return [unit(p[:30], [p.split(' ', 1)[1] if ' ' in p else p]) for p in parts[1:] if len(p) > 20]
 
 def konrad():
+    """Buch der Natur: one Augustana page per chapter (kon_BCCC.html); text after the '____' rule."""
     out = []
-    for s in aug_pages('konrad_buch_der_natur'):
-        i = s.find('class="contentus"'); s = s[i if i > 0 else 0:]
-        t = strip_tags(re.sub(r'<(h\d|p|br)[^>]*>', '\n', s))
-        t = re.sub(r'\[\d+\]|\{[^}]*\}', ' ', t)
-        parts = re.split(r'\n\s*(?=Cap\.?\s*\d+\.?\s*\n)', t)
-        for p in parts[1:]:
-            lines = [l.strip() for l in p.split('\n') if l.strip()]
-            if len(lines) < 2: continue
-            body = ' '.join(lines[2:]) if len(lines) > 2 else lines[1]
-            u = unit(lines[0] + ' ' + lines[1][:40], [body])
-            if u['w'] >= 5: out.append(u)
+    for f in sorted(glob.glob(os.path.join(SRC, 'konrad_buch_der_natur', 'kon_[0-9]*.html'))):
+        s = open(f, encoding='utf-8', errors='replace').read()
+        i = s.find('contentus'); s = s[i if i > 0 else 0:]
+        k = s.find('____'); s = s[k if k > 0 else 0:]
+        k = s.find('&lt;&lt;&lt;'); s = s[:k] if k > 0 else s
+        t = strip_tags(s)
+        t = re.sub(r'\[\d+\]|\{[^}]*\}|_+', ' ', t)
+        m = re.match(r'\s*(\d+\.)?\s*(Von [^.]*\.)?', t)
+        title = os.path.basename(f) + ' ' + (m.group(2) or '')
+        body = t[m.end():] if m else t
+        u = unit(title, [body])
+        if u['w'] >= 5: out.append(u)
     return out
 
 # ---------------- plain-text sources ----------------
@@ -248,10 +250,14 @@ def v21_herbals():
     return out
 
 def gerard():
+    """Gerard's Herball (1597) OCR pages from v13 (page = unit; an illustrated printed herbal)."""
     p = os.path.join(VD, 'data', 'derived', 'v13_gerard.json')
-    if not os.path.exists(p): return []
-    d = json.load(open(p))
-    return d
+    d = json.load(open(p))['pages']
+    out = []
+    for k in sorted(d, key=lambda z: int(re.sub(r'\D', '', z) or 0)):
+        ws = [w for w in d[k]['ocr'] if sum(ch.isalpha() for ch in w) >= 2]
+        if len(ws) >= 5: out.append({'t': 'p' + k, 'w': len(ws), 'c': sum(len(w) for w in ws), 'p': [len(ws)]})
+    return out
 
 def main():
     T = {}
@@ -279,6 +285,7 @@ def main():
         ('circa_instans_fr', 'fro', 'herbal', 'archive.org BIUSante_pharma_032591 (Dorveaux 1913)', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'BIUSante_pharma_032591.txt'))),
         ('antidotarium_nl', 'dum+la', 'recipe', 'archive.org eenemiddelnederl00nicouoft', antidotarium),
         ('leechdoms_v1', 'ang', 'herbal', 'archive.org LeechdomsWortcunningStarcraftV1', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'LeechdomsWortcunningStarcraftV1.txt'))),
+        ('gerard_pages', 'en', 'herbal', 'repo data/derived/v13_gerard.json (OCR pages)', gerard),
         ('balneis_synopsis', 'la', 'baths', 'archive.org synopsiseorumqua00lomb', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'synopsiseorumqua00lomb.txt'))),
     ]
     only = sys.argv[1:]

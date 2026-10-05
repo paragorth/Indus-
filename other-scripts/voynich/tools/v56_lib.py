@@ -130,7 +130,7 @@ def culpeper_chapters():
     return out
 
 
-def culpeper(seed=56, max_words=180, line_w=9, pad=True, numerals=True):
+def culpeper(seed=56, max_words=180, line_w=9, pad=True, numerals=True, marker=False):
     """Culpeper's herbal chapters (= pages, kept in their alphabetical order). Real cross-references: a mention in
     chapter i of the name of another chapter j. Each mention is replaced by an additive Roman numeral giving j's
     chapter number (as 'vide cap. xxxxii' minus the 'vide cap.'), the whole text is mapped to opaque glyphs and
@@ -163,6 +163,7 @@ def culpeper(seed=56, max_words=180, line_w=9, pad=True, numerals=True):
             ws += t[pos:m.start()].split()
             j = good[m.group(1)]
             if j != i and numerals:
+                if marker: ws.append('vide')
                 ws.append('#%d' % j); truth.append((i, len(ws) - 1, j))
             else:
                 ws += m.group(0).split()
@@ -203,11 +204,11 @@ def culpeper(seed=56, max_words=180, line_w=9, pad=True, numerals=True):
     def skel(w):
         return ''.join(alt_src if c == ALT else c for c in w if c not in pad_set)
     roman_g = {c: M[c] for c in 'ivxlc'}
-    return dict(pages=P, skel=skel, name='CULP' + ('' if numerals else '_names'), truth=tr, roman=roman_g, M=M)
+    return dict(pages=P, skel=skel, name='CULP' + ('' if numerals else '_names') + ('_vide' if marker else ''), truth=tr, roman=roman_g, M=M)
 
 
 # ------------------------------------------------------------------ planted pointer system inside the Voynich text
-def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3):
+def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3, marker=None):
     """Replace ~rate_per_page random tokens per page by a pointer word that encodes (positional base 7 over the
     frame glyphs o a i n y l r, most significant first) the 1-based index of a page relevant to the context (drawn
     from the context's top-10 residual pages at distance >= 3), then pad it Voynich-style (q-, ch, e/ee, -dy)."""
@@ -241,6 +242,7 @@ def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3):
                 if rng.random() < 0.2: w += 'e'
             w += rng.choice(['', 'd', 'ed', 'eed', 's'])
             p['lines'][li][k] = w
+            if marker and k > 0: p['lines'][li][k - 1] = marker
             truth.append((pi, li, k, t))
     return dict(C, pages=P, name=C['name'] + '_planted', truth=truth, digits=digits)
 
@@ -363,7 +365,12 @@ def token_table(C, E):
         ps, lt = pages[pi]['lflags'][li]
         pline[i] = ps; pfirst[i] = ps and k == 0; label[i] = lt != 'P'
         words.append((w, s))
-    return dict(glyphs=glyphs, gi=gi, cnt_full=cnt_full, cnt_skel=cnt_skel, ln_full=ln_full, ln_skel=ln_skel,
+    prev = []
+    for i, (pi, li, k, w) in enumerate(toks):
+        if k > 0: prev.append(sk(pages[pi]['lines'][li][k - 1]))
+        elif li > 0 and pages[pi]['lines'][li - 1]: prev.append(sk(pages[pi]['lines'][li - 1][-1]))
+        else: prev.append('<s>')
+    return dict(prev=prev, glyphs=glyphs, gi=gi, cnt_full=cnt_full, cnt_skel=cnt_skel, ln_full=ln_full, ln_skel=ln_skel,
                 first=first, last=last, pfirst=pfirst, pline=pline, label=label, words=words)
 
 
@@ -696,6 +703,17 @@ def fixed_selectors(TT):
     return out
 
 
+def marker_selectors(TT, top=40):
+    c = collections.Counter(TT['prev'])
+    out = []
+    prev = np.array(TT['prev'], dtype=object)
+    for w, n in c.most_common(top + 1):
+        if w == '<s>' or not w: continue
+        out.append(('after:' + w, prev == w))
+        if len(out) >= top: break
+    return out
+
+
 def grid_configs():
     feats = [('count', sk, nm) for sk in (True, False) for nm in ('numeral', 'free')]
     feats += [('pos', True, B, fr) for B in range(2, 13) for fr in (True, False)]
@@ -705,13 +723,13 @@ def grid_configs():
     return feats, modes
 
 
-def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None):
+def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed'):
     import time
     t0 = time.time()
     if E is None: E = build_R(C)
     TT = token_table(C, E)
     tok_tr = split_types(TT, seed)
-    sels = fixed_selectors(TT)
+    sels = fixed_selectors(TT) if sel_kind == 'fixed' else marker_selectors(TT)
     feats, modes = grid_configs()
     cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
             if mode_filter is None or modes[m][1] in mode_filter]
