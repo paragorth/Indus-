@@ -1,3 +1,6 @@
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ[_v] = "1"
 """v59 The book contains its own Rosetta stone: unsupervised A-to-B translation.
 
 A corpus side is a list of pages: {'id', 'sec', 'lines': [[word, ...], ...]}.
@@ -145,12 +148,12 @@ def map_pages(pages, T):
     return [dict(p, lines=[[f(w) for w in l if f(w)] for l in p['lines']]) for p in pages]
 
 
-def ngram_stats(pages, n_top=40):
+def ngram_stats(pages, n_top=40, kmax=3):
     sub, pre, suf = collections.Counter(), collections.Counter(), collections.Counter()
     for p in pages:
         for l in p['lines']:
             for w in l:
-                for k in (1, 2, 3):
+                for k in range(1, kmax + 1):
                     for i in range(len(w) - k + 1):
                         sub[w[i:i + k]] += 1
                     if len(w) > k:
@@ -160,10 +163,10 @@ def ngram_stats(pages, n_top=40):
 
 
 class RuleSampler:
-    def __init__(self, side1, side2, seed):
+    def __init__(self, side1, side2, seed, n_top=40, kmax=3):
         self.rng = random.Random(seed)
-        s1, p1, f1 = ngram_stats(side1)
-        s2, p2, f2 = ngram_stats(side2)
+        s1, p1, f1 = ngram_stats(side1, n_top, kmax)
+        s2, p2, f2 = ngram_stats(side2, n_top, kmax)
         self.s1, self.s2, self.p1, self.p2, self.f1, self.f2 = s1, s2, p1, p2, f1, f2
         self.g = sorted({c for x in s1 + s2 for c in x})
 
@@ -225,22 +228,45 @@ class Scorer:
         return P / n
 
     def score(self, pages1, detail=False):
-        """pages1 already in side-2 spelling. Returns weighted retrieval score and coverage."""
-        X = self._inc(pages1)
+        """pages1 already in side-2 spelling. Side-2-frequency-weighted mean reciprocal rank of
+        each target word's own side-2 context among all side-2 targets (T-independent weights)."""
+        return self._score_X(self._inc(pages1), detail)
+
+    def _score_X(self, X, detail=False):
         c1 = np.asarray(X.sum(0)).ravel()
-        N1 = sum(len(l) for p in pages1 for l in p['lines'])
         R1 = self._ppmi(X)
         S = R1 @ self.RB.T
         ok = (c1 >= self.minc) & (self.cB >= self.minc)
         diag = np.diag(S)
         rank = (S > diag[:, None]).sum(1)
-        w = np.minimum(c1, self.cB * (N1 / self.NB))
-        hit = ok & (rank < 3)
-        sc = (w * hit).sum() / max(N1, 1)
-        cov = (w * ok).sum() / max(N1, 1)
+        w = self.cB / self.cB.sum()
+        rr = np.where(ok, 1.0 / (1.0 + rank), 0.0)
+        sc = float((w * rr).sum())
+        cov = float((w * ok).sum())
         if detail:
             return sc, cov, {self.vocab[i]: int(rank[i]) for i in np.where(ok)[0]}
         return sc, cov
+
+    def prepare(self, pages1):
+        """Fast path: incidence of side-1 lines x side-1 types; T is applied to types only."""
+        voc = {}
+        rows, cols = [], []
+        r = 0
+        for p in pages1:
+            for l in p['lines']:
+                for w in l:
+                    rows.append(r); cols.append(voc.setdefault(w, len(voc)))
+                r += 1
+        inc = sp.csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(r, len(voc)))
+        return inc, list(voc)
+
+    def score_T(self, prep, T):
+        inc, types = prep
+        f = T if callable(T) else (lambda w: apply_T(w, T) if T else w)
+        tgt = np.array([self.idx.get(f(w), -1) for w in types])
+        m = tgt >= 0
+        P = sp.csr_matrix((np.ones(m.sum()), (np.where(m)[0], tgt[m])), shape=(len(types), self.K))
+        return self._score_X(inc @ P)[0]
 
 
 def split_pages(pages, seed):

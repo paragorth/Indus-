@@ -456,12 +456,17 @@ class Neural(Base):
 
 
 TYPES = ['ngram', 'template', 'topic', 'neural']
+REGIME = {'mode': os.environ.get('LA52_REGIME', 'harsh')}
 
 
 def random_learner(rng, kind=None, weights=(0.4, 0.15, 0.25, 0.2)):
     kind = kind or rng.choices(TYPES, weights=weights)[0]
-    p = {'bottleneck': rng.uniform(0.3, 1.0), 'noise': rng.uniform(0.0, 0.08),
-         'memory': rng.choice([150, 300, 600, 100000]), 'backoff': rng.uniform(0.0, 0.3)}
+    if REGIME['mode'] == 'gentle':
+        p = {'bottleneck': rng.uniform(0.75, 1.0), 'noise': rng.uniform(0.0, 0.02),
+             'memory': rng.choice([600, 100000, 100000]), 'backoff': rng.uniform(0.0, 0.1)}
+    else:
+        p = {'bottleneck': rng.uniform(0.3, 1.0), 'noise': rng.uniform(0.0, 0.08),
+             'memory': rng.choice([150, 300, 600, 100000]), 'backoff': rng.uniform(0.0, 0.3)}
     if kind == 'ngram':
         p.update(order=rng.choice([1, 2, 2, 3, 3, 4]), site=rng.random() < 0.5)
         return NGram(rng, p)

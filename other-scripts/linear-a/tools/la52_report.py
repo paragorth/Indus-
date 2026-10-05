@@ -6,12 +6,13 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import la52_common as C
 
-TAG = sys.argv[1]
+TAG = sys.argv[1] if len(sys.argv) > 1 else 'c1'
 SUF = sys.argv[2] if len(sys.argv) > 2 else ''
 CK = C.CK
 
 
-def load(cond, suf=SUF):
+def load(cond, suf=None):
+    suf = SUF if suf is None else suf
     fs = sorted(glob.glob(os.path.join(CK, f'{TAG}_{cond}{suf}_w*.npy')))
     fs = [f for f in fs if '.tmp' not in f]
     if not fs:
@@ -69,7 +70,7 @@ def retention(base, real, shuf, emin=3.0, boot=200, seed=0):
         j = rng.integers(0, eS.shape[0], eS.shape[0])
         bsa.append(np.where(ok, ((eR[i, 1:].mean(0) - eS[j, 1:].mean(0)).mean(0)) / np.where(ok, den, 1), np.nan))
     d['auc'] = auc
-    return dict(F=F, c0=c0, e0=e0, ok=ok, d=d, G=G, se_auc=np.nanstd(np.array(bsa), 0), se=np.nanstd(bs, 0), mS=mS, mR=mR, meas=meas,
+    return dict(eR=eR, eS=eS, b0=b0, F=F, c0=c0, e0=e0, ok=ok, d=d, G=G, se_auc=np.nanstd(np.array(bsa), 0), se=np.nanstd(bs, 0), mS=mS, mR=mR, meas=meas,
                 names=meta['names'], n=eR.shape[0], nS=eS.shape[0])
 
 
@@ -142,6 +143,43 @@ def show(name, r, extra=()):
             print(f'   {"/".join(f):40s} c0 {r["c0"][j]:.0f} e0 {r["e0"][j]:.1f} d1 {r["d"][1][j]:.2f} dG {r["d"][r["G"]][j]:.2f} AUC {r["d"]["auc"][j]:.2f} +- {r["se_auc"][j]:.2f} pct {pct(r, j):.2f}' if r['ok'][j] else f'   {"/".join(f)}: excess < 3')
 
 
+LOCAL = {'WN', 'WL', 'PF', 'LN'}
+LONG = {'CO', 'ES', 'WR', 'SW', 'TOT', 'LO'}
+
+
+def word_agg(r, mind=5.0, boot=300, seed=3):
+    """Per word / logogram: pooled retention (AUC) of all its long-range and all its local excess."""
+    eR, eS, e0 = r['eR'], r['eS'], r['e0']
+    by = collections.defaultdict(lambda: {'local': [], 'long': []})
+    for j, f in enumerate(r['F']):
+        grp = 'local' if f[0] in LOCAL else 'long' if f[0] in LONG else None
+        if grp is None or e0[j] <= 0:
+            continue
+        for x in f[1:]:
+            if x in ('SUM', 'FIRST', 'LAST', 'f') or x.isdigit() or x in r.get('sites', ()):
+                continue
+            by[x][grp].append(j)
+    rng = np.random.default_rng(seed)
+    out = {}
+    for x, gg in by.items():
+        row = {}
+        for grp, js in gg.items():
+            if not js:
+                continue
+            den = e0[js].sum() - eS[:, 0, js].mean(0).sum()
+            if den < mind:
+                continue
+            num = (eR[:, 1:, js].mean(0) - eS[:, 1:, js].mean(0)).sum(1).mean()
+            bs = []
+            for _ in range(boot):
+                i = rng.integers(0, eR.shape[0], eR.shape[0])
+                bs.append((eR[i][:, 1:, js].mean(0).sum(1).mean() - eS[:, 1:, js].mean(0).sum(1).mean()) / den)
+            row[grp] = (num / den, float(np.std(bs)), float(den), len(js))
+        if row:
+            out[x] = row
+    return out
+
+
 C46_DESC = dict(C.C46.FAM_DESC, LO='logogram before another logogram (order)', WR='word -> logogram 3+ tokens later')
 
 if __name__ == '__main__':
@@ -176,6 +214,20 @@ if __name__ == '__main__':
         print('   words/signs ranked by anchoring (>=3 features): top 15 / bottom 5')
         for w in ws[:15] + [('...', 0, 0, 1)] + ws[-5:]:
             print(f'     {w[0]:14s} nf {w[1]:3d} meanA {w[2]:6.2f} p {w[3]:.4f}')
+    for nm in ('LA', 'LB', 'UR'):
+        if nm not in res:
+            continue
+        r = res[nm]
+        r['sites'] = set(f[1] for f in r['F'] if f[0] == 'SW')
+        wa = word_agg(r)
+        json.dump(wa, open(os.path.join(CK, f'{TAG}{SUF}_{nm}_wordagg.json'), 'w'))
+        rows = [(x, v['long'], v.get('local')) for x, v in wa.items() if 'long' in v]
+        rows.sort(key=lambda t: t[1][0])
+        print(f'== {nm}: pooled long-range retention per word/logogram (lowest = most world-anchored), n {len(rows)}')
+        for t in rows[:15] + [('...', (0, 0, 0, 0), None)] + rows[-6:]:
+            x, lg, lc = t
+            lcs = f'local {lc[0]:.2f}+-{lc[1]:.2f}' if lc else 'local -'
+            print(f'   {x:14s} long AUC {lg[0]:6.3f} +- {lg[1]:.3f} (excess {lg[2]:.1f}, nf {lg[3]})  {lcs}')
     if 'LAO' in res and 'LA' in res:
         tg = set(C.unkey(s) for s in json.load(open(os.path.join(CK, f'{TAG}_LAO_targets.json'))))
         r, r0 = res['LAO'], res['LA']

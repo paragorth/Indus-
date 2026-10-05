@@ -32,6 +32,8 @@ if __name__ == '__main__':
         cfgs += [cfg_for(c, 'gru', k, tag) for k in range(int(ngru))]
     for c in cfgs:
         c['epochs'] = min(c['epochs'], 40)
+        if c['corpus'].endswith('4') and c['k'] > 0:
+            c['epochs'] = min(c['epochs'], 15)  # 4x data: same number of steps as a 60-epoch LA run
     cfgs.sort(key=lambda c: (c['k'], c['arch'], c['corpus']))
     with mp.get_context('fork').Pool(2) as p:
         for _ in p.imap_unordered(job, cfgs):

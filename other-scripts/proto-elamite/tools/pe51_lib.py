@@ -233,7 +233,8 @@ def build_plant(n=1500, seed=0):
     for i in range(n):
         d = r.randrange(4)
         pool = r.sample(range(60), 8)
-        L = [dict(kind='ctx', toks=['d%d' % d] + ['n%d' % r.choice(pool)] + (['f%d' % r.randrange(6)] if r.random() < .3 else []),
+        L = [dict(kind='ctx', toks=['d%d' % d] + (['h%d_%d' % (d, r.randrange(3))] if r.random() < .7 else []) +
+                  ['n%d' % r.choice(pool)] + (['f%d' % r.randrange(6)] if r.random() < .3 else []),
                   sys=None, mag=None, tot=0)]
         k = r.randint(2, 8)
         vals = []
@@ -249,7 +250,8 @@ def build_plant(n=1500, seed=0):
                 toks.insert(r.randrange(len(toks) + 1), 'f%d' % r.randrange(6))
             L.append(dict(kind='num', toks=toks, sys=sysof[c], mag=magb(v), tot=0))
         if r.random() < .6:
-            L.append(dict(kind='num', toks=['t%d' % r.randrange(2)] + (['n%d' % r.choice(pool)] if r.random() < .3 else []),
+            L.append(dict(kind='num', toks=['t%d' % r.randrange(2)] + (['c%d' % r.choice(doc_com[d])] if r.random() < .5 else []) +
+                          (['n%d' % r.choice(pool)] if r.random() < .3 else []),
                           sys='T', mag=magb(sum(vals)), tot=1))
         out.append(dict(id='PL%d' % i, lines=L))
     return out
@@ -261,6 +263,7 @@ PC_KEY = {'commodity': ['P_' + x for x in ['SZE', 'GAR', 'KASZ', 'KU6', 'UDU', '
 
 PLANT_KEY = {'commodity': ['c%d' % i for i in range(12)], 'unit': ['u%d' % i for i in range(4)],
              'total': ['t0', 't1'], 'doctype': ['d%d' % i for i in range(4)],
+             'doc_companion': ['h%d_%d' % (i, j) for i in range(4) for j in range(3)],
              'name': ['n%d' % i for i in range(60)], 'filler': ['f%d' % i for i in range(6)]}
 
 
@@ -453,7 +456,7 @@ def random_arch(r):
     t = r.choice(['tf', 'tf', 'gru'])
     return dict(type=t, d=r.choice([32, 48, 64]), layers=r.choice([1, 2, 3]) if t == 'tf' else r.choice([1, 2]),
                 heads=r.choice([2, 4]), drop=r.choice([0.0, 0.1, 0.2]), lr=r.choice([1e-3, 2e-3, 3e-3]),
-                epochs=r.choice([25, 35, 45]), pdel=r.choice([0.05, 0.1, 0.15]))
+                epochs=r.choice([20, 25, 30]), pdel=r.choice([0.05, 0.1, 0.15]))
 
 
 def train(E_tr, V, arch, seed, log=None):

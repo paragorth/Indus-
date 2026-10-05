@@ -1,3 +1,6 @@
+import os
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ[_v] = "1"
 """v59 cycle 1: thousands of random transducers, scored by held-out context retrieval.
 
 For each corpus pair (side1 -> side2): split both sides into train/test pages; draw N random
@@ -60,13 +63,14 @@ def run(args):
     s1tr, s1te = split_pages(s1, 11)
     s2tr, s2te = split_pages(s2, 12)
     Str, Ste = Scorer(s2tr), Scorer(s2te)
-    b_tr, b_te = Str.score(s1tr)[0], Ste.score(s1te)[0]
+    Ptr, Pte = Str.prepare(s1tr), Ste.prepare(s1te)
+    b_tr, b_te = Str.score_T(Ptr, []), Ste.score_T(Pte, [])
     RS = RuleSampler(s1tr, s2tr, seed=zlib.crc32(name.encode()))
     rows = []
     for i in range(N):
         T = RS.T()
-        d_tr = Str.score(map_pages(s1tr, T))[0] - b_tr
-        d_te = Ste.score(map_pages(s1te, T))[0] - b_te
+        d_tr = Str.score_T(Ptr, T) - b_tr
+        d_te = Ste.score_T(Pte, T) - b_te
         rows.append((d_tr, d_te, T))
     dtr = np.array([r[0] for r in rows]); dte = np.array([r[1] for r in rows])
     order = np.argsort(-dtr)
@@ -77,7 +81,7 @@ def run(args):
     rho = float(np.corrcoef(np.argsort(np.argsort(dtr)), np.argsort(np.argsort(dte)))[0, 1])
     # greedy stacking of single rules drawn from the top 200 sets, on train only
     cand = []
-    for j in order[:200]:
+    for j in order[:40]:
         for r in rows[j][2]:
             if r not in cand:
                 cand.append(r)
@@ -87,17 +91,17 @@ def run(args):
         for r in cand:
             if r in T:
                 continue
-            gains.append((Str.score(map_pages(s1tr, T + [r]))[0] - b_tr, r))
+            gains.append((Str.score_T(Ptr, T + [r]) - b_tr, r))
         if not gains:
             break
         g, r = max(gains, key=lambda x: x[0])
         if g <= best + 1e-4:
             break
         T.append(r); best = g
-    g_te = Ste.score(map_pages(s1te, T))[0] - b_te if T else 0.0
+    g_te = Ste.score_T(Pte, T) - b_te if T else 0.0
     truth = TRUTH.get(name)
-    tr_te = (Ste.score(map_pages(s1te, truth))[0] - b_te) if truth else None
-    tr_tr = (Str.score(map_pages(s1tr, truth))[0] - b_tr) if truth else None
+    tr_te = (Ste.score_T(Pte, truth) - b_te) if truth else None
+    tr_tr = (Str.score_T(Ptr, truth) - b_tr) if truth else None
     res = {'name': name, 'base_tr': b_tr, 'base_te': b_te, 'rho_tr_te': rho,
            'top20_dte': float(dte[top].mean()), 'z_top20': float(z_top),
            'frac_pos_tr': float((dtr > 0).mean()),

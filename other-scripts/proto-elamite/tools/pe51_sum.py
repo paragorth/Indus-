@@ -17,6 +17,12 @@ TASKS = ['SYS', 'MAG', 'TOT', 'HEAD', 'ENT']
 GROUPS = {'NUM': ['SYS', 'MAG'], 'TOT': ['TOT'], 'HEAD': ['HEAD'], 'ENT': ['ENT']}
 
 
+KEYS = [k + l for k in TASKS for l in 'LR']
+GROUPS = {'NUM-L': ['SYSL', 'MAGL'], 'NUM-R': ['SYSR', 'MAGR'], 'TOT': ['TOTL', 'TOTR'],
+          'HEAD': ['HEADL', 'HEADR'], 'ENT': ['ENTR']}
+FLOOR = 0.02  # nats per target
+
+
 def load(name, models=None):
     F = sorted(glob.glob(os.path.join(L.CK, 'del_%s_*.json' % name)))
     D = [json.load(open(f)) for f in F]
@@ -26,52 +32,59 @@ def load(name, models=None):
 
 
 def excess_table(D, halves=(0, 1), pseudo=False):
-    """-> sign -> task -> list of per-model excess (mean per target)."""
+    """-> sign -> key -> list of per-model excess: mean loss change per target when the sign is
+    erased minus the same for as many random other sign tokens erased in the same tablets.
+    pseudo=True: null draw 0 plays the sign, draws 1.. are the null."""
     X = collections.defaultdict(lambda: collections.defaultdict(list))
     for d in D:
         for w, acc in d['res'].items():
-            for k in TASKS:
-                s, n, nul = 0.0, 0, None
+            for k in KEYS:
+                s, n, ns, nn = 0.0, 0, None, None
                 for h in halves:
                     a = acc.get(str(h), {}).get(k)
                     if not a:
                         continue
                     s += a[0]; n += a[1]
-                    nul = a[2] if nul is None else [x + y for x, y in zip(nul, a[2])]
-                if n < 3:
+                    ns = a[2] if ns is None else [x + y for x, y in zip(ns, a[2])]
+                    nn = a[3] if nn is None else [x + y for x, y in zip(nn, a[3])]
+                if ns is None:
                     continue
                 if pseudo:
-                    real = nul[0] / n; rest = nul[1:]
+                    if nn[0] < 3 or sum(nn[1:]) < 3:
+                        continue
+                    X[w][k].append(ns[0] / nn[0] - sum(ns[1:]) / sum(nn[1:]))
                 else:
-                    real = s / n; rest = nul
-                X[w][k].append(real - sum(rest) / len(rest) / n)
+                    if n < 3 or sum(nn) < 3:
+                        continue
+                    X[w][k].append(s / n - sum(ns) / sum(nn))
     return X
 
 
 def tstats(X, minM=3):
-    T = {}
+    T, M = {}, {}
     for w, kk in X.items():
-        T[w] = {}
+        T[w], M[w] = {}, {}
         for k, v in kk.items():
             if len(v) < minM:
                 continue
             v = np.array(v)
-            sd = v.std(ddof=1) if len(v) > 1 else 1.0
-            T[w][k] = float(v.mean() / (sd / math.sqrt(len(v)) + 1e-4))
-    return T
+            sd = v.std(ddof=1)
+            M[w][k] = float(v.mean())
+            T[w][k] = float(v.mean() / (sd / math.sqrt(len(v)) + 1e-6))
+    return T, M
 
 
-def group_scores(T):
+def group_scores(TM):
+    T, M = TM
     G = {}
-    for w, t in T.items():
-        G[w] = {g: max([t.get(k, -99) for k in ks]) for g, ks in GROUPS.items()}
+    for w in T:
+        g = {}
+        for gn, ks in GROUPS.items():
+            vals = [(T[w][k], M[w][k]) for k in ks if k in T[w]]
+            ok = [t for t, m in vals if m >= FLOOR]
+            g[gn] = max(ok) if ok else (max([t for t, m in vals]) if vals else -99) * 0 - 1
+        G[w] = g
     return G
-
-
-def threshold(Gp, q=0.95):
-    """per-group threshold from pseudo-signs (any group above -> false class)."""
-    mx = [max(g.values()) for g in Gp.values() if g]
-    return max(3.0, float(np.quantile(mx, q))) if mx else 3.0
 
 
 def classify(G, thr):
@@ -82,32 +95,27 @@ def classify(G, thr):
     return C
 
 
-def analyse(name, quiet=False):
-    D = load(name)
-    if not D:
+def analyse(name, thr=3.0, models=None):
+    D = load(name, models)
+    if len(D) < 3:
         return None
     ms = sorted(d['m'] for d in D)
     Gp = group_scores(tstats(excess_table(D, pseudo=True)))
-    thr = threshold(Gp)
     G = group_scores(tstats(excess_table(D)))
     C = classify(G, thr)
-    # stability: tablet halves and model halves (seeds)
+    Cp = classify(Gp, thr)
     Ch = [classify(group_scores(tstats(excess_table(D, halves=(h,)))), thr) for h in (0, 1)]
-    A = [d for d in D if d['m'] < 5]; B = [d for d in D if d['m'] >= 5]
-    Cs = [classify(group_scores(tstats(excess_table(x), minM=2)), thr) if x else {} for x in (A, B)]
-    stable = {}
-    for w, c in C.items():
-        ok_h = all(Ch[i].get(w) == c for i in (0, 1))
-        ok_s = all(Cs[i].get(w) == c for i in (0, 1)) if Cs[0] and Cs[1] else True
-        stable[w] = ok_h and ok_s
-    # false-class rate of pseudo signs
-    fp = np.mean([max(g.values()) > thr for g in Gp.values() if g])
+    A = [d for d in D if d['m'] % 2 == 0]; B = [d for d in D if d['m'] % 2 == 1]
+    Cs = [classify(group_scores(tstats(excess_table(x), minM=2)), thr) for x in (A, B)]
+    stable = {w: all(Ch[i].get(w) == c for i in (0, 1)) and all(Cs[i].get(w) == c for i in (0, 1)) for w, c in C.items()}
+    fp = float(np.mean([c != 'SILENT' for c in Cp.values()])) if Cp else float('nan')
     count = {}
     for d in D:
         count.update(d['count'])
     base = {k: float(np.mean([d['base'].get(k, np.nan) for d in D])) for k in TASKS}
-    return dict(name=name, models=ms, thr=thr, fp=float(fp), G=G, C=C, stable=stable, count=count,
-                base=base, Ch=Ch, Cs=Cs)
+    TM = tstats(excess_table(D))
+    return dict(name=name, models=ms, thr=thr, fp=fp, G=G, C=C, stable=stable, count=count,
+                base=base, Ch=Ch, Cs=Cs, T=TM[0], M=TM[1], Cp=Cp)
 
 
 def agree(a, b):
@@ -145,7 +153,7 @@ def auc(pos, neg):
 
 
 if __name__ == '__main__':
-    for name in sys.argv[1:]:
+    for name in [a for a in sys.argv[1:] if not a.startswith('-')]:
         R = analyse(name)
         if R is None:
             print(name, 'no data'); continue
@@ -153,11 +161,15 @@ if __name__ == '__main__':
         if name == 'ur3':
             key = dict(L.UR3_KEY); key['name'] = sorted(L.ur3_names(L.build_ur3()))
         print('\n'.join(report(R, key)))
+        if '-v' in sys.argv or name == 'plant':
+            for w in sorted(R['C'], key=lambda w: -R['count'][w])[:40]:
+                print('   %-12s %-6s %s' % (w, R['C'][w], ' '.join('%s %+.3f(%.1f)' % (k, R['M'][w][k], R['T'][w][k]) for k in KEYS if k in R['M'][w] and abs(R['T'][w][k]) > 2)))
         if key:
-            for g, roles in [('NUM', ['commodity', 'unit']), ('TOT', ['total']), ('HEAD', ['doctype'])]:
+            for g, roles in [('NUM-L', ['commodity', 'unit']), ('TOT', ['total']), ('HEAD', ['doctype']),
+                             ('ENT', ['doctype']), ('NUM-R', ['doctype'])]:
                 pos = [R['G'][w][g] for r in roles for w in key.get(r, []) if w in R['G']]
                 neg = [R['G'][w][g] for w in R['G'] if not any(w in key.get(r, []) for r in roles)]
                 print('  AUC %s score for %s vs rest: %.3f (n %d)' % (g, roles, auc(pos, neg), len(pos)))
-        for c in ['NUM', 'TOT', 'HEAD', 'ENT', 'SILENT']:
+        for c in list(GROUPS) + ['SILENT']:
             ws = sorted([w for w in R['C'] if R['C'][w] == c and R['stable'][w]], key=lambda w: -R['count'][w])
             print('  %s stable: %s' % (c, ' '.join(ws[:40])))

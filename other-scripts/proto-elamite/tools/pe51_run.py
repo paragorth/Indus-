@@ -63,36 +63,34 @@ def run(name, m, R=5, topk=150, minf=20):
         tabs = [ti for ti in ho if sid in E[ti]['tok']]
         if not tabs:
             continue
-        djobs, meta = [], []
+        djobs, meta, lines_of = [], [], {}
         for ti in tabs:
             e = E[ti]
             pos = [i for i, x in enumerate(e['tok']) if x == sid]
             other = [i for i, x in enumerate(e['tok']) if x not in (0, 2, 3, 4, 5, 6, sid)]
             dels = [pos] + [rng.sample(other, min(len(pos), len(other))) for _ in range(R)]
             for d, dm in enumerate(dels):
+                lines_of[(ti, d)] = {e['li'][p] for p in dm}
                 for vi in range(len(L.VIEWS)):
                     djobs.append((ti, vi, dm)); meta.append((ti, vi, d))
         outs = L.eval_views(model, E, djobs)
-        acc = {}  # half -> task -> [sum_real, n, [sum_null_d]]
+        acc = {}  # half -> task+L|R -> [sum_real, n, [sum_null_d], [n_null_d]]
         for (ti, vi, d), r in zip(meta, outs):
             b = B[(ti, vi)]
             h = half[ti]
+            e = E[ti]
             for key, v in r.items():
                 k, c = key
-                if k in ('HEAD', 'ENT') and E[ti]['tok'][c] == 2 and False:
-                    pass
                 if key not in b:
                     continue
-                # skip the sign's own slots (targets whose true token is the sign)
-                if k in ('HEAD', 'ENT'):
-                    mode, pat = L.VIEWS[vi]
-                    if E[ti]['tok'][c] == sid:
-                        continue
-                a = acc.setdefault(h, {}).setdefault(k, [0.0, 0, [0.0] * R])
+                if k in ('HEAD', 'ENT') and e['tok'][c] == sid:
+                    continue
+                loc = 'L' if e['li'][c] in lines_of[(ti, d)] else 'R'
+                a = acc.setdefault(h, {}).setdefault(k + loc, [0.0, 0, [0.0] * R, [0] * R])
                 if d == 0:
                     a[0] += v - b[key]; a[1] += 1
                 else:
-                    a[2][d - 1] += v - b[key]
+                    a[2][d - 1] += v - b[key]; a[3][d - 1] += 1
         res[w] = acc
     json.dump(dict(corpus=name, m=m, arch=arch, ntab=len(ho), count={w: V.count[w] for w in signs},
                    base={k: v[0] / max(1, v[1]) for k, v in base_mean.items()},

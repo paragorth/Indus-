@@ -45,8 +45,10 @@ T = collections.OrderedDict()
 if n > 300:
     T['LA'] = la
     for i in range(5): T['LB_sub%d' % i] = random.Random(100 + i).sample(lb, n)
-    for i in range(5): T['LA_shufG%d' % i] = C5.shuffle_global(la, random.Random(200 + i))
-    for i in range(3): T['LA_shufP%d' % i] = C5.shuffle_pos(la, random.Random(300 + i))
+    NS = int(os.environ.get('LA44_NSHUF', '0'))
+    for i in range(max(5, NS)): T['LA_shufG%d' % i] = C5.shuffle_global(la, random.Random(200 + i))
+    for i in range(max(3, NS // 2)): T['LA_shufP%d' % i] = C5.shuffle_pos(la, random.Random(300 + i))
+    for i in range(NS // 4): T['LB_shufG%d' % i] = C5.shuffle_global(random.Random(100 + i % 5).sample(lb, n), random.Random(700 + i))
 else:
     T['CYP'] = cy
     for i in range(5): T['LA_sub%d' % i] = random.Random(400 + i).sample(la, n)
