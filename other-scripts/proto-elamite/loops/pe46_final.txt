@@ -1,0 +1,28 @@
+pe46 THE "NAMES" ARE SERIAL NUMBERS (5 Oct 2026)   scripts: tools/pe46_*.py   checkpoints: data/pe46_ckpt/ (git-ignored)
+
+Arrow in the dark: the multi-sign strings that open PE entries are administrative codes (office + unit + serial, like
+account numbers or postcodes), not personal names. Assumes the opposite of pe45. Prior art: pe4 tested factorial
+item descriptions by MDL and in-order slot exclusivity on the same strings, without external variables, tablet
+context, serial signatures or prediction; no published slot-code search on PE was found.
+
+Search: ~150,000 random slot schemas in all (positions cut by fixed / from-end / sign-set / run rules, random slot
+alphabets) plus 32,000 random unordered field partitions, always fitted on half the tablets and re-scored on the
+held-out half (two splits). External variables: tablet id, P-number batch, header sign, publication volume, class
+sign, number system, quantity, line order, previous entry. Nulls: signs shuffled within strings, strings shuffled
+across tablets, Markov resynthesis, signs shuffled across strings. Controls at PE size: planted 3-slot code on the
+real PE tablet frame (recovered: slot NMI 1.00 / 0.66-0.75 / 1.00, office z +45, serial z -6); HTS tariff numbers in
+opaque symbols (first group recovered, NMI 0.88-1.00); Ur III Drehem livestock attributes (above null); Ur III
+names and Linear B names (slightly above null, no office/serial pair).
+
+| PE-46.F1 | Slot-code score, held-out, real minus signs-shuffled null (cycle 1) | planted +1.45, HTS +0.39, Ur III attributes +0.14, names +0.05 to +0.08, PE +0.02 (Markov resynthesis of PE scores as high as PE) | B negative: PE strings are less slot-code-like than personal names |
+| PE-46.F2 | Deep search, 96,000 schemas, 9 variables, base and ~variant signs (cycle 2) | 0 replicated survivors (1 of 40 on one split, below chance); every slot tracks tablet / header / class / order equally well when signs inside the string are shuffled | B negative: the information sits in which signs a string contains (the tablet pool, pe7 / pe9), not in where they stand. No serial slot: every slot repeats on its tablet MORE than chance |
+| PE-46.F3 | Prediction of unseen codes (cycle 3a) | PE held-out hit rate 0.45% vs 1.3-3.8% for its own nulls; planted 16%; HTS 0.1% | NULL; calibration partial (only the planted code passes; a real code with a large serial space is unpredictable) |
+| PE-46.F4 | Unordered field codes (cycle 3b) | lift planted 1.48, controls 1.05-1.21, PE 0.87-0.95 (only corpus below 1) | B negative: common PE signs combine more freely than chance, the reverse of mutually exclusive field values (confirms pe4 PE-2.2 by another route) |
+| PE-46.F5 | Frozen predicted codes (data/pe46_frozen_predicted_codes.json, sha 1e7141c52aabf617) | 40 unseen pairs of common name-string signs (M387 M124, M124 M054, M388 M054, ...) | C, weak (frequency-driven). Would support: >= 4 of 40 in ~500 new entries; would kill: 0-1 |
+
+Verdict: KILLED. No surviving schema; no slot tracks office, unit, batch, header, number system or line order beyond
+position-free nulls; no serial slot; no exclusive field alphabets. The grade C x4 reading "entries are combinatorial
+designations" is weakened for these strings: whatever combines, it is not slot positions or exclusive alphabets.
+Personal names (or any free strings drawn from a per-tablet sign pool) remain the better description. Nothing is read;
+not cracked. FINDINGS.md / STRATEGIES.md / SUMMARY.md not edited (parallel loops pe39, pe43, pe45 are writing); rows
+above are ready to insert before "## Summary".

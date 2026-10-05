@@ -483,3 +483,14 @@ Each sign's variants (~a, @g) and compounds (|A+B|) treated as a family tree of 
 - **A (negative, calibrated):** the tree gives no time order. Birth order is just frequency; Uruk III is less derived than Uruk IV (variants are pruned over time); tree-based dates are tablet size (AUC 0.49 within size strata). No PE seriation is reported.
 - **B (PC, real time):** signs that already have many variants coin the next ones (AUC 0.715 -> 0.802 beyond frequency). Coining does not spread within meaning families (PC p 0.63-0.72; PE p 0.21-0.60), though the planted world shows it (p 0.01).
 - **C:** PE twig families from the tree, e.g. the capacity family {M387, M297, M036, M260, M111, M264, M265, M002 ...}, the header family {M288, M157, M153, M175, M106, M010 ...}, and name-string families {M388, M218, M263, M057, M066 ...} and {M371, M377, M320, M347, M386 ...}. Proto-cuneiform twigs match the lexical lists only weakly (p 0.02), so these are slot and number-system groups, not meanings. Speciated variants M056~f (travels with M383) and M005~a (header slot, unlike M005) are also C.
+
+## The tablets are not printouts of one sheet (pe47, 5 Oct 2026; `loops/pe47_final.txt`)
+Idea: each tablet is a slice or aggregate of one hidden master table (units x commodities x periods). Random table shapes, arithmetic links between tablets and a multiplicative table were fitted; controls a planted sliced table and Ur III Drehem / Umma.
+- A (method limit): exact-cell reconstruction and computed-sum links find the plant but fail on Ur III; axis labels are not identifiable.
+- B- (negative): no PE pair carries the same rare numbers twice (0 of 1,213 tablets, < 3/n); Ur III at the same size gives 2-4 duplicate or extract pairs.
+- B (negative): no PE header sign indexes a row with its own scale; Drehem's officials and transaction words do (R2 0.05-0.14). Tablets share one multiplicative scale everywhere (A, generic).
+- C: pairs joined by a number seen exactly twice share signs (p 0.02; Ur III control fails at this size): P008088-P008754 (M288 180), P008919-P009204, P009380-P009547. Would support: a collated or new tablet repeating one of these numbers with the same signs. Would kill: a genre-matched null removes the excess.
+
+
+## pe46 names as serial numbers (5 Oct 2026)
+**B (negative):** the long sign strings are not slot codes. About 150,000 random slot schemas and 32,000 unordered field partitions gave 0 replicated survivors. A planted code and real tariff codes were recovered, so the test could have found codes. No slot tracks tablet, header, number system or quantity better than the same string with its signs shuffled. **The information is in which signs a string uses, not in where they stand.** Every slot repeats on its own tablet more than chance, so there is no serial slot. Grade C: 40 predicted codes are frozen in data/pe46_frozen_predicted_codes.json (sha 1e7141c52aabf617). Would support: new tablets containing them.
