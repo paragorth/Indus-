@@ -70,7 +70,7 @@ if __name__ == '__main__':
     jobs = []
     for name, docs in DS:
         jobs.append((name, docs, 'REAL', 0))
-        nn = NNULL if not name.startswith('UR') else (5 if name.endswith('_0') or name == 'UR_n2000' else 3)
+        nn = NNULL if not name.startswith('UR') else (5 if name.endswith('_0') else 3)
         for r in range(nn):
             jobs.append((name, docs, 'QSHUF', r))
         for r in range(3):

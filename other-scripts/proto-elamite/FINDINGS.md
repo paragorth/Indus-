@@ -459,3 +459,10 @@ Proto-Elamite groups with proto-cuneiform (grade B). Grade C reading: entries ar
 - Economy (B, only recoverable parameters): PE's corpus shape needs a large sign budget (~255-325 vs ~170) and a high rate of new variant forms (~0.10 vs 0.04 per token), with cheap writing.
 - Simulator diagnosis (B): the societies that read PC least badly write redundantly (commodity in every entry, big inventory, cheap or paid writing). Reconstruction games teach scribes to save signs; archaic scribes did not.
 - Cycle-1 lesson (A): rank-normalised features gave shuffled PE as many "stable" votes as real PE; stability must be tested across target halves against shuffled halves.
+
+## pe42 learning from the scribes' mistakes (5 Oct 2026)
+Controls passed: planted errors were recovered, and real proto-cuneiform errors were mostly omissions and one-unit digit slips.
+- **B:** five tablets that failed as counts (P008229, P008241, P008784, P009107, P009296) close exactly as capacity tablets when N14 = 6 N01 (reassigned-totals null p 0.005). This settles two open checks: P009107's 55 is correct, and P008784 needs no correction. The error was in our system typing, not the scribes'.
+- **B (negative):** Proto-Elamite mismatches do not look like human slips. Digit slips are at chance, and there are no carry or eye-skip errors. Most mismatches come from our value model.
+- **C:** tablets with M388 are read in capacity (family-wise p 0.047; weak on held-out). Would support: new M388 tablets closing in capacity. Would kill: an M388 tablet that closes only as a count.
+- No class of sign-marked entries is left out of totals, which repeats pe30.

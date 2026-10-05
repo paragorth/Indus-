@@ -97,7 +97,7 @@ for lab, y, ncls, cn in (('morph', ym, 6, A.MORPH), ('syl', ys, 3, A.SYL)):
 for j, tn in enumerate(T):
     tz = np.sqrt((((TX[j] - med) / mad) ** 2).mean())
     out['targets'][tn]['cloud_pct'] = float((dz >= tz).mean())   # share of sims at least as far from the sim median
-rfr = RandomForestRegressor(n_estimators=200, min_samples_leaf=5, oob_score=True, n_jobs=nj, random_state=2)
+rfr = RandomForestRegressor(n_estimators=100, min_samples_leaf=10, max_samples=0.2, max_features=0.33, oob_score=True, n_jobs=nj, random_state=2)
 rfr.fit(X, Yc)
 oobr = rfr.oob_prediction_; tpr = rfr.predict(TX)
 r2 = [float(np.corrcoef(oobr[:, k], Yc[:, k])[0, 1] ** 2) for k in range(len(cont))]

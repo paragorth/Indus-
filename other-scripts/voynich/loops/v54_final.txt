@@ -1,0 +1,33 @@
+v54 TEXTUAL CRITICISM WITHOUT A LANGUAGE: final (5 Oct 2026)
+Cycles: loops/v54_cycle1.txt .. v54_cycle5.txt. Tools: tools/v54_pairs.c (C, all near-repeated word trigrams),
+tools/v54_lib.py, v54_c1.py, v54_c1b.py, v54_c2.py, v54_c2_report.py, v54_c3.py, v54_c4.py, v54_c4b.py, v54_c4c.py,
+v54_c5.py, v54_c5b.py. Checkpoints data/v54_ckpt/ (git-ignored).
+
+Idea: treat every near-repeated passage as manuscript witnesses of one text and collate them. Controls: Brumati's
+herbal with planted medieval spelling (three scribes, opaque symbols), the same herbal clean, real 14th-15th c.
+German (ReF), CATMuS medieval Latin and Italian, Latin and Hebrew; nulls: words shuffled within section, within
+section and line slot, within page; unit-Markov per section; self-citation (copy-and-modify) per section.
+
+Calibration (Grade A): the planted classes come back exactly (top 7 ops; context-anchored ranks 1-11); the reduced
+alphabet raises held-out section accuracy +5 points (z 14) and erases the scribe (z -16); the stemma test finds the
+planted scribes (z 15) and a hand-specific generator (z 10) but not a section-trained one; German gives genuine
+medieval classes (i~y, j, v, marks, nasal stroke). The unit-Markov generator fails every test.
+
+Voynich results (ZL3b and IT2a agree throughout):
+| V-54.F.1 | Near-repeat witnesses | 2.2-2.4x more near-repeated 3-word passages than the best null, but only 11% of the excess is within one edit (German 86%); differences between witnesses are chance-sized (2.50 edits/pair vs 2.6 null) | Grade A measurement; Grade B: mostly a similarity field, a thin witness layer |
+| V-54.F.2 | Variant classes from all near-repeats | Gallows and p/f optional, k~t, ch~sh, l~r, d and q optional; the same list comes out of every null | Grade B: lexical neighbourhood, not copying |
+| V-54.F.3 | Payload / padding | Most variable: gallows, p/f, m, s, word-initial slot (I 0.19 vs F 0.05); stable: o, a, i, n, y, e frame. Same in nulls | Grade B measurement, C as meaning |
+| V-54.F.4 | Reduced alphabet (e/ee, i/ii, q-, ch~sh/cth) on held-out pages | Beats 30 random reductions: Currier language z 3, bigram +0.05 bits/token z 7, section z 1-2.6; but the self-citation generator passes too (z 2.4-4.4), and writer information RISES (z +1.6/+4.5) where scribal spelling falls (z -16) | Grade B: not scribal spelling; the gain test cannot separate meaning from copy-and-modify |
+| V-54.F.5 | Stemma | Variant choice inside a section tracks hand or quire only weakly (z 1.2-2.5, transcriptions disagree) | Grade B negative |
+| V-54.F.6 | Transcribers as witnesses | Transcriber confusions correlate with witness classes no better than with chance classes (0.43 vs 0.45); r~s and i/ii are over-represented in both | Grade C: some "variation" is glyph ambiguity |
+| V-54.F.7 | Passages recur | Recurring word pairs are followed by the same word x1.4-1.6 beyond chance (z 3-7; Currier B, not A) | Grade B |
+| V-54.F.8 | Witness-word test, pooled | A recurring context brings back a one-edit variant (z 4.0/4.1). Variants per exact repeat 0.85-1.12, vs real medieval copying 0.07-0.15 and heavy planted spelling 0.53; only the copy-and-modify generator is as high (1.8 +- 1.0) | Grade B: repeats are regenerated with a mutation, not copied with spelling |
+| V-54.F.9 | Critic's classes (context-anchored) | ch~sh, e~ee~d (-edy/-eey/-ey), q- optional, cth~d; word-initial and medial | Grade B measurement; Grade C: the padding the writer varies between mentions |
+
+Verdict: the textual-critic machine works on real copying and fails cleanly on a Markov generator. Applied to the
+Voynich it finds a thin layer of genuine re-used passages (Currier B) whose re-uses vary 6-8x more than any real
+copied text. They vary in a small fixed set of positions (ch~sh, e-run/d ending, q-). This looks like
+copy-and-modify, not copying with spelling variants. Not cracked. Nothing predicts outside the corpus.
+Next stranger step: treat the varied slot (ch/sh, e-run, q-) between two mentions of the same passage as a
+1-3 bit message, and test whether the sequence of these mutations across the book carries structure (order,
+position, page) that a copy-and-modify generator with free mutation cannot produce.
