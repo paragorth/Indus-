@@ -245,25 +245,33 @@ def cv(state):
     return C_LABELS[state // 5], VOWELS[state % 5]
 
 
-def rewire(A, rng, nswap=None):
-    """degree-preserving rewiring of a weighted graph by stub shuffling of unit edges (weights rounded to 1/100)."""
+def rewire(A, rng, nswap_per_edge=10):
+    """degree-preserving double-edge swaps on the weighted edge list (each pair keeps its weight as a unit;
+    unweighted degrees exact, weighted degrees approximately kept); no self-loops or duplicate pairs."""
     n = A.shape[0]
     iu = np.triu_indices(n, 1)
-    w = np.round(A[iu] * 100).astype(int)
-    stubs = []
-    for (i, j, k) in zip(iu[0], iu[1], w):
-        if k:
-            stubs += [i, j] * 0 + [i] * k + [j] * k
-    stubs = np.array(stubs)
-    m = len(stubs) // 2
-    for _ in range(50):
-        rng.shuffle(stubs)
-        a, b = stubs[:m], stubs[m:2 * m]
-        if (a == b).mean() < 0.02:
-            break
+    nz = A[iu] > 0
+    E = [[int(i), int(j), float(w)] for i, j, w in zip(iu[0][nz], iu[1][nz], A[iu][nz])]
+    have = {(min(e[0], e[1]), max(e[0], e[1])) for e in E}
+    m = len(E)
+    for _ in range(nswap_per_edge * m):
+        x, y = rng.integers(m, size=2)
+        if x == y:
+            continue
+        a, b, w1 = E[x]; c, d, w2 = E[y]
+        if rng.random() < 0.5:
+            c, d = d, c
+        if a == d or c == b:
+            continue
+        p1, p2 = (min(a, d), max(a, d)), (min(c, b), max(c, b))
+        if p1 in have or p2 in have:
+            continue
+        have.discard((min(a, b), max(a, b))); have.discard((min(c, d), max(c, d)))
+        have.add(p1); have.add(p2)
+        E[x] = [a, d, w1]; E[y] = [c, b, w2]
     B = np.zeros_like(A)
-    ok = a != b
-    np.add.at(B, (a[ok], b[ok]), 0.01); np.add.at(B, (b[ok], a[ok]), 0.01)
+    for i, j, w in E:
+        B[i, j] += w; B[j, i] += w
     return B
 
 
@@ -297,3 +305,48 @@ def split_W(W, rng, frac=0.5):
     for k, w in W.items():
         (tr if rng.random() < frac else te)[k] = w
     return tr, te
+
+
+# ------------------------------------------------------------------ syllabary constraint (cycle 2)
+def loglik_batch(A, S, K, lam):
+    """total log-likelihood (nats, up to constants) of the mixture for each assignment row of S."""
+    d = A.sum(1); iu = np.triu_indices(A.shape[0], 1)
+    w = A[iu]; nz = w > 0; dd = np.outer(d, d)[iu]; D = dd.sum()
+    Kv = K[S[:, iu[0]], S[:, iu[1]]]
+    Z = (Kv * dd).sum(1)
+    return (np.log(lam + (1 - lam) * Kv[:, nz] * (D / Z)[:, None]) * w[nz]).sum(1)
+
+
+def anneal_inj(A, K, rng, sweeps=25, T0=3.0, T1=0.03, allowed=None, init=None):
+    """Gibbs annealing with the syllabary constraint: every sign holds a distinct (C, V) state.
+    Moving sign a into a state held by sign b swaps them. Exact objective for every candidate."""
+    n = A.shape[0]
+    states = np.arange(K.shape[0]) if allowed is None else np.asarray(allowed)
+    assert len(states) >= n
+    s = rng.choice(states, n, replace=False) if init is None else init.copy()
+    lam = 0.85
+    for sw in range(sweeps):
+        T = T0 * (T1 / T0) ** (sw / max(1, sweeps - 1))
+        for a in rng.permutation(n):
+            C = np.repeat(s[None, :], len(states), 0)
+            holder = {int(x): i for i, x in enumerate(s)}
+            for k, st in enumerate(states):
+                b = holder.get(int(st))
+                if b is not None and b != a:
+                    C[k, b] = s[a]
+                C[k, a] = st
+            obj = loglik_batch(A, C, K, lam)
+            p = np.exp((obj - obj.max()) / T); p /= p.sum()
+            s = C[rng.choice(len(states), p=p)].copy()
+        g, lam = gain(A, s, K, ret_lam=True)
+        lam = min(max(lam, 0.2), 0.97)
+    g, lam = gain(A, s, K, ret_lam=True)
+    return s, g, lam
+
+
+def planted_grid(n, rng, n_cons=None):
+    """realistic hidden syllabary: n distinct states from a grid of n_cons consonants (incl. 0) x 5 vowels."""
+    n_cons = n_cons or int(np.ceil(n / 5)) + 1
+    cons = rng.choice(18, min(18, n_cons), replace=False)
+    grid = np.array([c * 5 + v for c in cons for v in range(5)])
+    return rng.choice(grid, n, replace=False)
