@@ -1,0 +1,19 @@
+LA-50 cycle 1: THE FARMING YEAR IS THE ANSWER KEY. Does the written order of goods follow the Aegean farming year?
+Date 5 Oct 2026. Scripts: tools/la50_common.py, tools/la50_c1.py, tools/la50_c1b.py (LA rows rerun after a class fix, planted p 0.8).
+Logs: data/la50_ckpt/c1_main.log, c1b.log, c1b.json (git-ignored).
+Novelty check: FINDINGS / STRATEGIES: la20 found a fixed commodity order (no calendar); la25 used crop calendars to date archive FIRES
+from commodity MIX, not order. LITERATURE.md and a web search (Linear A commodity order + agricultural calendar) find no test of
+written order against a harvest calendar.
+Units: 'baskets' = runs of commodity signs inside a tablet not interrupted by a multi-sign word (LA 105, LB KN+PY 174); secondary unit =
+first-occurrence list of a whole tablet. NI written alone counted as the fig good (FIC). Pairs weighted 1/(n-1) per basket.
+Aegean calendar (harvest / intake midpoints, fixed before scoring): GRA Jun (barley May, wheat Jun), FIC Aug, VIN Sep, OLIV Nov, OLE
+Dec, LANA May, LIV Mar, CROC Nov, ME Jun, flax (LB SA) Jun. Sources: FAO crop calendar API (api-cropcalendar.apps.fao.org; TN, MA,
+JO: wheat / barley harvest Apr-Jun, fig Aug, olive from Sep-Oct); Hesiod, Works and Days 383-4, 571-81, 609-14; Varro RR 2.2, 2.11,
+3.16; Columella 9.15; Pliny NH 19.16-17; Cretan olive (Nov-Jan, explorecrete.com) and grape (late Aug-early Oct, crete.direct) harvests.
+Northern-Europe calendar (null): grain Aug, fruit Sep, vintage Oct, oilseed Aug, pressing Sep, shearing Jun, slaughter Nov, honey Aug.
+Fit = weighted share of pairs written in calendar order counted from the year start, maximised over 24 half-month starts.
+
+| LA-50.1a | LA order vs Aegean calendar. Nulls: 10^5 random calendars (each good a uniform month); all 120 permutations of the Aegean months; northern calendar; 2,000 within-basket shuffles. | Baskets (141 pairs; GRA, FIC, VIN, OLE, OLIV): Aegean fit 0.654 (start Jan); random median 0.658, P 0.55; permutation rank 71/120, P 0.58; northern 0.678 (better than the Aegean, P 0.47). Order exists: shuffle median 0.554, P 0.003. Best order of the data GRA > OLE > FIC > VIN > OLIV (fit 0.82). Tablet lists: 0.593, P 0.62. Hagia Triada only: baskets 0.680, P 0.51; tablets P 0.67. | The fixed order is real but it is not the farming year: oil is written second, straight after grain, and olives last. |
+| LA-50.1b | Linear B control (known identities), KN+PY, KN, PY; baskets and tablets; same nulls. LB adds LANA, LIV, ME. | KN+PY baskets: Aegean 0.884 vs random median 0.859, P 0.19; perm P 0.21; northern 0.83. KN P 0.20; PY P 0.25; tablets P 0.14-0.20. Without wool: P 0.40; without livestock: P 0.46. Shuffle P 0 (LB order is strongly fixed). LB best order GRA > OLIV > FIC > VIN > OLE ... | Control FAILS: Linear B also writes goods in a fixed order that is not the calendar (olives right after grain). The calendar test is not calibrated by a real archive. |
+| LA-50.1c | Planted: LA baskets re-ordered by the Aegean calendar (start May) with probability p, else shuffled; 20 reps (p 0.8: 10 reps). | p 0.3: P_random median 0.15, < 0.05 in 4/20; p 0.5: 0.039, 13/20; p 0.8: 0.038, 10/10 (shuffle P 0). The permutation P cannot go below 5/120 = 0.042 (rotations of one cyclic order tie under a free year start). | Power for a calendar followed by half the baskets or more. With 5 known goods the calendar hypothesis can at best reach P ~ 0.04 (1 of 24 cyclic orders). |
+| LA-50.1 | Cycle verdict | LA (P 0.55) and LB (P 0.19) order fits the Aegean farming year no better than random calendars; the northern calendar fits LA as well; planted calendars are found. Both scripts put the olive good second, after grain, where the calendar puts it last. | KILLED (calibrated on planted data; the LB control also fails, so a real archive whose order is a calendar is not available). |
