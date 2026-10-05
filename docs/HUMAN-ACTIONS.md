@@ -73,3 +73,6 @@ The Lothal warehouse sealings are the one Indus administrative archive found in 
 - [ ] **Higley 2007, Hildegard's unknown language** (Lingua ignota word list): Corpus Christi Taylor V.2.HILB HIG / UL storage. https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma998009963503606&vid=44CAM_INST:44CAM_PROD
 - [ ] **Kelley 2026, *Proto-Elamite* (Cambridge Element)**, e-book: https://idiscover.lib.cam.ac.uk/discovery/fulldisplay?docid=alma991013339770103606&vid=44CAM_INST:44CAM_PROD
 - [ ] **Fitzwilliam GR.236.1907 and GR.6.1938 (Minoan weights)**: ask Antiquities for the masses (records give dimensions only). https://data.fitzmuseum.cam.ac.uk/id/object/68306 , https://data.fitzmuseum.cam.ac.uk/id/object/69437
+
+## K. Hagia Triada room-level find records (Linear A, la51)
+For each Hagia Triada room or deposit with Linear A documents, we need the object classes found there: storage jars, loom weights, tools, bones, seals and ritual objects. The sources are B. Montecchi's and P. Militello's Hagia Triada room studies, which are not open access. Cambridge iDiscover search: https://idiscover.lib.cam.ac.uk/primo-explore/search?query=any,contains,Militello%20Haghia%20Triada&vid=44CAM_PROD

@@ -242,6 +242,22 @@ def antidotarium():
     # first line of an entry is in the head; add its words
     return [u for u in us if u['w'] >= 8]
 
+def hyginus_astr():
+    """Hyginus, De astronomia I-IV (Latin Library): chapters begin with a roman numeral."""
+    out = []
+    for i in range(1, 5):
+        t = open(os.path.join(SRC, 'hyginus', 'h%d.shtml' % i), encoding='latin-1').read()
+        ps = [re.sub(r'\s+', ' ', strip_tags(p)).strip() for p in re.split(r'<[Pp][ >]', t)]
+        cur = None
+        for p in ps:
+            if re.match(r'[IVXL]+\. ', p):
+                if cur: out.append(unit(cur[0][:30], cur))
+                cur = [p]
+            elif cur is not None and p and not p.startswith('Hyginus') and 'Latin Library' not in p:
+                cur.append(p)
+        if cur: out.append(unit(cur[0][:30], cur))
+    return [u for u in out if u['w'] >= 3]
+
 def v21_herbals():
     d = json.load(open(os.path.join(VD, 'data', 'derived', 'v21_herbals.json')))
     out = {}
@@ -286,6 +302,7 @@ def main():
         ('circa_instans_fr', 'fro', 'herbal', 'archive.org BIUSante_pharma_032591 (Dorveaux 1913)', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'BIUSante_pharma_032591.txt'))),
         ('antidotarium_nl', 'dum+la', 'recipe', 'archive.org eenemiddelnederl00nicouoft', antidotarium),
         ('leechdoms_v1', 'ang', 'herbal', 'archive.org LeechdomsWortcunningStarcraftV1', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'LeechdomsWortcunningStarcraftV1.txt'))),
+        ('hyginus_astr', 'la', 'astro', 'Latin Library hyginus1-4 (De astronomia)', hyginus_astr),
         ('gerard_pages', 'en', 'herbal', 'repo data/derived/v13_gerard.json (OCR pages)', gerard),
         ('balneis_synopsis', 'la', 'baths', 'archive.org synopsiseorumqua00lomb', lambda: ocr_caps_entries(os.path.join(SRC, 'ia', 'synopsiseorumqua00lomb.txt'))),
     ]
