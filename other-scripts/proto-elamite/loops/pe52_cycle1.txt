@@ -1,0 +1,20 @@
+pe52 cycle 1: EVERY SIGN HAS A WEIGHT, calibration of the instrument (5 Oct 2026)
+Scripts tools/pe52_lib.py, pe52_run.py, pe52_sum.py, pe52_ur3.py; checkpoints data/pe52_ckpt/ (git-ignored).
+Prior art: web search found no per-sign fixed-effect model of PE quantities; pe34 tested compound modifiers on
+behaviour (not whole-entry strings vs log quantity); Monroe 2023 related signs to numeral systems, not effect sizes.
+Engine: per tablet split (10 splits; A 50% of tablets fit, B 25% screen, C 25% reserved), 200 random log-linear
+models (random sign subset 30-100%, min frequency 2-8, ridge 0.1-100, hard-threshold sparsity, 5-60 random pair
+interactions, first/last-sign features, string length) = 2,000 models per corpus x mode. Survivors = top 10% on B
+that beat a string-identity baseline (shrunk mean of the same string in training); refit on A+B, scored on C.
+DESCRIPTOR rule (frozen here): sign present in >= 75% of splits' survivors, same sign of effect in >= 90% of
+splits, |median effect| >= 0.15 log units, and removing it worsens prediction of NEVER-SEEN strings on C in
+>= 75% of >= 3 splits (string identity cannot help there). IDENTIFIER: >= 10 tokens on >= 3 tablets, not a
+descriptor, |effect| < 0.1 or sign-consistency < 0.75.
+Modes: sys = log q minus system mean (sign effects include tablet-scale / genre); tab = log q minus the
+leave-one-out mean of the same tablet and system (pure within-tablet shift).
+| PE-52.1a | Planted descriptors on the real PE skeleton (14 signs, effects +-0.4..1.0, plus a random identity effect per distinct string, sd 0.35, real tablet means and noise), tab mode; null = quantities shuffled within tablet x system | 2 plants: recall 10/14 and 8/14, precision 10/21 and 8/16, right sign 18/18; null 3 false descriptors, 0 planted | PASS: within-tablet weights are recoverable at PE size, with about half the calls false (co-occurring signs, identity effects) |
+| PE-52.1b | Same plant, sys mode | recall 8/14 but precision 8/43: real PE tablet-scale markers (M288, M370 ...) come out as 'descriptors' | sys-mode calls mix descriptors with genre / tablet-scale markers |
+| PE-52.1c | Ur III Drehem livestock (pe4 lines, opaque tokens), sys mode; nulls quantities shuffled within system (qsys) and within tablet (qtab) | real 42 descriptors, qsys 2, qtab 18; pre-registered niga (fattened) = -0.43 log, called descriptor, right sign; also sila4 -0.31, udu +0.30, d (deity recipients) -0.36 | PASS for sys mode; 18 of 42 calls survive the qtab null, so sys-mode calls are partly tablet-type markers |
+| PE-52.1d | Ur III Drehem livestock, tab mode | 8 descriptors vs null 1; niga -0.16, not called | WEAK: within-tablet power is low for real herds at this size (niga's shift is mostly between tablets) |
+| PE-52.1e | Ur III personnel / ration lines with personal names (CDLI, 6,500 lines, name tokens labelled by frames, labels used only for scoring) | tab mode: 0 descriptors at all (null 1); sys mode: 35 of 200 frequent name tokens called descriptors (0.17) vs 36 of 113 other tokens (0.32) | names are identifiers within tablets (PASS) but the tab-mode test finds nothing else either; in sys mode name tokens are half as often 'descriptors' as titles and commodities (archive markers) |
+| PE-52.1 | Cycle verdict | Instrument passes the planted control in tab mode (recall ~65%, precision ~50%, signs 100%, null 1-3) and recovers the pre-registered Ur III descriptor niga with the right sign in sys mode. Sys mode mixes descriptors with tablet-type markers; the qtab null measures that share | CALIBRATED with limits: tab mode = conservative (misses real herd niga), sys mode = liberal |

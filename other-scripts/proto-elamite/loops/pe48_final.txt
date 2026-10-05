@@ -1,0 +1,24 @@
+pe48 SIGNS AS GOODS IN A TRADE NETWORK -- final (5 Oct 2026)
+Idea: every sign is a commodity on the Iranian-plateau trade network: TRAVELLING (same rate at every site) or HOMED at a
+site with a gravity / diffusion fall-off (distance, route graph, site mass). Thousands of random parameter sets, 5-fold
+site-stratified cross-validation scored on held-out outpost tablets, leave-one-site-out diffusion forecasts.
+Nulls: site labels shuffled; signs resampled by frequency; outpost labels permuted among plateau tablets.
+Controls: Ur III provinces (Umma, Girsu, Drehem, Ur, Nippur, Garsana, Irisagrig) and Linear B (KN, PY, TH, MY, TI, KH),
+drawn at PE shape (hub 1,502 tablets, outposts 27/22/12/11/1/1); planted local and route signs.
+Prior work checked: pe17 (plateau fingerprint by sign choice), pe22 (no site-endemic sign), web (Damerow & Englund's Yahya
+sign list comparison, no trade/gravity model). Not duplicated: pe39, pe45, pe47.
+Tools: tools/pe48_lib.py, pe48_cycle1.py, pe48_cycle2.py, pe48_cycle3.py, pe48_cycle3b.py. Checkpoints data/pe48_ckpt/.
+Frozen: data/pe48_frozen_forecasts.json (sha256 prefix 1946e391ffe27be8).
+
+| PE-48.F1 | Calibration: does geography predict held-out outpost tablets? | Ur III 4.9-8.7 nats/tablet vs nulls 0.3-4.9; Linear B 1.8-2.4 vs 0.02-0.06 (12/12 runs above null) | A (method works) |
+| PE-48.F2 | Calibration: travel score separates commodities/titles from personal names beyond frequency? | Ur III AUC 0.65-0.77 (mean 0.70); Linear B 0.49-0.59 | B weak, Ur III only: travel alone cannot label PE name signs (method limit) |
+| PE-48.F3 | Calibration: what gets homed at an outpost? | Ur III commodity/title words 39% (base 8%), names 7% (base 30%); Linear B logograms/terms 56% (base 28%) | A, and the inversion of the premise: at PE size the outpost-specific class is LOCALLY HANDLED GOODS AND OFFICE TERMS, not local names |
+| PE-48.F4 | PE: geography predicts held-out plateau tablets | 0.63-0.82 nats/tablet vs site shuffle 0.00-0.21, frequency resample 0.00-0.15; planted Yahya sign recovered 40/40 | A: the plateau writes a different sign mix from Susa (confirms pe17 by an independent model) |
+| PE-48.F5 | PE sign classes by travel behaviour | Homed only at Yahya: M044, M056, M219, M136, M072, (M285). No sign is homed at Susa, Malyan, Sofalin or Sialk. Travelling and common on the plateau: M288, M387, M388, M009, M096, M371. Slot test (numbered single-sign vs name-string signs): AUC 0.60, p 0.14 | B: plateau-vs-Susa sign mix; C: the Yahya set (among plateau tablets M056 7/7, M044 6/6 Yahya, p 0.002-0.004, not surviving 104-test correction) |
+| PE-48.F6 | Reading through the controls | Yahya set: M044, M219 with capacity (C) numerals 7/10 and 6/8 lines; M056 SDB/C; M136 always alone on a line without numerals at Yahya; |M136+M365| at Malyan 3/4 | C: M044/M219/M056 are goods or units handled at Yahya and measured by capacity; the M136 family is a southern-route header/office label (Yahya + Malyan). Would support: new Yahya IVC tablets with M044/M219 + C numerals and M136 first lines; would kill: a large new Yahya batch without them |
+| PE-48.F7 | Date confound / 'Yahya desk at Susa' | no shorter tablets, no single-sign-entry excess, no volume batch (p 0.15-0.73). At Susa the set AVOIDS co-occurrence (13 vs 30.9 tablets, p 0.015); at Yahya the signs share lines | B: not an early-date artefact. C: Yahya bundles in one account what Susa books separately |
+| PE-48.F8 | Diffusion: forecast an unseen outpost from its neighbours | PE beats site-shuffled nulls (Yahya 0/8, Sialk 0/8, Malyan 1/8, Sofalin 2/8 nulls above) but not the all-travel model (-0.49 to +0.15); Linear B works (+0.02 to +0.72), Ur III fails | B-: no route-graded diffusion of signs is demonstrated; straight-line and route distance tie (45% vs 49%) |
+| PE-48.F9 | Frozen forecasts (sha 1946e391ffe27be8) | new Yahya tablets: M219, M056, M136 each in ~1 of 20 tablets (lift 4.2-4.4 over the Susa rate), M072 0.044; Malyan a weaker echo (lift 1.5-1.6); northern sites M376, M124, M346, M367 (lift 1.3-1.8); Shahr-i Sokhta M041 | C. Would kill: >= 40 new Yahya tablets with none of M219/M056/M136/M044 |
+
+Verdict: the trade-network frame gives one robust fact (the plateau sign mix is not Susa's, A) and one useful inversion
+from the controls (outpost-specific signs are what an office handled, not local names). Nothing is read; nothing is cracked.

@@ -1,0 +1,17 @@
+v59 cycle 2 - spelling-blind unsupervised word translation between Currier A and B
+(tools/v59_c2.py, tools/v59_c2b.py; checkpoints data/v59_ckpt/c2_*.json, c2b_*.json)
+
+Method (new for the Voynich): each of the 150 most frequent types on a side is described only by how it is
+used (frequency, line-initial/final rate, relative line position, page burstiness, neighbour frequency,
+in-line repetition, paragraph-first-line rate, length percentile, the shape of its PPMI co-occurrence row).
+A self-learning matcher (Hungarian assignment, then anchor-pair context vectors, 8 iterations; 20-40 random
+seeds with random feature weights, anchor fractions and noise) pairs side-1 types with side-2 types.
+Spelling never enters, so an opaque verbose encoding of one side (each letter -> 1-3 private symbols) is
+invisible to it. Cycle 2b: 8 replicates on disjoint random page halves; a pair 'recurs' if it is the
+consensus partner in >= 4 of 8 replicates.
+
+| V-59.2.1 | Controls with an answer key: Czech modern vs pre-reform spelling of the other half of Dalimil, side 2 opaque-encoded; Isidore vs other chapters, scribal and/or opaque | Czech P@1 52% (full) / 44+-5% (half-page replicates, 50 recurrent pairs), confident pairs 100% right; Isidore 24-26%; frequency-rank pairing 7-9%; chance 0.7% | PASS: the aligner recovers the true word correspondence through an opaque verbose encoding (grade A for the method) |
+| V-59.2.2 | Ceiling and floor at Voynich size: A pages vs other A pages (plain and opaque); real dialects writing different texts (Bavarian vs Alemannic); unrelated languages (German vs Czech) | A vs A: identity P@1 14-16%, 14 recurrent pairs (11 identical); Bav vs Alem: 5.9%, 7 recurrent pairs; Ger vs Cz: 5 recurrent (meaningless) pairs | Voynich word usage is weakly word-specific even with no change (ceiling 14% vs Czech 44%); different subject matter alone drives a real dialect pair to near floor |
+| V-59.2.3 | Voynich A vs B (ZL, IT2a), B vs A, herbal-only; nulls: B glyph-Markov (order 2, 3), B words shuffled within section and across all sections, B word-bigram resynthesis | Shared words self-aligned: A->B 4.2+-2.5% (ZL), 3.5+-1.7% (IT2a), herbal-only 10% (full); nulls 1.1-2.7%; A vs A 14%. Recurrent pairs: ZL 8, IT2a 4; nulls 2-5; unrelated languages 5 | A and B do not align as one language: shared words keep their usage profile far less than across A pages, and A<->B pairing is at the level of nulls and unrelated languages. NEGATIVE (grade B) |
+| V-59.2.4 | The implied A->B word pairs | Only daiin->chedy recurs in both transcriptions (7/8) - and it recurs 5-8/8 in every null (Markov, shuffled, bigram B): it is the top-frequency word on each side, not a translation. ZL-only pairs (shor->dar, okeol->qol, ychor->dshedy, dam->oly, tol->sain, chor->daiin) do not reproduce in IT2a | No translation pair survives the nulls (grade B). The ending-shift look of ychor->dshedy, chor->shedy, tchy->shdy in single runs is the v30 form shift, not a meaning link |
+| V-59.2.5 | Spelling coherence of spelling-blind pairs (edit distance vs shuffled pairing) | A->B ed_z -2.7/-2.8; glyph-Markov B -1.2/-1.6; shuffled/bigram B -0.6/-0.7; Bav->Alem -2.6; A vs A -9 | Pairs found from usage alone share slightly more glyph material than glyph-level nulls, as much as a dialect pair (grade C: would support - a held-out transducer derived from these pairs predicting B forms; would kill - the excess vanishing under a line-position-conditioned Markov null) |

@@ -1,0 +1,23 @@
+v56 THE BOOK IS HYPERTEXT, cycle 1 (5 Oct 2026): blind arithmetic pointer rules
+Tools: tools/v56_lib.py, tools/v56_kernel.c (C scorer), tools/v56_c1.py, tools/v56_report.py, tools/v56_inspect.py
+Checkpoints: data/v56_ckpt/c1_*.json, c1_*.log (git-ignored)
+Prior-art check: LITERATURE.md, FINDINGS.md, STRATEGIES.md have no pointer or cross-reference test. A web search turned up only
+rare-token "hub folio" networks (e.g. f86v linked to many sections), and no attempt to decode words as page addresses.
+
+Machinery. R[i,t] = how much the rare payload skeletons (frame o a i n y l r + gallows; padding q, e, d, ch/sh dropped) in the
+5 lines around token i (the token itself removed) are shared with page t. It is a residual against pages of the same section and
+Currier language at the same distance band, the own page and +-2 pages are zeroed, and each column is centred so that hub pages
+earn nothing. Rule = selector x feature (glyph counts, alphabetic-numeral values 1-9/10-90/100-900, or positional base 2-12 over the
+skeleton or the full word) x address (page / folio / quire, absolute mod or clip with a learned offset, or relative forward/back).
+Score = sum R[i, target_i] minus the expectation when the same targets are shuffled among the same tokens (this kills class-hub
+rules), / sqrt(n). Search: grid of 3,330-3,700 configs in a fixed random order, 300 random value vectors each, then 4 coordinate-
+ascent starts (every candidate value of one glyph scored at once in C), offset/mod ascent, and subset-selector refinement. Held-out =
+WORD TYPES never seen in training (a compositional address code generalises to unseen types; a topical type->page table does not),
+scored with a z that is cluster-robust by type.
+
+| V-56.1.1 | First design: held-out by page halves. Control: Culpeper's Complete Herbal (360 chapters, real cross-references = mentions of another chapter's herb), each mention replaced by an additive Roman numeral giving the chapter number, then opaque glyphs + padding | Arbitrary non-Roman rules reach held-out z 15-17 on Culpeper. Mechanism: free glyph values let the ascent build a word-type -> page table (topical words point to pages about the same thing) | Design flaw found by the control, not a result. Replaced by held-out word types + pairing correction (V-56.1.2). Logged so it is not rerun |
+| V-56.1.2 | Calibration of the true rules under the final design | Culpeper Roman rule: the real cross-references are there (true-target R z 8.1 over 782 references), but the rule's held-out robust z is 2.6 (plain 5.8), because "i" (= I) and padded numerals dilute it. Planted Voynich pointers (2 per page, 3-digit base-7 positional over the frame glyphs, padded with q/ch/sh/e/d): true rule held-out robust z 6.2 on the skel=3 selector, 3.4 on all tokens. Ascent from 12 random starts with the right config: 0/12 recover the digits (train-set overfits reach z 6-8, above the true rule's 6.8). With held-out by page instead, 1 in 4 starts recover all 7 digits (held-out z 11.4) | Grade A (method): at a realistic density (about 2 references per page), a blind arithmetic pointer search is underpowered. The real-herbal control sits at the noise level, and the planted code is only found when the same word types are in training |
+| V-56.1.3 | Full grid. Culpeper control (1,245 of 3,330 configs, 1.3e7 rule evaluations) | Held-out robust z mean 0.12, sd 1.03, max 2.94. Roman values never recovered (best 2 of 5) | CONTROL FAILS: the search does not find the real Roman-numeral cross-references |
+| V-56.1.4 | Full grid. Planted Voynich control (2,671 of 3,700 configs, 2.5e7 evaluations) | Mean 0.29, sd 1.10, max 3.98; 209 base-7 rules tried, best match 3 of 7 digits | CONTROL FAILS at 2 pointers/page with no marker (the density ladder is in cycle 2) |
+| V-56.1.5 | Voynich ZL3b (2,479 configs, 2.4e7 evaluations) vs relabelled-page null (same text, binding order shuffled; 1,637 configs, 1.6e7) | ZL: mean 0.24, sd 1.11, max 3.73, 10 rules > 3, top-20-by-train held-out mean 0.57. Null: mean 0.28, sd 1.07, max 3.72, 6 > 3, top-20 mean 0.32. The best ZL rules are relative-forward positional rules on 3-4 glyph skeletons (z 3.7), the same kind of rule as the null's best | Grade B negative (weak, because the controls fail): no arithmetic pointer rule in the Voynich beats the relabelled null. The binding order carries no address signal that this search can see |
+| V-56.1.6 | Cycle verdict | No survivor. Both controls fail at realistic density | Not cracked. The negative is uninformative about sparse, unmarked pointers. Next: marked pointers ("vide" + numeral) and a density ladder (cycle 2) |
