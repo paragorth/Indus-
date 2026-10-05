@@ -514,3 +514,10 @@ Idea: each tablet is a slice or aggregate of one hidden master table (units x co
 - Grade B-: with content removed from the habits, PE has no habit groups beyond a shuffled null; planted clerks of this strength are found (NMI 0.10-0.13). Real PE matches the no-specialty plant on every truth-free statistic. No clerk or office is identified.
 - Grade C: N30C, N30D, M009, M001, M346 are used at the same rate by every habit group (system vocabulary; matches pe45's evenly spread M009, M001). Would kill: their rates differ by tablet type on reserved tablets.
 
+
+## pe50 capture–recapture of the archive (5 Oct 2026)
+- **A (method limit):** at Proto-Elamite size, ecological estimators give only floors. On Ur III thinned to 607 tablets, the true personnel count was 1.9–3.3× the estimate. Neither the number of tablets written nor missing tablet types can be estimated this way.
+- **B:** there are at least about 9,000–15,000 distinct multi-sign strings (5,300 even after merging one-sign differences). That is 3–8× Susa's residents at any one time (630–1,960; Carter 1998 site area × 100–200 per ha). So either the strings are not all persons, or the archive spans several generations.
+- **B-:** clay summaries copying small tablets line for line were rare (about 1 in 550 above chance, against 4–21 in Ur III).
+- **B:** single-tablet work groups (≤620) and herds (≤250) fit a town of that size. C: the town's size argues against N34 = 3,600.
+- **C:** about 3,000–4,500 named people over the archive's span; about 15,000 Susa tablets written if 1 in 10 survived.
