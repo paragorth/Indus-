@@ -434,3 +434,68 @@ def run_model(cfg):
         res['heads'] = heads
         res['top_mean'] = float(np.mean([sens[p] for p in top])) if top else 0.0
     return res
+
+
+# ------------------------------------------------------------------ cycle 2: function vectors by transplant
+@torch.no_grad()
+def function_vectors(m, ch, voc, nhost=120, seedv=0):
+    """Transplant every word type w (count >= 3) into fixed host slots and read what the model expects
+    of the adjacent number. Hosts: NEXT = word followed by a number; PREV = word preceded by a number.
+    fv(w) = [log mean bucket probs of the masked neighbour number (13), sum sensitivity of it] x 2 dirs."""
+    r = random.Random(seedv)
+    nxt, prv = [], []
+    for ci, (di, ids, raw) in enumerate(ch):
+        for j in range(len(ids)):
+            if raw[j][0] == 'T' and not raw[j][1].startswith('L:'):
+                if j + 1 < len(ids) and raw[j + 1][0] == 'N':
+                    nxt.append((ci, j, j + 1))
+                if j > 0 and raw[j - 1][0] == 'N':
+                    prv.append((ci, j, j - 1))
+    r.shuffle(nxt); r.shuffle(prv)
+    hosts = {'next': nxt[:nhost], 'prev': prv[:nhost]}
+    words = sorted(w for w, c in voc.count.items() if c >= 3 and w in voc.stoi)
+    nb = len(BUCKETS)
+    out = {}
+    for w in words:
+        wid = voc.stoi[w]
+        vec = []
+        for dname in ('next', 'prev'):
+            H = hosts[dname]
+            if not H:
+                vec += [0.0] * (nb + 1); continue
+            xs, xm, cols = [], [], []
+            for ci, j, t in H:
+                ids = list(ch[ci][1]); ids[j] = wid; ids[t] = 1
+                mod = list(ids)
+                for k in range(t):
+                    if voc.kind(ids[k]) == 2:
+                        o = ids[k] - voc.num0
+                        mod[k] = voc.num0 + 2 * min(o // 2 + 2, nb - 1) + o % 2
+                xs.append(ids); xm.append(mod); cols.append(t)
+            idx = torch.arange(len(xs)); cols = torch.tensor(cols)
+            la = m(pad(xs))[idx, cols]
+            lb = m(pad(xm))[idx, cols]
+            p = la[:, voc.num0:voc.num0 + voc.nnum].softmax(-1).view(len(xs), nb, 2).sum(-1).mean(0)
+            sens = (numexp(lb, voc) - numexp(la, voc)).mean()
+            vec += [float(x) for x in torch.log(p + 1e-6)] + [float(sens)]
+        out[w] = vec
+    return out
+
+
+def run_model2(cfg):
+    torch.set_num_threads(1)
+    docs = corpus(cfg['corpus'])
+    voc = Vocab(docs)
+    r = random.Random(cfg['seed'] * 7 + 1)
+    idx = list(range(len(docs))); r.shuffle(idx)
+    ntr = int(0.8 * len(idx))
+    tr_docs = set(idx[:ntr])
+    ch = chunks(docs, voc)
+    ch_tr = [c for c in ch if c[0] in tr_docs]
+    ch_te = [c for c in ch if c[0] not in tr_docs]
+    m = train_model(cfg, ch_tr, len(voc.itos), cfg['epochs'])
+    res = {'cfg': cfg}
+    res['loss'], res['n'] = heldout_loss(m, ch_te, voc)
+    res['fv'] = function_vectors(m, ch, voc)
+    res['train_docs'] = sorted(tr_docs)
+    return res, m

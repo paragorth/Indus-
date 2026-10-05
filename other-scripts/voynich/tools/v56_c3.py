@@ -64,9 +64,10 @@ def job(arg):
         order = list(range(len(C['pages']))); random.Random(500 + k).shuffle(order)
     E = L.build_R(C, order=order)
     Co = dict(C, pages=E['pages'])
-    rows, E, TT, ne = L.search(Co, n_cfg=NCFG, seed=k, time_budget=BUDGET, E=E)
+    rows, E, TT, ne, cov = L.search_grid(Co, seed=0, time_budget=BUDGET, E=E, max_cfg=NCFG, mode_filter=('abs_clip',))
     S = L.summarise(rows)
-    out = dict(name=name, kind=kind, k=k, n_eval=ne, summary=S)
+    out = dict(name=name, kind=kind, k=k, n_eval=ne, summary=S, coverage=cov,
+               top=sorted(rows, key=lambda r: -r['z_tr'])[:10])
     json.dump(out, open(os.path.join(L.CK, '%s_%s_%s_%d.json' % (TAG, name, kind, k)), 'w'))
     return '%s %s %d top_te %.2f max %.2f' % (name, kind, k, S['top_te_mean'], S['top_te_max'])
 

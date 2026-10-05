@@ -280,8 +280,9 @@ def build_R(C, use_skel=True, ctx_lines=2, df_max=0.17, bands=(1, 3, 6, 11, 21, 
     for a in range(N):
         for b in range(N):
             d = abs(a - b); bandid[a, b] = sum(d >= x for x in bands)
-    secid = {s: k for k, s in enumerate(sorted(set(secs)))}
-    sarr = np.array([secid[s] for s in secs])
+    gkeys = [(p['sec'], p.get('lang', '-')) for p in pages]     # residual groups: section x Currier language
+    secid = {s: k for k, s in enumerate(sorted(set(gkeys)))}
+    sarr = np.array([secid[s] for s in gkeys])
     for pi, p in enumerate(pages):
         idxs = [tok_index[(pi, li, k)] for li, l in enumerate(p['lines']) for k in range(len(l))]
         if not idxs: continue
@@ -449,15 +450,57 @@ def _perm_expect(RS, sel_idx, t, v, Nsp):
 def _nsp(E, space): return {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
 
 
-def score_many(coef, sel_idx, D, mode, E):
-    """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> z_pair (K,)."""
-    c = coef[sel_idx].astype(np.float64)           # (n, G)
-    addr = np.rint(c @ D.astype(np.float64)).astype(np.int64)   # (n, K)
+import ctypes
+_K = None
+KIND = {'abs_mod': 0, 'abs_clip': 1, 'rel_fwd': 2, 'rel_back': 3}
+
+
+def _kern():
+    global _K
+    if _K is None:
+        so = os.path.join(CK, 'bin', 'v56_kernel.so')
+        if not os.path.exists(so):
+            os.makedirs(os.path.dirname(so), exist_ok=True)
+            os.system('cc -O3 -shared -fPIC -o %s %s -lm' % (so, os.path.join(HERE, 'v56_kernel.c')))
+        _K = ctypes.CDLL(so)
+        P = ctypes.c_void_p
+        _K.cand_scores.argtypes = [ctypes.c_int, P, P, ctypes.c_int, P, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                   P, P, ctypes.c_int, P, P, P]
+    return _K
+
+
+def _prep(E, space, sel_idx):
+    RS = Rspace(E, space)
+    if not RS.flags['C_CONTIGUOUS'] or RS.dtype != np.float32:
+        RS = np.ascontiguousarray(RS, np.float32)
+        E[{'page': 'R', 'folio': 'Rf', 'quire': 'Rq'}[space]] = RS
     tp = E['tok_page'][sel_idx]
-    t, v = targets(addr, tp, mode, E)
-    RS = Rspace(E, mode[0])
-    vals = (RS[sel_idx[:, None], t] * v).sum(0)
-    return (vals - _perm_expect(RS, sel_idx, t, v, _nsp(E, mode[0]))) / math.sqrt(max(len(sel_idx), 1))
+    own = {'page': tp, 'folio': E['page_folio'][tp], 'quire': E['page_quire'][tp]}[space].astype(np.int32)
+    rbar = RS[sel_idx].sum(0).astype(np.float64)
+    return RS, np.ascontiguousarray(own), np.ascontiguousarray(sel_idx.astype(np.int64)), rbar
+
+
+def _cand(b0, cg, vals, mode, E, prep):
+    RS, own, rows, rbar = prep
+    b0 = np.ascontiguousarray(b0, np.int64); cg = np.ascontiguousarray(cg, np.int64)
+    vals = np.ascontiguousarray(vals, np.int64)
+    out = np.zeros(len(vals))
+    _kern().cand_scores(len(b0), b0.ctypes.data, cg.ctypes.data, len(vals), vals.ctypes.data, KIND[mode[1]], int(mode[2]),
+                        RS.shape[1], own.ctypes.data, RS.ctypes.data, RS.shape[1], rows.ctypes.data, rbar.ctypes.data,
+                        out.ctypes.data)
+    return out
+
+
+def _nsp(E, space): return {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
+
+
+def score_many(coef, sel_idx, D, mode, E):
+    """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> pairing-corrected z (K,)."""
+    prep = _prep(E, mode[0], sel_idx)
+    c = coef[sel_idx].astype(np.float64)
+    addr = np.rint(c @ D.astype(np.float64)).astype(np.int64)
+    zero = np.zeros(len(sel_idx), np.int64); v0 = np.zeros(1, np.int64)
+    return np.array([_cand(addr[:, k], zero, v0, mode, E, prep)[0] for k in range(D.shape[1])])
 
 
 def score_one(coef, sel_idx, d, mode, E):
@@ -465,13 +508,10 @@ def score_one(coef, sel_idx, d, mode, E):
 
 
 def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None, grid=None):
-    """coordinate ascent on z_pair: for each glyph try every candidate value at once; then the offset."""
-    c = coef[sel_idx]; tp = E['tok_page'][sel_idx]; RS = Rspace(E, mode[0]); Nsp = _nsp(E, mode[0])
-    n = len(sel_idx); sq = math.sqrt(max(n, 1))
-    rbar = RS[sel_idx].sum(0)
-    d = d.copy()
-    base = c @ d
-    best = None
+    """coordinate ascent on the pairing-corrected z: for each glyph try every candidate value at once (C kernel)."""
+    prep = _prep(E, mode[0], sel_idx)
+    c = coef[sel_idx]
+    d = d.copy(); base = c @ d; best = None
     vals_range = np.arange(vmax, dtype=np.int64) if grid is None else np.asarray(grid, np.int64)
     used = np.where(c.sum(0) > 0)[0]
     for sw in range(sweeps):
@@ -480,16 +520,7 @@ def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None
         changed = False
         for g in order:
             b0 = base - c[:, g] * d[g]
-            addr = b0[:, None] + c[:, g][:, None] * vals_range[None, :]      # (n, V)
-            t, v = targets(addr, tp, mode, E)
-            obs = (RS[sel_idx[:, None], t] * v).sum(0)
-            # permutation expectation per candidate: histogram of targets
-            V = t.shape[1]
-            H = np.zeros((Nsp, V))
-            tt = np.where(v, t, Nsp)
-            for k in range(V):
-                H[:, k] = np.bincount(tt[:, k], minlength=Nsp + 1)[:Nsp]
-            z = (obs - (rbar @ H) / n) / sq
+            z = _cand(b0, c[:, g], vals_range, mode, E, prep)
             k = int(vals_range[int(np.argmax(z))])
             if k != d[g]: changed = True
             d[g] = k; base = b0 + c[:, g] * k; best = float(z.max())
@@ -618,3 +649,95 @@ def summarise(rows, top=20):
     return dict(n=len(rows), top_tr_mean=float(np.mean([r['z_tr'] for r in rs])) if rs else 0,
                 top_te_mean=float(zte.mean()), top_te_max=float(zte.max()), all_te_mean=float(allte.mean()),
                 all_te_sd=float(allte.std()), n_te_gt3=int((allte > 3).sum()), best=rs[:3])
+
+
+# ------------------------------------------------------------------ systematic grid search (cycle 1 main)
+def fixed_selectors(TT):
+    G = TT['glyphs']; T = len(TT['words'])
+    gal = [TT['gi'][g] for g in G if g in GALL]
+    out = [('all', np.ones(T, bool))]
+    for k in range(1, 7): out.append(('skel=%d' % k, TT['ln_skel'] == k))
+    for a in (2, 3, 4): out.append(('skel%d-%d' % (a, a + 1), (TT['ln_skel'] >= a) & (TT['ln_skel'] <= a + 1)))
+    if gal:
+        out.append(('gallows', TT['cnt_full'][:, gal].sum(1) > 0)); out.append(('no-gallows', TT['cnt_full'][:, gal].sum(1) == 0))
+    for k in ('first', 'last', 'pfirst', 'label'): out.append((k, TT[k].copy()))
+    for j in range(4): out.append(('subset%d' % j, None))
+    return out
+
+
+def grid_configs():
+    feats = [('count', sk, nm) for sk in (True, False) for nm in ('numeral', 'free')]
+    feats += [('pos', sk, B, fr) for sk in (True, False) for B in range(2, 13) for fr in (True, False)]
+    modes = [('page', 'abs_clip', 0), ('page', 'rel_fwd', 0), ('page', 'rel_back', 0), ('folio', 'abs_clip', 0),
+             ('quire', 'abs_clip', 0)]
+    return feats, modes
+
+
+def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None):
+    import time
+    t0 = time.time()
+    if E is None: E = build_R(C)
+    TT = token_table(C, E)
+    tok_tr = split_pages(E, seed)[E['tok_page']]
+    sels = fixed_selectors(TT)
+    feats, modes = grid_configs()
+    cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
+            if mode_filter is None or modes[m][1] in mode_filter]
+    rng = random.Random(1234); rng.shuffle(cfgs)          # same visiting order for every corpus
+    if max_cfg: cfgs = cfgs[:max_cfg]
+    nrng = np.random.default_rng(seed + 12)
+    poscache = {}; rows = []; n_eval = 0; done = 0
+    G_all = TT['glyphs']
+    for ci, (fi, si, mi) in enumerate(cfgs):
+        if time_budget and time.time() - t0 > time_budget: break
+        feat = feats[fi]; sname, sel = sels[si]; mode0 = modes[mi]
+        if feat[0] == 'count':
+            coef = TT['cnt_skel'] if feat[1] else TT['cnt_full']
+            grid = NUMERAL_GRID if feat[2] == 'numeral' else None
+            vmax = _nsp(E, mode0[0]) if grid is None else None
+        else:
+            key = ('pos', feat[1], feat[2], feat[3])
+            if key not in poscache: poscache[key] = pos_weights(TT, feat[1], feat[2], feat[3])
+            coef = poscache[key]; grid = None; vmax = feat[2]
+        S = None
+        if sel is None:
+            S = set(rng.sample(G_all, rng.randint(3, min(12, len(G_all))))); sel = subset_mask(TT, S)
+        itr = np.where(sel & tok_tr)[0]; ite = np.where(sel & ~tok_tr)[0]
+        if len(itr) < 30 or len(ite) < 30: continue
+        done += 1
+        G = coef.shape[1]
+        if grid is not None:
+            D = np.array(grid)[nrng.integers(0, len(grid), size=(G, n_rand))]; D[nrng.random((G, n_rand)) < 0.5] = 0
+        else:
+            D = nrng.integers(0, vmax, size=(G, n_rand))
+        z = score_many(coef, itr, D, mode0, E); n_eval += n_rand
+        st = list(np.argsort(-z)[:2]) + list(nrng.integers(0, n_rand, size=max(0, starts - 2)))
+        best = None
+        for k in st:
+            mode = mode0; itr_k = itr; S_k = S
+            d, ztr = ascent(coef, itr_k, D[:, k].astype(np.int64), mode, E, vmax, sweeps=3, rng=rng, grid=grid)
+            mode, ztr = ascent_offset(coef, itr_k, d, mode, E)
+            d, ztr = ascent(coef, itr_k, d, mode, E, vmax, sweeps=2, rng=rng, grid=grid)
+            nv = len(grid) if grid is not None else vmax
+            n_eval += 5 * G * nv + 10
+            if S_k is not None:
+                for g in rng.sample(G_all, len(G_all)):
+                    S2 = set(S_k) ^ {g}
+                    if len(S2) < 2: continue
+                    i2 = np.where(subset_mask(TT, S2) & tok_tr)[0]
+                    if len(i2) < 30: continue
+                    z2 = score_one(coef, i2, d, mode, E); n_eval += 1
+                    if z2 > ztr: S_k, ztr, itr_k = S2, z2, i2
+                d, ztr = ascent(coef, itr_k, d, mode, E, vmax, sweeps=2, rng=rng, grid=grid)
+            if best is None or ztr > best[0]: best = (ztr, d, mode, itr_k, S_k)
+        ztr, d, mode, itr_k, S_k = best
+        ite_k = ite if S_k is None else np.where(subset_mask(TT, S_k) & ~tok_tr)[0]
+        if len(ite_k) < 10: continue
+        zte = score_one(coef, ite_k, d, mode, E)
+        rows.append(dict(sel=sname if S_k is None else 'only{' + ''.join(sorted(S_k)) + '}', feat=list(feat),
+                         mode=list(mode), ntr=len(itr_k), nte=len(ite_k), z_tr=ztr, z_te=zte,
+                         d={G_all[g]: int(d[g]) for g in range(G) if d[g] and coef[itr_k, g].sum() > 0}))
+        if log and done % 100 == 0:
+            print('%s cfg %d/%d evals %.2e best_tr %.2f best_te %.2f elapsed %.0fs' % (C['name'], ci, len(cfgs), n_eval,
+                  max(r['z_tr'] for r in rows), max(r['z_te'] for r in rows), time.time() - t0), file=log, flush=True)
+    return rows, E, TT, n_eval, dict(visited=ci + 1, total=len(cfgs), done=done)

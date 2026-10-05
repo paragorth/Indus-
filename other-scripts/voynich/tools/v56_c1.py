@@ -31,9 +31,9 @@ def corpus(name):
 def run(name):
     log = open(os.path.join(L.CK, '%s_%s.log' % (TAG, name)), 'w')
     C = corpus(name)
-    rows, E, TT, ne = L.search(C, n_cfg=NCFG, seed=0, log=log, time_budget=BUDGET)
+    rows, E, TT, ne, cov = L.search_grid(C, seed=0, log=log, time_budget=BUDGET, max_cfg=NCFG)
     S = L.summarise(rows)
-    out = dict(name=name, n_eval=ne, summary=S, rows=rows)
+    out = dict(name=name, n_eval=ne, summary=S, rows=rows, coverage=cov)
     if 'truth' in C: out['n_truth'] = len(C['truth'])
     if 'digits' in C: out['digits'] = C['digits']
     if 'roman' in C: out['roman'] = C['roman']
