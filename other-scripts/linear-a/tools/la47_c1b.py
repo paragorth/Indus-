@@ -25,7 +25,8 @@ def classify(pages):
         c['entries'] += sum(1 for a, b in zip(it, it[1:]) if a['k'] == 'n' and b['k'] == 'w')
         c['pages'] += 1
     tot = sum(c[k] for k in ('E', 'W', 'N', 'M', 'Nwrap'))
-    return dict(c, tot=tot, fE=c['E'] / max(1, tot), fM=(c['M'] + c['Nwrap']) / max(1, tot),
+    cl = c['E'] + c['W'] + c['N'] + c['O']
+    return dict(c, tot=tot, fEc=c['E'] / max(1, cl), fE=c['E'] / max(1, tot), fM=(c['M'] + c['Nwrap']) / max(1, tot),
                 cover=c['E'] / max(1, c['entries']))
 
 
@@ -38,16 +39,17 @@ def main():
     nulls = [classify(C.null_reflow(LA, rng)) for _ in range(200)]
     raw = [classify(C.null_reflow(LA, rng, snap=False)) for _ in range(50)]
     out['rawnull_fE_fM'] = [float(np.mean([x['fE'] for x in raw])), float(np.mean([x['fM'] for x in raw]))]
-    for k in ('fE', 'fM', 'cover'):
+    for k in ('fE', 'fEc', 'fM', 'cover'):
         v = np.array([n[k] for n in nulls]); out['null_' + k] = [float(v.mean()), float(v.std()), float((v >= out['LA'][k]).mean()), float((v <= out['LA'][k]).mean())]
-    for site in ('Haghia Triada', 'Khania'):
+    for site in ('Haghia Triada', 'Khania', 'Zakros', 'Phaistos'):
         S = [p for p in LA if p['site'] == site]
-        v = np.array([classify(C.null_reflow(S, rng))['fE'] for _ in range(100)])
-        out['null_fE_' + site] = [float(v.mean()), float(v.std())]
+        v = np.array([classify(C.null_reflow(S, rng))['fEc'] for _ in range(200)])
+        r = out['LA_' + site]['fEc']
+        out['null_fEc_' + site] = [float(v.mean()), float(v.std()), float((v >= r).mean())]
     LB = C.lb_pages(sites={'KN', 'PY'})
     out['LB'] = classify(LB)
     v = [classify(C.null_reflow(LB[:600], rng)) for _ in range(30)]
-    out['LB_null_fE'] = [float(np.mean([x['fE'] for x in v])), float(np.std([x['fE'] for x in v]))]
+    out['LB_null_fEc'] = [float(np.mean([x['fEc'] for x in v])), float(np.std([x['fEc'] for x in v]))]
     json.dump(out, open(os.path.join(C.CK, 'c1b.json'), 'w'), indent=1)
     for k, v in out.items(): print(k, v)
 
