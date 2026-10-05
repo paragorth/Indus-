@@ -41,6 +41,10 @@ def build(name):
         W = world(L, random.Random(seed('c3w' + name)))
         P, truth = plant(W, random.Random(seed('c3plant' + name)))
         return P, sorted(truth)
+    if name.startswith('PB'):
+        W = world(L, random.Random(seed('c3w' + name)))
+        P, truth = plant_basket(W, random.Random(seed('c3basket' + name)))
+        return P, sorted(truth)
     if name.startswith('LB'):
         return sample_like(lb_docs_all(), ntok(L), random.Random(seed('c3' + name))), None
     raise ValueError(name)

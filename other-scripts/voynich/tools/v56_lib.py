@@ -246,7 +246,7 @@ def plant_pointers(C, R_builder, rate_per_page=2, seed=7, base=7, ndig=3):
 
 
 # ------------------------------------------------------------------ residual affinity
-def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 6, 11, 21, 41), near=2, order=None):
+def build_R(C, use_skel=True, ctx_lines=2, df_max=0.17, bands=(1, 3, 6, 11, 21, 41), near=2, order=None):
     """tokens + residual affinity matrices. order: optional list of page indices giving an alternative binding
     order (address space); default = given order."""
     pages = C['pages']
@@ -255,7 +255,8 @@ def build_R(C, use_skel=True, ctx_lines=1, df_max=12, bands=(1, 3, 6, 11, 21, 41
     sk = C['skel'] if use_skel else (lambda w: w)
     ptypes = [set(sk(w) for l in p['lines'] for w in l) - {''} for p in pages]
     df = collections.Counter(t for s in ptypes for t in s)
-    rare = {t for t, c in df.items() if 2 <= c <= df_max}
+    dfm = df_max * N if df_max < 1 else df_max
+    rare = {t for t, c in df.items() if 2 <= c <= dfm}
     vocab = {t: k for k, t in enumerate(sorted(rare))}
     V = len(vocab)
     idf = np.zeros(V, np.float32)
@@ -430,29 +431,48 @@ def Rspace(E, space):
     return {'page': E['R'], 'folio': E['Rf'], 'quire': E['Rq']}[space]
 
 
+def _perm_expect(RS, sel_idx, t, v, Nsp):
+    """expected score when the same targets are shuffled among the same pointer tokens (kills class-hub rules:
+    a token class whose contexts all resemble one group of pages)."""
+    rbar = RS[sel_idx].sum(0)                                  # (Nsp,)
+    n = len(sel_idx)
+    if t.ndim == 1:
+        h = np.bincount(t[v], minlength=Nsp)
+        return float(rbar @ h) / n
+    K = t.shape[1]
+    out = np.zeros(K)
+    for k in range(K):
+        h = np.bincount(t[v[:, k], k], minlength=Nsp); out[k] = float(rbar @ h) / n
+    return out
+
+
+def _nsp(E, space): return {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
+
+
 def score_many(coef, sel_idx, D, mode, E):
-    """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> z (K,)."""
+    """coef (T,G) int, sel_idx selected token ids, D (G, K) int value vectors -> z_pair (K,)."""
     c = coef[sel_idx].astype(np.float64)           # (n, G)
     addr = np.rint(c @ D.astype(np.float64)).astype(np.int64)   # (n, K)
     tp = E['tok_page'][sel_idx]
     t, v = targets(addr, tp, mode, E)
     RS = Rspace(E, mode[0])
-    vals = RS[sel_idx[:, None], t] * v
-    return vals.sum(0) / math.sqrt(max(len(sel_idx), 1))
+    vals = (RS[sel_idx[:, None], t] * v).sum(0)
+    return (vals - _perm_expect(RS, sel_idx, t, v, _nsp(E, mode[0]))) / math.sqrt(max(len(sel_idx), 1))
 
 
 def score_one(coef, sel_idx, d, mode, E):
     return float(score_many(coef, sel_idx, d[:, None], mode, E)[0])
 
 
-def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None):
-    """coordinate ascent: for each glyph try every value 0..vmax-1 at once."""
-    c = coef[sel_idx]; tp = E['tok_page'][sel_idx]; RS = Rspace(E, mode[0])
+def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None, grid=None):
+    """coordinate ascent on z_pair: for each glyph try every candidate value at once; then the offset."""
+    c = coef[sel_idx]; tp = E['tok_page'][sel_idx]; RS = Rspace(E, mode[0]); Nsp = _nsp(E, mode[0])
     n = len(sel_idx); sq = math.sqrt(max(n, 1))
+    rbar = RS[sel_idx].sum(0)
     d = d.copy()
     base = c @ d
     best = None
-    vals_range = np.arange(vmax, dtype=np.int64)
+    vals_range = np.arange(vmax, dtype=np.int64) if grid is None else np.asarray(grid, np.int64)
     used = np.where(c.sum(0) > 0)[0]
     for sw in range(sweeps):
         order = list(used)
@@ -460,24 +480,37 @@ def ascent(coef, sel_idx, d, mode, E, vmax, sweeps=3, rng=None, glyph_order=None
         changed = False
         for g in order:
             b0 = base - c[:, g] * d[g]
-            h = np.where(c[:, g] > 0)[0]
-            addr = b0[h][:, None] + c[h, g][:, None] * vals_range[None, :]
-            t, v = targets(addr, tp[h], mode, E)
-            z = (RS[sel_idx[h][:, None], t] * v).sum(0)
-            hb = np.setdiff1d(np.arange(n), h)
-            if len(hb):
-                t0, v0 = targets(b0[hb], tp[hb], mode, E)
-                z = z + float((RS[sel_idx[hb], t0] * v0).sum())
-            z = z / sq
-            k = int(np.argmax(z))
+            addr = b0[:, None] + c[:, g][:, None] * vals_range[None, :]      # (n, V)
+            t, v = targets(addr, tp, mode, E)
+            obs = (RS[sel_idx[:, None], t] * v).sum(0)
+            # permutation expectation per candidate: histogram of targets
+            V = t.shape[1]
+            H = np.zeros((Nsp, V))
+            tt = np.where(v, t, Nsp)
+            for k in range(V):
+                H[:, k] = np.bincount(tt[:, k], minlength=Nsp + 1)[:Nsp]
+            z = (obs - (rbar @ H) / n) / sq
+            k = int(vals_range[int(np.argmax(z))])
             if k != d[g]: changed = True
-            d[g] = k; base = b0 + c[:, g] * k; best = float(z[k])
+            d[g] = k; base = b0 + c[:, g] * k; best = float(z.max())
         if not changed: break
     if best is None: best = score_one(coef, sel_idx, d, mode, E)
     return d, best
 
 
-# ------------------------------------------------------------------ search driver
+def ascent_offset(coef, sel_idx, d, mode, E):
+    """choose the address offset (-2..2) and, for absolute addresses, mod vs clip."""
+    best = (score_one(coef, sel_idx, d, mode, E), mode)
+    kinds = [mode[1]] if mode[1].startswith('rel') else ['abs_mod', 'abs_clip']
+    for kd in kinds:
+        for off in (-2, -1, 0, 1, 2):
+            m = (mode[0], kd, off)
+            if m == mode: continue
+            z = score_one(coef, sel_idx, d, m, E)
+            if z > best[0]: best = (z, m)
+    return best[1], best[0]
+
+
 def split_pages(E, seed=0):
     rng = random.Random(seed)
     by = collections.defaultdict(list)
@@ -488,6 +521,7 @@ def split_pages(E, seed=0):
     return np.array([pi in train for pi in range(E['N'])])
 
 
+NUMERAL_GRID = [0] + list(range(1, 10)) + list(range(10, 100, 10)) + list(range(100, 1000, 100))
 SPACES = ['page', 'page', 'page', 'folio', 'quire']
 KINDS = ['abs_mod', 'abs_clip', 'abs_clip', 'rel_fwd', 'rel_back']
 
@@ -496,9 +530,10 @@ def random_config(TT, E, rng, poscache):
     sel, sdesc = random_selector(TT, rng)
     use_skel = rng.random() < 0.6
     if rng.random() < 0.5:
-        feat = ('count', use_skel); coef = TT['cnt_skel'] if use_skel else TT['cnt_full']
+        numeral = rng.random() < 0.6          # alphabetic-numeral values (Greek/Hebrew/Roman-like) or free values
+        feat = ('count', use_skel, 'numeral' if numeral else 'free'); coef = TT['cnt_skel'] if use_skel else TT['cnt_full']
         space = rng.choice(SPACES); vmax = {'page': E['N'], 'folio': E['Nf'], 'quire': E['Nq']}[space]
-        vmax = min(vmax, 120) if rng.random() < 0.5 else vmax
+        if numeral: vmax = NUMERAL_GRID
     else:
         B = rng.randint(2, 12); fr = rng.random() < 0.7
         feat = ('pos', use_skel, B, fr)
@@ -529,7 +564,8 @@ def search(C, n_cfg=300, n_rand=500, n_ascend=2, seed=0, log=None, time_budget=N
     G_all = TT['glyphs']
     for ci in range(n_cfg):
         if time_budget and time.time() - t0 > time_budget: break
-        sel, sdesc, feat, coef, mode, vmax = random_config(TT, E, rng, poscache)
+        sel, sdesc, feat, coef, mode0, vmax = random_config(TT, E, rng, poscache)
+        mode = mode0
         S = None
         if rng.random() < p_subset:
             S = set(rng.sample(G_all, rng.randint(3, min(12, len(G_all)))))
@@ -537,11 +573,19 @@ def search(C, n_cfg=300, n_rand=500, n_ascend=2, seed=0, log=None, time_budget=N
         itr = np.where(sel & tok_tr)[0]; ite = np.where(sel & ~tok_tr)[0]
         if len(itr) < 30 or len(ite) < 30: continue
         G = coef.shape[1]
-        D = nrng.integers(0, vmax, size=(G, n_rand))
+        grid = None
+        if isinstance(vmax, list):
+            grid = vmax; D = np.array(grid)[nrng.integers(0, len(grid), size=(G, n_rand))]
+            D[nrng.random((G, n_rand)) < 0.5] = 0
+        else:
+            D = nrng.integers(0, vmax, size=(G, n_rand))
         z = score_many(coef, itr, D, mode, E); n_eval += n_rand
         for k in np.argsort(-z)[:n_ascend]:
-            d, ztr = ascent(coef, itr, D[:, k].astype(np.int64), mode, E, vmax, sweeps=3, rng=rng)
-            n_eval += 3 * G * vmax
+            mode = mode0
+            d, ztr = ascent(coef, itr, D[:, k].astype(np.int64), mode, E, vmax, sweeps=3, rng=rng, grid=grid)
+            mode, ztr = ascent_offset(coef, itr, d, mode, E)
+            d, ztr = ascent(coef, itr, d, mode, E, vmax, sweeps=1, rng=rng, grid=grid)
+            n_eval += 4 * G * (len(grid) if grid else vmax) + 10
             if S is not None:
                 for rnd in range(2):
                     for g in rng.sample(G_all, len(G_all)):
@@ -551,13 +595,13 @@ def search(C, n_cfg=300, n_rand=500, n_ascend=2, seed=0, log=None, time_budget=N
                         if len(i2) < 30: continue
                         z2 = score_one(coef, i2, d, mode, E); n_eval += 1
                         if z2 > ztr: S, ztr, itr = S2, z2, i2
-                    d, ztr = ascent(coef, itr, d, mode, E, vmax, sweeps=2, rng=rng)
-                    n_eval += 2 * G * vmax
+                    d, ztr = ascent(coef, itr, d, mode, E, vmax, sweeps=2, rng=rng, grid=grid)
+                    n_eval += 2 * G * (len(grid) if grid else vmax)
                 sel = subset_mask(TT, S); ite = np.where(sel & ~tok_tr)[0]
                 sdesc = 'only{' + ''.join(sorted(S)) + '}'
                 if len(ite) < 10: continue
             zte = score_one(coef, ite, d, mode, E)
-            rows.append(dict(sel=sdesc, feat=list(feat), mode=list(mode), vmax=vmax, ntr=len(itr), nte=len(ite),
+            rows.append(dict(sel=sdesc, feat=list(feat), mode=list(mode), vmax=(len(grid) if grid else vmax), ntr=len(itr), nte=len(ite),
                              z_rand=float(z[k]), z_tr=ztr, z_te=zte,
                              d={TT['glyphs'][g]: int(d[g]) for g in range(G) if d[g] and coef[itr, g].sum() > 0}))
         if log and ci % 50 == 0:

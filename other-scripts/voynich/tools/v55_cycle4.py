@@ -14,10 +14,10 @@ T = V.get_sky(cond if cond.startswith('fake') else 'real')
 dd = V.degree_days(T)
 idx = V.alignments(words, dd)
 labs = V.make_condition(cond, words, idx, T)
-feats = list(V.day_features(T).items()) + V.event_features(T)
-classes = V.marker_classifiers(labs, min_type=4, min_affix=10) + V.random_classifiers(labs, 60, seed=57)
+feats = [(k, v) for k, v in V.day_features(T).items() if k in ("moon_sign", "phase8", "moon_rel")] + V.event_features(T)
+classes = V.marker_classifiers(labs, min_type=6, min_affix=20) + V.random_classifiers(labs, 30, seed=57)
 maskA = np.array([x['name'] in V.HALF_A for x in labs])
-res = V.run_search(labs, classes, feats, idx, maskA)
+res = V.run_search(labs, classes, feats, idx, maskA, chunk=20, ychunk=60)
 summ = V.summarize(res)
 ci, fi, yi = summ['argmax']
 summ.update(cond=cond, ncls=len(classes), nfeat=len(feats), secs=round(time.time() - t0),

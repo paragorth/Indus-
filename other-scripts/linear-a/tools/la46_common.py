@@ -579,3 +579,28 @@ def plant(docs, rng, n_keys=6):
                 toks = toks + [('NL',), ('W', p), ('N', float(rng.choice(allvals)))]
         out.append({'id': d['id'], 'site': d['site'], 'toks': toks})
     return out, truth
+
+
+def plant_basket(docs, rng, n_keys=6, rate=0.8):
+    """Planted ORDERED long-range constraint (the shape of the SA-RA2 basket): after key word w, with prob
+    `rate`, the writer puts a logogram, a number and then a fixed partner word p_w (w L n p_w n).
+    Truth: ('ES', w, p_w)."""
+    wc = collections.Counter(t[1] for d in docs for t in d['toks'] if t[0] == 'W')
+    lc = collections.Counter(t[1] for d in docs for t in d['toks'] if t[0] == 'L')
+    mid = [w for w, c in wc.items() if 6 <= c <= 20 and '-' in w]
+    rng.shuffle(mid)
+    keys, partners = mid[:n_keys], mid[n_keys:2 * n_keys]
+    logos = [l for l, c in lc.most_common(8)]
+    vals = [t[1] for d in docs for t in d['toks'] if t[0] == 'N' and t[1] >= 1]
+    P = dict(zip(keys, partners))
+    truth = set(('ES', w, P[w]) for w in keys)
+    out = []
+    for d in docs:
+        toks = []
+        for t in d['toks']:
+            toks.append(t)
+            if t[0] == 'W' and t[1] in P and rng.random() < rate:
+                toks += [('L', rng.choice(logos)), ('N', float(rng.choice(vals))), ('W', P[t[1]]),
+                         ('N', float(rng.choice(vals)))]
+        out.append({'id': d['id'], 'site': d['site'], 'toks': toks})
+    return out, truth

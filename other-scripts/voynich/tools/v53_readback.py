@@ -30,7 +30,18 @@ def lexicon(c, abbr):
         keep = ws[:7919] + ws[10319:12000] + ws[24000:]   # planted stretch excluded
     V = vowels_for(lang)
     aw = [abbr_word(x, abbr, V) for x in keep]
-    return set(x for x in aw if len(x) >= 2), set(zip(aw, aw[1:]))
+    return set(x for x in aw if len(x) >= 2), (Counter(aw), Counter(zip(aw, aw[1:])), len(aw))
+
+
+def pmi(words, wbi):
+    """mean pointwise MI of consecutive decoded words (both in the corpus vocabulary), corpus bigram counts, add-0.5"""
+    uni, bi, N = wbi
+    tot = 0.0; n = 0
+    for a, b in zip(words, words[1:]):
+        if a and b and a in uni and b in uni:
+            pab = (bi.get((a, b), 0) + 0.5) / (N + 0.5 * len(uni))
+            tot += math.log2(pab / (uni[a] / N * uni[b] / N)); n += 1
+    return tot / max(1, n)
 
 
 LEX = {}
@@ -69,8 +80,7 @@ def rb_score(p, env, lines, rng_seed=0, bigram=False):
     null = sum(nulls) / len(nulls)
     r = {'score': (hit - null) * min(1.0, cov / 0.6), 'hit': hit, 'null': null, 'cov': cov, 'n': len(ws)}
     if bigram:
-        pr = [(a, b) for a, b in zip(words, words[1:]) if a and b]
-        r['bihit'] = sum(x in wbi for x in pr) / max(1, len(pr))
+        r['bihit'] = pmi(words, wbi)
         allw = [x for l in lines for x in l]
         bs = []
         for k in range(10):
@@ -78,8 +88,7 @@ def rb_score(p, env, lines, rng_seed=0, bigram=False):
             it = iter(allw)
             Lw = [[next(it) for _ in l] for l in lines]
             w2, _ = decoded(m, Lw)
-            pr2 = [(a, b) for a, b in zip(w2, w2[1:]) if a and b]
-            bs.append(sum(x in wbi for x in pr2) / max(1, len(pr2)))
+            bs.append(pmi(w2, wbi))
         mu = sum(bs) / len(bs); sd = (sum((x - mu) ** 2 for x in bs) / 9) ** 0.5 or 1e-6
         r['bihit_null'] = mu; r['z_bihit'] = (r['bihit'] - mu) / sd
         # letter-shuffle null spread for z of the word-hit excess

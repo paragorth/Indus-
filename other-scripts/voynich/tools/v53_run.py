@@ -97,7 +97,7 @@ def job(args):
     # random-program baseline in this corpus (same envs)
     rng = random.Random(seed + 99)
     base = []
-    for _ in range(200):
+    for _ in range(100):
         p = random_program(rng, corpus=corpus)
         try:
             base.append(evaluate(p, env, T)['fit'])

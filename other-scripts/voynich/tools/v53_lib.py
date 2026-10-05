@@ -499,27 +499,37 @@ def env_pieces(env, M, ops):
     vs = env.vocabset[M]; ml = max(map(len, vs))
     fill = set(x for k, sel in sig[1] if k == 'FILL' for x in sel)
     cl = {k: Counter() for k in 'SIMF'}; pooled = Counter()
-    for l in env.target_lines:
-        for i, w in enumerate(l):
-            if w in fill:
-                continue
-            for k, sel in sig[1][::-1]:
-                if k == 'SFX' or (k == 'LINEF' and i == len(l) - 1):
-                    for r in sorted(sel, key=len, reverse=True):
-                        if w.endswith(r) and len(w) > len(r):
-                            w = w[:-len(r)]; break
-                elif k == 'PFX' or (k == 'LINEM' and i == 0):
-                    for r in sorted(sel, key=len, reverse=True):
-                        if w.startswith(r) and len(w) > len(r):
-                            w = w[len(r):]; break
-            sg = _greedy(w, vs, ml)
-            pooled.update(sg)
-            if len(sg) == 1:
-                cl['S'][sg[0]] += 1
-            else:
-                cl['I'][sg[0]] += 1; cl['F'][sg[-1]] += 1
-                for x in sg[1:-1]:
-                    cl['M'][x] += 1
+    if not hasattr(env, '_typepos'):
+        tp = Counter()
+        for l in env.target_lines:
+            for i, w in enumerate(l):
+                tp[(w, i == 0, i == len(l) - 1)] += 1
+        env._typepos = tp
+        env._segc = {}
+    for (w, first, last), c in env._typepos.items():
+        if w in fill:
+            continue
+        for k, sel in sig[1][::-1]:
+            if k == 'SFX' or (k == 'LINEF' and last):
+                for r in sorted(sel, key=len, reverse=True):
+                    if w.endswith(r) and len(w) > len(r):
+                        w = w[:-len(r)]; break
+            elif k == 'PFX' or (k == 'LINEM' and first):
+                for r in sorted(sel, key=len, reverse=True):
+                    if w.startswith(r) and len(w) > len(r):
+                        w = w[len(r):]; break
+        key = (M, w)
+        sg = env._segc.get(key)
+        if sg is None:
+            sg = env._segc[key] = _greedy(w, vs, ml)
+        for x in sg:
+            pooled[x] += c
+        if len(sg) == 1:
+            cl['S'][sg[0]] += c
+        else:
+            cl['I'][sg[0]] += c; cl['F'][sg[-1]] += c
+            for x in sg[1:-1]:
+                cl['M'][x] += c
     out = {k: [p for p, _ in v.most_common()] for k, v in cl.items()}
     out['P'] = [p for p, _ in pooled.most_common()]
     env._pcache[sig] = out

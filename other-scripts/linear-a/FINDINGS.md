@@ -404,3 +404,12 @@ Open question: if word order carries so little, where does Linear A put its stru
 - **B (calibrated negative):** commodities, header signs and totals are not written larger or smaller (a 5 % shift would be seen), and the gaps between words mark nothing robust.
 - **B:** layout agrees with la45's classes. Totals sit at the bottom on a short line of their own (z 5-6), header signs start lines (z 2.9), and commodities sit inside lines next to their numbers (z 4.4; in Linear B, z 22.6).
 - **C:** profiles of where each word is placed separate la45's classes (balanced accuracy 0.44 against a null of 0.33, P 0.035) where order profiles do not (0.28). In Linear B the reverse holds. Would support: P < 0.01 once more SigLA-aligned tablets exist. Would kill: P > 0.2. Nothing learned at Haghia Triada carries over to other sites.
+
+## la48 the physics of goods (5 Oct 2026)
+About 230 million flow-direction hypotheses were tested. No flow network can be read.
+- **A (method):** conservation of goods recovers a planted economy only when at least half the documents survive. It gives only relative direction inside a chain of linked documents.
+- **B (the control fails):** Ur III Puzrish-Dagan shows no balance beyond chance.
+- **B (negative):** Linear A scores 16 against 10.1 ± 4.4 shuffled (P 0.14). Its "hubs" are the largest numbers and KU-RO.
+- **B (negative, low power):** the amounts attached to a word repeat across documents no more than chance.
+- **C:** Linear A entry words are not standing accounts with fixed quotas. Would kill: a word found with the same quota on new tablets.
+- **C:** PE Wy 5 and PE Zg 5 record one transfer (*307 OLE 1 + J) twice. Would support: matching seal or clay. Would kill: different hands or find spots incompatible with one transaction.

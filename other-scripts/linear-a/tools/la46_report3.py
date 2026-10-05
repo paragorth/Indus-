@@ -6,7 +6,7 @@ from scipy.stats import fisher_exact
 from la46_common import *
 
 TH = float(sys.argv[1]) if len(sys.argv) > 1 else 1e-3
-NAMES = ['LA', 'W1', 'W2', 'SH1', 'PL1', 'PL2', 'LB1', 'LB2']
+NAMES = ['LA', 'W1', 'W2', 'SH1', 'PL1', 'PL2', 'PB1', 'PB2', 'LB1', 'LB2']
 NULL = ['W1', 'W2']
 IDX = {'max': 4, 'mean': 6, 'min': 7}
 C = {}
@@ -41,7 +41,7 @@ for rule, ix in IDX.items():
                 s.append('%s %.2f P=%.2g' % (n, p / t, P))
         print('   %s worlds %d/%d=%.2f | %s' % (f, wp, wt, wp / max(1, wt), '; '.join(s)))
 # planted recall
-for n in ('PL1', 'PL2'):
+for n in ('PL1', 'PL2', 'PB1', 'PB2'):
     if n in C:
         T = set(tuple(t) for t in C[n]['truth'])
         P = {tuple(r[0]): r for r in C[n]['res']}

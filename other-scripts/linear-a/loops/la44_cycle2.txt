@@ -1,0 +1,8 @@
+LA-44 cycle 2: shuffle-referenced panel (structure only)
+Every statistic a global sign shuffle can change is replaced by (value - value of one global shuffle of the same type
+list); for the bank this shuffle was drawn at simulation time (row field fs), for each target with its own seed.
+Shuffle-invariant statistics (length shares, unigram entropy, Zipf slope, sign count, vowel and series shares) are
+dropped ('delta', 33 stats) or kept alongside ('both', 77 stats). Same 89,073 histories, same targets and criteria
+C1-C4 as cycle 1 (pre-registered there), plus:
+ C5 (added before scoring): shuffled-LA targets must sit at the edge of the simulated cloud (cloud position < 2 %)
+    or be flat; LA's call is reportable only if LA sits inside the cloud (>= 5 %) and differs from its shuffles' call.

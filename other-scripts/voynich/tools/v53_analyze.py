@@ -109,12 +109,18 @@ def lm_train(c, abbr):
     for i in range(2, len(s)):
         tri[s[i - 2:i + 1]] += 1; bi[s[i - 2:i]] += 1
     alpha = set(s)
-    return {'tri': tri, 'bi': bi, 'A': len(alpha), 'lex': set(aw), 'V': V, 'wbi': set(zip(aw, aw[1:]))}
+    return {'tri': tri, 'bi': bi, 'A': len(alpha), 'lex': set(aw), 'V': V, 'uni': Counter(aw), 'wbi': Counter(zip(aw, aw[1:])), 'N': len(aw)}
 
 
 def bihit(words, lm):
-    pr = list(zip(words, words[1:]))
-    return sum(p in lm['wbi'] for p in pr) / max(1, len(pr))
+    """mean PMI of consecutive decoded words (both in vocabulary), add-0.5 bigram counts"""
+    uni, bi, N = lm['uni'], lm['wbi'], lm['N']
+    tot = 0.0; n = 0
+    for a, b in zip(words, words[1:]):
+        if a in uni and b in uni:
+            pab = (bi.get((a, b), 0) + 0.5) / (N + 0.5 * len(uni))
+            tot += math.log2(pab / (uni[a] / N * uni[b] / N)); n += 1
+    return tot / max(1, n)
 
 
 LMC = {}

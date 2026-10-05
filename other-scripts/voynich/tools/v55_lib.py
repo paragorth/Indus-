@@ -250,7 +250,7 @@ def _lp(G, df):
     return (-chi2.logsf(G, df) / np.log(10)).astype(np.float32)
 
 
-def run_search(labels, classes, feats, idx, maskA, chunk=40):
+def run_search(labels, classes, feats, idx, maskA, chunk=40, ychunk=None):
     """For each classifier x feature x year: best alignment by A (score A,B), by B (score B,A),
     best full score and its alignment. Scores are -log10 p of a G-test with df (Kc-1)(Kf-1)."""
     L = len(labels)
@@ -262,6 +262,12 @@ def run_search(labels, classes, feats, idx, maskA, chunk=40):
     flat = idx.reshape(Aall, L)
     tk = lambda g, a: np.take_along_axis(g, a[:, None], 1)[:, 0]
     Ks = [int(c.max()) + 1 for _, c in classes]
+    if ychunk is not None and ychunk < nY:
+        for y0 in range(0, nY, ychunk):
+            sub = run_search(labels, classes, feats, idx[y0:y0 + ychunk], maskA, chunk, None)
+            for k in res:
+                res[k][:, :, y0:y0 + ychunk] = sub[k]
+        return res
     for fi, (fname, (farr, Kf)) in enumerate(feats):
         cls = farr[flat]  # (Aall, L)
         O = np.zeros((L, Aall, Kf), np.float32)
