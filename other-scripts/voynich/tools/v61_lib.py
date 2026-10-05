@@ -318,7 +318,7 @@ def pair_resample(lines, seed=1, by_page=True, line_blind_start=False):
             if i == 0:
                 if line_blind_start and out and out[-1]['page'] == L['page']:
                     prevg = out[-1]['words'][-1][-1]
-                    cand = pool.get((L['page'], prevg)) or poolg.get(prevg)
+                    cand = pool.get((L['page'], prevg)) or poolg.get(prevg) or first_pool[L['page']]
                     ws.append(rng.choice(cand)); continue
                 fp = first_pool[L['page']]
                 ws.append(rng.choice(fp)); continue

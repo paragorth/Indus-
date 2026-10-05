@@ -175,6 +175,14 @@ class Data:
         self.u = np.array([ui[d['unit']] for d in docs])
         gl = sorted(set(d['genre'] for d in docs)); gi = {g: i for i, g in enumerate(gl)}
         self.g = np.array([gi[d['genre']] for d in docs])
+        ln = np.array([len(d['terms']) for d in docs], float)
+        lb = np.zeros(len(docs), int)
+        for g in np.unique(self.g):         # length quartiles inside each genre
+            m = self.g == g
+            if m.sum() >= 8:
+                e = np.unique(np.quantile(ln[m], [0.25, 0.5, 0.75]))
+                lb[m] = np.digitize(ln[m], e, right=True)
+        self.gl = self.g * 10 + lb
         r, c = [], []
         for i, d in enumerate(docs):
             for t in d['terms']:
@@ -195,8 +203,9 @@ class Data:
         u = self.u.copy()
         if not strat:
             return rng.permutation(u)
-        for g in np.unique(self.g):
-            idx = np.where(self.g == g)[0]
+        G = self.gl if strat == 'len' else self.g
+        for g in np.unique(G):
+            idx = np.where(G == g)[0]
             u[idx] = rng.permutation(u[idx])
         return u
 

@@ -17,6 +17,10 @@ def build(name):
         return L.load_vms('ZL3b')
     if name == 'VMS-IT':
         return L.load_vms('IT2a')
+    if name in ('VMS-ZL-A', 'VMS-ZL-B', 'VMS-IT-A', 'VMS-IT-B'):
+        return [l for l in L.load_vms('ZL3b' if '-ZL-' in name else 'IT2a') if l['lang'] == name[-1]]
+    if name == 'Sanskrit11k':
+        return L.opaque(L.load_sanskrit(max_tokens=11000))[0]
     if name == 'Sanskrit':
         return L.opaque(L.load_sanskrit())[0]
     if name == 'Welsh':

@@ -377,3 +377,17 @@ def def_str(d):
         return f'full k{k} s{s}'
     nc = len(set(m.values()))
     return f'{nc}cls k{k} s{s}'
+
+
+def rhyme_z(P, d, maxlag=4):
+    """z-scored difference: line-final kappa minus second-word kappa at each lag, SE from the binomial
+    approximation kappa_se ~ sqrt(e / (n (1 - e))). Definitions with uninformative endings (exp > 0.5) get
+    z = 0."""
+    F = [[None if r is None else ending(r[0], d) for r in rows] for rows in P]
+    M = [[None if r is None else ending(r[3], d) for r in rows] for rows in P]
+    kF, oF, eF, nF = lag_kappa(F, maxlag)
+    kM, oM, eM, nM = lag_kappa(M, maxlag)
+    se = np.sqrt(eF / np.maximum(nF * (1 - eF), 1) + eM / np.maximum(nM * (1 - eM), 1)) + 1e-9
+    z = (kF - kM) / se
+    z[(eF > 0.5) | (eM > 0.5)] = 0.0
+    return z, kF - kM, eF

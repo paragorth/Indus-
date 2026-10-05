@@ -1,0 +1,35 @@
+v61 final - The words are glued together: undo the sandhi (5 Oct 2026)
+Tools: tools/v61_lib.py, v61_c1.py, v61_show.py, v61_edge.py, v61_xline.py, v61_c2.py, v61_c2b.py, v61_c3.py, v61_c3b.py, v61_c3c.py, v61_c3d.py.
+Checkpoints: data/v61_ckpt/ (git-ignored). Cycles: loops/v61_cycle1.txt, v61_cycle2.txt, v61_cycle3.txt.
+
+Idea: the Voynich's junction coupling, word variants and line-edge effects look like sandhi. If so, a rule system that undoes the
+edge changes should (1) be found among hundreds of millions of random edge rewrites, (2) make medial words look like the
+neutral line-edge words (the line end has no neighbour, so it carries the base form), (3) remove the coupling at the same time.
+Prior work: v29 measured single-glyph conditional MI and found no sandhi. v61 searched whole endings/beginnings (0-3 glyphs),
+both directions, fitted rule systems and tested them on held-out pages.
+
+Scale: about 600 million rule hypotheses (ending pair x 4,000+ context classes) over 30 corpora, subsets and nulls; about 45,000 rule systems.
+
+Controls (Grade A, method): Sanskrit (DCS Ramayana, sandhied text vs unsandhied forms, opaque glyphs) gives back anusvara,
+-ah -> -o, -t -> -d, -h -> -r with the pausa form at the half-verse end (68% of rewrites exactly the true base); its best system
+makes edge and medial forms agree (-60%) and removes the coupling (-56%) like the true base (-58% / -80%). Italian elision found;
+Welsh mutation only partly (it is triggered by words, not edges). A planted Voynich sandhi is found. Undoing true sandhi does not
+change page prediction, so page gain cannot support or kill a sandhi reading.
+
+Results on the Voynich (ZL3b and IT2a agree):
+- A: no coupling crosses a line break (excess -0.005 bits, z -1.2; Sanskrit +0.008, Italian +0.019), so line ends are true
+  pauses.
+- B: line-final words are not base forms. Line-edge pull 0.25 vs 1.07 Sanskrit and 1.56 Italian at equal size; nulls 0.04-0.14.
+  Ending systems remove 62-66% of the coupling but move medial forms only 13-14% towards line-final forms (overfit band);
+  random systems move them away (+33%).
+- B: beginnings are not progressive sandhi. Making medial beginnings look like line-initial ones raises the coupling by half
+  (+49-53%).
+- B: the 'base-form book' (types -6.6%, coupling 0.206 -> 0.064 bits) is built from merges of different words (chol -> chedy,
+  chey -> chetar, qokain -> qoky). Zipf and adjacent repeats are unchanged. Section accuracy +2.5 points, the same with
+  neighbour-blind rules.
+- C: Currier A's line ends lean to one side of the alternations as much as size-matched Sanskrit (0.42-0.50 vs 0.48; null
+  0.10-0.13), but this does not become a base-form system (-8 to -11% vs Sanskrit -30%). Would support: an A-only system
+  that passes the joint test on a third transcription. Would kill: the same lean in a line-aware generator without sandhi.
+
+Verdict: the coupling between word edges is not sandhi in either direction. It is a pairing of different words, with
+line-final and line-initial words drawn from their own pools. Not cracked.

@@ -63,11 +63,12 @@ K, N = data.counts()
 real = features(K, N)
 res = {'corpus': corpus, 'ndocs': len(data.docs), 'units': data.A, 'types': data.types, 'N': N,
        'Ktot': data.Ktot, 'real': real}
-for strat in (False, True):
+STRATS = (False, True, 'len') if os.environ.get('LA55_N4') else (False, True)
+for strat in STRATS:
     nul = null_features(data, NREP, rng, strat)
     z = zscores(real, nul)
     cls = classify(z)
-    key = 'N3' if strat else 'N1'
+    key = {False: 'N1', True: 'N3', 'len': 'N4'}[strat]
     res[key] = {'z': z, 'cls': cls.tolist(), 'null_mean_beta': nul['beta'].mean(0)}
     # bootstrap stability (N2) of beta
 # N2: bootstrap of documents within units -> beta CI
@@ -131,11 +132,11 @@ def truth_tests(tr, cls, z):
     return out
 
 if truth:
-    for key in ('N1', 'N3'):
+    for key in [k for k in ('N1', 'N3', 'N4') if k in res]:
         z = res[key]['z']; cls = np.array(res[key]['cls'])
         res[key]['truth'] = truth_tests(truth, cls, z)
 if planted:
-    for key in ('N1', 'N3'):
+    for key in [k for k in ('N1', 'N3', 'N4') if k in res]:
         cls = res[key]['cls']
         tab = collections.defaultdict(collections.Counter)
         for t, c in zip(data.types, cls):
@@ -145,13 +146,13 @@ if planted:
         res[key]['planted_recall'] = {k: tab[k][exp[k]] / max(1, sum(tab[k].values())) for k in exp}
         # false classes on real LA words
         res[key]['real_classes'] = dict(collections.Counter(c for t, c in zip(data.types, cls) if not t.startswith('P:')))
-jdump(res, 'c1_%s.json' % corpus)
+jdump(res, os.environ.get('LA55_TAG', 'c1') + '_%s.json' % corpus)
 
 # short printout
 print('==', corpus, 'docs', len(data.docs), 'units', data.A, 'types', len(data.types))
 print('   louo bits/word-unit real %.4f  N1 %.4f+-%.4f  N3 %.4f+-%.4f' % (g_real, np.mean(g_null), np.std(g_null),
                                                                    np.mean(g_null3), np.std(g_null3)))
-for key in ('N1', 'N3'):
+for key in [k for k in ('N1', 'N3', 'N4') if k in res]:
     print('  ', key, dict(collections.Counter(res[key]['cls'])))
     if 'truth' in res[key]:
         t = res[key]['truth']

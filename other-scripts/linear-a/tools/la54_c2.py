@@ -9,7 +9,7 @@ import numpy as np
 import la54_common as C, la54_engine as E
 from la54_c1 import restrict
 
-NCFG = 1500
+NCFG = 400
 
 
 def select(cfgs, X, y, classes, rng, topk=25):
