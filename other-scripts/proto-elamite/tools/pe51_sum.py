@@ -173,3 +173,48 @@ if __name__ == '__main__':
         for c in list(GROUPS) + ['SILENT']:
             ws = sorted([w for w in R['C'] if R['C'][w] == c and R['stable'][w]], key=lambda w: -R['count'][w])
             print('  %s stable: %s' % (c, ' '.join(ws[:40])))
+
+
+EARLIER = {
+    'pe45 name-frame': ['M056', 'M010', 'M001', 'M157', 'M210', 'M054', 'M009'],
+    'GRAIN office': ['M010', 'M106', 'M002', 'M243', 'M075', 'M081', 'M265', 'M266', 'M296', 'M112'],
+    'CLASS office': ['M387', 'M388', 'M218', 'M124', 'M009', 'M066', 'M057'],
+    'BARE-COUNT office': ['M054', 'M367', 'M001', 'M370', 'M032', '|M036+1(N30D)|', 'M206', 'M269', 'M059', 'M102'],
+    'header twig': ['M288', 'M157', 'M153', 'M175', 'M106', 'M010'],
+    'capacity twig': ['M387', 'M297', 'M036', 'M260', 'M111', 'M264', 'M265', 'M002'],
+    'name twig 1': ['M388', 'M218', 'M263', 'M057', 'M066'],
+    'name twig 2': ['M371', 'M377', 'M320', 'M347', 'M386'],
+    'never-capacity': ['M346', 'M263', 'M376', 'M003', 'M032', 'M373', 'M264', 'M102', 'M362', 'M317', 'M149', 'M046'],
+    'pe39 SZE/U4/B': ['M136', 'M111', 'M147', 'M354'],
+}
+
+
+def mean_excess(R, w, g):
+    vals = [R['M'][w].get(k) for k in GROUPS[g] if R['M'][w].get(k) is not None]
+    return max(vals) if vals else float('nan')
+
+
+def compare_earlier(R):
+    out = []
+    ws = list(R['G'])
+    for name, mem in EARLIER.items():
+        mem = [w for w in mem if w in R['G']]
+        if len(mem) < 2:
+            continue
+        row = []
+        for g in GROUPS:
+            pos = [mean_excess(R, w, g) for w in mem]
+            neg = [mean_excess(R, w, g) for w in ws if w not in mem]
+            pos = [x for x in pos if x == x]; neg = [x for x in neg if x == x]
+            row.append('%s %.2f' % (g, auc(pos, neg)))
+        out.append('  %-18s n %2d  AUC(excess): %s  classes %s' % (name, len(mem), ' '.join(row),
+                   dict(collections.Counter(R['C'][w] for w in mem))))
+    return out
+
+
+def top_by_group(R, n=12):
+    out = []
+    for g in GROUPS:
+        ws = sorted(R['G'], key=lambda w: -(mean_excess(R, w, g) if mean_excess(R, w, g) == mean_excess(R, w, g) else -9))
+        out.append('  top %-6s ' % g + ' '.join('%s(%+.3f,t%.1f)' % (w, mean_excess(R, w, g), R['G'][w][g]) for w in ws[:n]))
+    return out

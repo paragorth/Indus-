@@ -3,6 +3,8 @@
 only to score), on planted hierarchies inside Linear A, then rank Linear A types.
 Null N1: attention rows permuted within (commodity x document-size) strata. Null N2: quantities shuffled.
 Output: data/la53_ckpt/c1.json, c1.log"""
+import os
+os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ['MKL_NUM_THREADS'] = '1'
 import json, sys, os, math, random, collections, copy
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -11,7 +13,7 @@ import la53_common as C
 NSPEC = int(os.environ.get('NSPEC', 2000)); NNULL = int(os.environ.get('NNULL', 200))
 rng = np.random.default_rng(C.seed('la53-c1'))
 SPECS = C.random_specs(NSPEC, rng)
-log = open(os.path.join(C.CK, 'c1.log'), 'w')
+log = open(os.path.join(C.CK, 'c1_la.log' if os.environ.get('ONLY_LA') else 'c1.log'), 'a')
 
 
 def P(*a):
@@ -72,6 +74,8 @@ def main():
     nla = len(la_rows)
     P('LA occurrences', nla, 'specs', NSPEC, 'nulls', NNULL)
     out = {'controls': []}
+    if os.environ.get('ONLY_LA'):
+        main_la(la_rows); return
     out['controls'].append(evaluate(C.occurrences(lb, 'w'), C.lb_status, NNULL // 2, 'LB_full'))
     for k in range(5):
         rs = random.Random(C.seed('lbs%d' % k))
@@ -96,8 +100,11 @@ def main():
                 r['lines'] += 1.0 if rs.random() < 0.5 else 0.0
         res = evaluate(rows, lambda t, S=S: t in S, NNULL // 2, 'PLANT_p%.1f_n%d' % (p, nplant))
         out['controls'].append(res)
-    # Linear A itself
-    res = evaluate(la_rows, lambda t: False, 0, 'LA')
+    main_la(la_rows, out)
+
+
+def main_la(la_rows, out=None):
+    out = out or {}
     B = C.build(la_rows); obs = C.consensus_fast(B, SPECS)
     cntv = np.bincount(B['ti'], minlength=len(B['types']))
     ok = cntv >= 2
@@ -115,7 +122,7 @@ def main():
         if not ok[i]: continue
         rank.append({'type': B['types'][i], 'n': int(cntv[i]), 'score': round(float(obs[i]), 3),
                      'p_N1': round(float(p[i]), 4),
-                     'prof': {f: round(float(np.mean([r[f] for r in la_rows if r['type'] == B['types'][i]])), 2)
+                     'prof': {f: round(float(np.mean([(r[f] or 0.0) for r in la_rows if r['type'] == B['types'][i]])), 2)
                               for f in C.FEATS + ['qty']
                               if True} if True else None})
     # BH
@@ -130,7 +137,7 @@ def main():
     P('LA bottom 5:', [r['type'] for r in rank[-5:]])
     P('LA types with p<0.01:', sum(1 for r in rank if r['p_N1'] < 0.01), 'q<0.1:', sum(1 for r in rank if r['q'] < 0.1),
       'expected p<0.01 by chance:', round(0.01 * len(rank), 1))
-    json.dump(out, open(os.path.join(C.CK, 'c1.json'), 'w'), default=lambda o: None)
+    json.dump(out, open(os.path.join(C.CK, 'c1_la.json' if os.environ.get('ONLY_LA') else 'c1.json'), 'w'), default=lambda o: None)
 
 
 if __name__ == '__main__':

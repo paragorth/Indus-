@@ -15,7 +15,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import StratifiedKFold
 import la54_common as C
 
-FAMS = ['ridge', 'knn', 'nb', 'cent', 'ridge', 'knn', 'nb', 'cent', 'rf']
+FAMS = ['ridge', 'knn', 'nb', 'cent']
 
 
 def random_configs(n, F, rng):

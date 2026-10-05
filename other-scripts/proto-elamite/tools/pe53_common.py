@@ -105,6 +105,7 @@ def rec_loglik(y, n):
 
 
 MIXP = [(i, j, m) for i in range(0, 45, 4) for j in range(0, 45, 4) if i < j for m in (0.25, 0.5, 0.75)]
+MIX_I = np.array([x[0] for x in MIXP]); MIX_J = np.array([x[1] for x in MIXP]); MIX_M = np.array([x[2] for x in MIXP])
 
 
 def scores(y, n, want_post=False):
@@ -127,11 +128,8 @@ def scores(y, n, want_post=False):
     lc = LL.sum(1)                                   # K, P
     Lconst = logsumexp(lc) - np.log(lc.size)
     # 2-component mixture over coarse grid
-    lm = []
-    for (i, j, m) in MIXP:
-        v = m * E[:, :, i] + (1 - m) * E[:, :, j]
-        lm.append(np.log(v + 1e-300).sum(1) + Lmax[:, :, 0].sum(1))
-    lm = np.array(lm)
+    v = MIX_M[None, None, :] * E[:, :, MIX_I] + (1 - MIX_M)[None, None, :] * E[:, :, MIX_J]
+    lm = (np.log(v + 1e-300).sum(1) + Lmax[:, :, 0].sum(1)[:, None]).T
     Lmix = logsumexp(lm) - np.log(lm.size)
     res = dict(R=int(R), Lseas=float(Lseas), Lconst=float(Lconst), Lmix=float(Lmix),
                S1=float(Lseas - Lconst), S2=float(Lseas - Lmix))

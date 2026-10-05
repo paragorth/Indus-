@@ -340,6 +340,22 @@ def build_R(C, use_skel=True, ctx_lines=2, df_max=0.17, bands=(1, 3, 6, 11, 21, 
                 page_folio=np.array([ufol.index(f) for f in fol]), page_quire=np.array([uqu.index(q) for q in qu]))
 
 
+def hit_matrix(E, k=10):
+    """replace the residual affinity by a centred top-k indicator: a pointer is scored by whether its target is
+    among the k pages its context most resembles (sharper than summing noisy residuals)."""
+    out = dict(E)
+    for key, Nsp in (('R', E['N']), ('Rf', E['Nf']), ('Rq', E['Nq'])):
+        M = E[key]
+        kk = max(1, min(k, Nsp // 10)) if key != 'R' else k
+        idx = np.argpartition(-M, kk, axis=1)[:, :kk]
+        H = np.zeros_like(M, dtype=np.float32)
+        np.put_along_axis(H, idx, 1.0, axis=1)
+        H[M <= 0] = 0.0
+        H -= H.mean(0, keepdims=True)
+        out[key] = np.ascontiguousarray(H, np.float32)
+    return out
+
+
 # ------------------------------------------------------------------ token features
 def token_table(C, E):
     """per-token selector flags and glyph feature matrices."""
@@ -367,8 +383,8 @@ def token_table(C, E):
         words.append((w, s))
     prev = []
     for i, (pi, li, k, w) in enumerate(toks):
-        if k > 0: prev.append(sk(pages[pi]['lines'][li][k - 1]))
-        elif li > 0 and pages[pi]['lines'][li - 1]: prev.append(sk(pages[pi]['lines'][li - 1][-1]))
+        if k > 0: prev.append(pages[pi]['lines'][li][k - 1])
+        elif li > 0 and pages[pi]['lines'][li - 1]: prev.append(pages[pi]['lines'][li - 1][-1])
         else: prev.append('<s>')
     return dict(prev=prev, glyphs=glyphs, gi=gi, cnt_full=cnt_full, cnt_skel=cnt_skel, ln_full=ln_full, ln_skel=ln_skel,
                 first=first, last=last, pfirst=pfirst, pline=pline, label=label, words=words)
@@ -723,13 +739,15 @@ def grid_configs():
     return feats, modes
 
 
-def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed'):
+def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed', hitk=None):
     import time
     t0 = time.time()
     if E is None: E = build_R(C)
     TT = token_table(C, E)
+    if hitk: E = hit_matrix(E, hitk)
     tok_tr = split_types(TT, seed)
-    sels = fixed_selectors(TT) if sel_kind == 'fixed' else marker_selectors(TT)
+    sels = {'fixed': lambda: fixed_selectors(TT), 'marker': lambda: marker_selectors(TT),
+            'both': lambda: fixed_selectors(TT) + marker_selectors(TT, top=25)}[sel_kind]()
     feats, modes = grid_configs()
     cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
             if mode_filter is None or modes[m][1] in mode_filter]

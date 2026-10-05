@@ -1,7 +1,7 @@
 """pe52 cycle 3: are the one-off strings predictable from sign weights? (nested, no circularity)
 
 Tablets are split in two halves H1/H2 (3 random halvings, both directions). On H1 alone the random-model
-search (S=6 splits x M=120 models) chooses DESCRIPTOR signs with the frozen cycle-1 rule. A descriptor-only
+search (S=6 splits x M=120 models) chooses DESCRIPTOR signs with rule B20 (pe52_ruleb.py, eff 0.2). A descriptor-only
 ridge model is then fitted on H1 and scored on H2, separately for
   hapax strings  (multi-sign strings that occur once in the whole corpus: the 'name universe' of pe50)
   recurring strings (multi-sign strings seen >= 2 times)
@@ -15,6 +15,7 @@ import numpy as np
 from collections import Counter
 import pe52_lib as L
 from pe52_run import corpus, NULLS
+from pe52_ruleb import ruleb
 
 
 def sub(C, tabs):
@@ -37,7 +38,8 @@ def main(cname, mode, null):
             H1, H2 = sub(C, halves[d]), sub(C, halves[1 - d])
             D1, R1 = L.run_corpus(H1, mode, 6, 120, seed0=900 + 10 * h + d)
             T1 = L.summarise(D1, R1)
-            Ds = sorted(s for s, v in T1.items() if v['cls'] == 'D')
+            cl = ruleb(T1, 6, 0.2)          # rule B20 (cycle 2): stable weight, |effect| >= 0.2
+            Ds = sorted(s for s, c in cl.items() if c in 'DG')
             # descriptor-only ridge on all of H1, scored on H2 (same target construction on the union)
             Dall = L.Data(H1 + H2, mode)
             ia = np.array([i for i, r in enumerate(Dall.rows) if r['tab'] in halves[d]])

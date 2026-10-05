@@ -8,15 +8,15 @@ import sys, os, json, random, time
 import numpy as np
 import la54_common as C, la54_engine as E
 
-NCFG, NOUT = 600, 3
+NCFG, NOUT = 300, 3
 
 
 def jobs():
     J = ['LA', 'LA_NOWORD', 'LA_NUMONLY', 'LA_SITEONLY']
     J += ['LB_%d' % k for k in range(3)] + ['UR_%d' % k for k in range(3)]
-    J += ['PL_%d' % k for k in range(4)] + ['PLN_%d' % k for k in range(4)]
-    J += ['LSH_%d' % k for k in range(12)] + ['NSH_%d' % k for k in range(8)]
-    J += ['LA_big']
+    J += ['PL_%d' % k for k in range(3)] + ['PLN_%d' % k for k in range(3)]
+    J += ['LSH_%d' % k for k in range(10)] + ['NSH_%d' % k for k in range(6)]
+    J += ['PLS_%d' % k for k in range(3)] + ['PLW_%d' % k for k in range(3)]
     return J
 
 
@@ -49,6 +49,12 @@ def run(job):
         lab = [d for d in C.shuffle_numbers(la, rng) if d['label']]
     if base == 'PL':
         lab = [d for d in C.plant(la, rng) if d['label']]
+    if base == 'PLS':
+        lab = [d for d in C.plant(la, rng, factor=(4.0, 6.0)) if d['label']]
+    if base == 'PLW':
+        pl = C.plant(la, rng, wordsig=True)
+        F = C.Featurizer(pl)
+        lab = [d for d in pl if d['label']]
     if base == 'PLN':
         lab = [d for d in C.plant(la, rng, factor=(1.0, 1.0)) if d['label']]
     ncfg = 3000 if job == 'LA_big' else NCFG
@@ -63,7 +69,7 @@ def run(job):
     # group importance (inner CV, first outer split)
     res['groups'] = E.group_importance(cfgs, det[0]['sc'])
     res['fam'] = {f: float(np.mean([det[0]['sc'][k][0] for k, c in enumerate(cfgs) if c['fam'] == f] or [0])) for f in set(E.FAMS)}
-    if base in ('PL', 'PLN'):
+    if base in ('PL', 'PLN', 'PLS', 'PLW'):
         rec = []
         y = np.array([d['label'] for d in lab])
         for dd in det:

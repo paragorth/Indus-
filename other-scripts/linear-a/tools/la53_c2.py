@@ -6,6 +6,8 @@ Linear A type ranking vs the N1 null. (c) Independent behaviour of high-surplus 
 non-administrative objects, round quantities, small quantities, each frequency-matched by permutation;
 the same tests run on Linear B with the status list as the 'answer'.
 Output: data/la53_ckpt/c2.json, c2.log"""
+import os
+os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ['MKL_NUM_THREADS'] = '1'
 import json, sys, os, math, random, collections, copy
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

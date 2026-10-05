@@ -437,7 +437,10 @@ def token_items(ents, keep_items=None, rmin=0.05, rmax=0.9, max_items=1200):
         n = len(ents)
         keep_items = [it for it, c in cnt.items() if rmin * n <= c <= rmax * n]
         keep_items.sort(key=lambda it: -tokc[it])
-        keep_items = keep_items[:max_items]
+        keep_items = keep_items[:3 * max_items]
+        dedup = True
+    else:
+        dedup = False
     idx = {it: j for j, it in enumerate(keep_items)}
     rows, bounds = [], [0]
     for e in ents:
@@ -447,6 +450,18 @@ def token_items(ents, keep_items=None, rmin=0.05, rmax=0.9, max_items=1200):
     M = np.zeros((len(rows), len(keep_items)), np.float32)
     for r, js in enumerate(rows):
         M[r, js] = 1
+    if dedup:
+        # collapse items that fire on (nearly) the same tokens (Jaccard >= 0.8): keep the more frequent one
+        co = M.T @ M
+        nn = np.diag(co)
+        jac = co / np.maximum(nn[:, None] + nn[None, :] - co, 1)
+        kept = []
+        for j in range(len(keep_items)):
+            if all(jac[j, k] < 0.8 for k in kept):
+                kept.append(j)
+            if len(kept) >= max_items: break
+        keep_items = [keep_items[j] for j in kept]
+        M = M[:, kept]
     return keep_items, M, bounds
 
 
@@ -481,7 +496,11 @@ def lock_pairs(keep, M, bounds, w=3, top=3000, zmin=3.0):
         a, b = divmod(int(f), I)
         if Z[a, b] < zmin: break
         out.append((a, b, float(Z[a, b])))
+    LOCKZ['Z'] = Z
     return out
+
+
+LOCKZ = {}
 
 
 def event_tensor(M, bounds, A, B, keep, w=3):
@@ -532,7 +551,8 @@ def kl_fixed(T, Q, k):
     return float((P * (np.log(P) - np.log(Q)[_PERMS[k]])).sum())
 
 
-def quad_search(E, locks_idx, Q, min_cov=0.3, min_exact=0.5, top=50, max_quads=4_000_000, seed=0, nestA=None, nestB=None):
+def quad_search(E, locks_idx, Q, min_cov=0.35, min_exact=0.8, max_kl=0.15, top=50, max_quads=4_000_000, seed=0, nestA=None, nestB=None,
+                rank='lbf'):
     """Pairs of lock pairs (a->c) and (b->d); per entry the 2x2 cells [ac, ad, bc, bd]. Gates: coverage (entries with any
     cell) and exactness (share of covered entries with exactly one cell). Rank by KL(T^||Q), best relabeling."""
     rng = np.random.default_rng(seed)
@@ -546,7 +566,7 @@ def quad_search(E, locks_idx, Q, min_cov=0.3, min_exact=0.5, top=50, max_quads=4
     if nestA is not None:
         ok &= ~nestA[a, b] & ~nestB[c, d]
     a, b, c, d = a[ok], b[ok], c[ok], d[ok]
-    R = dict(kl=[], bi=[], cov=[], ex=[], T=[])
+    R = dict(kl=[], klq=[], bi=[], cov=[], ex=[], T=[])
     for s in range(0, len(a), 100_000):
         sa, sb, sc, sd = a[s:s + 100_000], b[s:s + 100_000], c[s:s + 100_000], d[s:s + 100_000]
         X = np.stack([E[:, sa, sc], E[:, sa, sd], E[:, sb, sc], E[:, sb, sd]], -1)
@@ -555,19 +575,25 @@ def quad_search(E, locks_idx, Q, min_cov=0.3, min_exact=0.5, top=50, max_quads=4
         cov = (k > 0).mean(0); ex = one.sum(0) / np.maximum((k > 0).sum(0), 1)
         T = (X * one[..., None]).sum(0, dtype=np.int32).astype(float)
         kl, bi = kl_best(T, Q)
-        kl = -logbf(T, Q, bi)          # rank by (minus) log Bayes factor: Q vs any 2x2 table (Dirichlet 1)
+        R['klq'].append(kl)
+        kl = -logbf(T, Q, bi)          # (minus) log Bayes factor: Q vs any 2x2 table (Dirichlet 1)
         R['kl'].append(kl); R['bi'].append(bi); R['cov'].append(cov); R['ex'].append(ex); R['T'].append(T)
     if not R['kl']:
         return dict(n_hyp=0, n_pass=0, top=[])
     for k_ in R: R[k_] = np.concatenate(R[k_])
-    good = (R['cov'] >= min_cov) & (R['ex'] >= min_exact) & (R['T'].sum(-1) >= 20)
-    score = np.where(good, R['kl'], 1e9)
+    T = R['T']
+    good = (R['cov'] >= min_cov) & (R['ex'] >= min_exact) & (T.sum(-1) >= 20) & (T.min(-1) >= 1) & (R['klq'] <= max_kl)
+    lbf = -R['kl']
+    if rank == 'covex':
+        score = np.where(good, -(R['cov'] * R['ex']), 1e9)
+    else:
+        score = np.where(good, -lbf, 1e9)
     order = np.argsort(score)[:top]
     out = []
     for o in order:
         if score[o] >= 1e8: break
-        out.append(dict(a=int(a[o]), b=int(b[o]), c=int(c[o]), d=int(d[o]), kl=float(R['kl'][o]), perm=int(R['bi'][o]),
-                        cov=float(R['cov'][o]), ex=float(R['ex'][o]), T=R['T'][o].tolist()))
+        out.append(dict(a=int(a[o]), b=int(b[o]), c=int(c[o]), d=int(d[o]), lbf=float(lbf[o]), klq=float(R['klq'][o]),
+                        perm=int(R['bi'][o]), cov=float(R['cov'][o]), ex=float(R['ex'][o]), T=T[o].tolist()))
     return dict(n_hyp=int(len(a)), n_pass=int(good.sum()), top=out)
 
 
@@ -585,7 +611,7 @@ def rescore(E, q, Q):
                 ex=float((k == 1).sum() / max(1, (k > 0).sum())))
 
 
-def run_slot_search(ents, Q, train, test, w=3, n_locks=3000, top=50, seed=0, max_items=1200):
+def run_slot_search(ents, Q, train, test, w=3, n_locks=3000, top=50, seed=0, max_items=1200, **kw):
     """Full pipeline: items and locks learned on train entries, quadruples ranked on train, re-scored on test."""
     tr = [ents[i] for i in train]; te = [ents[i] for i in test]
     keep, M, bnd = token_items(tr, max_items=max_items)
@@ -598,30 +624,30 @@ def run_slot_search(ents, Q, train, test, w=3, n_locks=3000, top=50, seed=0, max
     E = event_tensor(M, bnd, A, B, keep, w)
     nestA = np.array([[nested(keep[x], keep[y]) for y in A] for x in A])
     nestB = np.array([[nested(keep[x], keep[y]) for y in B] for x in B])
-    R = quad_search(E, li, Q, top=top, seed=seed, nestA=nestA, nestB=nestB)
+    R = quad_search(E, li, Q, top=top, seed=seed, nestA=nestA, nestB=nestB, **kw)
     _, Mt, bt = token_items(te, keep_items=keep)
     Et = event_tensor(Mt, bt, A, B, keep, w)
     for q in R['top']:
         q['items'] = [keep[A[q['a']]], keep[A[q['b']]], keep[B[q['c']]], keep[B[q['d']]]]
         q['test'] = rescore(Et, q, Q)
     R['n_locks'] = len(locks)
-    R['_ctx'] = (keep, A, B, E, Et)
+    R['_ctx'] = (keep, A, B, E, Et, M, bnd, Mt, bt)
     return R
 
 
 def summ(R):
     t = R['top']
+    base = dict(n_locks=R.get('n_locks', 0), n_hyp=R.get('n_hyp', 0), n_pass=R.get('n_pass', 0))
     if not t:
-        return dict(n_locks=R.get('n_locks', 0), n_hyp=R.get('n_hyp', 0), n_pass=R.get('n_pass', 0), best_kl=None,
-                    med_test_kl=None, med_test_cov=None)
-    return dict(n_locks=R['n_locks'], n_hyp=R['n_hyp'], n_pass=R['n_pass'], best_lbf=round(-t[0]['kl'], 2),
+        return base
+    base.update(best_lbf=round(t[0]['lbf'], 2), med_lbf=round(float(np.median([q['lbf'] for q in t])), 2),
                 med_test_lbf=round(float(np.median([q['test']['lbf'] for q in t])), 2),
-                max_test_lbf=round(float(np.max([q['test']['lbf'] for q in t])), 2),
-                med_train_kl=round(float(np.median([q['kl'] for q in t])), 4),
-                med_test_kl=round(float(np.median([q['test']['kl'] for q in t])), 4),
-                best_test_kl=round(float(t[0]['test']['kl']), 4),
+                med_test_kl=round(float(np.median([q['test']['kl'] for q in t])), 3),
                 med_test_cov=round(float(np.median([q['test']['cov'] for q in t])), 3),
-                med_test_ex=round(float(np.median([q['test']['ex'] for q in t])), 3))
+                med_test_ex=round(float(np.median([q['test']['ex'] for q in t])), 3),
+                frac_test_pass=round(float(np.mean([q['test']['cov'] >= 0.35 and q['test']['ex'] >= 0.8 and q['test']['kl'] <= 0.15
+                                                   for q in t])), 3))
+    return base
 
 
 def decode_item(ents, item, k=4):
@@ -656,3 +682,75 @@ def hyp_detail(M, bounds, keep, idx4, w=3):
         else:
             k_ = list(found)[0]; cells.append(k_); poss.append(found[k_])
     return cells, poss
+
+
+def build_quads(locks, Z, n_anchor=3000, k_side=30, zside=1.0):
+    """Lattice-shaped hypotheses: anchor lock a->c (the dominant cell), b = items also locked to c, d = items a is also
+    locked to. Returns array (h, 4) of item indices (a, b, c, d)."""
+    out = []
+    for a, c, z in locks[:n_anchor]:
+        bs = np.argsort(-Z[:, c])[:k_side + 2]
+        bs = [b for b in bs if b != a and Z[b, c] >= zside][:k_side]
+        ds = np.argsort(-Z[a, :])[:k_side + 2]
+        ds = [d for d in ds if d != c and Z[a, d] >= zside][:k_side]
+        for b in bs:
+            for d in ds:
+                out.append((a, b, c, d))
+    return np.array(out, int).reshape(-1, 4)
+
+
+def quad_eval(E, Ai, Bi, quads, Q, min_cov=0.35, min_exact=0.8, max_kl=0.15, top=50, keep=None):
+    """quads in item indices; Ai/Bi map item index -> E axis."""
+    a = np.array([Ai[x] for x in quads[:, 0]]); b = np.array([Ai[x] for x in quads[:, 1]])
+    c = np.array([Bi[x] for x in quads[:, 2]]); d = np.array([Bi[x] for x in quads[:, 3]])
+    if keep is not None:
+        ok = np.array([not (nested(keep[p], keep[q]) or nested(keep[r], keep[t]) or p == q or r == t)
+                       for p, q, r, t in quads], bool)
+    else:
+        ok = np.ones(len(quads), bool)
+    R = dict(klq=[], lbf=[], bi=[], cov=[], ex=[], T=[])
+    for s_ in range(0, len(a), 100_000):
+        sl = slice(s_, s_ + 100_000)
+        X = np.stack([E[:, a[sl], c[sl]], E[:, a[sl], d[sl]], E[:, b[sl], c[sl]], E[:, b[sl], d[sl]]], -1)
+        k = X.sum(-1, dtype=np.int16)
+        one = (k == 1)
+        R['cov'].append((k > 0).mean(0)); R['ex'].append(one.sum(0) / np.maximum((k > 0).sum(0), 1))
+        T = (X * one[..., None]).sum(0, dtype=np.int32).astype(float)
+        kl, bi = kl_best(T, Q)
+        R['klq'].append(kl); R['bi'].append(bi); R['lbf'].append(logbf(T, Q, bi)); R['T'].append(T)
+    if not R['T']:
+        return dict(n_hyp=0, n_pass=0, top=[])
+    for k_ in R: R[k_] = np.concatenate(R[k_])
+    T = R['T']
+    good = ok & (R['cov'] >= min_cov) & (R['ex'] >= min_exact) & (T.sum(-1) >= 20) & (T.min(-1) >= 1) & (R['klq'] <= max_kl)
+    score = np.where(good, -R['lbf'], 1e9)
+    order = np.argsort(score)[:top]
+    out = []
+    for o in order:
+        if score[o] >= 1e8: break
+        out.append(dict(q=[int(x) for x in quads[o]], lbf=float(R['lbf'][o]), klq=float(R['klq'][o]), perm=int(R['bi'][o]),
+                        cov=float(R['cov'][o]), ex=float(R['ex'][o]), T=T[o].tolist()))
+    return dict(n_hyp=int(ok.sum()), n_pass=int(good.sum()), top=out)
+
+
+def run_lattice(ents, Q, train, test, w=3, n_locks=3000, k_side=30, top=50, max_items=1000, **kw):
+    tr = [ents[i] for i in train]; te = [ents[i] for i in test]
+    keep, M, bnd = token_items(tr, max_items=max_items)
+    locks = lock_pairs(keep, M, bnd, w=w, top=n_locks, zmin=2.0)
+    Z = LOCKZ['Z']
+    quads = build_quads(locks, Z, n_anchor=n_locks, k_side=k_side)
+    if len(quads) == 0:
+        return dict(n_hyp=0, n_pass=0, top=[], n_locks=len(locks))
+    A = sorted(set(quads[:, 0]) | set(quads[:, 1])); B = sorted(set(quads[:, 2]) | set(quads[:, 3]))
+    Ai = {x: i for i, x in enumerate(A)}; Bi = {x: i for i, x in enumerate(B)}
+    E = event_tensor(M, bnd, A, B, keep, w)
+    R = quad_eval(E, Ai, Bi, quads, Q, top=top, keep=keep, **kw)
+    _, Mt, bt = token_items(te, keep_items=keep)
+    Et = event_tensor(Mt, bt, A, B, keep, w)
+    for h in R['top']:
+        q = dict(a=Ai[h['q'][0]], b=Ai[h['q'][1]], c=Bi[h['q'][2]], d=Bi[h['q'][3]], perm=h['perm'])
+        h['items'] = [keep[x] for x in h['q']]
+        h['test'] = rescore(Et, q, Q)
+    R['n_locks'] = len(locks)
+    R['_ctx'] = dict(keep=keep, A=A, B=B, Ai=Ai, Bi=Bi, M=M, bnd=bnd, Mt=Mt, bt=bt, E=E, Et=Et)
+    return R

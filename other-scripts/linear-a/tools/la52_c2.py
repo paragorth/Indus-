@@ -80,7 +80,16 @@ for base, real, shuf, extra in [('LAP', 'LAP', 'LAS', list(C.PLANT_FEATS)), ('LA
         b = max(agg[k][x]['long'][0] for k in ks)
         rows.append((b, x, agg[ks[0]][x]['long'][2], {k: round(agg[k][x]['long'][0], 3) for k in ks}))
     rows.sort()
-    print(f'   words/logograms by best-learner pooled long-range retention (n {len(rows)}):')
+    # frequency-matched residual: compare with the 12 words nearest in log pooled excess
+    lx = np.log([r_[2] for r_ in rows]); bv = np.array([r_[0] for r_ in rows])
+    z = []
+    for i in range(len(rows)):
+        nb = np.argsort(np.abs(lx - lx[i]))[1:13]
+        m = np.median(bv[nb]); s = 1.4826 * np.median(np.abs(bv[nb] - m)) + 1e-3
+        z.append((bv[i] - m) / s)
+    rows = [row + (float(zz),) for row, zz in zip(rows, z)]
+    rows.sort(key=lambda t: t[4])
+    print(f'   words/logograms by best-learner pooled long-range retention, frequency-matched z (n {len(rows)}; negative = dies faster than words of the same excess):')
     for row in rows[:15] + rows[-6:]:
-        print(f'     {row[1]:14s} best {row[0]:.3f} excess {row[2]:.1f} {row[3]}')
+        print(f'     {row[1]:14s} z {row[4]:6.2f} best {row[0]:.3f} excess {row[2]:.1f} {row[3]}')
     json.dump(rows, open(os.path.join(C.CK, f'{TAG}_{base}_wordbest.json'), 'w'))

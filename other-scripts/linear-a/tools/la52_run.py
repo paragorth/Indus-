@@ -31,10 +31,16 @@ def start_corpus(base):
         idx = list(range(len(la))); r.shuffle(idx)
         h = idx[:len(la) // 2] if base == 'LAA' else idx[len(la) // 2:]
         return [la[i] for i in sorted(h)]
+    if base in ('LBA', 'LBB'):
+        lb = C.lb_docs(T, random.Random(C.seed('la52-lb')))
+        r = random.Random(C.seed('la52-halves-lb'))
+        idx = list(range(len(lb))); r.shuffle(idx)
+        h = idx[:len(lb) // 2] if base == 'LBA' else idx[len(lb) // 2:]
+        return [lb[i] for i in sorted(h)]
     raise ValueError(base)
 
 
-base = {'LAS': 'LA', 'LBS': 'LB', 'URS': 'UR', 'LAO': 'LA', 'LAAS': 'LAA', 'LABS': 'LAB'}.get(cond, cond)
+base = {'LAS': 'LA', 'LBS': 'LB', 'URS': 'UR', 'LAO': 'LA', 'LAAS': 'LAA', 'LABS': 'LAB', 'LBAS': 'LBA', 'LBBS': 'LBB'}.get(cond, cond)
 docs0 = start_corpus(base)
 fj = os.path.join(C.CK, f'{tag}_{base}_feats.json')
 if not os.path.exists(fj):
