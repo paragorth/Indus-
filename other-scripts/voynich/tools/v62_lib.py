@@ -148,10 +148,12 @@ def pages_from_verse(lines, page_len=24):
     """verse lines (None = section break) -> pages of <= page_len lines (break also ends a page)."""
     pages, cur = [], []
     for x in lines:
-        if x is None or len(cur) >= page_len:
-            if len(cur) >= 4: pages.append(cur)
-            cur = []
-            if x is None: continue
+        if x is None:
+            if len(cur) >= page_len // 2:
+                pages.append(cur); cur = []
+            continue
+        if len(cur) >= page_len:
+            pages.append(cur); cur = []
         cur.append(x)
     if len(cur) >= 4: pages.append(cur)
     return pages
