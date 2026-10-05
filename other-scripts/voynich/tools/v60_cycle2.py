@@ -202,6 +202,9 @@ if __name__ == '__main__':
     runs = [('P_CI', ci, hotcold_truth(ci)), ('P_LYT', lyt, hotcold_truth(lyt)),
             ('V_herbA', vh, None), ('N_markov', L.markov_null(vh, 1), None), ('N_wordshuf', L.wordshuf_null(vh, 1), None),
             ('V_starsB', L.voynich_entries('ZL3b', ('S',)), None), ('V_herbA_IT2a', vi, None),
+            ('V_herbHA', [e for e in vh if e['strat'][0] == 'H'], None),
+            ('N_markovHA', L.markov_null([e for e in vh if e['strat'][0] == 'H'], 2), None),
+            ('N_wordshufHA', L.wordshuf_null([e for e in vh if e['strat'][0] == 'H'], 2), None),
             ('NEG_CURY', L.encode_entries(L.plain_entries('CURY'), seed=63, pad=0.35, max_len=128), None),
             ('NEG_AST', L.encode_entries(L.plain_entries('AST')[:250], seed=64, pad=0.35, max_len=128), None)]
     only = sys.argv[1:] or None
@@ -212,4 +215,4 @@ if __name__ == '__main__':
             o, keep = run(ents, seed=seed, truth=truth)
             out['%s|%d' % (name, seed)] = dict(summary=summ(o), top=o['top'][:20], truth_top=o.get('truth_top'))
             print(name, seed, len(ents), round(time.time() - t), json.dumps(summ(o)), flush=True)
-            L.jsave('cycle2.json', out)
+            L.jsave('cycle2_%s.json' % ('_'.join(only) if only else 'all'), out)

@@ -13,6 +13,8 @@ from multiprocessing import Pool
 
 TAG = sys.argv[1] if len(sys.argv) > 1 else 'c2'
 BUDGET = float(sys.argv[2]) if len(sys.argv) > 2 else 1500
+FOCUSED = os.environ.get('V56_FOCUSED') == '1'
+SELK = os.environ.get('V56_SELK', 'both')
 
 
 def corpus(name):
@@ -54,7 +56,7 @@ def run(name):
     log = open(os.path.join(L.CK, '%s_%s.log' % (TAG, name)), 'w')
     C = corpus(name)
     E = L.build_R(C)
-    rows, E2, TT, ne, cov = L.search_grid(C, seed=0, log=log, time_budget=BUDGET, sel_kind='both', starts=6, E=E, hitk=10)
+    rows, E2, TT, ne, cov = L.search_grid(C, seed=0, log=log, time_budget=BUDGET, sel_kind=SELK, starts=6, E=E, hitk=10, focused=FOCUSED)
     S = L.summarise(rows)
     out = dict(name=name, n_eval=ne, summary=S, rows=rows, coverage=cov)
     for k in ('digits', 'roman'):

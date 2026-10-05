@@ -1,7 +1,7 @@
 """pe52 cycle 3: are the one-off strings predictable from sign weights? (nested, no circularity)
 
-Tablets are split in two halves H1/H2 (3 random halvings, both directions). On H1 alone the random-model
-search (S=6 splits x M=120 models) chooses DESCRIPTOR signs with rule B20 (pe52_ruleb.py, eff 0.2). A descriptor-only
+Tablets are split in two halves H1/H2 (2 random halvings, both directions). On H1 alone the random-model
+search (S=4 splits x M=80 models; the machine was shared) chooses DESCRIPTOR signs with rule B20 (pe52_ruleb.py, eff 0.2). A descriptor-only
 ridge model is then fitted on H1 and scored on H2, separately for
   hapax strings  (multi-sign strings that occur once in the whole corpus: the 'name universe' of pe50)
   recurring strings (multi-sign strings seen >= 2 times)
@@ -31,14 +31,14 @@ def main(cname, mode, null):
     freq = Counter(tuple(sorted(set(r['w']))) for r in C)
     tabs = sorted({r['tab'] for r in C})
     res = []
-    for h in range(3):
+    for h in range(2):
         rng = random.Random(500 + h); t2 = tabs[:]; rng.shuffle(t2)
         halves = [set(t2[:len(t2) // 2]), set(t2[len(t2) // 2:])]
         for d in range(2):
             H1, H2 = sub(C, halves[d]), sub(C, halves[1 - d])
-            D1, R1 = L.run_corpus(H1, mode, 6, 120, seed0=900 + 10 * h + d)
+            D1, R1 = L.run_corpus(H1, mode, 4, 80, seed0=900 + 10 * h + d)
             T1 = L.summarise(D1, R1)
-            cl = ruleb(T1, 6, 0.2)          # rule B20 (cycle 2): stable weight, |effect| >= 0.2
+            cl = ruleb(T1, 4, 0.2)          # rule B20 (cycle 2): stable weight, |effect| >= 0.2
             Ds = sorted(s for s, c in cl.items() if c in 'DG')
             # descriptor-only ridge on all of H1, scored on H2 (same target construction on the union)
             Dall = L.Data(H1 + H2, mode)

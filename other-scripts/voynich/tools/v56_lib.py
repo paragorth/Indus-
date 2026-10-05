@@ -730,7 +730,11 @@ def marker_selectors(TT, top=40):
     return out
 
 
-def grid_configs():
+def grid_configs(focused=False):
+    if focused:   # the v52/v54 hypothesis: the payload is the frame + gallows skeleton
+        feats = [('count', True, nm) for nm in ('numeral', 'free')] + [('pos', True, B, fr) for B in range(2, 13) for fr in (True, False)]
+        modes = [('page', 'abs_clip', 0), ('page', 'rel_fwd', 0), ('folio', 'abs_clip', 0)]
+        return feats, modes
     feats = [('count', sk, nm) for sk in (True, False) for nm in ('numeral', 'free')]
     feats += [('pos', True, B, fr) for B in range(2, 13) for fr in (True, False)]
     feats += [('pos', False, B, True) for B in range(2, 13)]
@@ -739,7 +743,7 @@ def grid_configs():
     return feats, modes
 
 
-def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed', hitk=None):
+def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=None, max_cfg=None, mode_filter=None, sel_kind='fixed', hitk=None, focused=False):
     import time
     t0 = time.time()
     if E is None: E = build_R(C)
@@ -748,7 +752,7 @@ def search_grid(C, seed=0, starts=4, n_rand=300, log=None, time_budget=None, E=N
     tok_tr = split_types(TT, seed)
     sels = {'fixed': lambda: fixed_selectors(TT), 'marker': lambda: marker_selectors(TT),
             'both': lambda: fixed_selectors(TT) + marker_selectors(TT, top=25)}[sel_kind]()
-    feats, modes = grid_configs()
+    feats, modes = grid_configs(focused)
     cfgs = [(f, s, m) for f in range(len(feats)) for s in range(len(sels)) for m in range(len(modes))
             if mode_filter is None or modes[m][1] in mode_filter]
     rng = random.Random(1234); rng.shuffle(cfgs)          # same visiting order for every corpus
