@@ -26,7 +26,7 @@ keys = ['max_full', 'n_rep', 'n_rep3', 'hold', 'win_z', 'rep_win_z', 'frac_best_
 print('cond'.ljust(9), ' '.join(k[:10].rjust(10) for k in keys))
 for c, j in rows.items():
     print(c.ljust(9), ' '.join(('%10.3f' % j.get(k, np.nan)) if isinstance(j.get(k), float) else str(j.get(k)).rjust(10) for k in keys))
-nulls = [c for c in rows if c.startswith(('shuf', 'fake', 'gen'))]
+nulls = [c for c in rows if c.startswith(('shuf', 'fake', 'gen', 'sperm'))]
 if 'real' in rows and nulls:
     print('real percentile among', len(nulls), 'nulls:')
     for k in keys[:7]:

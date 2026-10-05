@@ -747,3 +747,11 @@ Voynich words do not behave like record keys with attribute fields (grade B, neg
 
 ## v50 reading paths across the page grid (5 Oct 2026)
 2.27 million paths were searched: columns, diagonals, knight moves, every n-th word, first/last glyphs and random multi-step paths. **A (negative):** no hidden letter-level message. Planted Latin and German acrostics, diagonals and random paths were found exactly (rank 1–3), but on real pages every hit is the known left-margin first-glyph chain (v6), which is not language-like (P 0.04 against 0.99 for a planted acrostic). **C, blind spot:** a word-for-word code word laid along a path ranks near the threshold, so word-level hidden messages are not excluded.
+
+## Where the pen ran dry (v57, 5 Oct 2026; `loops/v57_final.txt`)
+- Method: ink fade used as a clock. Writing order was scored over 4,914 guessed orders and with a line-break clock. Re-dips were located below word level on column ink traces of 1,152 Voynich and 915 Latin (CREMMA) lines. Controls: a dark/light mirror null, word-shuffled traces, word-type residualisation, Latin punctuation, and planted re-laid orders (recovered at rank 1 in 4 of 5).
+- Grade B (negative): no phrase boundaries in the ink. Latin scribes do not re-dip at punctuation (odds 1.06 vs 1.42 at shuffled junctions), so re-dip position is not a phrase marker even in meaningful text. Segments between Voynich re-dips do not recur. The apparent preference for re-dips between -y and q- words disappears when the same junctions are compared in shuffled lines (z +0.4): it is glyph shape.
+- Grade B: pen loads have the same shape in both scripts: a fade, a sudden darkening, then about three heavy words. The strongest re-dips fall at word gaps in both scripts, but most gap darkening is word shape.
+- Grade C: consistent with writing in reading order. The ink clock crosses line breaks at about 40% of the Latin strength (z 1.85 vs 3.2). There is no separate pass for line-initial words or columns.
+- Grade C+: only the Voynich shows a stable word-level ink sawtooth (increment skew +0.28, z 6.5). It survives word-type control, both page halves and the removal of y|q junctions. Latin's skew is unstable. Would kill: an equal stable skew in another single-hand manuscript with short words.
+

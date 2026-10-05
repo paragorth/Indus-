@@ -1,0 +1,15 @@
+v55 THE SKY IS THE ANSWER KEY, cycle 4: the CIRCULAR TEXTS of the zodiac pages as day runs (5 Oct 2026)
+Tools: tools/v55_cycle4.py (ring words from data/ZL3b-n.txt @Cc lines via v55_lib.load_ring_words), tools/v55_lib.py,
+tools/v55_report.py. Checkpoints data/v55_ckpt/c4_*.
+Data: 964 words of the circular texts of f70v2-f73v (10 signs, 66-160 words each, outer ring first as transcribed).
+Word k of n in a sign = the day the Sun stands at degree 30k/n (+ rotation 0-29, both directions) of that sign in
+year Y, every Y 1290-1611. 118 word classes (every type seen >= 6 times, 2/3-unit affixes seen >= 20 times,
+substrings, 30 random merges of glyph features) x 24 sky features (Moon sign, phase8, Moon-Sun sign distance, and the
+21 events of cycle 2) x 322 years x 60 alignments, ~55 million G-tests per condition; held-out halves A/B by sign.
+Order-preserving null added in this cycle: sperm = each sign's ring text moved whole to another sign (derangement),
+so every word sequence keeps its internal order and only the link to that sign's sky is broken.
+
+| V-55.4.1 | POSITIVE CONTROL plantE: full/new-Moon marker words ('otolal' / 'okolal') written into the ring words that fall within 1 day of a full/new Moon in 1421 (rotation 0, forward) | max -log10 p 152.9; peak year by single best 1433, by mean profile 1421; top years 1433 150.8 (1409), 148.1 (1429), 147.5 (1421) | Detected massively; the year is fixed only to within the lunar-calendar near-repeats (1409/1421/1429/1433), because ~3 words share each day here |
+| V-55.4.2 | REAL ring words | max 8.00 (has ke x has d vs Mercury retrograde, 1406, rotation 0); n_rep 7,457; n_rep3 102; held-out mean 0.428; window z 0.20; fraction of best years in 1404-1438 0.105 (chance 35/322 = 0.109) | See nulls |
+| V-55.4.3 | NULLS: 3 within-sign shuffles, 2 fake skies, 1 generator, 6 sign-block permutations (sperm) | max 6.66-12.06 (real at 50th pct); n_rep 3,885-9,777 (real 8th pct: above the shuffles, inside the sperm range); n_rep3 14-475; held-out 0.413-0.442; window z -0.20..0.28 | The excess of replicated pairs over the within-sign shuffles is word-order structure (runs of similar words meet slow sky features such as Mercury retrograde): it is reproduced when the same texts are put on the wrong sign's sky |
+| V-55.4.V | Verdict, cycle 4 | - | The circular texts carry no day-by-day Moon, phase or event information for any year 1290-1611 under a linear word-to-day spread. The within-sign shuffle alone would have given a false positive (n_rep at the top of 6 nulls); the order-preserving sign-permutation null removes it. Grade A negative at the planted density; Grade B lesson: day-sequence tests on running text need order-preserving nulls |
