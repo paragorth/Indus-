@@ -70,18 +70,28 @@ def lb_units(signs=False):
 
 
 def lb_truth_classes():
-    """Known LB classes (controls only). FUNC = totals, deficits, transaction verbs/terms; COMM = logograms;
-    PERSON = first word of KN D-series sheep tablets (la45 rule); PLACE = la45 place list."""
-    from la45_common import lb_docs_all, lb_truth
-    t = lb_truth(lb_docs_all())
+    """Known LB classes (controls only). FUNC = totals, deficits, transaction verbs/terms (la45 lists);
+    COMM = logograms; PLACE = la45 place list; PERSON = word that, in at least half of its occurrences, opens a
+    document of a person-headed series (KN D*, Vc, Sc, As, Ai, Uf; PY Ea, Eb, En, Eo, Ep)."""
+    from la45_common import lb_docs_all, LB_TRUTH
+    B = lb_docs_all()
+    PSER = re.compile(r'^(KN (D|Vc|Sc|As|Ai|Uf)|PY (Ea|Eb|En|Eo|Ep))')
+    first = collections.Counter(); tot = collections.Counter()
+    for d in B:
+        ws = [x[1] for x in d['toks'] if x[0] == 'T']
+        for w in ws:
+            tot[w] += 1
+        if ws and PSER.match(d['site'] + ' ' + d.get('series', '')) and not ws[0].startswith('L:'):
+            first[ws[0]] += 1
     out = {}
-    for w, c in t.items():
+    for w, c in tot.items():
         if w.startswith('L:'):
             out['L:' + w[2:].split('+')[0]] = 'COMM'
-        elif c in ('TOTAL', 'DEFICIT', 'VERB'):
-            out['w:' + w] = 'FUNC'
-        elif c in ('PERSON', 'PLACE'):
-            out['w:' + w] = c
+        elif w in LB_TRUTH:
+            r = LB_TRUTH[w]
+            out['w:' + w] = 'PLACE' if r == 'PLACE' else 'FUNC'
+        elif first[w] >= max(1, 0.5 * c):
+            out['w:' + w] = 'PERSON'
     return out
 
 

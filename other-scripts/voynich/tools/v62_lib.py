@@ -356,9 +356,10 @@ def lag_kappa(seqs, maxlag=4):
 
 
 def rhyme_score(P, d, maxlag=4):
-    """kappa at each lag for line-final endings minus the same for penultimate-word endings."""
+    """kappa at each lag for line-final endings minus the same for the line's SECOND word (comparator
+    away from the caesura of leonine verse; carries the same page drift)."""
     F = [[None if r is None else ending(r[0], d) for r in rows] for rows in P]
-    M = [[None if r is None else ending(r[1], d) for r in rows] for rows in P]
+    M = [[None if r is None else ending(r[3], d) for r in rows] for rows in P]
     kF, oF, eF, nF = lag_kappa(F, maxlag)
     kM, *_ = lag_kappa(M, maxlag)
     return kF - kM, kF, kM, oF, eF
