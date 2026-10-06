@@ -70,6 +70,8 @@ def records(path, m):
         t = txt.replace('<->', '-')
         t = re.sub(r'<[^>]*>', '', t)
         t = re.sub(r'\[([^:\]]*):[^\]]*\]', r'\1', t)
+        # NOTE (v83): '!' and '%' are v101 glyphs (Le, Lc: sh family), not IVTFF fillers; deleting them drops 190
+        # GC2a glyphs. tools/v83_parse.py keeps them. Left unchanged here so v74/v76 results reproduce.
         t = t.replace('{', '').replace('}', '').replace('!', '').replace('%', '')
         # keep @nnn; codes intact for the converter
         words = [w for w in re.split(r'[.,\-]', t) if w]

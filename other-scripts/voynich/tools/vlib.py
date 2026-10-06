@@ -22,8 +22,24 @@ def glyphs(word):
         w = w.replace(a, b)
     return list(w)
 
-def load_voynich(name='ZL3b', ltypes=('P',), drop_uncertain=False):
-    recs = json.load(open(os.path.join(DATA, 'derived', name + '_lines.json')))
+# Default transcription reading (v83, 6 Oct 2026): the uncertainty-aware parser tools/v83_parse.py.
+# VOY_MODE=glyph (default): words with glyph-level doubt are dropped ([a:b] alternatives, ?, rare @nnn; glyphs,
+#   {..} ligatures, ' marks, comments questioning the reading, damage comments, damaged pages/blocks); words next to an
+#   uncertain space ',' are kept (the space still counts as a word break) and flagged; '<~>' is a word space.
+# VOY_MODE=legacy reproduces every loop before v83 (tools/parse_ivtff.py -> data/derived/<name>_lines.json).
+# Other modes: all, clean (no flag of any kind), agree (ZL3b = IT2a = GC2a on the same locus), agreeclean.
+VOY_MODE = os.environ.get('VOY_MODE', 'glyph')
+
+
+def load_voynich(name='ZL3b', ltypes=('P',), drop_uncertain=False, mode=None):
+    mode = mode or VOY_MODE
+    if mode == 'legacy':
+        recs = json.load(open(os.path.join(DATA, 'derived', name + '_lines.json')))
+    else:
+        import sys as _sys
+        _sys.path.insert(0, HERE)
+        import v83_parse
+        recs = v83_parse.load(name, mode)
     out = []
     for r in recs:
         if ltypes and r['ltype'] not in ltypes:

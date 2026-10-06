@@ -9,12 +9,13 @@ Other people's transcriptions are used only as data. Their readings and theories
 - Second reading: Takahashi IT2a, from the same site, saved as `data/IT2a-n.txt`.
 - Both files transcribe the same manuscript, so agreement between them shows the result does not depend on one transcriber's reading; it is not replication.
 
-**Parsing (`tools/parse_ivtff.py`):**
-- `.` and `,` (uncertain space) both count as word breaks.
-- `<->` (a break around a drawing) also counts as a word break.
-- For `[a:b]` alternatives, the first reading is kept.
-- Rare glyphs `@nnn;` become `?`. Words containing `?` are dropped from the statistics.
+**Parsing (default from v83, 6 Oct 2026: `tools/v83_parse.py` through `vlib.load_voynich`):**
+- Every word keeps its first reading and a set of flags: alternative reading `[a:b]`, illegible `?`, rare glyph `@nnn;`, ligature `{..}`, glyph-variant apostrophe `'`, uncertain space `,` on either side, a comment questioning the reading (`corr?`, `unclear`, `funny d` ...), a damage comment (`tear`, `hole`, `gap`), or a page/block marked damaged in the file's `#` comments (f37r, f101v, f72r3 C1, fRos left block). Each word also records whether ZL3b, IT2a and GC2a (converted to EVA) read it identically on the same locus.
+- Default mode `glyph` (env `VOY_MODE`): words with any glyph-level flag are dropped (ZL3b 4.6% of words; IT2a 0.4%); words next to an uncertain space are kept and the space still counts as a word break. Other modes: `all`, `clean` (no flag of any kind), `agree` (three-way agreement), `legacy`.
+- `VOY_MODE=legacy` reproduces every loop before v83 (old parser `tools/parse_ivtff.py`: `,` and `<->` are word breaks, first reading of `[a:b]`, `@nnn;` -> `?`, words with `?` dropped). The old parser deleted `<~>` and glued 6 word pairs on f34r; v83 treats `<~>` as a space (IVTFF 2.0).
+- Loaders that read `data/derived/<name>_lines.json` directly (v53, v59, v68 c3, v71) still see the legacy text; new loops should use `vlib.load_voynich` or `v83_parse.load(name, mode)`. Compact flagged copies: `data/derived/ZL3b_v83.json`, `IT2a_v83.json`.
 - Glyph units: `ch`, `sh`, `cth`, `ckh`, `cph` and `cfh` each count as one sign.
+- How much is uncertain (v83): ZL3b 17.4% of words carry a flag (13.3% only an uncertain space), IT2a 0.4% (IT2a marks only `?`), GC2a 12.2%. The three transcriptions agree on 75% of words; flagged words agree 1-50% of the time, unflagged 84%.
 
 **ZL3b counts:**
 - 227 pages, 5,384 lines, 39,019 words.
@@ -928,3 +929,13 @@ The frozen hashes were verified unchanged. **P1 killed (A, physical measurement)
 
 ## v82 killing the onset link (6–7 Oct 2026)
 **Killed: v81's C reading.** A generator in which glyph 2 of a word sets the class of the next word's glyph 1 (6 random classes), plus a passage mood, scores +0.18 to +0.59 bits on the frozen v81 test, against the Voynich's +0.03 to +0.09. It keeps all 9 surface statistics in band in 10 of 10 seeds. **B:** what remains is line-bounded onset persistence: mostly the same onset written again by the next word. It never crosses a line break, whereas every language put through the v72 surface machinery does. On 9 shape features a line-mood plus harmony generator sits at distance 1.5–3.7 from ZL, against 21–132 for real languages. C-: the link as evidence of meaning.
+
+
+## Transcription-uncertainty audit (v83, 6 Oct 2026; `loops/v83_final.txt`)
+- Method: an IVTFF parser that flags every doubtful word (alternatives, `?`, rare glyphs, ligatures, apostrophes, uncertain spaces, questioning and damage comments, damaged pages) and records three-way agreement ZL3b = IT2a = GC2a. Validated on 30 hand-checked lines (311/311 words), 3,000 planted markers (3,000/3,000) and an exact round trip with the old parser (except 6 words the old parser glued at `<~>`). Every B result was then re-run with its loop's own code on all words, unflagged words and three-way-agreed words, each against random thinning of the same size per section and line type.
+- Grade A (data): ZL3b 17.4% of words carry some doubt, 4.6% at glyph level; agreement 75%. Doubt is concentrated in the circle and label texts of hand 4 (agreement 52-54%) and on two damaged pages; Currier A has 2.4x the glyph-level doubt of B. Flagged words are read differently by the other transcribers 2-80x more often than unflagged ones, so the flags mark real trouble spots.
+- Grade A (data, legacy bugs): `<~>` glued 6 ZL word pairs; `tools/v74_gc.py` deleted 190 GC2a glyphs (`!`, `%` are v101 sh-family glyphs, not fillers); IT2a carries none of ZL's uncertainty markup, so earlier "ZL and IT2a agree" checks never tested uncertain spaces or alternatives.
+- Grade B (robustness): no B result depends on doubtful readings. All 12 headline measurements (x4, v54, v56, v59, v61, v68, v71, v72, v74, v75/v78, v79, v81/v82) keep their criterion on unflagged words in both transcriptions and stay inside or above their thinning bands; on agreed words 11 of 12 keep it, and the v54 variant-return z drops only as far as its thinning control (power, not a kill). Doubling (v75/v78) is stronger on agreed words (0.033 vs 0.027-0.028 thinned).
+- Revised numbers, grades unchanged: v74 short-word gap habit: a third of the gradient and most of the 1-glyph narrowing are spaces the transcribers already marked `,` (60% of 1-glyph words are followed by `,`); on certain spaces the gradient is 0.26 [0.16-0.36] (agreed words 0.21 [0.07-0.35]; was 0.39), still far above Latin. v79 line-start successor table: z 24 -> 5-6 on agreed words (below thinning 6-10), because line-initial words are disputed more often (agreement 0.76 at line start, 0.71 at paragraph starts, 0.78 inside lines). v68 line-initial pool: 0.114 -> 0.081 on agreed words (thinning 0.083-0.087; still 2x any coded plaintext). v72 sequence excess: 0.057 -> 0.032-0.034 under any thinning, so its generator comparison should be repeated at equal thinning.
+- Not cracked. The audit protects the B layer; it adds no meaning.
+

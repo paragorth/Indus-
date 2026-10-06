@@ -1,0 +1,11 @@
+v83 FINAL: TRANSCRIPTION-UNCERTAINTY AUDIT (6 Oct 2026). Cycles: loops/v83_cycle1.txt (parser, validation, counts), v83_cycle2.txt (every B result on all / unflagged / three-way-agreed words with thinning controls), v83_cycle3.txt (default switched, grade changes). Scripts: tools/v83_parse.py, v83_c1.py, v83_harness.py, v83_c2.py, v83_c2_gaps.py, v83_c2_x4.py, v83_c2_report.py; vlib.py (default loader). Gold: data/derived/v83_gold_lines.json. Flagged text: data/derived/ZL3b_v83.json, IT2a_v83.json. Checkpoints data/v83_ckpt/ (git-ignored, ~10 MB). Two CPU workers.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| V-83.F1 | Uncertainty-aware IVTFF parser (flags: alt, ?, rare glyph, ligature, apostrophe, uncertain space, questioning / damage comment, damaged page) + three-way agreement; round trip, 30 hand-checked lines, 3,000 planted markers | round trip exact except 6 ZL words glued by the old parser at '<~>'; 311/311 gold words; 3,000/3,000 planted | A (method) |
+| V-83.F2 | How much is doubtful | ZL3b 17.4% of words (13.3% only an uncertain space; 4.6% glyph-level), IT2a 0.4% (marks only '?'), GC2a 12.2%; three-way agreement 75%; flagged words agree 1-50% vs 84% unflagged. Highest doubt: hand-4 circles and labels (agreement 52-54%), f101v and f37r damage; Currier A 2.4x the glyph doubt of B | A (data) |
+| V-83.F3 | Every B result (x4, v54, v56, v59, v61, v68, v71, v72, v74, v75/v78, v79, v81/v82) re-run with its own code in 5 versions x 2 transcriptions, random-thinning controls | 12/12 hold on unflagged words, 11/12 on agreed words (v54 variant-return z falls only as far as its thinning control); default mode holds 12/12 | B layer robust |
+| V-83.F4 | Grade changes | none; revised: v74 gap gradient 0.39 -> 0.26 on certain spaces (a third was the ',' marking); v79 successor table z 24 -> 5-6 and v68 line-initial pool 0.114 -> 0.081 on agreed words; v54 variant return power-limited on agreed words; v72 excess halves under any thinning. Doubling stronger on agreed words | B kept |
+| V-83.F5 | Default | vlib.load_voynich -> v83 parser, VOY_MODE=glyph (drop glyph-level doubt, keep uncertain-space words); VOY_MODE=legacy reproduces v1-v82 | A (done) |
+
+Not cracked; nothing is read. The audit shows the B layer does not rest on doubtful readings; it adds no meaning.

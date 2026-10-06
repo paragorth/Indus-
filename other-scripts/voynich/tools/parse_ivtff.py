@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Parse an IVTFF 2.0 EVA transliteration (e.g. voynich.nu ZL3b-n.txt) into JSON lines.
+"""LEGACY parser (all loops before v83; reproduced by VOY_MODE=legacy). The default since v83 is tools/v83_parse.py,
+which keeps uncertainty flags and treats '<~>' as a word space (this parser deletes it).
+
+Parse an IVTFF 2.0 EVA transliteration (e.g. voynich.nu ZL3b-n.txt) into JSON lines.
 
 Output: data/derived/<name>_lines.json, a list of records:
   folio, quire, panel, illus (H herbal, A astro, Z zodiac, B bio, C cosmo,
