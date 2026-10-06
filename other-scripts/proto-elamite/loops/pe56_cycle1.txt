@@ -1,0 +1,32 @@
+PE-56 cycle 1: HIRE FORGERS AND WATCH WHERE THEY FAIL (item-level forger inversion, Proto-Elamite)
+Date 5-6 Oct 2026. Scripts: tools/pe56_common.py (corpora, relations, forger ensemble, contest, controls),
+tools/pe56_c1.py, tools/pe56_report1.py. Checkpoints data/pe56_ckpt/c1_*.json (git-ignored).
+Novelty check: no PE forger-residue study in LITERATURE.md, FINDINGS.md, STRATEGIES.md or a web search (PE ML work
+is sign prediction / tablet-type classification). x4 ran document-level forgery AUCs; la46 ran this inversion on
+Linear A. pe56 adapts la46 to PE's line structure (header lines, entries = sign string + numeral with system and
+value) and adds new forger families.
+Corpus: 1,178 PE tablets with >= 2 numeral lines (20,356 tokens; base sign forms; values from pe47 pe_value).
+Relations (presence per tablet; 14 families): ES/EF last/first sign of entry i -> entry i+1; LR sign in an entry ->
+sign in an entry >= 2 entries later; HE header sign -> entry sign; HS header sign -> number system on the tablet;
+SP two systems on one tablet; SO system succession; SN/SM last sign -> system / magnitude; MM magnitude succession;
+TOT line = running sum of >= 2 earlier entries of the same system; CO two signs on non-adjacent lines; LAST sign
+on last line; WP adjacent sign pair. Long-range families use signs on >= 8 tablets.
+Forgers: 120 random architectures per corpus, 5-fold CV, 1 forgery per held-out tablet per architecture (141,000
+forged tablets per corpus, ~1.5 M in all). Families: (a) back-off n-grams (order 1-5) over randomly abstracted
+streams (rare signs merged, numerals as system+bin / system / kind / coarse), optional site, line index, tf-idf
+tablet clusters K 2-32 (vocabulary-clustering forgers), copied layout templates, line reset; (b) entry-level
+grammars: line banks per cluster with Markov succession on the previous entry's last sign, numerals copied or
+re-drawn given the last sign, real or borrowed headers; (c) bag forgers (entries dealt at random from the
+cluster's pool into a real skeleton). Rule (la46 cycle 3): ensemble-mean expectation E, residue p =
+P(Poisson(E) >= R), R = real held-out tablets with the relation. Thresholds 1e-3 and Bonferroni (0.05 / tested).
+Nulls: W1 (n-gram k3 + K16 + template world), W2 (line-bank Markov world), SH1/SH2 (signs shuffled globally,
+layout and numerals kept). Positive: PL1/PL2 = W1/W2 worlds with 8 planted long-range constraints (4 ordered
+sign -> sign >= 2 entries later, 2 header -> entry sign, 2 header -> number system; rate 0.8). Real-world
+controls, sign identities only, sampled to PE token count: PC (proto-cuneiform, CDLI), UR (Ur III, CDLI).
+
+| PE-56.1a | Inside-out contest, ensemble-mean rule, all families; nulls W1, W2, SH1, SH2 through the identical pipeline | Passes p<1e-3 / Bonferroni: PE 48 / 9; W1 12 / 1; W2 21 / 2; SH1 18 / 0; SH2 11 / 0. Strict rule (beat every forger group): 0 everywhere | p<1e-3 is not clean at this size (11-21 null passes in 9,000-14,000 tests); Bonferroni is (0-2, and the 2 in W2 are ES self-repeats M288->M288, M297->M297 that the W2 line-Markov world builds in and the ensemble cannot copy: a re-estimation artefact, not a constraint). |
+| PE-56.1b | Planted long-range constraints PL1 (W1 world) and PL2 (W2 world) | PL1: 5 of 5 testable planted relations pass Bonferroni (LR M146->M293 R 26 vs E 2.2; M193->M110; M069->M210; M221->|M131+M388|; HE M097->|M377+M320+M377| R 4 vs 0.07); 3 planted relations too rare to test (R < 3). PL2: 3/5 at Bonferroni, 5/5 at 1e-3 (LR M269->M325 R 20 vs 3.9; HS M254->S-frac R 6 vs 0.7). Non-planted passes: only CO echoes of the planted LR pairs and the base worlds' own artefacts (W1: HS M157; W2: ES M288->M288). True false passes 0 | The rule recovers planted ORDERED long-range and header constraints with no new false passes; header -> system planted at rate 0.8 is found 1/2. |
+| PE-56.1c | Ur III control (UR2, 504 Drehem/Umma tablets at PE token count, words opaque) | 43 Bonferroni passes: the dating frame (LAST mu R 296 vs E 71; LAST ba-hul, us2-sa, lugal, the king's name; CO iti/mu, ki/mu, ba-ti/mu, i3-dab5/mu), and totals (TOT udu = running sum R 11 vs 1.1; TOT unlabelled sums R 8 vs 0.6; EF szunigin -> szunigin). No commodity order, no ration-worker link | Known real-world constraints come back with the words opaque: totals and the end-of-tablet date formula. Ration-to-worker links and commodity orders do not appear: they are adjacent pairings or within-line facts a surface forger copies. |
+| PE-56.1d | Proto-cuneiform control (PC2, 1,141 tablets at PE token count) | 3 Bonferroni passes: LAST P_GU7 (R 42 vs 15.6), MM 3->3 and 1->1 (runs of equal small quantities); TOT 1 at 1e-3 | Proto-cuneiform gives a closing-line sign and runs of equal amounts (per-head allotment lists), weaker than Ur III. |
+| PE-56.1e | Real PE, what passes Bonferroni | 9 passes, all one item: tablets headed by M157 carry M157 more often than the forgers make it (HS M157 -> SDB R 198 vs E 103; HS M157 -> C 113 vs 65; HE M157 -> M297, M388, M288, M038, M262, M219, M260: 17-77 vs 4-39, each ~2x). Below Bonferroni: TOT M297 = running sum (5 vs 0.5, p 2e-4), LR |M036+1(N30D)| repeats, LR M354 repeats, LAST M288 (134 vs 97), CO M003/|M195+M057| | Every Bonferroni PE residue is the rate of the M157 header, and the same HS M157 -> SDB residue appears in forger world W1 (R 125 vs 78) and its planted copy PL1 (136 vs 82, plus HE M157 -> M263): the ensemble under-produces M157 headers, real or forged. Provisionally an ARTEFACT; cycle 3 tests it with a header-copying forger. |
+| PE-56.1 | Cycle verdict | PE: 0 residues beyond what forger worlds also show. Controls work: planted ordered and header constraints found (8/10 testable, 0 true false passes); Ur III gives back totals and the date formula. | B (method): at PE size, item-level inversion can see ordered long-range and closing-line constraints and totals, and is blind to adjacent pairings. B (negative): PE has no ordered entry-to-entry or closing-line constraint a surface forger misses at the Ur III or planted strength; its candidate residues are a forger header artefact. Not cracked. |
