@@ -1,0 +1,20 @@
+LA-70 CRACK ATTEMPT v2: final (cycles 1-3: loops/la70_cycle1.txt, la70_cycle2.txt, la70_cycle3.txt; glosses loops/la70_glosses20.txt; predictions loops/la70_predictions.txt)
+Scripts: tools/la70_common.py, la70_c1a.py, la70_c1b.py, la70_c2.py, la70_c2b.py, la70_c3.py, la70_c3b.py. Checkpoints: data/la70_ckpt/ (git-ignored, < 1 MB).
+
+The reading V2 (frozen on training documents, sha256 182fd0d68a3cd46e7a2b4d754d1c0ba27f81811bd4b0aa315e629d931f58e845; data/la70_ckpt/frozen_V2.json):
+  KU-RO, PO-TO-KU-RO total A; KI-RO residue B; commodity signs NI DI RE *304 *308 B (TI, MA dropped by the training gate);
+  KI = reduced amount, kept out of the running sum C (la66; survived la70 1b: 8/9, P 0.0025, 0/16 decoys);
+  headings *516 *307 A-DU ZE C/B (*301, RO, TE dropped by the training gate: counted on ledgers);
+  heading/transaction words SA-RA2 KA-PA A-PA-RA-NE MA-KA-RI-TE KU-NI-SU B; PA-DE marked entry C; *28B-NU-MA-RE, SI-PI-KI Zakros wine-template words C;
+  rules: *308 amounts carry a fraction C; D = 1/5, B = 1/3 in closures C; staple order CYP/GRA < OLE/OLIV/VIR < NI < VIN/QA2 C+;
+  site defaults KH CYP, ZA/ARKH GRA B; annotations: QA2, TE Villa magazines, NI, A-DU houses C+; TA-I with AROM C.
+  Removed from la60: every la67 kill (KU-RE, U, A, DA, KA-NA; KA, KU, SI, I; OLE+U/MI/DI entries; *307 top rank; *318; SI/NI/TA2 links) and every never-tested C (*306, E, SU, TA, O, JA, *164, *411-VS, KU-PA).
+
+| LA-70.final | Update the la60 reading with every survivor of la61-la69 and nothing else; test KI first; freeze by hash on training documents with train-only gates; decode held-out documents (primary split + 10 splits) against 100 role shuffles, random readings, EMPTY and la60 v1; ablate each new part; calibrate with a Linear B partial reading matched in kind and size (and a third-corrupted copy); grade-gloss 20 held-out documents; pseudo-outside test on non-GORILA documents; refresh all frozen predictions into one hashed file | Held-out (11 splits): V2 STRICT 10.5 vs shuffled 4.2 (P <= 0.05 in 8/10), closing totals 5.8 vs 0.8, order agreement 0.79 vs 0.50; FULL 44.0 vs EMPTY 40.1, shuffled 39.0, v1 49.9. Gain over shuffles 3.3 % of documents (v1 2.9 %); over v1 +1.3 STRICT (6 splits better, 1 worse, P 0.13), -5.9 FULL. Gain = staple order (+1.7) and *308 rule (+0.5); KI, D/B values, PA-DE, template words change nothing held-out. Primary frozen split: FULL 35 = EMPTY 35, STRICT 7 = v1 7. LB matched true reading gains 1.5 %; a third-corrupted copy gains the same 1.4 %. Pseudo-outside (45 documents): FULL 8 vs shuffled 6.5 (P 0.12), STRICT 0, order 6/5. Predictions: 37 + note, sha256 2d7c6c9b... | NOT CRACKED. V2 is cleaner than la60 (13 killed and 9 untested la60 items out, KI, *308 and the staple order in) and slightly better on held-out STRICT documents, but it still reads no word: every gain is ledger arithmetic and commodity order, the calibration shows the pipeline cannot tell a right partial reading from a two-thirds-right one, and the outside-like test gives nothing. The deciding data are new documents (RILA-S1, Anetaki II); the hashed predictions are ready for them. |
+
+Grades after la70
+- C (new, survived): KI before a number marks a reduced amount (8/9 below the entry above; within-document P 0.0025; 4/5 without HT 118; 0/16 single-sign decoys pass). Would kill: KI amounts >= the entry above in >= half of 10 new cases.
+- B (calibrated): the v2 role layer beats its own shuffles on held-out documents by 3.3 % (STRICT), carried by KU-RO closures and the staple order; a matched true Linear B partial reading gains 1.5 %.
+- B (method limit): at Linear A size this decoding pipeline gives the same gain to a correct and a one-third-wrong partial reading (LB 1.5 % vs 1.4 %): document-level gain cannot grade word items.
+- Demoted on tablets: the la45 heading signs *301, RO, TE fail a train-only heading gate on administrative documents (counted, not heading; *301 in 10/10 splits); they remain a sealing (nodule) class.
+- Unchanged: A-DU and *307 as headings C (train gate stable 6/10 and 8/10); PA-DE, template words, D/B C (no held-out effect: too rare).

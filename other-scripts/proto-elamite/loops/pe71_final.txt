@@ -1,0 +1,18 @@
+pe71 final: who signs with M153? (6 Oct 2026)
+Cycles: pe71_cycle1.txt (kill test), pe71_cycle2.txt (name or office, seal, line role), pe71_cycle3.txt (replication,
+outside-corpus check, frozen predictions).
+Tools: tools/pe71_lib.py, pe71_c1.py, pe71_c1b.py, pe71_c2.py, pe71_c2b.py, pe71_c2c.py, pe71_c3.py.
+Checkpoints (git-ignored): data/pe71_ckpt/. Frozen: data/pe71_frozen_predictions.json (sha256[:16] d90726c10d1208ad).
+Data only: seal presence and identity, opaque sign tokens, line layout, publication numbers. No sign reading and no seal picture.
+
+Novelty check: LITERATURE.md, FINDINGS.md, STRATEGIES.md. pe70 raised the lead; pe33/pe35 linked the griffin seal to
+|M153+M342| (one seal); pe34/pe66 showed |X+M342| compounds avoid numbered lines. Nobody had counted the lead in sealing units,
+tested it against decoy compound families, or looked at where in the tablet M153 compounds stand.
+
+| Row | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-71.F1 | Kill test: sealed share of |M153+X|, all M153 compounds, any M153, counted in sealing units; nulls within volume x size, volume x size x M157 x M288, volume x M157 x M288, find-lot shift; held-out (no recurring-seal tablets), one per seal, leave-one-volume-out; 22 matched decoy families, 400 random unions, 78 same-size types (look-elsewhere); planted 6-of-8 found 50/50 | |M153+X|: 6 sealed tablets = 4 units (PES0334 x3), p 0.06-0.34 under document-type nulls; held-out 2 of 4 (p 0.08-0.18); 11 of 78 same-size types do as well. All M153 compounds 9 units vs 7.1-8.9 (p 0.22-0.56) | KILLED: pe70 C 'M153 compounds name the sealing party' (one seal counted three times + the sealed document type) |
+| PE-71.F2 | Name or office? Slot profile at n = 50 (V/n, top share, find-lot locality), Ur III at PE size: names 0.77 / 0.08 / x2.6, titles 0.22 / 0.34 / x1.2 | M153 family 0.23 / 0.45 / x1.4; no PE compound family reaches the name profile | M153 partner is office-like. Killed: M153 as a personal name |
+| PE-71.F3 | One party one seal; M288 payer/payee position | same partner + same seal 32 pairs vs 27.2 (p 0.078; the two template series); in M288 lines 6.9% vs 7.2% | Neither |
+| PE-71.F4 | Closing line (last signed line, unnumbered) vs 33 compound families, random unions, and within-tablet random unnumbered-line placement; Ur III control: the sealer's name sits late in the text (0.71 vs 0.53) | |M153+X| 8/8, |M153+M342| 16/26 (24/34 vs 13.2 within-tablet, p 1e-5; family rank 1 of 33); other M153 compounds 0/19. Held out of MDP 06: 15/22 vs 8.5 (p 0.0017) in 4 volumes; not one find-lot (p 0.35-0.67). Outside corpus: 1 new token (P368523), on the last line | B: a cross-volume closing-line formula. C: it names an office or closing act, in the place Ur III writes the responsible party |
+| PE-71.F | Overall | A: none. B: |M153+X| / |M153+M342| close the tablet on an unnumbered line across 5 volumes; M153 partners are few and widespread (office-like). Killed: M153 compounds as the sealer's mark or name. C: closing office or act formula | Not cracked; nothing is read |

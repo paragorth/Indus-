@@ -88,7 +88,7 @@ The pe55 prediction (a vessel capacity peak at 0.5–1 l or 4–9 l) could not b
 - Eastern-plateau BRB capacities ('90%, 65%, 45% of a litre'): https://jsbs.uoz.ac.ir/article_154560.html and Kale Kub https://journal.richt.ir/mbp/article-1-317-en.html (refused from this container; open in a browser)
 
 ## M. New Linear A texts for the outside test of the frozen reading (la62)
-The frozen Linear A reading (la60, sha256 538ad6fa…) can only be tested on inscriptions it has never seen, and the open web has none usable. Needed:
+The frozen Linear A reading (la60, sha256 538ad6fa…; superseded by la70 v2, reading 182fd0d6…, predictions with kill lines in `other-scripts/linear-a/loops/la70_predictions.txt`, sha256 2d7c6c9b…) can only be tested on inscriptions it has never seen, and the open web has none usable. Needed:
 - L1. Del Freo, M. & Zurbach, J. 2024, Recueil des inscriptions en lineaire A. Supplement 1 (RILA-S1), Etudes Cretoises
       21.6, Ecole francaise d'Athenes, ISBN 978-2-86958-642-0. Request: scans (or a list) of the facsimiles and normalised
       editions of every tablet, roundel and nodule with numbers (the ~20 new tablets especially), to check which of the

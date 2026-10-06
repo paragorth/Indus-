@@ -1,0 +1,399 @@
+LA-70 frozen outside-corpus predictions for Linear A (6 Oct 2026). sha256 of the JSON block below: 2d7c6c9ba448e8844708220742031c05fb5b000f92d81b97f5fff97d9a1248a4
+Check: python3 -c "import hashlib,sys;s=open(sys.argv[1]).read().split('=====JSON=====\n')[1];print(hashlib.sha256(s.encode()).hexdigest())" loops/la70_predictions.txt
+
+P-kuro-HT                HT: a new administrative tablet carries KU-RO with p 0.19 (27 of 144 tablets); a KU-RO section with >= 2 entries closes with p 0.46 (12 of 26) [A (KU-RO = total) / B (rates)]
+                         would support: rate within the 95 % binomial range on >= 20 new tablets | would kill: a KU-RO section closing rate below half the stated rate on >= 10 new sections
+P-kuro-KH                KH: a new administrative tablet carries KU-RO with p 0.00 (0 of 78 tablets) [A (KU-RO = total) / B (rates)]
+                         would support: rate within the 95 % binomial range on >= 20 new tablets | would kill: KU-RO on >= 3 of the first 10 new KH tablets (bound < 3/78)
+P-kuro-ZA                ZA: a new administrative tablet carries KU-RO with p 0.04 (1 of 25 tablets) [A (KU-RO = total) / B (rates)]
+                         would support: rate within the 95 % binomial range on >= 20 new tablets | would kill: KU-RO on >= 4 of the first 15 new ZA tablets
+P-order-CYP-NI           on a new multi-commodity list CYP is written before NI (in corpus 19 of 21) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: CYP after NI on >= 3 new lists
+P-order-CYP-VIN          on a new multi-commodity list CYP is written before VIN (in corpus 11 of 11) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: CYP after VIN on >= 3 new lists
+P-order-CYP-QA2          on a new multi-commodity list CYP is written before QA2 (in corpus 5 of 6) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: CYP after QA2 on >= 3 new lists
+P-order-GRA-OLE          on a new multi-commodity list GRA is written before OLE (in corpus 20 of 23) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: GRA after OLE on >= 3 new lists
+P-order-GRA-OLIV         on a new multi-commodity list GRA is written before OLIV (in corpus 11 of 13) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: GRA after OLIV on >= 3 new lists
+P-order-GRA-VIR          on a new multi-commodity list GRA is written before VIR (in corpus 6 of 8) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: GRA after VIR on >= 3 new lists
+P-order-GRA-NI           on a new multi-commodity list GRA is written before NI (in corpus 16 of 20) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: GRA after NI on >= 3 new lists
+P-order-GRA-VIN          on a new multi-commodity list GRA is written before VIN (in corpus 11 of 15) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: GRA after VIN on >= 3 new lists
+P-order-OLE-NI           on a new multi-commodity list OLE is written before NI (in corpus 12 of 17) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: OLE after NI on >= 3 new lists
+P-order-OLE-VIN          on a new multi-commodity list OLE is written before VIN (in corpus 11 of 14) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: OLE after VIN on >= 3 new lists
+P-order-OLE-QA2          on a new multi-commodity list OLE is written before QA2 (in corpus 7 of 7) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: OLE after QA2 on >= 3 new lists
+P-order-VIR-NI           on a new multi-commodity list VIR is written before NI (in corpus 7 of 10) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: VIR after NI on >= 3 new lists
+P-order-NI-VIN           on a new multi-commodity list NI is written before VIN (in corpus 16 of 18) [C+ (la50 staple order; la20 A existence)]
+                         would support: the next 5 new lists with both agree >= 4 | would kill: NI after VIN on >= 3 new lists
+P-order-note             pairs of the v2 order NOT turned into predictions (in-corpus agreement < 0.7): CYP<OLE 5/9; CYP<VIR 3/8; OLIV<VIN 4/6; VIR<VIN 4/6 [n/a]
+                         would support: n/a | would kill: n/a
+P-sara2                  after SA-RA2 the first commodity is GRA or CYP, then NI, then VIN [B (la46)]
+                         would support: a new HT tablet with SA-RA2 in this order | would kill: SA-RA2 with a different order on 3+ new tablets
+P-308                    *308 never stands with a bare integer: every *308 amount carries a fraction sign (in corpus 9 of 9) [C (la63, la67 1c)]
+                         would support: *308 with a fraction on 3+ new entries | would kill: *308 with a bare integer on a new tablet
+P-KI                     KI before a number marks a reduced amount: smaller than the entry just above it (in corpus 8 of 9, 4 tablets) [C (la66, la70 1b)]
+                         would support: >= 7 of 10 new KI cases below the amount above | would kill: KI amounts >= the entry above in >= half of 10 new cases
+P-zakros-template        *28B-NU-MA-RE and SI-PI-KI occur only on the Zakros wine template (ZA 4, 5, 15) [C (la65, la67 1f)]
+                         would support: both together with a number on a new Zakros VIN tablet | would kill: either word on a tablet of another template or commodity
+P-DB                     D = 1/5 and B = 1/3: no amount writes D five or more times or B three or more times [C (la27, la67 1h)]
+                         would support: a sound DDD or DDDD on a new tablet; a new total that closes only with D = 1/5 or B = 1/3 | would kill: five Ds or three Bs in one amount; HT 115a re-read without DDDD
+P-head-*516              *516 opens a document (first line) without its own count (in corpus n 7) [C (la67 1j; train gate stable 10/10)]
+                         would support: opening 2 of the next 3 new documents it is on | would kill: a counted entry head (word directly before a number) on 2 of its next 3 uses
+P-head-*307              *307 opens a document (first line) without its own count (in corpus n 6) [C (la67 1j; train gate stable 8/10)]
+                         would support: opening 2 of the next 3 new documents it is on | would kill: a counted entry head (word directly before a number) on 2 of its next 3 uses
+P-head-A-DU              A-DU opens a document (first line) without its own count (in corpus n 9) [C (la67 1j; train gate stable 6/10)]
+                         would support: opening 2 of the next 3 new documents it is on | would kill: a counted entry head (word directly before a number) on 2 of its next 3 uses
+P-PADE                   PA-DE is a marked entry: own line, small amount (HT 9a, 9b, 122a) [C (la53, la67 3h)]
+                         would support: PA-DE on its own line with an amount below the list median | would kill: PA-DE as an ordinary crowded entry on a new tablet
+P-rooms                  at Hagia Triada QA2 and TE are found in Villa magazine deposits; NI and A-DU in house deposits [C+ (la51, la67 3c)]
+                         would support: new HT finds of these words in the same kind of room | would kill: new finds of these words in the other kind of room (>= 3)
+P-TAI                    TA-I stands before AROM [C (la60, la67 1e)]
+                         would support: TA-I AROM on a new tablet | would kill: TA-I before another logogram on 2+ new tablets
+P-firstsign              outside HT, consecutive entries share their first sign about twice as often as order shuffles (0.16 vs 0.08) [C+ (la14, la67 2n)]
+                         would support: >= 0.12 on 30+ new non-HT entry pairs | would kill: <= 0.08 on 30+ new non-HT entry pairs
+P-consonants             inside new word types, signs of the same consonant series co-occur less than re-dealt signs [C+ (la10, la67 2b)]
+                         would support: avoidance P < 0.05 on 100+ new word types | would kill: rate at the re-dealt level on 100+ new word types
+P-QA                     QA patterns with the pure-vowel row in sign-neighbour grids [C+ (la21, la67 3j)]
+                         would support: the same placement with new word types added | would kill: QA leaves the vowel row when 100+ new word types are added
+P-sitedefault            a document with numbers but no commodity sign is CYP at Khania and GRA at Zakros / Arkhalokhori [B (la54)]
+                         would support: the commodity of such documents shown by joins or seals | would kill: a different commodity on >= half of 5 such new documents
+P-sites                  a new LM IB archive overlaps its own site deposits >= 2x more than other sites; it does not share words with HT at the HT-room level (< 0.08) [C (la58)]
+                         would support: overlap ratio >= 2 | would kill: a new site sharing words with HT at >= 0.08
+P-zakros-read            Zakros stays the least readable site from other sites [C (la69)]
+                         would support: same order with new Zakros tablets | would kill: Zakros same-site readability above HT once 50+ Zakros documents exist
+P-VINunit                if HT 27a/89/100 amounts are day issues, the VIN unit is 7-24 l [C- (la64; untestable-now)]
+                         would support: ZA Zb 3-type vessels of 230-770 l | would kill: THE Zb 13 (VIN+TE 120) on a vessel under ~500 l, or KN Zb 35 (OLE 100) under ~20 l
+P-wordcom                entry words KU-PA3-NU, MA-DI (DI), SA-RU (GRA), SA-RO (VIN), DA-RE (VIR) return with the same commodity [C- (la60, la67 2m: decoy level)]
+                         would support: >= 3 of them with their commodity on new tablets | would kill: < 1 in 3 right on 10+ new uses
+P-decode                 the frozen V2 decoder explains new HT/KH/ZA administrative documents in full at 20-25 %% and STRICT at >= 4 %% (held-out 23 %% / 5.5 %%), above its own role shuffles [B (la70 2b)]
+                         would support: STRICT rate above the 95th percentile of 100 role shuffles on >= 40 new documents | would kill: STRICT rate at or below the shuffle mean on >= 40 new documents
+P-sealings               single signs on new roundels and nodules will not abbreviate tablet words of their own deposit (no positional rule) [B (la68, negative)]
+                         would support: no rule at P < 0.05 | would kill: a positional rule covering >= half of new sealing tokens
+
+=====JSON=====
+{
+ "date": "2026-10-06",
+ "name": "Linear A frozen outside-corpus predictions (la70)",
+ "predictions": [
+  {
+   "claim": "HT: a new administrative tablet carries KU-RO with p 0.19 (27 of 144 tablets); a KU-RO section with >= 2 entries closes with p 0.46 (12 of 26)",
+   "grade": "A (KU-RO = total) / B (rates)",
+   "id": "P-kuro-HT",
+   "source": "la60 P1-P3, la70",
+   "would_kill": "a KU-RO section closing rate below half the stated rate on >= 10 new sections",
+   "would_support": "rate within the 95 % binomial range on >= 20 new tablets"
+  },
+  {
+   "claim": "KH: a new administrative tablet carries KU-RO with p 0.00 (0 of 78 tablets)",
+   "grade": "A (KU-RO = total) / B (rates)",
+   "id": "P-kuro-KH",
+   "source": "la60 P1-P3, la70",
+   "would_kill": "KU-RO on >= 3 of the first 10 new KH tablets (bound < 3/78)",
+   "would_support": "rate within the 95 % binomial range on >= 20 new tablets"
+  },
+  {
+   "claim": "ZA: a new administrative tablet carries KU-RO with p 0.04 (1 of 25 tablets)",
+   "grade": "A (KU-RO = total) / B (rates)",
+   "id": "P-kuro-ZA",
+   "source": "la60 P1-P3, la70",
+   "would_kill": "KU-RO on >= 4 of the first 15 new ZA tablets",
+   "would_support": "rate within the 95 % binomial range on >= 20 new tablets"
+  },
+  {
+   "claim": "on a new multi-commodity list CYP is written before NI (in corpus 19 of 21)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-CYP-NI",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "CYP after NI on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list CYP is written before VIN (in corpus 11 of 11)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-CYP-VIN",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "CYP after VIN on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list CYP is written before QA2 (in corpus 5 of 6)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-CYP-QA2",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "CYP after QA2 on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list GRA is written before OLE (in corpus 20 of 23)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-GRA-OLE",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "GRA after OLE on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list GRA is written before OLIV (in corpus 11 of 13)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-GRA-OLIV",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "GRA after OLIV on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list GRA is written before VIR (in corpus 6 of 8)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-GRA-VIR",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "GRA after VIR on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list GRA is written before NI (in corpus 16 of 20)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-GRA-NI",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "GRA after NI on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list GRA is written before VIN (in corpus 11 of 15)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-GRA-VIN",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "GRA after VIN on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list OLE is written before NI (in corpus 12 of 17)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-OLE-NI",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "OLE after NI on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list OLE is written before VIN (in corpus 11 of 14)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-OLE-VIN",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "OLE after VIN on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list OLE is written before QA2 (in corpus 7 of 7)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-OLE-QA2",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "OLE after QA2 on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list VIR is written before NI (in corpus 7 of 10)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-VIR-NI",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "VIR after NI on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "on a new multi-commodity list NI is written before VIN (in corpus 16 of 18)",
+   "grade": "C+ (la50 staple order; la20 A existence)",
+   "id": "P-order-NI-VIN",
+   "source": "la20, la50, la67 2k, la70",
+   "would_kill": "NI after VIN on >= 3 new lists",
+   "would_support": "the next 5 new lists with both agree >= 4"
+  },
+  {
+   "claim": "pairs of the v2 order NOT turned into predictions (in-corpus agreement < 0.7): CYP<OLE 5/9; CYP<VIR 3/8; OLIV<VIN 4/6; VIR<VIN 4/6",
+   "grade": "n/a",
+   "id": "P-order-note",
+   "source": "la70",
+   "would_kill": "n/a",
+   "would_support": "n/a"
+  },
+  {
+   "claim": "after SA-RA2 the first commodity is GRA or CYP, then NI, then VIN",
+   "grade": "B (la46)",
+   "id": "P-sara2",
+   "source": "la46, la60 P5",
+   "would_kill": "SA-RA2 with a different order on 3+ new tablets",
+   "would_support": "a new HT tablet with SA-RA2 in this order"
+  },
+  {
+   "claim": "*308 never stands with a bare integer: every *308 amount carries a fraction sign (in corpus 9 of 9)",
+   "grade": "C (la63, la67 1c)",
+   "id": "P-308",
+   "source": "la63, la67, la70",
+   "would_kill": "*308 with a bare integer on a new tablet",
+   "would_support": "*308 with a fraction on 3+ new entries"
+  },
+  {
+   "claim": "KI before a number marks a reduced amount: smaller than the entry just above it (in corpus 8 of 9, 4 tablets)",
+   "grade": "C (la66, la70 1b)",
+   "id": "P-KI",
+   "source": "la66, la70",
+   "would_kill": "KI amounts >= the entry above in >= half of 10 new cases",
+   "would_support": ">= 7 of 10 new KI cases below the amount above"
+  },
+  {
+   "claim": "*28B-NU-MA-RE and SI-PI-KI occur only on the Zakros wine template (ZA 4, 5, 15)",
+   "grade": "C (la65, la67 1f)",
+   "id": "P-zakros-template",
+   "source": "la65, la67",
+   "would_kill": "either word on a tablet of another template or commodity",
+   "would_support": "both together with a number on a new Zakros VIN tablet"
+  },
+  {
+   "claim": "D = 1/5 and B = 1/3: no amount writes D five or more times or B three or more times",
+   "grade": "C (la27, la67 1h)",
+   "id": "P-DB",
+   "source": "la27, la67",
+   "would_kill": "five Ds or three Bs in one amount; HT 115a re-read without DDDD",
+   "would_support": "a sound DDD or DDDD on a new tablet; a new total that closes only with D = 1/5 or B = 1/3"
+  },
+  {
+   "claim": "*516 opens a document (first line) without its own count (in corpus n 7)",
+   "grade": "C (la67 1j; train gate stable 10/10)",
+   "id": "P-head-*516",
+   "source": "la67, la70",
+   "would_kill": "a counted entry head (word directly before a number) on 2 of its next 3 uses",
+   "would_support": "opening 2 of the next 3 new documents it is on"
+  },
+  {
+   "claim": "*307 opens a document (first line) without its own count (in corpus n 6)",
+   "grade": "C (la67 1j; train gate stable 8/10)",
+   "id": "P-head-*307",
+   "source": "la67, la70",
+   "would_kill": "a counted entry head (word directly before a number) on 2 of its next 3 uses",
+   "would_support": "opening 2 of the next 3 new documents it is on"
+  },
+  {
+   "claim": "A-DU opens a document (first line) without its own count (in corpus n 9)",
+   "grade": "C (la67 1j; train gate stable 6/10)",
+   "id": "P-head-A-DU",
+   "source": "la67, la70",
+   "would_kill": "a counted entry head (word directly before a number) on 2 of its next 3 uses",
+   "would_support": "opening 2 of the next 3 new documents it is on"
+  },
+  {
+   "claim": "PA-DE is a marked entry: own line, small amount (HT 9a, 9b, 122a)",
+   "grade": "C (la53, la67 3h)",
+   "id": "P-PADE",
+   "source": "la53, la67",
+   "would_kill": "PA-DE as an ordinary crowded entry on a new tablet",
+   "would_support": "PA-DE on its own line with an amount below the list median"
+  },
+  {
+   "claim": "at Hagia Triada QA2 and TE are found in Villa magazine deposits; NI and A-DU in house deposits",
+   "grade": "C+ (la51, la67 3c)",
+   "id": "P-rooms",
+   "source": "la51, la67",
+   "would_kill": "new finds of these words in the other kind of room (>= 3)",
+   "would_support": "new HT finds of these words in the same kind of room"
+  },
+  {
+   "claim": "TA-I stands before AROM",
+   "grade": "C (la60, la67 1e)",
+   "id": "P-TAI",
+   "source": "la60, la67",
+   "would_kill": "TA-I before another logogram on 2+ new tablets",
+   "would_support": "TA-I AROM on a new tablet"
+  },
+  {
+   "claim": "outside HT, consecutive entries share their first sign about twice as often as order shuffles (0.16 vs 0.08)",
+   "grade": "C+ (la14, la67 2n)",
+   "id": "P-firstsign",
+   "source": "la14, la67",
+   "would_kill": "<= 0.08 on 30+ new non-HT entry pairs",
+   "would_support": ">= 0.12 on 30+ new non-HT entry pairs"
+  },
+  {
+   "claim": "inside new word types, signs of the same consonant series co-occur less than re-dealt signs",
+   "grade": "C+ (la10, la67 2b)",
+   "id": "P-consonants",
+   "source": "la10, la67",
+   "would_kill": "rate at the re-dealt level on 100+ new word types",
+   "would_support": "avoidance P < 0.05 on 100+ new word types"
+  },
+  {
+   "claim": "QA patterns with the pure-vowel row in sign-neighbour grids",
+   "grade": "C+ (la21, la67 3j)",
+   "id": "P-QA",
+   "source": "la21, la67",
+   "would_kill": "QA leaves the vowel row when 100+ new word types are added",
+   "would_support": "the same placement with new word types added"
+  },
+  {
+   "claim": "a document with numbers but no commodity sign is CYP at Khania and GRA at Zakros / Arkhalokhori",
+   "grade": "B (la54)",
+   "id": "P-sitedefault",
+   "source": "la54",
+   "would_kill": "a different commodity on >= half of 5 such new documents",
+   "would_support": "the commodity of such documents shown by joins or seals"
+  },
+  {
+   "claim": "a new LM IB archive overlaps its own site deposits >= 2x more than other sites; it does not share words with HT at the HT-room level (< 0.08)",
+   "grade": "C (la58)",
+   "id": "P-sites",
+   "source": "la58",
+   "would_kill": "a new site sharing words with HT at >= 0.08",
+   "would_support": "overlap ratio >= 2"
+  },
+  {
+   "claim": "Zakros stays the least readable site from other sites",
+   "grade": "C (la69)",
+   "id": "P-zakros-read",
+   "source": "la69",
+   "would_kill": "Zakros same-site readability above HT once 50+ Zakros documents exist",
+   "would_support": "same order with new Zakros tablets"
+  },
+  {
+   "claim": "if HT 27a/89/100 amounts are day issues, the VIN unit is 7-24 l",
+   "grade": "C- (la64; untestable-now)",
+   "id": "P-VINunit",
+   "source": "la64",
+   "would_kill": "THE Zb 13 (VIN+TE 120) on a vessel under ~500 l, or KN Zb 35 (OLE 100) under ~20 l",
+   "would_support": "ZA Zb 3-type vessels of 230-770 l"
+  },
+  {
+   "claim": "entry words KU-PA3-NU, MA-DI (DI), SA-RU (GRA), SA-RO (VIN), DA-RE (VIR) return with the same commodity",
+   "grade": "C- (la60, la67 2m: decoy level)",
+   "id": "P-wordcom",
+   "source": "la60 P6",
+   "would_kill": "< 1 in 3 right on 10+ new uses",
+   "would_support": ">= 3 of them with their commodity on new tablets"
+  },
+  {
+   "claim": "the frozen V2 decoder explains new HT/KH/ZA administrative documents in full at 20-25 %% and STRICT at >= 4 %% (held-out 23 %% / 5.5 %%), above its own role shuffles",
+   "grade": "B (la70 2b)",
+   "id": "P-decode",
+   "source": "la70",
+   "would_kill": "STRICT rate at or below the shuffle mean on >= 40 new documents",
+   "would_support": "STRICT rate above the 95th percentile of 100 role shuffles on >= 40 new documents"
+  },
+  {
+   "claim": "single signs on new roundels and nodules will not abbreviate tablet words of their own deposit (no positional rule)",
+   "grade": "B (la68, negative)",
+   "id": "P-sealings",
+   "source": "la68",
+   "would_kill": "a positional rule covering >= half of new sealing tokens",
+   "would_support": "no rule at P < 0.05"
+  }
+ ],
+ "previous": {
+  "la60_predictions": "538ad6fa64360eb8178f65a54ea78aa15d9dcee3532eb5181a704ec3063c50fb",
+  "la66_factors": "3127699d (data/la66_frozen_factors.json)"
+ },
+ "reading_V2_all_docs_sha256": "b45ddc9c61b593605a8197c01e19582de47e31ed53fbe71c6d7f5c8c60cd1c8c",
+ "reading_V2_sha256": "182fd0d68a3cd46e7a2b4d754d1c0ba27f81811bd4b0aa315e629d931f58e845",
+ "rule": "score each prediction support / kill / untestable on the new documents before reading any la70 output on them",
+ "scope": "any Linear A administrative document not in lineara.xyz LinearAInscriptions.js as of 6 Oct 2026 (e.g. RILA-S1 2024, Anetaki II)"
+}

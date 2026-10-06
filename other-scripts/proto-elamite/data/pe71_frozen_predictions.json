@@ -1,0 +1,133 @@
+{
+ "P1": {
+  "claim": "Of the next >= 5 newly transliterated |M153+X| or |M153+M342| tokens (any source), >= 3 sit on the last signed line and >= 2 of those are unnumbered",
+  "grade": "B",
+  "kill": "<= 1 of 5 on the last signed line"
+ },
+ "P2": {
+  "claim": "No new |M153+M342| / |M153+X| token stands in a numbered capacity (C-system) entry",
+  "grade": "B",
+  "kill": ">= 2 such tokens"
+ },
+ "P3": {
+  "claim": "Sealing is NOT predicted by the M153 closing line once the PES0329/PES0334 series is counted once: new tablets with the closing line are sealed at the rate of short M157-headed tablets of their volume, not above",
+  "grade": "B (negative)",
+  "kill": ">= 4 of the next 5 such tablets sealed by distinct seals"
+ },
+ "P4": {
+  "claim": "Any new tablet impressed with PES0334 (boat) carries |M153+X| or |M153+M342| on its last line; any new PES0329 tablet carries |M153+M342|",
+  "grade": "C",
+  "kill": "2 new PES0334/PES0329 tablets without either compound"
+ },
+ "P5": {
+  "claim": "The M153 closing partner stays office-like: new tokens bring at most 1 new partner value per 5 tokens (V/n <= 0.2)",
+  "grade": "C",
+  "kill": ">= 3 new partner values among the next 5 closing M153 compounds"
+ },
+ "base_rates_short_M157_tablets": {
+  "MDP 06": [
+   6,
+   44
+  ],
+  "MDP 17": [
+   1,
+   36
+  ],
+  "MDP 26": [
+   0,
+   50
+  ],
+  "MDP 26S": [
+   9,
+   30
+  ],
+  "TCL 32": [
+   1,
+   4
+  ]
+ },
+ "outside_test_already": [
+  {
+   "id": "P368523",
+   "last_signed": true,
+   "line": 4,
+   "n_lines": 4,
+   "numbered": null,
+   "tok": "|M153+M342|",
+   "with_M288": true
+  }
+ ],
+ "pe60_targets": [
+  {
+   "P": "P008113",
+   "designation": "MDP 06, 324",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 6/44 in the volume",
+   "local": "0 of 23 tablets within 15 numbers have an M153 closing line",
+   "status": "catalogue entry only (no image, no ATF)"
+  },
+  {
+   "P": "P008411",
+   "designation": "MDP 17, 213",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 1/36 in the volume",
+   "local": "0 of 28 tablets within 15 numbers have an M153 closing line",
+   "status": "image only, no transliteration"
+  },
+  {
+   "P": "P008497",
+   "designation": "MDP 17, 299",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 1/36 in the volume",
+   "local": "0 of 28 tablets within 15 numbers have an M153 closing line",
+   "status": "image only, no transliteration"
+  },
+  {
+   "P": "P009270",
+   "designation": "MDP 26S, 5027",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 9/30 in the volume",
+   "local": "1 of 25 tablets within 15 numbers have an M153 closing line",
+   "status": "image only, no transliteration"
+  },
+  {
+   "P": "P009275",
+   "designation": "MDP 26S, 5032",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 9/30 in the volume",
+   "local": "2 of 28 tablets within 15 numbers have an M153 closing line",
+   "status": "image only, no transliteration"
+  },
+  {
+   "P": "P009339",
+   "designation": "MDP 26S, 5241",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 9/30 in the volume",
+   "local": "0 of 16 tablets within 15 numbers have an M153 closing line",
+   "status": "catalogue entry only (no image, no ATF)"
+  },
+  {
+   "P": "P009555",
+   "designation": "MDP 06, 230- (joined fragment)",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 6/44 in the volume",
+   "local": "5 of 28 tablets within 15 numbers have an M153 closing line",
+   "status": "catalogue entry only (no image, no ATF)"
+  },
+  {
+   "P": "P234792",
+   "designation": "MDP 26S, 0261",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 9/30 in the volume",
+   "local": "0 of 3 tablets within 15 numbers have an M153 closing line",
+   "status": "catalogue entry only (no image, no ATF)"
+  },
+  {
+   "P": "P235776",
+   "designation": "MDP 06, 216",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 6/44 in the volume",
+   "local": "3 of 29 tablets within 15 numbers have an M153 closing line",
+   "status": "catalogue entry only (no image, no ATF)"
+  },
+  {
+   "P": "P509348",
+   "designation": "MDP 26, 047b",
+   "expect": "if short and M157-headed: P(M153 closing line) ~ 0/50 in the volume",
+   "local": "0 of 31 tablets within 15 numbers have an M153 closing line",
+   "status": "image only, no transliteration"
+  }
+ ],
+ "rule": "|M153+X| and |M153+M342| sit on the tablet's last signed line, unnumbered (corpus 24/34; within-tablet chance 13.2/34)"
+}
