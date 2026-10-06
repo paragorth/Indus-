@@ -1,0 +1,40 @@
+LA-62 cycle 3: frozen predictions scored on the outside documents; decoding with the frozen reading
+(tools/la62_c3.py; data/la62_ckpt/c3.json. Frozen file data/la60_ckpt/c3_frozen_predictions.json re-hashed: sha256
+538ad6fa64360eb8178f65a54ea78aa15d9dcee3532eb5181a704ec3063c50fb, unchanged. PRIOR reading hash c47f937b..., unchanged.)
+
+Test set: the cycle-2 skeletons of KN Zg 58 (handle, accounting) and KN Zg 57 A-D (ring), all from one Knossos cult deposit.
+FROZEN-RULE NOTE: la60 counts 'ivory object' as a non-administrative support (LIB_SUPPORTS), so under the rules exactly
+as frozen, none of these is an administrative document and no la60 decoding prediction applies. Everything below
+applies the reading anyway, as a deviation from those rules, and must be read that way.
+
+PER PREDICTION (kill / survive / untestable)
+  la60 P1 (HT rates, closing totals, heading share, HT commodity shares) ........ untestable: no new HT document
+  la60 P2 (KH: no KU-RO/SA-RA2/KI-RO, CYP default) ................................ untestable: no new KH document
+  la60 P3 (ZA, PH, other-site shares) .............................................. untestable: no new ZA/PH document
+  la60 per-site KN: no KU-RO, SA-RA2 or KI-RO (bound < 0.333) ..................... SURVIVES (0 of 2), trivially: base rate off HT is ~0
+  la60 per-site KN commodity profile (E, GRA, I, OLE, SU, VIN) .................... FAILS: covers 1 of 6 observed classes (GRA);
+       controls = the other sites' frozen profiles: 'other' 3 (GRA, HIDE, VAS), KH 2, ZA 2, HT 1, PH 1. KN does no better than any other site.
+  la60 P4 order pairs: GRA before OLIV (frozen p 0.85, n 13) on KN Zg 57 face B .... SURVIVES, 1 of 1 pair (log2 LR vs coin +0.77 bits)
+       no other frozen pair (n >= 3) is present: VAS, HIDE, SUS, TELA pairs are not in the frozen list
+  la60 P5 (SA-RA2 basket) ...................................................... untestable: no SA-RA2
+  la60 P6 (18 entry words -> commodity) ......................................... untestable: 0 word identities published
+  la60 P7 (structure of a new HT tablet; KU-RO on the bottom line) ................ untestable
+  la60 rule '~3 of 4 words on a new tablet are new' ................................ consistent (the editors: 'few parallels'); not counted
+  la60 site-default rule (KH CYP, ZA/ARKH GRA) ...................................... untestable (KN has no default)
+  la46 SA-RA2 GRA/CYP basket ........................................................ untestable
+  la51 room links (magazines OLE QA2 MI TE; town houses CYP NI O *86 A-DU; sanctuaries: libation words on stone vessels)
+       ............ untestable: a cult deposit with ivory, not stone vessels; no libation-formula word reported (prose only)
+  la53 PA-DE marking ................................................................. untestable
+  la54 HT95b = grain ................................................................ untestable (no re-reading of HT95b)
+
+DECODING (frozen PRIOR vs EMPTY reading vs 200 role-shuffled and 100 random readings; acceptor from all 387 documents)
+  KN Zg 58: VAS+x[commodity] VAS+y[commodity] 10 | new sign [??] *180 [??] *181 [??] | 4-sign group [??] HIDE[commodity] |
+            boar[commodity] pig[commodity] | VAS+z[commodity] 1+fr | VAS+w[commodity] 1+6 fractions  -> commodities VAS > HIDE > SUS
+  KN Zg 57B: header g1-g6 [??]; GRA > FAR? > OLIV  (order agrees with the frozen order: +1)
+  KN Zg 57C: header g1-g9 [??]; TELA x4, TELA+KA      KN Zg 57D: HIDE x9      KN Zg 57A: animals x12, vases x10
+
+| LA-62.3 | Score every frozen la60 prediction (hash re-checked) and the earlier frozen items (la46, la51, la53, la54) on the outside documents (cycle-2 skeletons of KN Zg 58 and KN Zg 57 A-D); decode them with the frozen PRIOR. Controls: EMPTY reading, 200 role-shuffled, 100 random readings (explained tokens, FULL); for the site profile, the other five frozen site profiles | Testable: 3 of ~17 items. KN no-KU-RO survives (trivial); KN commodity profile fails (1 of 6 classes; 'other' 3, KH 2, ZA 2); GRA before OLIV survives (1 pair, +0.77 bits). Explained tokens: PRIOR 46/65, EMPTY 46/65, shuffled 46.0, random 46.0. Every explained token is a logogram; the reading's lexicon (KU-RO, KI-RO, NI, heading signs, transaction words) does not fire once. FULL: 0/5 for all readings (unknown groups; no numbers on the ring). Under the rules as frozen, all five are out of scope (ivory = non-administrative). | No outside gain, and no outside kill of anything central. The frozen reading explains exactly what the empty reading explains (0 extra tokens). The one site-specific profile tested (Knossos, built on 11 documents) fails against controls. The one order pair agrees, worth less than one bit. The decisive predictions (HT totals, KH/ZA profiles, word -> commodity, the SA-RA2 basket) have no open outside documents to be tested on. |
+
+Cycle 3 verdict: on the open outside material the frozen reading neither gains nor loses. It adds 0 explained tokens
+over the empty reading. Of ~17 frozen items, 3 can be tested (1 trivial survive, 1 fail, 1 sub-bit survive). The test
+is underpowered by design of the evidence, not by choice of method.

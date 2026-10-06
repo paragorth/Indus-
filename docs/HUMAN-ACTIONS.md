@@ -86,3 +86,19 @@ The pe55 prediction (a vessel capacity peak at 0.5–1 l or 4–9 l) could not b
 - Goulder 2024, Iraq 86 (BRB): https://www.cambridge.org/core/product/DF62ADFF89C9ECE4A2D7AC0FE0BA701E (not open)
 - Potts 2009 JCS 61 and the Tell Qraya NEA paper: https://www.academia.edu/1898204 , https://www.academia.edu/123756153 (login)
 - Eastern-plateau BRB capacities ('90%, 65%, 45% of a litre'): https://jsbs.uoz.ac.ir/article_154560.html and Kale Kub https://journal.richt.ir/mbp/article-1-317-en.html (refused from this container; open in a browser)
+
+## M. New Linear A texts for the outside test of the frozen reading (la62)
+The frozen Linear A reading (la60, sha256 538ad6fa…) can only be tested on inscriptions it has never seen, and the open web has none usable. Needed:
+- L1. Del Freo, M. & Zurbach, J. 2024, Recueil des inscriptions en lineaire A. Supplement 1 (RILA-S1), Etudes Cretoises
+      21.6, Ecole francaise d'Athenes, ISBN 978-2-86958-642-0. Request: scans (or a list) of the facsimiles and normalised
+      editions of every tablet, roundel and nodule with numbers (the ~20 new tablets especially), to check which of the
+      107 are missing from lineara.xyz. First look in the Cambridge University Library catalogue:
+      https://idiscover.lib.cam.ac.uk/ (search "Recueil des inscriptions en lineaire A supplement"); the Faculty of
+      Classics library (Mycenaean Epigraphy Group) is the likeliest holder. Publisher page:
+      https://www.peeters-leuven.be/detail.php?search_key=9782869586420
+- L2. Kanta, A. (ed.), forthcoming, Anetaki II: the Neopalatial Room 1 and the Ivory Repository (final edition of
+      KN Zg 57 and KN Zg 58 with drawings). Ask the editors (Nakassis, Palaima, Perna) whether drawings of KN Zg 58
+      face d, with the six fraction signs in order, can be shared before publication. Open preliminary paper:
+      https://ejournals.lib.uoc.gr/Ariadne/article/view/1841
+- L3. Notti, E. 2023, 'La scrittura "fuori" da Creta. Nuove evidenze epigrafiche ad Akrotiri (Thera)': PDF only
+      inside the IULM network; request a copy from https://apeiron.iulm.it/handle/10808/48144

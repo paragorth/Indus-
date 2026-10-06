@@ -1,0 +1,31 @@
+LA-62 CRACK ATTEMPT, OUTSIDE DATA, cycle 1: what Linear A exists outside our corpus snapshot?
+(tools/la62_c1.py; data/la62_ckpt/inventory.json, git-ignored. Licensed PDFs and photos stay in the scratchpad.)
+
+Snapshot = data/LinearAInscriptions.js (lineara.xyz) -> corpus.json, 1,721 entries (faces counted separately), 66 tagged
+post-1985 by image source. On 6 Oct 2026 the live lineara.xyz file and the GitHub raw file are byte-identical to the
+snapshot, so lineara.xyz has no newer data.
+
+INVENTORY (open sources only; 'in' = already in the snapshot)
+  N1 KN Zg 58, ivory HANDLE, Knossos Anetaki cult centre (Room 1 Ivory Repository), dug 2011-17, published 2024
+     (Ariadne Suppl. 5: 27-43, open PDF; news 2025). ACCOUNTING text: face a two VAS+syllabogram, a 'ten', a new sign,
+     *180, *181; face b a 4-sign group + HIDE; face c boar + pig, no numerals; face d two VAS+syllabogram with units and
+     SIX different fraction signs in sequence. Open media: one photo of the whole object (Fig. 7; signs not legible at
+     the published resolution) and the prose. No drawing, no transcription. Snapshot: record exists, EMPTY.
+  N2 KN Zg 57 faces B-D (+ most of A), ivory RING, same deposit, ~119 signs, no numerals. A: 12 animals, ~10 vases
+     (6 amphorae, rhyton, tripod; VAS+PA, VAS+RU), 16-18 signs; B: six sign-groups, then GRA, FAR?, OLIV; C: >= 9 groups,
+     5 TELA (one TELA+KA); D: ~9 HIDE (one HIDE+KA/QE/KO). The groups are not transcribed in the open article; it says
+     few of them have parallels in known Linear A. Snapshot: KNZg57a 7 tokens (*401+RU x2, *418+L2, *652, *653, NI,
+     VAS), KNZg57b empty.
+  N3 RILA-S1 (Del Freo & Zurbach 2024, Etudes Cretoises 21.6): 107 documents, 427 signs, everything published since
+     1985 up to 2023. Not open. Our snapshot holds at least 66 post-1985 items; how many of the 107 are missing is
+     unknown. Needs a human (library), see la62_final.
+  N4 Akrotiri loomweight, 3 signs (Notti 2023, IULM, restricted): probably = THEZg15 (in).
+  N5 KH 104, 105, KH Wc 2124 (Kadmos 2018), KH 97-99, KH Wc 2123, KH Zb 1 (PDIA V 2007, open): in.
+  N6 INA Zb 1 (INSTAP 2022), KY Za 2 DA-MA-TE, LACH Za 1, ZO 1, TEL Zb 1, MIL Zb 1-4: in.
+  Not reachable: J. Younger's Linear A pages (502 from the host on 6 Oct; archive.org connection reset).
+
+| LA-62.1 | Inventory of Linear A outside the snapshot: lineara.xyz live and GitHub files (byte compare), SigLA's 802-document list (name-normalised match), Crossref title search 2015-26, open articles (Ariadne Suppl. 5, PDIA V, Kadmos 2018 abstract, Del Freo 'Panorama'), CNR/ISPC notices, IULM IRIS, news. Positive control: the matcher must find 18 known post-1985 items in the snapshot; negative control: every unmatched SigLA name inspected by hand | Live lineara.xyz = snapshot (identical bytes). Positive control 18/18 found. SigLA: 783/802 matched by rule; the other 19 are naming variants (THE 7-12 = THEtab/THEfr, PH(?)31, PHWg45, PHWy42, HTWeWc3020 ...) except KN Wc <24>, <25> (GORILA-era roundels, single signs, not new). Genuinely new and open: only the Knossos ivory pair, KN Zg 58 (accounting, ~10-20 signs plus numbers) and KN Zg 57 B-D (~80 signs, no numbers), both known only from prose and one small photo. RILA-S1 (107 items) is closed. | The outside test set that is open on 6 Oct 2026 is about 2 documents, both from one cult deposit at Knossos and neither from Hagia Triada, where most frozen predictions apply. No open drawing or legible photo exists for either. Every other post-1985 text that we can find is already in the corpus (most of them were in la60's pseudo-outside test). Power will be very low; that is the main result of this cycle. |
+
+Cycle 1 verdict: the open outside corpus is almost empty. One new accounting text (KN Zg 58) and the
+non-numeric faces of KN Zg 57, both from a cult deposit at Knossos and known from prose only. The real outside test
+set is RILA-S1 plus the forthcoming Anetaki II volume (Kanta, ed.), both need a human.

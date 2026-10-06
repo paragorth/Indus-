@@ -39,7 +39,7 @@ def main():
             for h in 'AB':
                 Xs.append(fv(r[h])); ys.append(1 if n in LANG else 0); gs.append(n)
     X, y, g = np.array(Xs), np.array(ys), np.array(gs)
-    mk = lambda: make_pipeline(StandardScaler(), LogisticRegression(C=0.3, max_iter=2000))
+    mk = lambda: make_pipeline(StandardScaler(), LogisticRegression(C=0.3, max_iter=2000, class_weight='balanced'))
     out = {'loco': {}}
     for n in set(gs):
         clf = mk().fit(X[g != n], y[g != n])

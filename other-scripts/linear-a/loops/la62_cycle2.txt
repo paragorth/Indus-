@@ -1,0 +1,31 @@
+LA-62 cycle 2: can we transcribe new Linear A from images? Blind test, then the new documents
+(tools/la62_c2.py; data/la62_ckpt/blind_pick.json, blind_readings.json, c2.json, new_docs.json; images in the scratchpad only)
+
+(a) BLIND TEST. 10 administrative documents drawn at random (seed 62) from the 283 with a lineara.xyz facsimile drawing
+and >= 4 tokens: HT88, HT25b, HT115a, HT87, HT94b, HT82, KH26, ZA12b, PK1, HTWa1021. Each drawing was read and the reading
+(words with '?' for unread signs, logograms, numbers, a confidence per token) was saved BEFORE the corpus text was
+opened. Control: the same readings scored against a random other document from the pool (200 draws each).
+Caveat: HT88 is a much-published tablet; its 11/11 named signs probably come from memory, not from the drawing.
+
+| LA-62.2a | Blind transcription of 10 known documents from facsimile drawings, scored against the corpus; control = same readings against random other documents (200 per document) | Numbers: 20 of 57 true number tokens recovered with the right value (35 %; control 7.2 = 15 %); 13 of 33 read numbers were wrong or spurious. Signs: 20 signs named, 18 right (HT88 11/11, suspect; others 7/9), but only 18 of 182 true signs were named at all (10 %; 7/152 = 5 % without HT88); control 3.5. Token-kind counts: total absolute error 58 vs control 92. Fraction signs: none recovered. | Our image transcription is NOT usable for sign-level work. It gives the layout and about a third of the numbers (above chance), and almost no syllabic readings (5 % of signs without HT88). Any transcription of a new document from images alone would be grade C at best, and the sign-group (word) layer, which the frozen predictions P6 and P7 need, would be missing. |
+
+(b) THE NEW DOCUMENTS. No legible image or drawing is open (cycle 1), so the only transcription possible is a token
+SKELETON from the published prose, with confidence per token (the probability that the token's kind and class are
+as written):
+  KN Zg 58 (handle, accounting)
+    face a: VAS+x (0.6), VAS+y (0.6), 'ten' (0.6), new sign (0.5), *180 (0.6), *181 (0.6)
+    face b: one 4-sign group (0.7, signs not given), HIDE (0.5)
+    face c: boar (0.5), pig (0.4), no numbers
+    face d: VAS+z (0.6) units (0.4), VAS+w (0.6) units + six different fraction signs in sequence (0.4)
+  KN Zg 57 (ring, no numbers)
+    A: 12 animals (0.7), 6 amphorae, rhyton, tripod, VAS+PA, VAS+RU (0.6-0.7)
+    B: six sign-groups (0.8, signs not given), then GRA (0.8), FAR? (0.4), OLIV (0.6), reading left to right
+    C: >= 9 groups (0.6), 5 TELA, one TELA+KA (0.6), order unknown
+    D: ~9 HIDE (0.5), one HIDE+KA/QE/KO (0.3)
+  Sign-group (word) identities: 0 of ~16 groups are given in the open article. Words: none available.
+
+| LA-62.2b | Transcription of the new documents | Skeletons only, from prose: logogram classes, number presence, group counts; 0 word identities, 0 number values beyond 'ten', 0 fraction identities. | Grade C skeleton. It can test predictions about commodity CLASSES, commodity ORDER and the presence or absence of KU-RO, but none about words, totals or fractions. |
+
+Cycle 2 verdict: with open material the outside documents can be read only as skeletons. Our own image
+transcription, measured blind, names about 5 % of signs correctly (10 % if the suspect HT88 is counted). This is a hard
+ceiling on any outside test until the editors' facsimiles (RILA-S1, Anetaki II) are in hand.

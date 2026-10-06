@@ -1,0 +1,27 @@
+LA-62 CRACK ATTEMPT, OUTSIDE DATA: final (cycles 1-3: loops/la62_cycle1.txt, la62_cycle2.txt, la62_cycle3.txt)
+Scripts: tools/la62_c1.py, la62_c2.py, la62_c3.py. Checkpoints: data/la62_ckpt/ (git-ignored). PDFs and images: scratchpad only.
+
+| LA-62.final | Test the frozen reading (la60 sha256 538ad6fa..., PRIOR c47f937b...; la46, la51, la53, la54 items) on Linear A it has never seen. (1) Inventory of every open inscription outside the snapshot (lineara.xyz live vs snapshot, SigLA 802 list, Crossref, open articles; positive control 18 known post-1985 items). (2) Blind transcription of 10 random known documents from drawings vs corpus (control: random other document), then transcriptions of the new items. (3) Every frozen prediction scored kill / survive / untestable; decoding with PRIOR vs EMPTY, 200 shuffled, 100 random readings | (1) lineara.xyz has no newer data (identical bytes). Positive control 18/18. Open and new: only the Knossos Anetaki ivory pair, KN Zg 58 (accounting, VAS, HIDE, boar, pig, 'ten', six fraction signs) and KN Zg 57 B-D (no numbers; GRA, FAR?, OLIV; TELA; HIDE). Both are known from prose and one illegible photo. RILA-S1 (107 items, 2024) is closed. (2) Blind: 35 % of numbers (control 15 %), 5-10 % of signs named correctly; new items = prose skeletons, 0 word identities. (3) Testable 3 of ~17: KN no KU-RO survives (trivial), KN commodity profile fails (1 of 6 classes vs 3 for 'other'), GRA before OLIV survives (+0.77 bits). PRIOR explains 46/65 tokens, the same as EMPTY, shuffled and random readings; the lexicon never fires. Under the rules as frozen, ivory supports are out of scope. | NOT CRACKED; NO OUTSIDE TEST POSSIBLE YET. The outside evidence that is open on 6 Oct 2026 cannot tell the frozen reading from an empty one. That is the honest result, not a pass or a fail. The one place the reading made a site-specific claim it could be checked on (Knossos commodity mix, from 11 documents) failed. The real test needs RILA-S1 and the Anetaki II publication (human items below). |
+
+Grades
+- B (method/negative): our image transcription from drawings is not good enough for an outside test (5 % of signs blind,
+  10 % with a probably remembered tablet); numbers 35 % vs 15 % chance.
+- B: the open post-1985 Linear A beyond our snapshot is two ivory objects from one Knossos cult deposit.
+- C, demoted: la60 per-site Knossos commodity profile (11 documents). It failed on the new Knossos texts. Would revive:
+  new Knossos tablets (not cult objects) with E/OLE/VIN/SU.
+- C, unchanged: commodity order GRA before OLIV (1 more agreeing pair, < 1 bit).
+
+FOR docs/HUMAN-ACTIONS.md (needs a human: library access; nothing here needs a login)
+  L1. Del Freo, M. & Zurbach, J. 2024, Recueil des inscriptions en lineaire A. Supplement 1 (RILA-S1), Etudes Cretoises
+      21.6, Ecole francaise d'Athenes, ISBN 978-2-86958-642-0. Request: scans (or a list) of the facsimiles and normalised
+      editions of every tablet, roundel and nodule with numbers (the ~20 new tablets especially), to check which of the
+      107 are missing from lineara.xyz. First look in the Cambridge University Library catalogue:
+      https://idiscover.lib.cam.ac.uk/ (search "Recueil des inscriptions en lineaire A supplement"); the Faculty of
+      Classics library (Mycenaean Epigraphy Group) is the likeliest holder. Publisher page:
+      https://www.peeters-leuven.be/detail.php?search_key=9782869586420
+  L2. Kanta, A. (ed.), forthcoming, Anetaki II: the Neopalatial Room 1 and the Ivory Repository (final edition of
+      KN Zg 57 and KN Zg 58 with drawings). Ask the editors (Nakassis, Palaima, Perna) whether drawings of KN Zg 58
+      face d, with the six fraction signs in order, can be shared before publication. Open preliminary paper:
+      https://ejournals.lib.uoc.gr/Ariadne/article/view/1841
+  L3. Notti, E. 2023, 'La scrittura "fuori" da Creta. Nuove evidenze epigrafiche ad Akrotiri (Thera)': PDF only
+      inside the IULM network; request a copy from https://apeiron.iulm.it/handle/10808/48144
