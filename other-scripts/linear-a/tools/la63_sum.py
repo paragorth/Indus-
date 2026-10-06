@@ -54,8 +54,9 @@ def tables(D, minn=2):
     return ex, ps
 
 
-def analyse(name, models=None, alpha=ALPHA, minM=3):
-    D = load(name, models)
+def analyse(name, models=None, alpha=ALPHA, minM=3, D=None):
+    if D is None:
+        D = load(name, models)
     if len(D) < 3:
         return None
     count = {}

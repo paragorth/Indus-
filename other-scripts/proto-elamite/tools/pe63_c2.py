@@ -11,7 +11,7 @@ Slot roles:
   QTY       signs never change, the number does (a fixed item, variable amount)
   ID        sign changes; in >= 60% of sign-changing pairs neither system nor quantity changes
   COM       sign changes; in >= 50% of sign-changing pairs the system or scale (x3) changes
-  STEP      sign changes, same system, quantity a function of the variant (>= 3 variants, consistent),
+  STEP      (tested first) sign changes, same system, quantity a function of the variant (>= 3 variants, consistent),
             sorted values form a constant ratio or constant difference (10% tolerance)
   MIX       anything else
   TOTAL     (numeral slot) value = sum of the other same-system numeral slots on >= 2 members
@@ -24,7 +24,7 @@ import os, json, math, random
 from collections import Counter, defaultdict
 import numpy as np
 import pe63_common as C
-from pe63_report1 import thresholds, components
+from pe63_report1 import thresholds, components, pairz
 
 
 def jac(a, b):
@@ -128,18 +128,19 @@ def analyse(dossier_tabs, rng=None, shuffle_nums=False):
             consistent = all(len(s) == 1 for s in vmap.values())
             vals = [next(iter(s)) for s in vmap.values() if len(s) == 1]
             same_sys = len({sysv[k] for k in mem}) == 1
-            if alone >= 0.6 * sc:
+            if numeral and same_sys and consistent and len(vmap) >= 3 and len(set(vals)) == len(vals) and const_ratio(vals):
+                role = 'STEP'
+            elif alone >= 0.6 * sc:
                 role = 'ID'
             elif withu >= 0.5 * sc:
                 role = 'COM'
-            elif numeral and same_sys and consistent and len(vmap) >= 3 and len(set(vals)) == len(vals) and const_ratio(vals):
-                role = 'STEP'
             else:
                 role = 'MIX'
         out.append({'slot': i, 'n': len(mem), 'core': sorted(core),
                     'variants': sorted({' '.join(sorted(v)) for v in var.values()}),
                     'numeral': numeral, 'role': role, 'sc': sc, 'alone': alone, 'withu': withu,
-                    'members': {T[k]['id']: {'s': S[k]['s'], 'sys': sysv[k], 'v': vv[k]} for k in mem}})
+                    'members': {T[k]['id']: {'s': S[k]['s'], 'sys': sysv[k], 'v': vv[k], 'raw': S[k].get('raw', '')}
+                                for k in mem}})
     # TOTAL detection
     for o in out:
         if not o['numeral']:
@@ -161,12 +162,13 @@ def dossiers_for(corp, tag='real', s=0):
     fn = os.path.join(C.CK, 'c1_%s_%s_%d.json' % (corp, tag, s))
     R = json.load(open(fn))
     thr = thresholds(corp)
-    _, comps = components(R['groups'], thr)
     if tag == 'plant':
         T = R['tabs']
     else:
         T = {'PE': C.pe_tabs, 'DR': lambda: C.ur3_tabs('Puzr', 1500, 'DR'),
              'UM': lambda: C.ur3_tabs('Umma', 1500, 'UM')}[corp]()
+        T = [t for t in T if len(t['lines']) >= 3]
+    _, comps = components(R['groups'], thr, zf=pairz(C.Index(T), T))
     byid = {t['id']: t for t in T}
     return [[byid[i] for i in d['ids']] for d in comps if 3 <= len(d['ids']) <= 40], R.get('truth')
 

@@ -73,8 +73,42 @@ def analyse(name):
                 DIF={g: {k: float(np.mean(v)) for k, v in diff[g].items()} for g in diff})
 
 
+def as_types(name):
+    """Recast group runs as pseudo 'types' for la63_sum.analyse: each group and each matched random
+    word-set (RAND:<group>:<j>) is one type with its own same-document null draws. Count = 5 x the
+    held-out token count (frequency bin)."""
+    F = [f for f in glob.glob(os.path.join(L.CK, 'grp_%s_*.json' % name))
+         if re.match(r'^grp_%s_\d+\.json$' % re.escape(name), os.path.basename(f))]
+    D = []
+    for f in sorted(F):
+        d = json.load(open(f))
+        res, count = {}, {}
+        for g, x in d['res'].items():
+            res[g] = dict(acc=x['real']['acc']); count[g] = 5 * x['real']['ntok']
+            for j, r in enumerate(x['rand']):
+                k = 'RAND:%s:%d' % (g, j)
+                res[k] = dict(acc=r['acc']); count[k] = 5 * r['ntok']
+        D.append(dict(m=d['m'], res=res, count=count, base={}))
+    return D
+
+
+def typed_report(name):
+    import la63_sum as S
+    R = S.analyse(name, D=as_types(name), minM=4)
+    real = [w for w in R['C'] if not w.startswith('RAND:')]
+    rnd = [w for w in R['C'] if w.startswith('RAND:')]
+    fr = sum(R['C'][w] != 'SILENT' for w in rnd) / max(1, len(rnd))
+    print('%s typed: models %d, alpha %.4f (pseudo false %.3f); matched random word-sets classed %d/%d (%.3f); groups classed %d/%d' % (
+        name, len(R['models']), R['alpha'], R['fp'], sum(R['C'][w] != 'SILENT' for w in rnd), len(rnd), fr,
+        sum(R['C'][w] != 'SILENT' for w in real), len(real)))
+    for w in sorted(real, key=lambda w: min(R['PV'][w].values())):
+        print('  ' + S.profile(R, w))
+    return R
+
+
 if __name__ == '__main__':
     for name in sys.argv[1:]:
+        typed_report(name)
         R = analyse(name)
         n_pool = {gn: len(v) for gn, v in R['pool'].items()}
         print('%s: models %d, groups %d, pseudo-group pool %s' % (name, R['models'], len(R['T']), n_pool))
