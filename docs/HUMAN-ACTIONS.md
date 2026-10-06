@@ -102,3 +102,11 @@ The frozen Linear A reading (la60, sha256 538ad6fa…) can only be tested on ins
       https://ejournals.lib.uoc.gr/Ariadne/article/view/1841
 - L3. Notti, E. 2023, 'La scrittura "fuori" da Creta. Nuove evidenze epigrafiche ad Akrotiri (Thera)': PDF only
       inside the IULM network; request a copy from https://apeiron.iulm.it/handle/10808/48144
+
+## N. Unseen Proto-Elamite tablets for the outside test of the frozen reading (pe60)
+The frozen pe59 predictions can only be tested on tablets outside the corpus. Photo reading here gives 3% sign recall, so these need a human or an expert:
+- [ ] **Hameeuw 2025, 'Four Proto-Elamite Clay Tablets', in Preserving Fragile Wisdom (Peeters, ISBN 9789042955301), doi 10.2307/jj.32657600.25**: https://www.jstor.org/stable/jj.32657600.25 (JSTOR shows a JavaScript client challenge to scripts). Save the chapter PDF (photos, copies, any transliteration) to the scratchpad. Why: 4 tablets in no CDLI collection, i.e. genuinely unseen; score pe59 P4/P5 (class -> system), P6 (totals) and pe52 on them.
+- [ ] **'Proto-Elamite Culture in Light of the Newly Analysed Proto-Elamite Tablet from the State Hermitage Museum', Iranian Journal of Archaeological Studies**: https://ijas.usb.ac.ir/article_9673.html (connection reset from here). Save the PDF. Why: one unseen tablet (no Hermitage object in CDLI).
+- [ ] **Hessari and Yousefi 2023, Pazhoheshha-ye Bastan Shenasi Iran 13(37):149-159**: https://nbsh.basu.ac.ir/article_5317.html (connection reset). Save the PDF; check whether TSF 012, 014, 015, 016 (CDLI P566676-P566679, catalogue-only) are illustrated.
+- [ ] **Expert transliteration of the 89 Tehran Susa tablets (NMI BK 00713, 01109-01198, 02519, 02878; CDLI P520211-P520300)**: ask CDLI (cdli.earth contact; J. Dahl, Oxford, who catalogued them) whether ATF exists or is planned, or request higher-resolution / RTI images from the National Museum of Iran. Why: pe59 P10 and pe22 name this set; photo reading here gives sign recall 3%, so only an expert or in-hand reading can test P10.
+- [ ] **Louvre collections search 'proto-élamite'**: https://collections.louvre.fr/recherche?q=proto-%C3%A9lamite (robot check; not clicked). Why: photographs of the 7 Louvre 'to be completed' stubs (P368500, P368555, P368561-P368563, P368583, P368596) and the 10 photo-only Louvre tablets.
