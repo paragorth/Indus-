@@ -114,7 +114,8 @@ def part_A(R, nk, seed, nnull=6):
     V = slot_values(R)
     rng = np.random.default_rng(seed)
     defs = set()
-    while len(defs) < min(nk, 92):
+    import math
+    while len(defs) < min(nk, sum(math.comb(len(SLOTS), k) for k in (1, 2, 3))):
         k = int(rng.integers(1, 4)); defs.add(tuple(sorted(rng.choice(len(SLOTS), k, replace=False).tolist())))
     defs = [tuple(SLOTS[i] for i in d) for d in defs]
     # massive part: random keys built as random many-to-one merges of slot tuples (index classes)
