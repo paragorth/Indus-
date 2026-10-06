@@ -391,15 +391,20 @@ def draw_model(rng):
                 scale='mult' if rng.random() < 0.7 else 'add', ctx=rng.random() < 0.5)
 
 
+_PF = {}
+
+
 def pick_feats(D, tr, m, rng):
-    cnt = D.X[tr].sum(0)
-    dcount = {}
+    key = (id(D), len(tr), int(tr[0]), int(tr[-1]))
+    if key not in _PF:
+        _PF.clear()
+        cnt = D.X[tr].sum(0)
+        nd = np.array([len(set(D.doc[tr][D.X[tr, j] > 0])) if cnt[j] >= 2 else 0 for j in range(D.X.shape[1])])
+        _PF[key] = (cnt, nd)
+    cnt, nd = _PF[key]
     cols = []
-    for j in np.where(cnt >= m['minf'])[0]:
-        f = D.fnames[j]
-        if f[0] not in m['kinds']:
-            continue
-        if len(set(D.doc[tr][D.X[tr, j] > 0])) < 2:
+    for j in np.where((cnt >= m['minf']) & (nd >= 2))[0]:
+        if D.fnames[j][0] not in m['kinds']:
             continue
         if rng.random() < m['keep']:
             cols.append(j)
@@ -459,6 +464,42 @@ def id_baseline(D, tr, ttr, ev):
     return pred, novel
 
 
+class Gram:
+    """precomputed sufficient statistics of one training set (features + ctx + nos columns), so each random
+    model is a small ridge solve on a sub-Gram (identical to ridge() on the selected columns)."""
+    def __init__(self, D, tr, ttr):
+        X = np.hstack([D.X[tr].astype(float), D.ctx[tr, None], D.nos[tr, None]])
+        self.n = len(tr); self.F = D.X.shape[1]
+        self.G = X.T @ X; self.s = X.sum(0)
+        self.t = {'mult': ttr, 'add': np.exp(ttr) - 1.0}
+        self.Xt = {k: X.T @ v for k, v in self.t.items()}
+
+    def solve(self, cols, m):
+        c = np.asarray(cols, int)
+        if m['ctx'] and getattr(self, 'mode', 'sys') != 'tab':
+            c = np.concatenate([c, [self.F, self.F + 1]])
+        y = self.t[m['scale']]; mu = y.mean()
+        if len(c) == 0:
+            return mu, np.zeros(0)
+        xm = self.s[c] / self.n
+        A = self.G[np.ix_(c, c)] - self.n * np.outer(xm, xm) + m['lam'] * np.eye(len(c))
+        r = self.Xt[m['scale']][c] - self.n * xm * mu
+        try:
+            b = np.linalg.solve(A, r)
+        except np.linalg.LinAlgError:
+            b = np.linalg.lstsq(A, r, rcond=None)[0]
+        return mu - xm @ b, b
+
+    def fit(self, cols, m):
+        a, b = self.solve(cols, m)
+        nc = len(cols)
+        if m['thr'] > 0 and nc:
+            k = np.abs(b[:nc]) >= m['thr']
+            cols = np.asarray(cols)[k]
+            a, b = self.solve(cols, m)
+        return a, b, np.asarray(cols, int)
+
+
 def run_split(D, seed, M, keep_top=0.1):
     rng = random.Random(seed * 7919 + 1)
     A, B, C = D.split(seed)
@@ -466,10 +507,11 @@ def run_split(D, seed, M, keep_top=0.1):
     idB, novB = id_baseline(D, A, tA, B)
     mse_idB = float(np.mean((tB - idB) ** 2))
     res = []
+    GA = Gram(D, A, tA); GA.mode = D.mode
     for k in range(M):
         m = draw_model(rng)
         cols = pick_feats(D, A, m, random.Random(seed * 7919 + 1 + 100003 * (k + 1)))
-        a, b, c2 = fit(D, A, tA, m, cols)
+        a, b, c2 = GA.fit(cols, m)
         pB, _ = predict(D, B, a, b, c2, m)
         res.append((mse_idB - float(np.mean((tB - pB) ** 2)), k, m))
     res.sort(key=lambda x: -x[0])
@@ -486,9 +528,10 @@ def run_split(D, seed, M, keep_top=0.1):
     p0 = a0 + design(D, C, np.zeros(0, int), m0) @ b0
     out['g_ctx0'] = mse_idC - float(np.mean((tC - p0) ** 2))
     abl = defaultdict(lambda: [0.0, 0])
+    GAB = Gram(D, AB, tAB); GAB.mode = D.mode
     for j, (gB, k, m) in enumerate(surv):
         cols = pick_feats(D, AB, m, random.Random(seed * 7919 + 1 + 100003 * (k + 1)))
-        a, b, c2 = fit(D, AB, tAB, m, cols)
+        a, b, c2 = GAB.fit(cols, m)
         pC, XC = predict(D, C, a, b, c2, m)
         gC = mse_idC - float(np.mean((tC - pC) ** 2))
         gCn = float(np.mean(tC[novC] ** 2) - np.mean((tC[novC] - pC[novC]) ** 2)) if novC.any() else 0.0

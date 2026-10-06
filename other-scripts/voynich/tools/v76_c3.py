@@ -22,7 +22,7 @@ def subset_pairs(P, pairs, kind):
 
 
 def linked(P, name, rng):
-    d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name)); sc, npair = d['sc'], d['npair']
+    d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name)); sc, npair = d['sc'][:8000], d['npair'][:8000]
     r0 = random.Random(7600); tmpl = [C1.rand_template(r0) for _ in range(len(sc))]
     order = np.argsort(-np.where(npair[:, 1] >= 5, sc[:, 1], -1e9))[:C2.K]
     views = [C1.para_view(p) for p in P]

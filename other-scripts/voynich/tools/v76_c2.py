@@ -108,7 +108,7 @@ def analyse(name, P, pairs):
 
 def pairs_for(name, P, which):
     d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name))
-    sc = d['sc']; npair = d['npair']
+    sc = d['sc'][:8000]; npair = d['npair'][:8000]
     rng = random.Random(7600)
     tmpl = [C1.rand_template(rng) for _ in range(len(sc))]
     ok = npair[:, 1] >= 5

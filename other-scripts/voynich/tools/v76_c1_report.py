@@ -8,7 +8,7 @@ GEN = ['WSHUF', 'MK2', 'SELFCIT', 'JUNC', 'SC10', 'PARCOPY', 'PARCOPYID']
 
 
 def stats(name):
-    d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name)); sc, n = d['sc'], d['npair']
+    d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name)); sc, n = d['sc'][:8000], d['npair'][:8000]
     ok0 = n[:, 1] >= 5
     top = np.argsort(-np.where(ok0, sc[:, 1], -1e9))[:50]
     rep = float(np.mean(sc[top, 2]))
