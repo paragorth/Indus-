@@ -31,7 +31,7 @@ else:
     T = C.match_size(C.build_u3(), n_lab_pe, 'pe62u3')
 T = copy.deepcopy(T)
 truth_plant = None
-m = re.match(r'([a-z]+?)(\d*)$', mode)
+m = re.match(r'([A-Za-z]+?)(\d*)$', mode)
 kind, rep = m.group(1), m.group(2)
 prng = random.Random('pe62plant' + corpus + mode)
 

@@ -1,0 +1,15 @@
+la63 cycle 3 (6 Oct 2026): the clerk loses a whole CLASS of words (tools/la63_groups.py, la63_groups_sum.py).
+Idea: rare words (3-4 tokens) are below the single-word floor (cycle 2), so sets are erased together:
+the la57 commodity candidates (LA57: DI-DE-RU, DA-SI-*118, *28B-NU-MA-RE, U-*325-ZA, TE-TU; 16 tokens),
+the between-line single signs (BETWEEN: RA PA PA3 TU ME; 46), words standing before fractions in >= half
+of their training entries (FRACW, defined on each model's training folds only) and words never with a
+fraction (NOFRACW), and 43 sign families (multi-sign words containing / starting with / ending in one
+syllabic sign, totals excluded). For each group and model: all its tokens erased on held-out documents
+with 4 same-document random-token null draws, plus 4 MATCHED RANDOM WORD-SETS (token count +-25%) played
+the same way. Groups and random sets are scored as 'types' with the cycle-1 pseudo-word calibration
+(threshold = 2% of pseudo-words classed). Controls: the dose plant groups and Linear B role groups.
+
+| LA-63.3a | Dose plant groups, 15 models | D_UNIT (unit markers, 30 tokens) NUM-L z 4.6 classed; D_UNIT10 ENT z 4.9 / NUM-L 2.7; D_COM (commodity-bound, 30 tokens) LOGO z 2.1 p 0.05 not classed; names SILENT; matched random sets 0/32 classed | PASS for measured units at 30 tokens; commodity binding at 30 tokens still below the floor |
+| LA-63.3b | Linear B role groups (700 docs), 8 models | QUAL (commodity-bound qualifiers and measured nouns) LOGO z 6.2 p 0.001 classed; BEG:KO (ko-wo, ko-wa, ko-to-na) LOGO z 8.5; END:WO / HAS:WO HEAD (+LOGO 4.6-5.3); places, transaction words, totals SILENT; persons ENT z 4.9 p 0.004 (just below); classed groups 6/74 vs matched random sets 7/296 (0.024) | PASS: in Linear B the game, run on word classes, recovers the commodity-bound class and leaves places, totals and transactions silent |
+| LA-63.3c | Linear A groups, 40 models | 0/47 groups classed; matched random word-sets 8/188 (0.043) classed, i.e. Linear A's word classes are LESS informative than random word-sets of the same size. LA57: SILENT, LOGO z -1.7 (erasing them hurts commodity prediction LESS than erasing random tokens of their documents), NUM-L z 0.9. BETWEEN: SILENT, NUM-L z -1.9 (anti-number, as RA alone in cycle 2). FRACW: SILENT (NUM-L z -0.8). Best sign families: HAS:SU TOT z 3.6 p 0.007, LOGO 3.3; HAS:NI TOT 2.6; all below threshold | No Linear A syllabic class carries number, fraction or commodity information beyond random words. The la57 candidates do not behave like commodity words or logograms (CYP: own-entry NUM z 33) |
+| LA-63.3 | Cycle verdict | Linear B passes the same group test that Linear A fails. Within the floor (units >= 20-30 tokens; commodity binding needs Linear B-sized classes, > 40 tokens), Linear A's number and commodity information sits in logograms, KU-RO, the fraction-takers (*308, *131C) and a few single signs (SI, NI, TA2, *306, SA, *304), not in syllabic words | la57 commodity candidates: not confirmed; DEMOTE to C- (would support: a candidate standing alone before a fraction on a new tablet) |

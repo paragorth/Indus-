@@ -1,0 +1,54 @@
+la63 FINAL (6 Oct 2026): WHAT WOULD THE MINOAN CLERK MISS? (cycles: la63_cycle1.txt, la63_cycle2.txt, la63_cycle3.txt)
+Tools: tools/la63_lib.py (corpora, plants, models, views), la63_run.py (single-type game), la63_sum.py
+(pseudo-word calibrated classes), la63_report.py (Linear A report, seed halves, null), la63_groups.py and
+la63_groups_sum.py (group erasure). Checkpoints: data/la63_ckpt/ (git-ignored, 51 MB of small JSON).
+
+Method. The pe51 deletion game ported to Linear A. Documents become entries (words/logograms closed by a
+number). 60 random small models (transformer / bi-GRU) learn to fill in held-out documents: every
+numeral (magnitude, fraction class, arithmetic total), every logogram (commodity base), the words of
+alternate entries, header tokens. Each type with >= 3 tokens (and in cycle 3, 47 word classes) is
+erased; the damage to every other prediction minus the damage from erasing as many random tokens of the
+same documents is its loss profile. Threshold calibrated so 2% of pseudo-words are classed. Nulls:
+random erasure (built in), non-logogram tokens re-dealt within documents (la_nw), matched random
+word-sets. Controls: planted roles in real Linear A (two plants, one dose-response), Linear B (700 KN+PY
+documents, sign identities), Ur III (250 documents).
+
+Calibration (what the game can and cannot see at Linear A size)
+- A (method): it does not invent classes (2% by construction; names silent: plants 12/12, LB places
+  15/15, Ur III persons 8/8); it finds measured units at >= 20 tokens (z 9.7-11.2) and finds Linear B
+  measured nouns (o-na-to NUM z 7.5, do-so-mo) and, on word classes, the LB commodity-bound qualifier
+  class (QUAL LOGO z 6.2; ko-wo/ko-wa/ko-to-na LOGO z 8.5). Ur III units rank first (AUC 1.00 vs names).
+- A (method limit): totals are invisible (TO-SO, szunigin silent, as in pe51); a commodity-bound marker
+  needs > 40 tokens; every word with 3-4 tokens is untestable singly. SILENT = name, redundant marker
+  OR too rare.
+
+Linear A loss classes (60 models)
+- NUMBER carriers: KU-RO (own-entry magnitude z 7.7, total z 8.2; dies when words are re-dealt within
+  the document, so it is the total LINE). L:CYP (own entry z 33; 35/47 entries with fractions) and the
+  fraction-takers L:CYP+D (z 4.2), *308 (z 4-6; FRAC-L +0.12 nats; 9/9 entries carry a fraction; at the
+  threshold), *131C (z 3.8). Grade B for KU-RO and CYP (known; in-corpus positive controls); C for
+  *308 as a fraction-bound commodity sign (would support: *308 with a fraction on a new tablet; would
+  kill: *308 with a bare integer).
+- COMMODITY predictors (LOGO): SI (z 5.5, stable in both seed halves, dies in the within-document null:
+  bound to its place, 10/22 tokens in CYP documents), NI (4.7), TA2 (4 tokens, survives the null =
+  document-level). Grade C: SI is a commodity-specific heading sign, not a generic heading mark (would
+  kill: SI heading non-CYP lists at the same rate on new tablets).
+- Other: SA HEAD (stable, z 5.5, 4 documents), *304 ENT (z 5.7) and anti-number (NUM-L z -2.9), TE and
+  *306 TOT-leaning (*306 all Khania). C.
+- SILENT: every entry word (KU-PA3-NU, MA-DI, SA-RU, SA-RO, DA-RE, TA-I), SA-RA2, A-DU, KI-RO and 131
+  of 148 types: names, redundant markers or too rare.
+- la57 commodity candidates (DI-DE-RU, DA-SI-*118, U-*325-ZA, TE-TU, *28B-NU-MA-RE): none confirmed.
+  Singly below the floor; as a group (16 tokens) SILENT with LOGO z -1.7 and own-number z 0.9, unlike a
+  logogram (CYP z 33). DI-DE-RU's HEAD signal (z 3.9) comes from the near-copy group HT86a/HT95a/HT95b.
+  DA-SI-*118 is classed only in the null. Demote la57's C to C-.
+- Between-line single signs RA, PA, PA3, TU, ME, *318: SILENT singly and as a group; RA (NUM z -4.8)
+  and the group (z -1.9) are ANTI-number: erasing them hurts the numbers less than erasing random
+  tokens of their documents. B- (negative): they are not units, measures or commodity markers; with
+  la61 they fit 'names or redundant marks'.
+- Word classes (43 sign families, fraction-words, LA57, BETWEEN): 0/47 classed vs 8/188 matched random
+  word-sets; Linear B classes pass the same test (6/74, QUAL first). B (calibrated negative): no
+  syllabic word class carries number, fraction or commodity information beyond random words.
+
+Verdict: not cracked, nothing read. What the clerk would miss is the logogram, the total line and a few
+single signs (*308 and CYP for fractions, SI/NI for the commodity); the syllabic words are, for every
+prediction a model can make from these documents, interchangeable names.
