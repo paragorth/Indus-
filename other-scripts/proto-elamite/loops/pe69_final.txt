@@ -1,0 +1,10 @@
+pe69 TRY HARD TO KILL THE TEAM RULE, THEN USE IT -- final (6 Oct 2026)
+Tools: tools/pe69_lib.py, pe69_c1.py, pe69_c1b.py, pe69_c2.py, pe69_c3.py. Decoded table: data/pe69_decoded_slots.tsv. Frozen: data/pe69_frozen_predictions.json (sha 2130b6cd6146fc16). Checkpoints: data/pe69_ckpt/ (git-ignored).
+
+| Row | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-69.F1 | Kill attempt: 3,120 rules of the same complexity, Westfall-Young max-z under re-dealt, within-tablet and same-shape re-sampled values; 1,000 blind half splits; decisive test on the 38 runs where team and per-line predictions differ, with a planted-team control (power 0.88 at 10% of slots) | Team rule overall p_corr 0.001, but 26/35 hits are single-line runs and 8 of the other 9 are also 120 x the last line. Discriminating runs: 1/38 (chance 0.65, p 0.49; 9.5 expected if the rule held, P 2e-4); bare M288 lines 0/25; joined tablets 1/15. Blind halves never choose the team sum on all runs | Team rule KILLED (was pe68 C+). pe68's 'disjoint 44/106' was a bookkeeping error |
+| PE-69.F2 | Decoder with the survivors | Per-line allotment explains about 1 in 9 clean M288 lines; it holds for bare 'M288 n' after PERSON-final lines (34/49 vs 5.5) and not for 'signs + M288' lines (6/52 vs 5.1); damage does not explain failures; no second ration grade (48 on 6 tablets, p 0.39) | B- (scope of the allotment rule) |
+| PE-69.F3 | pe62 kill line checked | 11 of 40 M056-final count lines are followed by their own M288 line, 5-7 at 48 N39C per unit, in one dossier (p 0.001) | pe62 C killed; 48 grade C, dossier-bound |
+| PE-69.F4 | Frozen predictions | 18 lost M288 values, 4 lost counts, pe68 regrade (14 kept, 5 expected to fail, 33 team-count predictions withdrawn). Self-check on damaged runs fails (4/14 vs 8.4), so all broken-tablet predictions are C | Waiting on joins and collations; no outside test possible now |
+| PE-69.F5 | Grades | A: none. B-: per-line allotment scoped to bare M288 after person-class lines. C: 48-per-unit M056 dossier. Killed: team rule (pe68), M056 = hidden M288 (pe62) | Not cracked; nothing read |

@@ -20,7 +20,7 @@ def stats(name):
 def main(fn=None):
     fits = json.load(open(os.path.join(V.CK, 'c1_fits.json')))
     lines = []
-    for real in ('ZL3b', 'IT2a', 'CUL', 'BRU', 'API'):
+    for real in ('ZL3b', 'IT2a', 'GC', 'CUL', 'BRU', 'API'):
         if not os.path.exists(os.path.join(V.CK, 'c1_%s.npz' % real)): continue
         r = stats(real)
         g = {}

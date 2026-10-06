@@ -25,7 +25,7 @@ def idl(r):
 
 
 def main():
-    for real in ('ZL3b', 'IT2a', 'CUL', 'BRU', 'API'):
+    for real in ('ZL3b', 'IT2a', 'GC', 'CUL', 'BRU', 'API'):
         R = load(real)
         if R is None: continue
         print('==', real, 'REAL S:', sub(R, 'S'), '| H0:', sub(R, 'H0'), '|', idl(R))

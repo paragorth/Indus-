@@ -20,7 +20,7 @@ def fmt(r):
 
 def main():
     out = {}
-    for real in ('ZL3b', 'IT2a', 'CUL', 'BRU', 'API'):
+    for real in ('ZL3b', 'IT2a', 'GC', 'CUL', 'BRU', 'API'):
         R = load(real)
         if R is None: continue
         for which in ('ALL', 'H1'):
