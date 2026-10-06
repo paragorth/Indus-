@@ -79,6 +79,14 @@ for role in roles:
             np.median([x[c] for x in sh['S1']]), np.quantile([x[c] for x in sh['S1']], 0.95),
             np.median([x[c] for x in sh['S2']]), np.quantile([x[c] for x in sh['S2']], 0.95),
             np.median([x[c] for x in sh['S3']]), np.quantile([x[c] for x in sh['S3']], 0.95)))
+    for nm in ('PC', 'PCPE'):
+        if any(nm in (R[k] or {}) for k in R if k[0] == role):
+            def ens(rep):
+                v = [np.mean(R[k][nm]) for k in R if k[0] == role and k[2] == rep and R[k]]
+                return np.median(v) if v else np.nan, (np.mean(np.array(v) >= 0.6) if v else np.nan)
+            nv = [ens(r)[0] for r in range(1, nrep + 1)]
+            out('  held-out %-4s per-model AUC median %.3f (share >= 0.6 %.2f) | label-perm null medians %s' % (
+                nm, ens(0)[0], ens(0)[1], ' '.join('%.3f' % x for x in nv)))
     out('  spread sd %.4f (S1 med %.4f, S2 %.4f, S3 %.4f) | share signs with majority top-decile %.3f (S1 %.3f S2 %.3f S3 %.3f)' % (
         s['sd'], np.median([x['sd'] for x in sh['S1']]), np.median([x['sd'] for x in sh['S2']]), np.median([x['sd'] for x in sh['S3']]),
         s['maj'], np.median([x['maj'] for x in sh['S1']]), np.median([x['maj'] for x in sh['S2']]), np.median([x['maj'] for x in sh['S3']])))

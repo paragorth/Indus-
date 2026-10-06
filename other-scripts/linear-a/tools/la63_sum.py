@@ -17,7 +17,8 @@ import la63_lib as L
 GROUPS = {'NUM-L': ['MAG-L', 'FRAC-L'], 'NUM-R': ['MAG-R', 'FRAC-R'], 'LOGO': ['LOGO-L', 'LOGO-R'],
           'TOT': ['TOT-L', 'TOT-R'], 'ENT': ['ENT-L', 'ENT-R'], 'HEAD': ['HEAD-L', 'HEAD-R']}
 KEYS = sorted({k for v in GROUPS.values() for k in v})
-ALPHA = 0.01
+ALPHA = None      # calibrated: FALSE_RATE of pseudo-words are classed
+FALSE_RATE = 0.02
 
 
 def fbin(c):
@@ -104,26 +105,28 @@ def analyse(name, models=None, alpha=ALPHA, minM=3):
             k -= 1
         return (1 + k) / (1 + len(arr))
 
+    # calibrate the class threshold on pseudo-words: the min-p over groups of a pseudo-word
+    pmin = []
+    for w in W:
+        b = fbin(count[w])
+        for gp in GP[w]:
+            pmin.append(min((pval(b, g, s, drop=True) if s > -98 else 1.0) for g, s in gp.items()))
+    pmin = np.sort(pmin)
+    if alpha is None:   # threshold that lets FALSE_RATE of pseudo-words through
+        alpha = float(pmin[max(0, int(FALSE_RATE * len(pmin)) - 1)]) if len(pmin) else 0.01
     PV, C = {}, {}
     for w in W:
         b = fbin(count[w])
         PV[w] = {g: (pval(b, g, s) if s > -98 else 1.0) for g, s in G[w].items()}
         g = min(PV[w], key=PV[w].get)
-        C[w] = g if PV[w][g] < alpha else 'SILENT'
-    # false-class rate: each pseudo word against the pool
-    fc, nf = 0, 0
-    for w in W:
-        b = fbin(count[w])
-        for gp in GP[w]:
-            nf += 1
-            if min((pval(b, g, s, drop=True) if s > -98 else 1.0) for g, s in gp.items()) < alpha:
-                fc += 1
+        C[w] = g if PV[w][g] <= alpha else 'SILENT'
+    fc, nf = int(np.sum(pmin <= alpha)), len(pmin)
     base = {}
     for d in D:
         for k, v in d['base'].items():
             base.setdefault(k, []).append(v)
     return dict(name=name, models=[d['m'] for d in D], count=count, E=E, Z=Z, G=G, PV=PV, C=C,
-                fp=fc / max(1, nf), base={k: float(np.mean(v)) for k, v in base.items()})
+                fp=fc / max(1, nf), alpha=alpha, base={k: float(np.mean(v)) for k, v in base.items()})
 
 
 def auc(pos, neg):
@@ -134,6 +137,8 @@ def auc(pos, neg):
 
 
 def key_for(name):
+    if name == 'dose':
+        return dict(L.DOSE_KEY)
     if name.startswith('plant'):
         return {w: r for w, r in L.PLANT_KEY.items()}
     if name == 'lb':
@@ -147,8 +152,8 @@ def key_for(name):
 def report(R, key=None, top=30):
     out = []
     C = R['C']
-    out.append('%s: models %d, types %d, false-class rate %.3f (alpha %.2f); base %s' % (
-        R['name'], len(R['models']), len(C), R['fp'], ALPHA, {k: round(v, 2) for k, v in R['base'].items()}))
+    out.append('%s: models %d, types %d, false-class rate %.3f (calibrated alpha %.4f); base %s' % (
+        R['name'], len(R['models']), len(C), R['fp'], R['alpha'], {k: round(v, 2) for k, v in R['base'].items()}))
     out.append('  classes %s' % dict(collections.Counter(C.values())))
     if key:
         roles = collections.defaultdict(list)

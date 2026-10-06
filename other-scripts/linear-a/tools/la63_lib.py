@@ -248,6 +248,34 @@ def build_plant(seed=0):
     return C
 
 
+def build_plant_dose(seed=5):
+    """Dose-response plant: unit markers (each forces its own fraction class) and commodity-bound
+    markers (each only in documents of one commodity) at 10, 20 and 40 tokens; names at 10/20/40."""
+    C = json.loads(json.dumps(build_la()))
+    r = random.Random(seed)
+    allnum = [(d, e) for d in C for e in d['ents'] if e['kind'] == 'num']
+
+    def put(e, tok):
+        e['toks'] = list(e['toks'])
+        e['toks'].insert(r.randrange(len(e['toks']) + 1), tok)
+
+    for (n, com, fr) in ((10, 'VIN', 'K'), (20, 'CYP', 'B'), (40, 'GRA', 'E')):
+        docs = [d for d in C if any(t.startswith('L:' + com) for e in d['ents'] for t in e['toks'])]
+        cand = [(d, e) for d in docs for e in d['ents'] if e['kind'] == 'num']
+        for d, e in r.sample(cand, min(n, len(cand))):
+            put(e, 'D_COM%d' % n)
+        for d, e in r.sample(allnum, n):
+            put(e, 'D_UNIT%d' % n)
+            e['frac'] = fr
+        for i in range(2):
+            for d, e in r.sample(allnum, n):
+                put(e, 'D_N%d_%d' % (n, i))
+    return C
+
+
+DOSE_KEY = {**{'D_COM%d' % n: 'LOGO' for n in (10, 20, 40)}, **{'D_UNIT%d' % n: 'NUM' for n in (10, 20, 40)},
+            **{'D_N%d_%d' % (n, i): 'SILENT' for n in (10, 20, 40) for i in range(2)}}
+
 PLANT_KEY = {'P_COM': 'LOGO', 'P_COM4': 'LOGO', 'P_UNIT': 'NUM', 'P_UNIT4': 'NUM',
              **{'P_N%d' % i: 'SILENT' for i in range(6)}}
 

@@ -843,3 +843,12 @@ Eight measures of writing care were taken on 11,576 Voynich words and 9,409 Lati
 - B (measurement): held-out in-line sequence excess is 0.057 (ZL) and 0.042 (IT2a). That is Latin level, above the junction generator (0.024), with all other generators at 0. However, 77% of it is the last-glyph -> next-word pairing. The identity residue (0.016-0.020 bits) is about 1/5 of Latin and German. 78-85% of it sits in 25 pairs: adjacent repeats, pieces split by a space (or/s/r + aiin) and ch-/qok- alternations. In every planted language, identity information exceeds junction information.
 - B: the Voynich's many word arrows (10-40 per 1,000 probes) come only from paragraph-first lines.
 - C (guess): the payload is a ~13-symbol, ~4-symbol-word designation code whose neighbour relations live in edge glyphs. Frozen predictions: narrow written spaces at or.aiin / s.aiin / r.aiin on the vellum, and P2/P3 values for any further transcription or leaf (hash in v72_final.txt). Not cracked: no value, word or referent can be assigned.
+
+## Let the ink decide the alphabet (v70, 6 Oct 2026; `loops/v70_final.txt`)
+- Method: units cut from 25 Beinecke pages with no transcription alphabet; 11,232 ink alphabets (k-means on PCA or autoencoder patch codes, K 10-80, 3 cut thresholds, 0-12 ligature merges) plus matched random alphabets, scored by a calibrated language battery, held-out page and section tracking, and MDL. Controls: 28 real Latin pages (CREMMA, abbreviations), and the Voynich text, 3 generators and 6 languages in a synthetic Voynich-like hand with planted ligatures and a split letter.
+- A (method, negative): picking the alphabet that makes the text most language-like is invalid: true units lower the language score in all 6 control languages. MDL on ink pixels also fails (controls run to the K ceiling).
+- B (negative): in a constant hand the Voynich text stays generator-like under every ink alphabet (P(language) 0.000 vs 0.91-1.00 for languages).
+- B (negative): no ink alphabet tracks pages better than EVA (0/78; 0.231 vs 0.267). Ink-informed EVA tracks sections and pages no better than random merges (|z| <= 0.9). No EVA pair is joined or split by the pen beyond the estimator's artefact level.
+- A (confound): unit width alone identifies Voynich pages at 0.50 (EVA 0.27); image alphabets must beat a width-only null.
+- Limit: the real Latin control fails at 2000-px scans (letters not recovered), so this bounds but does not settle the question. EVA stands. Would revive: full-resolution TIFFs where a Latin manuscript gives back its letters.
+

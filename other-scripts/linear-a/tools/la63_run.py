@@ -19,6 +19,8 @@ def corpus(name):
         return L.build_plant(0)
     if name == 'plant1':
         return L.build_plant(1)
+    if name == 'dose':
+        return L.build_plant_dose()
     if name == 'lb':
         return L.build_lb()
     if name == 'ur3':
