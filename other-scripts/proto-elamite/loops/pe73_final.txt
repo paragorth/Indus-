@@ -1,0 +1,11 @@
+pe73 final: DO THE BEST PROTO-ELAMITE RESULTS REST ON TRANSLITERATION ERRORS? (6 Oct 2026)
+Cycles loops/pe73_cycle1-3.txt. Scripts tools/pe73_select.py, pe73_sheet.py, pe73_crop.py, pe73_score.py, pe73_c2.py. Checkpoints data/pe73_ckpt/ (git-ignored). CDLI photos and line art of 107 tablets stayed in the scratchpad.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-73.F1 | Reader validation: blind, planted-error sheets on 22 random tablets (photo and line art judged separately; permutation control) | Accuracy 0.84 (photo) / 0.875 (copy) on decided lines, sensitivity 0.71-0.85, specificity 0.90-0.955, p 0.0002; ~50% of lines unreadable | A (method): useful for checking, not for correcting; a single disagreement is a candidate only |
+| PE-73.F2 | 186 numeral readings and 73 sign/seal/header/closing checks behind pe42, pe56/pe63, pe69, pe70, pe71 (25% planted on numerals) | Numerals: 14/14 decided plants caught; 76 of 79 decided real readings agree, 3 copy-only disagreements (all D3, damaged/restored lines), 0 photo disagreements; 93 undecidable. Signs/seals: 57 agree, 16 unreadable, 0 disagree | B: the decidable readings agree with CDLI |
+| PE-73.F3 | Re-run with corrections and with all restorations dropped | pe42: 7 -> 6 capacity-only closers of 36 (p 0.0002; worst case 5, p 0.0005); P009296 removed (restored N14). pe69: 33/49 (was 34). pe71: 18/20 copy-confirmed tokens on the last line vs 9.25 (p 6e-5). pe63 D3: 6/6 -> 5/5, one clean | No grade changes; pe63 D3 instance count lowered |
+| PE-73.F4 | Correction list | 0 clear photo-vs-ATF disagreements; 6 expert candidates (C1-C6, cycle 3), in docs/HUMAN-ACTIONS.md section O | For expert check |
+
+Verdict: the B-grade results do not rest on transliteration errors visible in the CDLI images. Limits: half the readings could not be checked at CDLI resolution (long rotated lists, damaged lines, TSF 001-004 and SE 121 have no images), the copies are Scheil's, not the clay, and the pe42 and D3 checks were not blind. Not cracked; nothing is read.
