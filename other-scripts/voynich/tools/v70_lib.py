@@ -162,14 +162,25 @@ def extract_words(con, words, s, thetas, T=0.15):
 
 # ---------------------------------------------------------------- text battery
 def ngram_H(seqs, order):
-    """Conditional entropy H(u_t | previous order-1 units) within words, with '^' padding and '$' end."""
-    c = collections.Counter(); cc = collections.Counter()
+    """Conditional entropy H(u_t | previous order-1 units) within words, with start padding and an end symbol."""
+    # integer-encode: units shifted by 2; 0 = start pad, 1 = end
+    flat = []
     for s in seqs:
-        t = ['^'] * (order - 1) + list(s) + ['$']
-        for i in range(order - 1, len(t)):
-            ctx = tuple(t[i - order + 1:i]); c[(ctx, t[i])] += 1; cc[ctx] += 1
-    n = sum(c.values())
-    return -sum(v / n * math.log2(v / cc[k[0]]) for k, v in c.items())
+        flat.extend([0] * (order - 1)); flat.extend(u + 2 for u in s); flat.append(1)
+    a = np.array(flat, np.int64)
+    G = np.lib.stride_tricks.sliding_window_view(a, order) if order > 1 else a[:, None]
+    G = G[G[:, -1] != 0]
+    base = int(G.max()) + 1
+    full = np.zeros(len(G), np.int64); ctx = np.zeros(len(G), np.int64)
+    for k in range(order):
+        full = full * base + G[:, k]
+        if k < order - 1:
+            ctx = ctx * base + G[:, k]
+    _, cf = np.unique(full, return_counts=True)
+    _, cc = np.unique(ctx, return_counts=True)
+    n = len(G)
+    Hj = -(cf / n * np.log2(cf / n)).sum(); Hc = -(cc / n * np.log2(cc / n)).sum()
+    return float(Hj - Hc)
 
 
 def battery(words, ntok=4000, seed=0):

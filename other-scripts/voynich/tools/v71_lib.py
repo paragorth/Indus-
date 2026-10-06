@@ -398,9 +398,8 @@ def fingerprint(pages, models, seeds=(1, 2), detail=False):
                         W, C = tabs[v][k]
                         T = t.tolist()
                         cvkey = (v, k, 'cv', m['win'], m['tgt'])
-                        if cvkey not in cache: cache[cvkey] = cache_vectors(C, T, m['win'])
-                        cv = cache[cvkey]
-                        pc, has = cache_logp(cv, T, None)
+                        if cvkey not in cache: cache[cvkey] = cache_logp(cache_vectors(C, T, m['win']), T, None)
+                        pc, has = cache[cvkey]
                         if v == 'orig' and k == 0:
                             ftr = fold != f
                             cu = np.bincount(t[ftr], minlength=Rn + 1).astype(float) + 0.5; pu = cu / cu.sum()
@@ -423,23 +422,22 @@ def fingerprint(pages, models, seeds=(1, 2), detail=False):
 
 def glyph_model(tabs, m, vkeys):
     """glyph-level n-gram inside words (with optional position-in-word context)."""
-    def seqs(W, fold, f, train):
-        ctx, tgt = [], []
-        for w, fd in zip(W, fold):
-            if (fd != f) != train: continue
+    def seqs(W, fold):
+        ctx, tgt, fd = [], [], []
+        for w, f0 in zip(W, fold):
             s = '^' * m['order'] + w + '$'
             for i in range(m['order'], len(s)):
                 c = s[i - m['order']:i] + (('%d' % min(i, 5)) if m['posw'] else '')
-                ctx.append(zlib.crc32(c.encode()) % 1000003); tgt.append(ord(s[i]) % 4096)
-        return np.array(ctx, dtype=np.int64), np.array(tgt, dtype=np.int64)
+                ctx.append(zlib.crc32(c.encode()) % 1000003); tgt.append(ord(s[i]) % 4096); fd.append(f0)
+        return np.array(ctx, dtype=np.int64), np.array(tgt, dtype=np.int64), np.array(fd)
     G = {v: [] for v in vkeys}
+    S = {v: [seqs(W, C['fold']) for W, C in tabs[v]] for v in vkeys}
     for f in range(4):
-        W0, C0 = tabs['orig'][0]
-        ctr, ttr = seqs(W0, C0['fold'], f, True)
+        c0, t0, f0 = S['orig'][0]
+        ctr, ttr = c0[f0 != f], t0[f0 != f]
         for v in vkeys:
-            for W, C in tabs[v]:
-                cte, tte = seqs(W, C['fold'], f, False)
-                lp, lu = ctx_logp(ctr, ttr, cte, tte, 4096, m['a'])
+            for c1, t1, f1 in S[v]:
+                lp, lu = ctx_logp(ctr, ttr, c1[f1 == f], t1[f1 == f], 4096, m['a'])
                 G[v].append(lp - lu)
     g0 = np.concatenate(G['orig']).mean()
     rec = {'G': float(g0)}
@@ -463,3 +461,22 @@ def summarise(res, models):
     out = {'%s|%s' % k: num[k] / cnt[k[1]] for k in num}
     for s in SCALES: out['%s|ALLrel' % s] = rn[s] / rd if rd > 0 else 0.0
     return out
+
+# ------------------------------------------------------------------ partial shuffles (cycle 2: simulate a scrambling writer)
+def partial_shuffle(pages, fr, rng):
+    """fr: {scale: fraction of units whose children are permuted}. Applied top-down
+    (S4 pages, S3 paras, S2 lines, S1 words); S0 not used."""
+    P = [[[list(l) for l in pa] for pa in pg] for pg in pages]
+    if fr.get('S4', 0) > 0:
+        idx = [i for i in range(len(P)) if rng.random() < fr['S4']]
+        sub = idx[:]; rng.shuffle(sub)
+        Q = list(P)
+        for a, b in zip(idx, sub): Q[a] = P[b]
+        P = Q
+    for pg in P:
+        if rng.random() < fr.get('S3', 0): rng.shuffle(pg)
+        for pa in pg:
+            if rng.random() < fr.get('S2', 0): rng.shuffle(pa)
+            for l in pa:
+                if rng.random() < fr.get('S1', 0): rng.shuffle(l)
+    return P
