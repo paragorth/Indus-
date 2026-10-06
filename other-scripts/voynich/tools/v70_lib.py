@@ -190,6 +190,9 @@ def battery(words, ntok=4000, seed=0):
         st = rng.integers(0, len(words) - ntok)
         words = words[st:st + ntok]
     words = [w for w in words if len(w)]
+    if words and not isinstance(words[0][0], (int, np.integer)):
+        ix = {}
+        words = [tuple(ix.setdefault(u, len(ix)) for u in w) for w in words]
     units = [u for w in words for u in w]
     uc = collections.Counter(units)
     p = np.array(list(uc.values()), float); p /= p.sum()

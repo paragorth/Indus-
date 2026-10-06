@@ -25,7 +25,7 @@ def wilson(k, n, z=1.96):
     return (round((c - h) / d, 3), round((c + h) / d, 3))
 
 
-def after_count(tabs, want_allot):
+def after_count(tabs, want_allot, mults=(60,)):
     k = n = 0
     for t in tabs:
         prev = None
@@ -40,7 +40,7 @@ def after_count(tabs, want_allot):
                     v = value(l['nums'], cap)
                     if v is not None and ncls(l['nums']) in ('CAP', 'AMB'):
                         n += 1
-                        k += v in (60 * ku, 120 * ku)
+                        k += v in [m * ku for m in mults]
             prev = l
     return k, n
 
@@ -62,10 +62,13 @@ P.append({'id': 'P2', 'grade': 'B-', 'what': 'standard allotment M288 = 60 N39C 
           'would_support': 'see P3', 'would_kill': 'see P3'})
 k, n = after_count(ho, True)
 k0, n0 = after_count(ho, False)
+k1, n1 = after_count(ho, True, (120,))
+k10, n10 = after_count(ho, False, (120,))
 P.append({'id': 'P3', 'grade': 'B', 'what': 'on new tablets, an M288 line directly after a count line of k <= 60 '
-          'units holds exactly 60k or 120k N39C', 'heldout_rate': [k, n, wilson(k, n)],
+          'units holds exactly 60k N39C = 2k(N39B) k(N24) (1/2 N01 per unit)', 'heldout_rate': [k, n, wilson(k, n)],
           'null_other_signs_same_position': [k0, n0, wilson(k0, n0)],
-          'would_support': '>= 25% of such lines (>= 20 lines)', 'would_kill': '< 12% (the null region)'})
+          'demoted_alternative_120k': {'M288': [k1, n1], 'null': [k10, n10], 'note': 'the 1 N01 per unit variant is at or below the null; dropped'},
+          'would_support': '>= 20% of such lines (>= 20 lines)', 'would_kill': '< 10% (the null rate is 8%)'})
 
 
 def role_sys(tabs, role, test):

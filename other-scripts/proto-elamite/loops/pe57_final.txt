@@ -1,0 +1,18 @@
+pe57 final (6 Oct 2026): TEST THE FROZEN PREDICTION AGAINST THE POTS. Cycles: loops/pe57_cycle1.txt (data), pe57_cycle2.txt (frozen test + nulls), pe57_cycle3.txt (unit-ladder vs vessel-ratio random assignment). Tools: tools/pe57_meshvol.py, pe57_zenodo_harvest.py, pe57_cycle1_mesh.py, pe57_common.py, pe57_cycle2.py, pe57_cycle3.py. Checkpoints and data: data/pe57_ckpt/ (git-ignored; Goulder 2010 PDF in the scratchpad only).
+
+| PE-57.F1 | Data | 43 individual capacities: 33 Jemdet Nasr coarse conical bowls, Abu Salabikh (Jones 1996 Table 1, truncated-cone volumes, 0.57-2.79 l) and 10 Late Uruk vessels from Jebel Aruda measured here from open 3D scans (8 bevelled-rim bowls 0.84-1.02 l; mesh method checked on a synthetic cone, -1.4%). PE-period vessels from Susa III, Malyan Banesh, Yahya IVC, Sialk IV, Godin: 0 open capacities (Malyan TUV: explicitly unmeasurable sherds, Nicholas 1987). Unrelated-period set: 133 Argaric vessels (Bronze Age Spain) from the same 3D pipeline | Grade A (data) |
+| PE-57.F2 | Frozen prediction on its own target (Susa / plateau PE-period vessels) | no data | UNTESTABLE |
+| PE-57.F3 | Frozen prediction on proxies | Late Uruk BRBs: mode ~0.93 l, inside 0.5-1 l (97-99% of bootstraps). Contemporary Jemdet Nasr bowls: mode at the 1.0 l edge (40-62%), second mode 2.29 l; pooled 0.93 + 2.40 l. Chance pass of the same rule: 34% (broad vessel prior), 43-46% (bowl prior); Argaric Bronze Age vessels pass at 99% (mode 6.9 l in the 4-9 l window) | survives, but the rule cannot discriminate: Grade B (negative about the test), the pe55 scale stays C |
+| PE-57.F4 | Ratio test (cycle 3) | PE ladder no better than 5,000 random ladders (p 0.07-0.52, ties) or random mode sets (p 0.56-0.86); the frozen N39C 0.6-0.8 l scale puts no Mesopotamian mode pair on PE units but puts the Argaric modes on them; proto-cuneiform control equally unselected (p vs random modes 0.13-0.71) | Grade B (negative, calibrated): one or two vessel ratios carry no information about unit ladders |
+| PE-57.F | Verdict | The pe55 vessel prediction is not killed and not supported. It was a weak test: a third to a half of random assemblages and an unrelated Bronze Age assemblage pass it. Not cracked | Retire the 0.5-1 l / 4-9 l window as evidence. A usable test needs PE-period capacities with at least 3 separate modes (two independent ratios) |
+
+Pre-registered for any future vessel test (frozen 6 Oct 2026, before PE-period capacities are seen): with N39C 0.6-0.8 l, PE-period standard vessels should show at least three modes whose pairwise ratios match PE ladder steps (2, 3, 4, 6 within x1.15), and the match must beat 95% of random ladders and random mode sets as in PE-57.3c-d. Fewer than three modes = untestable, not support.
+
+Sources needing a human (for docs/HUMAN-ACTIONS.md):
+- Johnson 1973, Local Exchange and Early State Development in SW Iran (BRB volume histograms, Susiana): https://www.fulcrum.org/concern/monographs/2r36v007z (institutional login)
+- Wright (ed.) 1981, Tepe Farukhabad (Miller on BRB volumes): https://www.fulcrum.org/concern/monographs/2r36v036d (login)
+- Beale 1978, JNES 37: https://www.journals.uchicago.edu/toc/jnes/37/4 (login)
+- Gopnik & Rothman 2011, On the High Road (Godin): https://archive.org/details/onhighroadhistor0000unse (borrow, login)
+- Goulder 2024, Iraq 86 (BRB): https://www.cambridge.org/core/product/DF62ADFF89C9ECE4A2D7AC0FE0BA701E (not open)
+- Potts 2009 JCS 61 and the Tell Qraya NEA paper: https://www.academia.edu/1898204 , https://www.academia.edu/123756153 (login)
+- Eastern-plateau BRB capacities ('90%, 65%, 45% of a litre'): https://jsbs.uoz.ac.ir/article_154560.html and Kale Kub https://journal.richt.ir/mbp/article-1-317-en.html (refused from this container; open in a browser)

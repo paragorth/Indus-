@@ -1,0 +1,240 @@
+{
+ "reading_sha": "0d9540bde4df66c28d76cf42fbfec73c31ad734d5758fe61a453eb44a18d9713",
+ "predictions": [
+  {
+   "id": "P1",
+   "grade": "C",
+   "what": "capacity unit sizes (litres), main scale",
+   "values": {
+    "N39C": [
+     0.6,
+     0.8
+    ],
+    "N30D": [
+     1.2,
+     1.6
+    ],
+    "N30C": [
+     2.4,
+     3.2
+    ],
+    "N24": [
+     7.2,
+     9.6
+    ],
+    "N39B": [
+     14.4,
+     19.2
+    ],
+    "N01": [
+     72.0,
+     96.0
+    ],
+    "N14": [
+     432.0,
+     576.0
+    ],
+    "N45": [
+     4320.0,
+     5760.0
+    ],
+    "N34": [
+     12960.0,
+     17280.0
+    ]
+   },
+   "alias_x9_12": {
+    "N39C": [
+     5,
+     7
+    ],
+    "N30D": [
+     10,
+     14
+    ],
+    "N30C": [
+     20,
+     28
+    ],
+    "N24": [
+     60,
+     84
+    ],
+    "N39B": [
+     120,
+     168
+    ],
+    "N01": [
+     600,
+     840
+    ]
+   },
+   "would_support": "PE-period standard vessels (Susa III, Malyan Banesh, Yahya IVC) with capacity modes near 0.7 l (N39C), 2.8 l (N30C) and 8.4 l (N24), or at the x9-12 alias 5-7 l",
+   "would_kill": "standard vessel series with no mode in 0.5-1.0 l, 2-3.5 l or 4-9 l"
+  },
+  {
+   "id": "P2",
+   "grade": "B-",
+   "what": "standard allotment M288 = 60 N39C per unit (36-48 l main scale), i.e. one adult grain allotment; 2(N39B) 1(N24) per head",
+   "would_support": "see P3",
+   "would_kill": "see P3"
+  },
+  {
+   "id": "P3",
+   "grade": "B",
+   "what": "on new tablets, an M288 line directly after a count line of k <= 60 units holds exactly 60k N39C = 2k(N39B) k(N24) (1/2 N01 per unit)",
+   "heldout_rate": [
+    25,
+    83,
+    [
+     0.213,
+     0.407
+    ]
+   ],
+   "null_other_signs_same_position": [
+    94,
+    1163,
+    [
+     0.067,
+     0.098
+    ]
+   ],
+   "demoted_alternative_120k": {
+    "M288": [
+     11,
+     83
+    ],
+    "null": [
+     382,
+     1163
+    ],
+    "note": "the 1 N01 per unit variant is at or below the null; dropped"
+   },
+   "would_support": ">= 20% of such lines (>= 20 lines)",
+   "would_kill": "< 10% (the null rate is 8%)"
+  },
+  {
+   "id": "P4",
+   "grade": "B",
+   "what": "entries ending in a MEASURED-class sign carry capacity numerals",
+   "signs": [
+    "M002",
+    "M010",
+    "M036",
+    "M050",
+    "M075",
+    "M081",
+    "M106",
+    "M112",
+    "M243",
+    "M265",
+    "M266",
+    "M296",
+    "M297",
+    "M379"
+   ],
+   "heldout_rate": [
+    293,
+    368,
+    [
+     0.752,
+     0.834
+    ]
+   ],
+   "base_rate_all_entries": [
+    1887,
+    4096,
+    [
+     0.445,
+     0.476
+    ]
+   ],
+   "would_support": ">= 50%",
+   "would_kill": "<= base rate"
+  },
+  {
+   "id": "P5",
+   "grade": "A/B",
+   "what": "entries ending in a COUNTED-class sign never carry capacity codes",
+   "signs": [
+    "M003",
+    "M032",
+    "M046",
+    "M072",
+    "M102",
+    "M149",
+    "M263",
+    "M264",
+    "M317",
+    "M346",
+    "M362",
+    "M373"
+   ],
+   "heldout_rate": [
+    516,
+    523,
+    [
+     0.973,
+     0.994
+    ]
+   ],
+   "would_support": ">= 95% non-capacity",
+   "would_kill": "< 85%"
+  },
+  {
+   "id": "P6",
+   "grade": "B",
+   "what": "written totals (single numeric reverse line) equal the entry sum in the system predicted from the signs (capacity: N14 = 6 N01 = 720 N39C; counts: N14 = 10)",
+   "heldout_rate": [
+    18,
+    101,
+    [
+     0.116,
+     0.264
+    ]
+   ],
+   "null_random_totals_mean": 0.6,
+   "would_support": ">= 10% of new clean totalled tablets",
+   "would_kill": "< 4%"
+  },
+  {
+   "id": "P7",
+   "grade": "A",
+   "what": "no sign marks totals: no sign occurs on more than 25% of total lines",
+   "max_sign_share_corpus": [
+    "M288",
+    0.194
+   ],
+   "would_kill": "a sign on > 40% of new total lines"
+  },
+  {
+   "id": "P8",
+   "grade": "B",
+   "what": "top-edge numeral tag (1(N34)) is commoner on M157-headed tablets and never a sum",
+   "corpus": {
+    "M157": [
+     62,
+     284
+    ],
+    "other": [
+     54,
+     1301
+    ]
+   },
+   "would_support": "rate on M157 tablets >= 2x other",
+   "would_kill": "equal rates on >= 100 new tablets"
+  },
+  {
+   "id": "P9",
+   "grade": "C",
+   "what": "outposts (pe48 frozen file, sha 1946e391ffe27be8): new Yahya tablets carry M219, M056, M136 about 1 in 20 each; M044 Yahya-only",
+   "would_kill": "40+ new Yahya tablets with none of M219/M056/M136/M044"
+  },
+  {
+   "id": "P10",
+   "grade": "C",
+   "what": "the 89 untransliterated Tehran Susa tablets (pe22): a tablet whose entries end in MEASURED signs is a capacity account; one whose entries end in COUNTED signs is a count account; the decoder will gloss them with the same full-explanation rate as the held-out half (cycle 2) +- 10 points"
+  }
+ ],
+ "sha256": "599fd3459b9311a5c654636149c13ce8a2930756f32c87965f9ec4762f9e867e"
+}

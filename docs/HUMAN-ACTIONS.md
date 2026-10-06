@@ -76,3 +76,13 @@ The Lothal warehouse sealings are the one Indus administrative archive found in 
 
 ## K. Hagia Triada room-level find records (Linear A, la51)
 For each Hagia Triada room or deposit with Linear A documents, we need the object classes found there: storage jars, loom weights, tools, bones, seals and ritual objects. The sources are B. Montecchi's and P. Militello's Hagia Triada room studies, which are not open access. Cambridge iDiscover search: https://idiscover.lib.cam.ac.uk/primo-explore/search?query=any,contains,Militello%20Haghia%20Triada&vid=44CAM_PROD
+
+## L. Vessel capacities for the Proto-Elamite grain-unit test (pe57)
+The pe55 prediction (a vessel capacity peak at 0.5–1 l or 4–9 l) could not be tested on Proto-Elamite-period vessels because no open measurements exist. The stronger frozen test (at least 3 peaks) is in other-scripts/proto-elamite/loops/pe57_final.txt. Needed: the volume tables or histograms from these sources:
+- Johnson 1973, Local Exchange and Early State Development in SW Iran (BRB volume histograms, Susiana): https://www.fulcrum.org/concern/monographs/2r36v007z (institutional login)
+- Wright (ed.) 1981, Tepe Farukhabad (Miller on BRB volumes): https://www.fulcrum.org/concern/monographs/2r36v036d (login)
+- Beale 1978, JNES 37: https://www.journals.uchicago.edu/toc/jnes/37/4 (login)
+- Gopnik & Rothman 2011, On the High Road (Godin): https://archive.org/details/onhighroadhistor0000unse (borrow, login)
+- Goulder 2024, Iraq 86 (BRB): https://www.cambridge.org/core/product/DF62ADFF89C9ECE4A2D7AC0FE0BA701E (not open)
+- Potts 2009 JCS 61 and the Tell Qraya NEA paper: https://www.academia.edu/1898204 , https://www.academia.edu/123756153 (login)
+- Eastern-plateau BRB capacities ('90%, 65%, 45% of a litre'): https://jsbs.uoz.ac.ir/article_154560.html and Kale Kub https://journal.richt.ir/mbp/article-1-317-en.html (refused from this container; open in a browser)
