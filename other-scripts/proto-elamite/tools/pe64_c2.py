@@ -17,6 +17,8 @@ import pe64_lib as L
 
 C, V = sys.argv[1], sys.argv[2]
 NNULL = int(sys.argv[3]) if len(sys.argv) > 3 else 200
+THR = float(sys.argv[4]) if len(sys.argv) > 4 else 0.005
+TAG = '' if THR == 0.005 else '_lenient'
 rng = random.Random(L.seed('pe64c2' + C + V))
 T = L.load(C)
 if V == 'small':
@@ -38,7 +40,7 @@ for D in ('AB', 'BA'):
     d = json.load(open(fn))
     ntests[D] = d['n_tests']
     for x in d['tests']:
-        if x['p_swap'] <= 0.005 and x['kB'] >= 2 and x['sel'] != 'union':
+        if x['p_swap'] <= THR and x['kB'] >= 2 and x['sel'] != 'union':
             for r in x['rules']:
                 rule = (r[0], r[1], r[2], r[3], r[4], tuple(r[5]), r[6])
                 if rule not in val[x['rate']]:
@@ -137,7 +139,7 @@ out = {'corpus': C, 'variant': V, 'rungs': rungs, 'dirs': {r: sorted(dirs[r]) fo
        'rules': {r: [list(ru[:5]) + [list(ru[5]), ru[6]] for ru in val[r]] for r in rungs}}
 if V == 'plant':
     out['truth'] = truth
-json.dump(out, open(os.path.join(L.CK, 'c2_%s_%s.json' % (C, V)), 'w'), default=str)
+json.dump(out, open(os.path.join(L.CK, 'c2_%s_%s%s.json' % (C, V, TAG)), 'w'), default=str)
 print('ladder', ladder)
 for x in sig[:25]:
     print(x)

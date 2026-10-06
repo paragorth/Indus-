@@ -58,7 +58,10 @@ def main():
     out = {}
     L = la_rows()
     fz = json.load(open(os.path.join(CK, 'c2_class.json')))
-    desc = fz['descriptors']
+    desc = fz['descriptors'] + fz['candidates']
+    out['desc_set'] = desc
+    # internal check of the estimator: KU-RO (total) against the entries it sums
+    out['LA_kuro'] = factor_boot(la_rows(totals=True), 'W:KU-RO', B=1000, seed=1)
     # 1 LA descriptor factors
     F = {f: factor_boot(L, f, B=1000, seed=1) for f in desc}
     F = {f: v for f, v in F.items() if v}

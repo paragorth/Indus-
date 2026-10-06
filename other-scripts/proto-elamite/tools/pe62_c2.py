@@ -199,12 +199,16 @@ def cv_acc(X, Y, G):
 
 
 Xw, Yw, Gw = tab_feats(Pb, False)
-Xi, Yi, Gi = tab_feats(Pb, True)
-nulls = []
-for _ in range(200):
+if len(Yw) < 30 or len(set(Yw)) < 2:
+    out['tsys_pred'] = {'n_tabs': len(Yw), 'note': 'too few tablets with an observable system'}
+    Yw = None
+if Yw is not None:
+  Xi, Yi, Gi = tab_feats(Pb, True)
+  nulls = []
+  for _ in range(200):
     Xn, _, _ = tab_feats(Pb[rng.permutation(len(unl))], True)
     nulls.append(cv_acc(Xn, Yi, Gi))
-out['tsys_pred'] = {'n_tabs': len(Yw), 'maj': float(Counter(Yw).most_common(1)[0][1] / len(Yw)),
+  out['tsys_pred'] = {'n_tabs': len(Yw), 'maj': float(Counter(Yw).most_common(1)[0][1] / len(Yw)),
                     'written_only': cv_acc(Xw, Yw, Gw), 'written_plus_blind_imputed': cv_acc(Xi, Yi, Gi),
                     'perm_null_mean': float(np.mean(nulls)), 'perm_null_p': float(np.mean(np.array(nulls) >= cv_acc(Xi, Yi, Gi)))}
 

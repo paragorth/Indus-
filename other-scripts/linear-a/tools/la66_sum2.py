@@ -59,5 +59,7 @@ tot = J.get('LAtot_tab_0')
 if tot:
     for f in ('W:KU-RO', 'W:PO-TO-KU-RO', 'W:KI-RO'):
         print('LAtot', f, tot['tab'].get(f))
-json.dump(dict(rule=__doc__, descriptors=[r['f'] for r in desc], table=rows,
+cand = [r['f'] for r in rows if r['cls'] != 'DESC' and r['nDreal'] >= 3 and r['nDnull'] <= 1]
+print('CANDIDATES (D in 3/6 real, <= 1 null)', cand)
+json.dump(dict(rule=__doc__, descriptors=[r['f'] for r in desc], candidates=cand, table=rows,
                identifiers=[r['f'] for r in ident]), open(os.path.join(CK, 'c2_class.json'), 'w'), indent=0)

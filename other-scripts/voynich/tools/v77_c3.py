@@ -124,42 +124,35 @@ def m3(pages, rng):
         disp = {}
         for k, c in cnt.items():
             n = sum(c[i] for i in ids)
-            if n < 60: continue
+            if n < 30: continue
             chi = sum((c[i] - n * tot[i] / N) ** 2 / (n * tot[i] / N) for i in ids)
             disp[k] = chi / (len(ids) - 1)
         order = sorted(disp, key=lambda k: disp[k])
-        res['nops' if drop else 'all'] = dict(op_disp=disp.get('op'), op_rank=(order.index('op') + 1) if 'op' in disp else None,
+        res['nops' if drop else 'all'] = dict(op_n=sum(cnt['op'].values()), op_disp=disp.get('op'), op_rank=(order.index('op') + 1) if 'op' in disp else None,
                                               nclass=len(order), least=order[:3])
     return res
 
 
 # M4 ---------------------------------------------------------------
 def m4(pages, rng, nsh=20):
-    def jmi(P):
-        return MI([(a[-1], b[0]) for p in P for l in p['lines'] for a, b in zip(l['w'], l['w'][1:])])
-    def resplit(P, mode):
-        out = []
-        for p in P:
-            nl = []
-            for l in p['lines']:
-                w = list(l['w'])
-                for i in range(len(w) - 1):
-                    a, b = w[i], w[i + 1]
-                    if len(a) > 1 and a[-1] in 'rs' and b[0] == 'a': w[i], w[i + 1] = a[:-1], a[-1] + b
-                    elif len(a) > 1 and a[-1] == 'y' and b[0] == 'q' and len(b) > 1:
-                        if mode == 'q_back': w[i], w[i + 1] = a + 'q', b[1:]
-                        else: w[i], w[i + 1] = a[:-1], 'y' + b
-                nl.append(dict(l, w=w))
-            out.append(dict(p, lines=nl))
-        return out
+    """share of the junction coupling (last glyph -> next first glyph, excess over within-line shuffles) that sits
+    in the two 'misplaced space' cells r/s.a- and y.q-; if they carry most of it, the edge-field effect goes away
+    when they are read as misplaced spaces."""
+    CELLS = {('r', 'a'), ('s', 'a'), ('y', 'q')}
+    def contrib(P):
+        pr = [(a[-1], b[0]) for p in P for l in p['lines'] for a, b in zip(l['w'], l['w'][1:])]
+        c = Counter(pr); n = sum(c.values()); A = Counter(x for x, _ in pr); B = Counter(y for _, y in pr)
+        tot = 0.0; sub = 0.0
+        for (x, y), v in c.items():
+            t = v / n * math.log2(v * n / (A[x] * B[y])); tot += t
+            if (x, y) in CELLS: sub += t
+        return tot, sub
     def shuf(P):
         return [dict(p, lines=[dict(l, w=rng.sample(l['w'], len(l['w']))) for l in p['lines']]) for p in P]
-    res = {}
-    for tag, P in (('orig', pages), ('qback', resplit(pages, 'q_back')), ('yfwd', resplit(pages, 'y_fwd'))):
-        o = jmi(P); nul = [jmi(shuf(P)) for _ in range(nsh)]
-        res[tag] = float(o - np.mean(nul))
-    res['frac_left_qback'] = res['qback'] / res['orig']; res['frac_left_yfwd'] = res['yfwd'] / res['orig']
-    return res
+    t, s_ = contrib(pages)
+    nul = [contrib(shuf(pages)) for _ in range(nsh)]
+    tn = np.mean([x[0] for x in nul]); sn = np.mean([x[1] for x in nul])
+    return dict(mi_excess=float(t - tn), cells_excess=float(s_ - sn), frac_in_cells=float((s_ - sn) / (t - tn)))
 
 
 # M5 ---------------------------------------------------------------
@@ -331,7 +324,7 @@ def m10(pages, rng, nrand=300):
             x, y = rng.choice(ca), rng.choice(cb)
             if x == y: continue
             nul.append(T0 - types_after(x, y))
-        res['%s=%s' % (a, b)] = dict(collapse=obs, null_mean=float(np.mean(nul)), z=float((obs - np.mean(nul)) / (np.std(nul) + 1e-9)),
+        res['%s=%s' % (a, b)] = dict(collapse=obs, null_mean=float(np.mean(nul)), z=float((obs - np.mean(nul)) / (np.std(nul) + 0.5)),
                                      n_a=fa, n_b=fb)
     return res
 
@@ -467,7 +460,7 @@ def m16(pages, rng, nperm=500):
         sb = sum(((x[q == k].mean() - m) ** 2) * (q == k).sum() for k in set(q))
         return sb / ss
     obs = between_share(x, q)
-    nul = [between_share(x, rng.sample(list(q), len(q))) for _ in range(nperm)]
+    nul = [between_share(x, np.array(rng.sample(list(q), len(q)))) for _ in range(nperm)]
     # within-quire trend in page order: mean Spearman inside quires
     rs = []
     for k in set(q):

@@ -1,0 +1,25 @@
+pe64 RECONSTRUCT THE RATION LADDER FROM EVERY PER-HEAD RATE, cycle 1 (6 Oct 2026)
+Tools: tools/pe64_lib.py, tools/pe64_c1.py, tools/pe64_sum.py, tools/pe64_runq.sh. Checkpoints: data/pe64_ckpt/c1_*.json.
+Idea: every count line followed (or preceded, or totalled, or echoed on a dossier neighbour) by a capacity line gives
+one candidate per-unit rate.  1,022,812 rate-detection rules per run (322,812 exhaustive grid: 7 scopes x 3 target
+filters [any / M288 / not M288] x 2 readings of N01-only lines x count >= 1/2/3 x exact-or-any x 61 source signs x
+21 target signs; plus 700,000 random rules with random OR-sets of 2-5 source signs).  Score = distinct tablets that
+show the rule's commonest rate.  Discovery on one half of the tablets (hash split), survivors = k >= max of 6
+swap-null scores at the same rate + 2 and >= 2x their mean + 2.  Every surviving rate tested on the other half by
+three selectors (union of <= 400 survivor rules; best grid rule; best rule), 200 swap nulls + 20 re-pair nulls.
+Validated = p_swap <= 0.005 (floor) with >= 2 held-out tablets.  Both split directions run.
+Nulls: SWAP = capacity values dealt from other tablets with the same notation shape (keeps PE's own round numbers);
+REPAIR = counts and capacities re-dealt within the tablet (reported, but it cannot move single-pair tablets, so it is
+not used to validate).  Controls: Ur III ration lists with the '-ta' rate hidden (count line, then 'sze-bi' line =
+n x rate, plus the tablet's other capacity lines as distractors; 1,628 tablets; and a 120-tablet subsample);
+proto-cuneiform (3,145 admin tablets, ŠE capacity system); planted 3-rung ladder (20/40/80 N39C on 10 tablets each,
+keyed to 3 count-line signs) in a swap-null PE corpus; a swap-null PE corpus run as if real (false-positive rate).
+
+| PE-64.1a | Ur III full (1,628 tablets), AB | 37 surviving rates; validated 60, 30, 20(union), 10, 15, 5, 90, 120, 180, 6, 3, 2, 1, 0.5 ... sila: the whole Ur III ladder (gurusz 60, geme2 30, dumu 10-20, erin2 60/90, sheep 1-2) comes back | PASS at full size |
+| PE-64.1b | Ur III 120-tablet subsample (PE size), AB and BA | AB: 60 (16 held-out tablets vs null 1.3), 10, 1.0, 0.833; BA: 60 (15 vs 6.1), 1.0, 5.0; 30 at p <= 0.05 | PASS for the top rung in both directions; lower rungs come back one at a time, not as a set: at PE size the ladder is seen only in part |
+| PE-64.1c | Planted PE ladder 20/40/80 (10 tablets each) in a swap-null corpus, AB and BA | AB: 20, 40, 80 all validated (held-out 3-4 tablets vs null 0.0-0.2); BA: all three, 4-8 vs 0.0-3.2. No other rate validated | PASS: 3 of 3 planted rungs, 0 false rungs, both directions |
+| PE-64.1d | Swap-null PE corpus run as if real, AB and BA | AB: one rate validated (6 N39C after M263, 5-6 held-out vs 1.3-2.0); BA: none (6 and 48 at p <= 0.05) | false-positive rate about 0.5 rung per run: a single-direction rung is not evidence on its own |
+| PE-64.1e | Proto-cuneiform, AB and BA | 4 and 1 surviving rates; none validated, none at p <= 0.05 | FAIL as a control: no per-unit rate is visible in the count-line / capacity-line format of proto-cuneiform (rations there are not written as a count line followed by a grain line), so proto-cuneiform cannot calibrate this method; nothing is said about its rations |
+| PE-64.1f | REAL PE, AB (744 / 645 tablets) | 18 surviving rates (60, 48, 24, 72, 36, 18, 12, 8, 4, 2.67, 2.4, 2, 1.6, 4.8, 9.6, 16, 102, 204); validated only 60 N39C (union 10 held-out tablets vs 3.5; best rule 5 vs 1.2); 48 at p 0.065 | the one robust rung is the known pe27/pe63 allotment |
+| PE-64.1g | REAL PE, BA | 15 surviving rates; none validated at the floor; at p <= 0.05: 48 (grid rule, last capacity line after M056 counts; 1 held-out tablet vs 0.01), 84 (1 vs 0.01), 72 (union, 6 vs 2.6), 60 (after M054 lines, 3-4 vs 1.1-1.5, p 0.035-0.04), 4 (target M387, 10 vs 5.5) | 60 is the only rate with support in both directions; 48, 72, 84 and 4 are single-direction, weak, at the null's false-positive level |
+| PE-64.1 verdict | | Controls: planted 3/3, Ur III full ladder, Ur III at PE size top rung only, null 0.5 false rung per run, proto-cuneiform blind | B (negative): the whole-corpus search finds ONE rung, 60 N39C per unit (= 2(N39B) 1(N24)), the known M288 allotment. 48 (pe63 dossier rate) and 72 are C- candidates. No other per-unit rate is visible above the null |

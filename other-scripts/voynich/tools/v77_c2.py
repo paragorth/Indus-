@@ -277,7 +277,7 @@ def stream_scores(pages, S, half, rng, nperm=30):
     return dict(XP=XP, pair_z=float((obs - nul.mean()) / (nul.std() + 1e-9)), cover=cov)
 
 
-def k12(pages, n_rules=800, seed=0):
+def k12(pages, n_rules=400, seed=0):
     rng = random.Random(seed)
     rules = []
     for k in range(n_rules):
@@ -363,7 +363,59 @@ if __name__ == '__main__':
         jobs.append((t, 'ZL:STACK:771', 'STACK', 771, 'ZL3b', pl))
         jobs.append((t, 'ZL:MK2:771', 'MK2', 771, 'ZL3b', pl))
     with Pool(2) as pool:
+        R = list(pool.imap_unordered(job, jobs)) if jobs else []
         if 'k5' in what:
-            k5jobs = [(n, mu, 5) for n, mu in sys.argv[2:] and [] or []]
-        R = list(pool.imap_unordered(job, jobs))
+            k5jobs = [('ZL', 0.0, 5), ('BRU', 0.0, 5), ('BRU', 0.058, 5), ('BRU', 0.058, 6), ('CUL', 0.0, 5), ('CUL', 0.019, 5),
+                      ('BRU', 0.2, 5)]
+            R += list(pool.imap_unordered(k5_job, k5jobs))
     L.jsave('c2_all_%s.json' % '_'.join(what), R)
+
+
+# ------------------------------------------------------------------ K12b: exhaustive single-glyph spelling bank
+def k12b(pages, seed=0):
+    """same scoring as k12, but the rule bank is exhaustive over simple spelling classes: contains glyph g with
+    length in [lo, hi] (23 x 35), starts with g, ends with g; first-glyph pointer tables omitted."""
+    rng = random.Random(seed)
+    rules = []
+    for g in GL1:
+        for lo in range(1, 6):
+            for hi in range(lo, lo + 7):
+                rules.append((('has', g, lo, hi), (lambda g, lo, hi: (lambda ws: next((i for i, w in enumerate(ws) if g in w and lo <= len(w) <= hi), None)))(g, lo, hi)))
+        rules.append((('start', g), (lambda g: (lambda ws: next((i for i, w in enumerate(ws) if w[0] == g), None)))(g)))
+        rules.append((('end', g), (lambda g: (lambda ws: next((i for i, w in enumerate(ws) if w[-1] == g), None)))(g)))
+    res = {}
+    scored = {0: [], 1: []}
+    for desc, sel in rules:
+        S = stream(pages, sel)
+        for tr in (0, 1):
+            s = stream_scores(pages, S, tr, rng, nperm=0)
+            if s['cover'] < 0.25: continue
+            scored[tr].append((s['XP'], desc, S))
+    for tr in (0, 1):
+        sc = sorted(scored[tr], key=lambda x: -x[0])
+        te = [stream_scores(pages, S, 1 - tr, rng, nperm=20) for xp, desc, S in sc[:5]]
+        res['h%d' % tr] = dict(train_XP=float(np.mean([x[0] for x in sc[:5]])), test_XP=float(np.mean([t['XP'] for t in te])),
+                               test_pair_z=float(np.mean([t['pair_z'] for t in te])), test_pair_zmax=float(np.max([t['pair_z'] for t in te])),
+                               top=[str(x[1]) for x in sc[:3]], n_rules=len(sc))
+    res['test_XP'] = float(np.mean([res['h0']['test_XP'], res['h1']['test_XP']]))
+    res['test_pair_z'] = float(np.mean([res['h0']['test_pair_z'], res['h1']['test_pair_z']]))
+    return res
+
+
+def job_b(arg):
+    lab, gen, seed, name, plant = arg
+    P = L.voy(name) if gen is None else L.generate(name, gen, seed)
+    if plant: P = plant_list(P)
+    r = k12b(P)
+    L.jsave('c2_k12b_%s_%s.json' % (lab.replace(':', '_'), plant or 'none'), dict(label=lab, plant=plant, res=r))
+    log('k12b', lab, plant, r['test_XP'], r['test_pair_z'], r['h0']['top'][:1])
+    return r
+
+
+def main_b():
+    from multiprocessing import Pool
+    jobs = [('ZL:STACK:771', 'STACK', 771, 'ZL3b', 'list'), ('ZL:MK2:771', 'MK2', 771, 'ZL3b', 'list'),
+            ('ZL3b', None, 0, 'ZL3b', None), ('IT2a', None, 0, 'IT2a', None), ('ZL:STACK:771', 'STACK', 771, 'ZL3b', None),
+            ('ZL:JUNC:771', 'JUNC', 771, 'ZL3b', None), ('ZL:MK2:771', 'MK2', 771, 'ZL3b', None), ('ZL:SELFCIT:771', 'SELFCIT', 771, 'ZL3b', None)]
+    with Pool(2) as pool:
+        list(pool.imap_unordered(job_b, jobs))
