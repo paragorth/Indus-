@@ -408,23 +408,23 @@ def score(A, logu, theta, ruler=None, med=None, use=('E2', 'E1'), plab=None, ret
         kk = A['k'][A['pe']]
         for j, pkey in enumerate(A['pkeys']):
             mj = A['pk'] == j
-            best = np.zeros(H)
-            # per count key: label = one ration family (d/m/y windows of the commodity class); none = 0
-            G = np.zeros(H)
+            GF = {'p': np.zeros(H), 's': np.zeros(H), 'l': np.zeros(H)}
             for i in np.unique(kk[mj]):
                 mm = mj & (kk == i)
                 mu, sd, names = head_windows(A['cls'][i], ruler)
                 x = lr[:, mm] + logu[:, i:i + 1]
                 lbm = np.median(lr[0, mm])
                 lb = -0.5 * ((lr[0, mm] - lbm) / BG_SD) ** 2 - math.log(BG_SD)
-                fam = ['p'] + (['s', 'l'] if A['cls'][i] == 'grain' else [])
-                Gf = []
-                for f in fam:
+                for f in GF:
                     sel = [q for q, nm in enumerate(names) if nm[0] == f]
-                    Gf.append(_mix(x, mu[sel], sd[sel], lb).sum(2).max(0))
-                G += Gf[0] if plab is None or plab.get(pkey, 'p') == 'p' else Gf[fam.index(plab[pkey])] if plab[pkey] in fam else 0
-            best = np.maximum(G, 0) if plab is None else G
+                    if sel:
+                        GF[f] += _mix(x, mu[sel], sd[sel], lb).sum(2).max(0)
+            if plab is not None:
+                best = GF[plab[pkey]] if plab.get(pkey) in GF else np.zeros(H)
+            else:
+                best = np.maximum(0, np.maximum(GF['p'], np.maximum(GF['s'], GF['l'])))
             parts['P:' + pkey] = best
+            parts['PF:' + pkey] = GF
             tot += best
     return (tot, parts) if return_parts else tot
 
@@ -471,10 +471,7 @@ def key_profile(A, i, theta, ruler=None, grid=None, use=('E2', 'E1')):
     L[:, i] = grid
     th = np.tile(theta, (len(grid), 1))
     _, parts = score(A, L, th, ruler, use=use, return_parts=True)
-    s = parts.get(A['keys'][i], np.zeros(len(grid))).copy()
-    for pk in A['pkeys']:
-        pass
-    return grid, s
+    return grid, parts.get(A['keys'][i], np.zeros(len(grid))).copy()
 
 
 def ratio_parts(A, logu, theta, ruler=None):
