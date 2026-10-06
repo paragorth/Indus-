@@ -1,0 +1,17 @@
+LA-58 final (6 Oct 2026). SIMULATE MINOAN GOVERNMENT AND LET THE PAPERWORK CHOOSE.
+Prior work check: agent-based Minoan models exist (AncientS-ABM, Chliaoutakis & Chalkiadakis: EBA settlement sustainability), but none fits simulated paperwork to the Linear A document distribution by ABC. Not a repeat of la17 (word epidemics), la26 (seal rings), la28 (receipts) or la51 (rooms).
+Tools: tools/la58_sim.c (simulator + statistic panel), la58_common.py, la58_run.py (banks, 2 workers), la58_fit.py (ABC-RF), la58_c1.py, la58_c2.py, la58_c3.py, la58_c3b.py. Checkpoints: data/la58_ckpt/ (banks LA 100k, LB 60k, UR 60k, LADEP 60k; c1-c3 results JSON).
+
+| LA-58.1 | ABC-RF, 6 world types x 30 nuisance parameters; planted worlds; LB, Ur III; 20 site shuffles | Type 0.59 accurate; centres faint; links at chance; LA 'no institutions' 0.44 vs shuffles 0.017; centre location fails in both controls | B negative: no political map |
+| LA-58.2 | Rejection ABC, held-out sites, title detector | LA N 0.75 (shuffles <= 0.45, LB 0.62, Ur III 0.05); held-out gain 0.01-0.14 vs 0.16-0.63 elsewhere; titles fail controls | B: sites are separate administrations; titles killed |
+| LA-58.3 | Adequacy; 15 deposits; HT-room cohesion | LA inside the cloud (91st centile); HT rooms share 0.099 vs 0.040 shuffled (P < 0.001); cross-site below shuffle | B descriptive; C political reading |
+
+Posterior political map: flat. No site has P(centre) above its shuffle level (LA 0.01-0.13). No dependency link is identifiable (parent accuracy is at chance even in-model). HT, KH, KN and ZA are not distinguishable as centres or dependents.
+Institutional words: none. The detector's LA list (*301, ZE, RO, KA, *411-VS, KU, *409-VS, *408-VS, *164, *322) is the sealing-device sign set and is reproduced on shuffled sites.
+Grades:
+- A (method): paperwork at Linear A size separates 'shared institutions vs none' (99 % for empty worlds; capital + offices 85 %) but cannot place centres or links.
+- B (calibrated negative): no centre, link or title can be read, because the controls fail at the same task.
+- B: Linear A sites behave as separate administrations, more strongly than site shuffles and at least as separate as Linear B kingdoms. Held-out sites are unpredictable.
+- B (descriptive): the Hagia Triada rooms form one vocabulary block (2.5x shuffle, above a planted capital with offices). Cross-site sharing is below random.
+- C: Neopalatial administration was organised site by site, not as one island-wide palace system. Would support: a new LM IB archive overlapping its own site's deposits at least 2x more than other sites. Would kill: a new site sharing words with HT at the HT-room level (>= 0.08).
+Limits: Ur III and the deposit panel lie outside the simulated cloud. Locality of names alone also produces site islands, so the C reading rests on the absence of any shared office words, not on their presence elsewhere. Not cracked.
