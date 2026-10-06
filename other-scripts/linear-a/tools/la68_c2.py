@@ -12,7 +12,7 @@ Nulls: B within-word sign shuffle (keeps each document's sign content, kills pos
 Held-out: rule picked on a random half of documents, scored on the other half (20 splits), z vs null B.
 Planted: LA documents get one-sign words written by a hidden rule from their own words (rate f).
 """
-import sys, os, json, re, collections, math, time
+import sys, os, json, re, collections, math, time, zlib
 import numpy as np
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -116,7 +116,7 @@ def hits(docs, rules, glob, scope, Sfilter=None):
             l = min(len(w), C.LMAX)
             for o in range(C.NOPT):
                 opts.setdefault((l, o), set()).update(sign_of(w, o, glob))
-        for ri, (pm, _, _) in enumerate(rules):
+        for ri, (_, (pm, _, _)) in enumerate(rules):
             cov = set()
             for l in range(2, C.LMAX + 1):
                 cov |= opts.get((l, int(pm[l])), set())
@@ -162,7 +162,7 @@ def redeal_S(docs, rng):
 
 def job(args):
     script, scope, kind, k, filt = args
-    rng = np.random.default_rng(SEED * 100003 + k * 7 + hash((script, scope, kind)) % 1000)
+    rng = np.random.default_rng(SEED * 100003 + k * 7 + zlib.crc32((script + scope + kind).encode()) % 1000)
     docs, glob, Sf = DATA_[script]
     if filt == 'seal':
         Sfilter = Sf
@@ -244,7 +244,7 @@ def main():
                 for kind in ('B', 'A'):
                     nl = [o for o in out if o[:3] == (script, scope, kind) and o[4] == filt]
                     NT = np.array([o[5] for o in nl])            # [nnull, nrules]
-                    mu, sd = NT.mean(0), NT.std(0) + 1e-9
+                    mu, sd = NT.mean(0), np.maximum(NT.std(0), 1.0)
                     z = (tot - mu) / sd
                     zn = (NT - mu) / sd
                     fw = float((1 + (zn.max(1) >= z.max()).sum()) / (1 + len(nl)))
@@ -257,11 +257,11 @@ def main():
                     NH = np.array([o[6] for o in nl])           # [nnull, nrules, ndocs]
                     for sp in splits:
                         a, b = sp, ~sp
-                        za = (Hr[:, a].sum(1) - NH[:, :, a].sum(2).mean(0)) / (NH[:, :, a].sum(2).std(0) + 1e-9)
+                        za = (Hr[:, a].sum(1) - NH[:, :, a].sum(2).mean(0)) / np.maximum(NH[:, :, a].sum(2).std(0), 1.0)
                         bi = int(za.argmax())
                         nb = NH[:, bi, b].sum(1)
                         rb = Hr[bi, b].sum()
-                        ho.append(dict(rule=RULES[bi][0], z_b=float((rb - nb.mean()) / (nb.std() + 1e-9)),
+                        ho.append(dict(rule=RULES[bi][0], z_b=float((rb - nb.mean()) / max(nb.std(), 1.0)),
                                        P_b=float((1 + (nb >= rb).sum()) / (1 + len(nb)))))
                     d[kind] = dict(best=RULES[best][0], z_best=float(z.max()), P_familywise=fw, named=named,
                                    heldout_mean_z=float(np.mean([h['z_b'] for h in ho])),
@@ -286,8 +286,8 @@ def main_plant():
             Hr = hits(nd, RULES, glob, 'doc').sum(1)
             rng = np.random.default_rng(k)
             NT = np.array([hits(shuffle_words(nd, rng), RULES, glob, 'doc').sum(1) for _ in range(15)])
-            z = (Hr - NT.mean(0)) / (NT.std(0) + 1e-9)
-            zn = (NT - NT.mean(0)) / (NT.std(0) + 1e-9)
+            z = (Hr - NT.mean(0)) / np.maximum(NT.std(0), 1.0)
+            zn = (NT - NT.mean(0)) / np.maximum(NT.std(0), 1.0)
             best = RULES[int(z.argmax())][1][0]
             from la68_c1 import canon
             m = sum(canon(best[l], l) == canon(pm[l], l) for l in (2, 3, 4))

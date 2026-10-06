@@ -191,7 +191,7 @@ def shuffle_within_para(T, rng):
     return dict(T, g=g)
 
 
-def markov_surrogate(T, rng, rowperm=False):
+def markov_surrogate(T, rng, rowperm=False, liftperm=False):
     """first-order surrogate of the body chain: P(g_{n+1} | g_n) fitted over the whole corpus (body lines, within
     paragraphs); the first body line of each paragraph keeps its real glyph. rowperm=True permutes each row's
     successor probabilities over the destinations (keeps each row's sharpness, destroys WHICH successor is favoured)."""
@@ -205,6 +205,11 @@ def markov_surrogate(T, rng, rowperm=False):
     M /= M.sum(1, keepdims=True)
     if rowperm:
         for a in range(A): M[a] = M[a][rng.permutation(A)]
+    if liftperm:   # keep the successor marginal, permute each row's lift (P(b|a)/P(b)) over destinations
+        q = M.mean(0); q /= q.sum()
+        lift = M / q
+        for a in range(A): M[a] = q * lift[a][rng.permutation(A)]
+        M /= M.sum(1, keepdims=True)
     out = g.copy()
     for i in range(1, n):
         if T['para'][i] == T['para'][i - 1] and T['ps'][i] == 0 and T['ps'][i - 1] == 0:
