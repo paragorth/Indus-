@@ -114,73 +114,83 @@ def series_test(sign, rng, nnull=2000):
 
 def test_B():
     rng = np.random.default_rng(66002)
-    r = series_test('M297', rng)
-    S = [s for s in r['series'] if s[0] != 'P009258']
-    # leave P009258 out (the discovery tablet)
-    pool = [e['cnt'] for E in ENT.values() for e in E if e['final'] == 'M297' and e['sys'] == 'SDB' and e['cnt']]
-    sdb = [v for t, sy, v in S if sy == 'SDB']
-    obs_lo = float(np.median([cv(v) for v in sdb])) if sdb else float('nan')
-    nl = [np.median([cv(rng.choice(pool, size=len(v))) for v in sdb]) for _ in range(2000)] if sdb else [0]
-    p_lo = float((1 + np.sum(np.asarray(nl) <= obs_lo)) / 2001)
-    near10 = sum(1 for v in sdb if 8 <= np.median(v) <= 12)
-    meds = [float(np.median(v)) for v in sdb]
-    # decoys: same series test on matched-frequency signs with series
+    S = [x for x in series('M297', 3) if x[0] != 'P009258']
+    pools = {sy: [e[k] for E in ENT.values() for e in E if e['final'] == 'M297' and e['sys'] == sy and e[k] and e[k] > 0]
+             for sy, k in (('SDB', 'cnt'), ('C', 'cap'))}
+    obs = float(np.median([cv(v) for _, _, v in S]))
+    nl = np.array([np.median([cv(rng.choice(pools[sy], size=len(v))) for _, sy, v in S]) for _ in range(2000)])
+    p = float((1 + np.sum(nl <= obs)) / 2001)
+    sdb = [(t, v) for t, sy, v in S if sy == 'SDB']
+    near10 = [(t, float(np.median(v))) for t, v in sdb if 8 <= np.median(v) <= 12]
+    meds = [(t, sy, float(np.median(v)) / (120 if sy == 'C' else 1)) for t, sy, v in S]
     dec = decoys('M297', 40, 66003, lo=0.4, hi=2.5)
     dr = []
     for d in dec:
-        x = series_test(d, np.random.default_rng(66004), 500)
-        if x and x['n'] >= 2:
-            dr.append((d, x['n'], x['p'], x['near10'], x['nsdb']))
-    dpass = sum(1 for d in dr if d[2] < 0.05)
-    RES['B'] = dict(all=r, held=dict(n=len(sdb), cv=obs_lo, p=p_lo, near10=near10, meds=meds), decoys=dr)
-    common_centre = p_lo < 0.05
-    at10 = near10 / max(1, len(sdb))
-    verdict = ('M297 series DO have a common centre within tablets (low spread, p %.3g) but the centre is 10 in only %d of %d other SDB series (medians %s): the "norm of 10" is KILLED; the narrower "fixed per-tablet allotment" stays (= pe44 B-)' % (p_lo, near10, len(sdb), meds)
-               if common_centre and at10 < 0.5 else
-               ('survives: series cluster and centre near 10 in %d/%d' % (near10, len(sdb)) if common_centre else
-                'KILLED as stated: M297 series show no common centre (p %.2f)' % p_lo))
-    OUT.append(row('PE-66.1b', 'pe44 C "P009258 M297 = 8,10,7,10,8,9: deliveries against a norm of 10". Every other tablet with >= 4 M297 entries of one system (P009258 left out); spread = median coefficient of variation; null = values drawn from all M297 values of that system (2,000x, seed 66002). Stated support: other M297 series scatter around 10; kill: no common centre. Decoys: 40 signs of 0.4-2.5x frequency with series (seed 66003), same test',
-                   'M297 series %d (SDB %d, held-out of P009258). SDB median CV %.2f vs null %.2f (p %.3g). Series medians: %s; within 8-12: %d of %d. Decoys with series: %d; with p < 0.05: %d' % (
-                       r['n'], len(sdb), obs_lo, float(np.mean(nl)), p_lo, meds, near10, len(sdb), len(dr), dpass),
-                   verdict))
+        Sd = series(d, 3)
+        if len(Sd) < 2:
+            continue
+        pd_ = {sy: [e[k] for E in ENT.values() for e in E if e['final'] == d and e['sys'] == sy and e[k] and e[k] > 0]
+               for sy, k in (('SDB', 'cnt'), ('C', 'cap'))}
+        o = float(np.median([cv(v) for _, _, v in Sd]))
+        r2 = np.random.default_rng(66004)
+        n2 = np.array([np.median([cv(r2.choice(pd_[sy], size=len(v))) for _, sy, v in Sd]) for _ in range(400)])
+        dr.append((d, len(Sd), float((1 + np.sum(n2 <= o)) / 401)))
+    dpass = sum(1 for x in dr if x[2] <= max(p, 0.05))
+    RES['B'] = dict(n=len(S), obs=obs, null=float(nl.mean()), p=p, near10=near10, meds=meds, decoys=dr)
+    OUT.append(row('PE-66.1b', 'pe44 C "P009258 M297 = 8,10,7,10,8,9: deliveries against a norm of 10". Every other tablet with >= 3 M297 entries of one system (P009258 left out); spread = median coefficient of variation; null = values drawn from all M297 values of that system (2,000x, seed 66002). Stated support: other M297 series that scatter around 10; kill: M297 series with no common centre. Decoys: 40 signs of 0.4-2.5x frequency with >= 2 series (seed 66003), same test',
+                   'other M297 series %d (count %d, capacity %d). Median CV %.2f vs null %.2f (p %.4f). Series centres (N01 units): %s. Count series centred 8-12: %d of %d. Decoys with series: %d; as tight (p <= max(p, 0.05)): %d' % (
+                       len(S), len(sdb), len(S) - len(sdb), obs, float(nl.mean()), p,
+                       ', '.join('%s %.2g' % (t, m) for t, _, m in meds), len(near10), len(sdb), len(dr), dpass),
+                   ('common centre per tablet survives (p %.3g; %d/%d decoys as tight), but the norm of 10 is not reproduced (%d of %d count series near 10): "norm of 10" KILLED, "each tablet has its own fixed M297 norm" stays C' % (p, dpass, len(dr), len(near10), len(sdb))
+                    if p < 0.05 and len(near10) < max(1, len(sdb)) / 2 else
+                    ('not killed (p %.3g) but NOT beyond decoys (%d of %d decoy signs as tight); norm of 10 in %d of %d count series: no support, demote' % (p, dpass, len(dr), len(near10), len(sdb))
+                     if p < 0.05 and dpass > 0.2 * len(dr) else
+                     ('survives' if p < 0.05 else 'KILLED as stated: M297 series show no common centre (p %.2f)' % p)))))
     say(OUT[-1])
 
 
 # ------------------------------------------------------------------ C  M297 closing totals
 def running_sum_hits(sign):
-    hits = tot = 0
+    """pe56 TOT rule: a line equals the running sum (per system, reset after a hit) of >= 2 earlier entries;
+    key = first sign of the line. Returns (hits, eligible lines with that first sign, hits at a total position)."""
+    hits = tot = hpos = npos = 0
     for tid, E in ENT.items():
+        run = collections.defaultdict(int); nt = collections.Counter()
+        last = len(E) - 1
         for k, e in enumerate(E):
-            if e['final'] != sign or k < 2 or e['sys'] not in ('SDB', 'C'):
+            key = 'cnt' if e['sys'] == 'SDB' else ('cap' if e['sys'] == 'C' else None)
+            if key is None or e[key] is None:
                 continue
-            key = 'cnt' if e['sys'] == 'SDB' else 'cap'
-            if e[key] is None:
-                continue
-            prev = [x for x in E[:k] if x['sys'] == e['sys']]
-            if len(prev) < 2 or any(x[key] is None for x in prev):
-                continue
-            # only lines that could be totals: on the reverse or the last numeral line
-            if not (e['surf'] != 'obverse' or k == len(E) - 1):
-                continue
-            tot += 1
-            if e[key] == sum(x[key] for x in prev):
-                hits += 1
-    return hits, tot
+            v = e[key]; g = e['sys']
+            elig = nt[g] >= 2 and v > 0
+            hit = elig and v == run[g]
+            if e['bsigns'][0] == sign and elig:
+                tot += 1; hits += hit
+                if e['surf'] != 'obverse' or k == last:
+                    npos += 1; hpos += hit
+            if hit:
+                run[g], nt[g] = 0, 0
+            else:
+                run[g] += v; nt[g] += 1
+    return hits, tot, hpos, npos
 
 
 def test_C():
-    h, n = running_sum_hits('M297')
+    h, n, hp, np_ = running_sum_hits('M297')
     dec = decoys('M297', 40, 66005, lo=0.4, hi=2.5)
     dr = [(d,) + running_sum_hits(d) for d in dec]
     dr = [x for x in dr if x[2] > 0]
-    rates = [a / b for _, a, b in dr]
-    allh = sum(a for _, a, _ in dr); alln = sum(b for _, _, b in dr)
-    RES['C'] = dict(h=h, n=n, decoys=dr)
-    fails = n - h
-    OUT.append(row('PE-66.1c', 'pe56 C "M297 heads closing totals equal to the running sum". Every M297-final line that is a candidate total (reverse or last numeral line, >= 2 earlier lines of the same system, all readable): equals the sum of all earlier same-system lines? Stated kill: M297 total lines that do not sum. Decoys: 40 signs of 0.4-2.5x frequency (seed 66005), same test',
-                   'M297 candidate totals %d: sum %d, do not sum %d. Decoys with candidates %d: pooled %d/%d sum (median rate %.2f)' % (n, h, fails, len(dr), allh, alln, float(np.median(rates)) if rates else float('nan')),
-                   'KILLED as stated: %d M297 total-position lines do not equal the running sum (%d do); rate %.2f vs decoy pooled %.2f' % (fails, h, h / max(1, n), allh / max(1, alln)) if fails > h else
-                   'survives: %d of %d sum' % (h, n)))
+    allh = sum(x[1] for x in dr); alln = sum(x[2] for x in dr)
+    rates = sorted(x[1] / x[2] for x in dr)
+    pct = sum(1 for r in rates if r < h / max(1, n)) / max(1, len(rates))
+    dbetter = sum(1 for r in rates if r >= h / max(1, n))
+    RES['C'] = dict(h=h, n=n, hp=hp, np=np_, decoys=dr)
+    OUT.append(row('PE-66.1c', 'pe56 C "M297 heads closing totals equal to the running sum (5 tablets vs 0.5 forged)". pe56 TOT rule re-implemented: a line whose value equals the running sum (per system, reset after a hit) of >= 2 earlier entries, keyed on its FIRST sign. Stated kill: M297 lines that do not sum. Decoys: 40 first signs of 0.4-2.5x frequency (seed 66005), same rule; rate compared',
+                   'M297-first eligible lines %d, equal to the running sum %d (rate %.3f); at a total position (reverse / last line) %d of %d. Decoys with eligible lines %d: pooled %d/%d (%.3f); decoys with an equal or higher rate: %d of %d' % (
+                       n, h, h / max(1, n), hp, np_, len(dr), allh, alln, allh / max(1, alln), dbetter, len(dr)),
+                   'KILLED as stated: %d of %d eligible M297 lines do not sum; the summing rate %.3f is %s decoy first signs (%d of %d decoys as high)' % (
+                       n - h, n, h / max(1, n), 'within the range of' if dbetter >= 0.1 * len(dr) else 'above', dbetter, len(dr))
+                   if (n - h) > h else 'survives'))
     say(OUT[-1])
 
 
