@@ -65,7 +65,7 @@ for k in surv:
 tests = []
 for rk, lst in byrate.items():
     lst.sort(reverse=True)
-    tests.append((rk, 'union', [k for _, k in lst], lst[0][0]))
+    tests.append((rk, 'union', [k for _, k in lst][:400], lst[0][0]))   # at most 400 best rules
     g = [(ex, k) for ex, k in lst if len(R[k][5]) <= 1]
     if g:
         tests.append((rk, 'grid', [g[0][1]], g[0][0]))

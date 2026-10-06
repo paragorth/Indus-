@@ -69,7 +69,7 @@ def adequacy(S, med, mad, corp, nhold=500):
 
 
 def main():
-    rf = pickle.load(open(os.path.join(CK, 'rf_c1.pkl'), 'rb'))
+    rf = pickle.load(open(os.path.join('/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad', 'pe65_rf_c1.pkl'), 'rb'))
     S, T, meta = load_bank('PE'); S = clean(S)
     med = np.median(S, 0); mad = np.median(np.abs(S - med), 0) * 1.4826
     mad[mad < 1e-3] = np.maximum(S.std(0)[mad < 1e-3], 1e-3)

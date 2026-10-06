@@ -2,13 +2,13 @@
 """la66 cycle 2: per-feature null calibration.  Real LA under three split families x two modes, against a
 pool of null corpora (quantities shuffled within document / within commodity, word bundles re-dealt within
 documents, signs shuffled across the words of an entry), plus Linear B at LA size through the same filter
-and LA with totals kept (KU-RO as an internal positive control).  S=12 splits x M=800 models per job."""
+and LA with totals kept (KU-RO as an internal positive control).  S=12 splits x M=2000 models per job."""
 import sys, os, json, time
 from multiprocessing import Pool
 from la66_lib import *
 import la66_c1 as c1
 
-S, M = 12, 800
+S, M = 12, 2000
 LBT = c1.LB_TRUTH
 
 

@@ -31,7 +31,7 @@ def plant(kind, rep):
 
 def main():
     rf, cal = train('PE')
-    pickle.dump(rf, open(os.path.join(CK, 'rf_c1.pkl'), 'wb'))
+    pickle.dump(rf, open(os.path.join('/tmp/claude-0/-home-user-Indus-/874df4c7-80d6-5f08-b42c-eea96a214079/scratchpad', 'pe65_rf_c1.pkl'), 'wb'))
     res = dict(calibration=cal)
     print('calib', json.dumps({k: cal[k] for k in ('type_acc', 'centre_auc', 'parent_acc', 'susa_auc', 'inst_vs_none_acc')}), flush=True)
     # planted
