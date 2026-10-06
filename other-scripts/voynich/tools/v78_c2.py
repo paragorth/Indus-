@@ -95,7 +95,7 @@ def main(names, nsim, nhold=200, acc=0.03, tag='c2'):
 if __name__ == '__main__':
     which = sys.argv[1]
     if which == 'voy':
-        main(['VOY_ZL', 'VOY_IT'], 2500, tag='c2voy')
+        main(['VOY_ZL', 'VOY_IT'], 2500, tag='c2bvoy')
     else:
         main(['MS_1001', 'TL_MED', 'TL_NOLI', 'HE', 'PL_DITT', 'LIST_SYON', 'LIST_SIN', 'TALLY_ING',
-              'GEN_SELFCIT', 'GEN_STACK', 'GEN_JUNC', 'GEN_MK2', 'GEN_SC10', 'LA_ISID', 'IT_BRUM'], 800, tag='c2ctl')
+              'GEN_SELFCIT', 'GEN_STACK', 'GEN_JUNC', 'GEN_MK2', 'GEN_SC10', 'LA_ISID', 'IT_BRUM'], 800, tag='c2bctl')

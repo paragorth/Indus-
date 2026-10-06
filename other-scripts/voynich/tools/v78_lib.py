@@ -13,7 +13,7 @@ Mechanisms (operators that insert copies into a base text from which every doubl
           runs continue with prob g; copy re-spelled
   DITTOG  copying slip: any token repeated at rate r, part of them across the line break (last word of a line
           written again at the start of the next); copy = identical raw form (visual copy)
-  TALLY   counting by repetition: 1-3 short tally types expanded into runs of 2,3,4,... (geometric); identical raw
+  TALLY   counting by repetition: 1-3 tally types (any of the 80 commonest) expanded into runs of 2,3,4,... (geometric); identical raw
   GEN     generator self-copying: a token replaced by a copy of one of the last W raw words on the page,
           one glyph changed with prob m (Timm-style copy and vary)
 Features (fingerprint of the doubles) are computed on E1c lines; see feats().
@@ -250,8 +250,8 @@ def apply(base, P, seed):
         red = {cand[i] for i in idx}
     tal = []
     if 'TALLY' in P:
-        short = [t for t in C.types[:80] if len(t) <= 3] or C.types[:20]
-        tal = rng.sample(short, min(P['TALLY']['m'], len(short)))
+        top = C.types[:80]
+        tal = rng.sample(top, min(P['TALLY']['m'], len(top)))
     out = []; lab = {}
     for pi, p in enumerate(base):
         hist = []; nl = []
