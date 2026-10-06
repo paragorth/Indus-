@@ -558,3 +558,6 @@ Idea: each tablet is a slice or aggregate of one hidden master table (units x co
 
 ### Pre-registered before pe57 (5 Oct 2026)
 pe55 prediction, frozen before any vessel data is examined: if N39C is about 0.6–0.8 l (or the 9–12× alias of 5–7 l), Proto-Elamite-period vessels from Susa and the plateau should show a capacity mode in 0.5–1 l (or 4–9 l), and a mode near 2.8 l is a further support. No vessel mode in 0.5–1 l or 4–9 l would kill it.
+
+## pe52 every sign has a weight (6 Oct 2026)
+**Killed (strong form):** the multi-sign strings are not descriptions. Only 0.6–1.7% are fully explained by weighted signs, and the pe50 population puzzle stands. **B:** about 17 entry and class signs shift quantities within tablets (0–3 in the nulls): M288 +0.30 to +0.64 log, M269 −0.41, M348 +0.30, M260 −0.21 to −0.32, M321 −0.25, and |M036+1(N30D)| and |M036+1(N30C)| at about +0.3. These are frozen in data/pe52_frozen_weights.json for checking against new tablets. **B:** name-string signs carry no weight (3 of 79), and order adds nothing. A (method limit): in Ur III, weights do not always separate names from descriptors. C: M056, M362, M354, M295 and M223 are stable in one tablet mode only.
