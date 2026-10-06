@@ -1,0 +1,12 @@
+pe70 cycle 4: does the text predict a seal impression nobody recorded? (photo audit, outside the text corpus)
+(tools/pe70_c4_photo.py; data/pe70_ckpt/c4_key.json, c4_codes.json, c4.json; photographs: CDLI, kept in the scratchpad)
+Prediction made before looking: tablets with NO seal recorded anywhere (ATF, CDLI catalogue, pe33/pe35) but with the
+highest sealed-profile score (cycle 1 logistic model, trained leave-one-volume-out, so no tablet scores itself) show
+rolled seal impressions on their photographs more often than the lowest-scoring tablets.
+
+| Row | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-70.4a | Blind design: 15 top-score and 15 bottom-score unrecorded tablets (volumes MDP 06/17/26/26S/31, TCL 32; not fragments; >= 2 lines; photo available) plus 10 recorded-sealed tablets, shuffled under random names (img00-39); each photo coded clear / possible / none / unclear (no reverse view) before the key was opened | 40 photos coded; 1 unclear (old plate, obverse only) | Protocol held: the key was read only after all 40 codes were written |
+| PE-70.4b | CONTROL coder sensitivity and specificity: recorded-sealed tablets vs bottom-score tablets | recorded-sealed: 2 clear + 5 possible of 10 (sensitivity ~0.7); bottom-score: 0 of 15 | The coder can see impressions on CDLI photos most of the time and does not invent them |
+| PE-70.4c | TEST: top-score vs bottom-score unrecorded tablets (one-sided Fisher, clear + possible) | top: 1 possible of 14 (P008103, MDP 06, 314); bottom: 0 of 15; p 0.48 | KILLED: the sealed profile does not find unrecorded seals. Upper bound on unrecorded impressions among high-profile tablets: < 3/14 (~21%) observed, ~30% after coder sensitivity |
+| PE-70.4 | Cycle verdict | The CDLI seal record is not missing many impressions on well-preserved tablets with photographs, and tablets that look like sealed documents are mostly genuinely unsealed | B (negative): the cycle-1 profile is a tendency of a document type (short headed M157/M288 texts), not a hidden sealed class. C: P008103 (MDP 06, 314) may carry an unrecorded impression; would support: a collation or high-resolution photo showing a rolled design; would kill: a clean reverse under raking light |
