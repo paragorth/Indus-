@@ -188,6 +188,9 @@ class Index:
         self.norm = np.sqrt(np.asarray(X.multiply(X).sum(1)).ravel()) + 1e-9
         self.S = (X @ X.T).toarray() / np.outer(self.norm, self.norm)
         np.fill_diagonal(self.S, 0)
+        # tablet-calibrated baseline: each tablet's typical similarity to the corpus
+        self.mu = self.S.sum(1) / (n - 1)
+        self.sd = np.sqrt(np.maximum((self.S ** 2).sum(1) / (n - 1) - self.mu ** 2, 1e-6))
         self.bits = defaultdict(int)
         for i, F in enumerate(self.F):
             for f in F:
@@ -223,8 +226,10 @@ class Index:
                 rm += self.idf[f] ** 2
         nn = self.norm[G]
         sub -= rm / np.outer(nn, nn)
+        mu, sd = self.mu[G], self.sd[G]
+        z = (sub - (mu[:, None] + mu[None, :]) / 2) / np.sqrt((sd[:, None] ** 2 + sd[None, :] ** 2) / 2)
         m = len(G)
-        return float((sub.sum() - np.trace(sub)) / (m * (m - 1)))
+        return float((z.sum() - np.trace(z)) / (m * (m - 1)))
 
 
 def shuffle_lines(T, rng):

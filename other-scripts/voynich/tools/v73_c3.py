@@ -121,6 +121,6 @@ if __name__ == '__main__':
     T = targets()
     jobs = [(t, k, P) for t, P in T.items() for k in ['REAL'] + NULLSET]
     t0 = time.time()
-    with Pool(2) as pool:
+    with Pool(int(os.environ.get("V73_W", 2))) as pool:
         for i, o in enumerate(pool.imap_unordered(job, jobs)):
             print('%3d/%d %6.0fs %s' % (i + 1, len(jobs), time.time() - t0, os.path.basename(o)), flush=True)

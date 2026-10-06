@@ -151,7 +151,8 @@ def load_la():
                     continue
                 tot = lastw in LA_TOT
                 if carry == 'VIR':
-                    P.append(dict(n=n + (0.5 if fr else 0), line=line, key='VIR', tot=tot))
+                    if n >= 1:
+                        P.append(dict(n=n, line=line, key='VIR', tot=tot))
                 elif carry is not None:
                     E.append(dict(c=carry, n=n, fr=fr, w=None if tot else lastw, line=line, tot=tot))
                 lastw = None

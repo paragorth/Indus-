@@ -47,7 +47,7 @@ if __name__ == '__main__':
     models = []
     while len(models) < NM:
         m = C.random_model(rng, feats)
-        if any(feats[i] in EXCL for i in m['sub']): continue
+        if any(feats[i] in EXCL or any(feats[i].endswith(':' + e) for e in EXCL) for i in m['sub']): continue
         models.append(m)
     with Pool(2, initializer=init, initargs=('A',)) as P:
         resA = P.map(ev, models, chunksize=20)
@@ -83,5 +83,6 @@ if __name__ == '__main__':
                     rk[k]['lang_before_desig'] += int(order.index('LANG') < order.index(nonl[0]))
         RO[rep] = dict(agg={str(k): dict(v) for k, v in agg.items()}, rank={str(k): dict(v) for k, v in rk.items()})
     out['readout'] = RO
+    out['featfile'] = os.environ.get('V75_FEATS', 'feats')
     pickle.dump(out, open(os.path.join(X.CK, 'run_%s.pkl' % TAG), 'wb'))
     print('saved %.0fs' % (time.time() - t0), flush=True)

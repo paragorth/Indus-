@@ -21,7 +21,7 @@ KINDS = ['GLOSS', 'INDEX', 'CATAL', 'INGRED', 'APOTH', 'ASTRO', 'ALCH', 'NOMEN',
 
 
 def load(rep):
-    D = pickle.load(open(os.path.join(X.CK, 'feats_%s.pkl' % rep), 'rb'))
+    D = pickle.load(open(os.path.join(X.CK, '%s_%s.pkl' % (os.environ.get('V75_FEATS', 'feats'), rep)), 'rb'))
     rows = D['rows']
     F = np.array([r['feats'] for r in rows], float)
     F[~np.isfinite(F)] = 0
@@ -55,8 +55,8 @@ class Fitted:
                 S = np.atleast_2d(S); S = (1 - m['lam']) * S + m['lam'] * np.eye(len(s))
                 self.Si = np.linalg.pinv(S)
         if m['typ'] == 'sysc':
-            g = np.array(gtr); self.sysk = []; cs = []
-            for b in sorted(set(gtr)):
+            g = np.array([a + '|' + b for a, b in zip(gtr, ytr)]); self.sysk = []; cs = []
+            for b in sorted(set(g)):
                 cs.append(Z[g == b].mean(0)); self.sysk.append(self.y[g == b][0])
             self.SC = np.array(cs)
         if m['typ'] == 'knn':

@@ -181,7 +181,7 @@ def main():
         print(corp, len(D), Counter(o['role'] for a in res[corp]['real'] for o in a['slots']),
               'null', Counter(o['role'] for a in res[corp]['null'] for o in a['slots']))
     pl = []
-    for s in (1, 2, 3):
+    for s in (1, 2, 3, 4, 5):
         D, tr = dossiers_for('PE', 'plant', s)
         ids = set(tr['ids'])
         d = max(D, key=lambda d: len(ids & {t['id'] for t in d}))

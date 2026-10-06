@@ -26,29 +26,26 @@ def thresholds(corp):
     return thr
 
 
-def components(groups, thr):
-    sig = [g for g in groups if g['h'] > thr.get(C.size_class(len(g['G'])), 1.0)]
-    par = {}
-
-    def f(x):
-        par.setdefault(x, x)
-        while par[x] != x:
-            par[x] = par[par[x]]
-            x = par[x]
-        return x
+def components(groups, thr, cap=40):
+    """greedy dossiers: best significant group first; a later significant group joins a dossier when at
+    least half of its members are already in that dossier and none is in another (no chaining)."""
+    sig = [g for g in groups if g['h'] > thr.get(C.size_class(len(g['G'])), 1e9)]
+    sig.sort(key=lambda g: -g['h'])
+    owner, dos = {}, []
     for g in sig:
-        for x in g['G'][1:]:
-            par[f(x)] = f(g['G'][0])
-    comp = defaultdict(set)
-    for x in list(par):
-        comp[f(x)].add(x)
-    best = defaultdict(float)
-    tm = {}
-    for g in sig:
-        r = f(g['G'][0])
-        if g['h'] > best[r]:
-            best[r] = g['h']; tm[r] = g['tm']
-    out = [{'ids': sorted(v), 'best_h': best[r], 'tm': tm[r]} for r, v in comp.items()]
+        own = Counter(owner[x] for x in g['G'] if x in owner)
+        if not own:
+            dos.append({'ids': set(g['G']), 'best_h': g['h'], 'tm': g['tm']})
+            for x in g['G']:
+                owner[x] = len(dos) - 1
+        elif len(own) == 1:
+            k, c = own.most_common(1)[0]
+            new = [x for x in g['G'] if x not in owner]
+            if c >= len(g['G']) / 2 and len(dos[k]['ids']) + len(new) <= cap:
+                dos[k]['ids'] |= set(new)
+                for x in new:
+                    owner[x] = k
+    out = [{'ids': sorted(d['ids']), 'best_h': d['best_h'], 'tm': d['tm']} for d in dos]
     out.sort(key=lambda d: (-len(d['ids']), -d['best_h']))
     return sig, out
 
@@ -91,6 +88,7 @@ def main():
             continue
         T = {'PE': C.pe_tabs, 'DR': lambda: C.ur3_tabs('Puzr', 1500, 'DR'),
              'UM': lambda: C.ur3_tabs('Umma', 1500, 'UM')}[corp]()
+        T = [t for t in T if len(t['lines']) >= 3]
         ix = C.Index(T)
         thr = thresholds(corp)
         sig, comps = components(R['groups'], thr)
@@ -125,7 +123,7 @@ def main():
         summ[corp] = {'info': info, 'dossiers': comps}
     # planted
     pl = []
-    for s in (1, 2, 3):
+    for s in (1, 2, 3, 4, 5):
         R = load('PE', 'plant', s)
         if not R:
             continue

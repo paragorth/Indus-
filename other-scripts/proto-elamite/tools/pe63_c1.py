@@ -10,6 +10,7 @@ if os.path.exists(out):
     sys.exit(0)
 T = {'PE': C.pe_tabs, 'DR': lambda: C.ur3_tabs('Puzr', 1500, 'DR'),
      'UM': lambda: C.ur3_tabs('Umma', 1500, 'UM')}[corp]()
+T = [t for t in T if len(t['lines']) >= 3]
 rng = random.Random(C.seed('pe63c1-%s-%s-%d' % (corp, mode, sd)))
 truth = None
 if mode == 'null':

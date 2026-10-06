@@ -1,0 +1,31 @@
+la64 cycle 1 (6 Oct 2026): MINOAN NUMBERS MUST OBEY PHYSIOLOGY. pe55 ported to Linear A; calibration.
+Scripts tools/la64_lib.py (physics windows, corpora, scorer, nulls), tools/la64_c1.py; checkpoints
+data/la64_ckpt/ (git-ignored).
+Prior art (web search 6 Oct 2026; LITERATURE.md; FINDINGS/STRATEGIES): no joint physical-window fit of
+Linear A unit sizes was found. The nearest work is the inscribed-pithos route (ZA Zb 3, VIN 32: Notti 2025,
+Pasiphae 19, 'a unit of about 12.5 l' from a re-measured pithos; Younger's maximum about 1,000 l). That is a
+single-object capacity anchor. Here it is used only as an outside check in cycle 3, never as an input. la6 fitted
+commodity ratios without physics; pe55 is the Proto-Elamite parent.
+Physical windows (litres; sources in la64_lib.py): grain 1.2 l/person/day (FAO/WHO/UNU 2004); wine 0.5 l/d
+(Cato Agr. 57); oil 0.05 l/d (Cato 58; Foxhall 2007); olives 0.15 l/d (Cato 58); generic (unidentified
+commodity) 0.5 l/d with a wide window; each x1, x30, x360. Household yearly output: grain 2,500 l, wine 1,000,
+oil 150, olives 1,500 (Halstead; Foxhall). Vessel content: pithos 250 l (Christakis 2005, 50-1,000 l), jar 20 l.
+Fodder for grain per head: small stock 0.8 l/d, large 4.5 l/d (as pe55).
+Two instruments. E2 = every entry quantity x unit must be a ration, household output or vessel content (role
+unlabelled, robust mixture against unit-free junk). E1 = a person count next to (same, previous or next line)
+or heading (document total) a commodity quantity gives a per-head amount that must be a ration (or fodder).
+Hypothesis = u per commodity key (0.01-1,000 l per written unit) + a value in (0,1) for every fraction sign
+(nuisance; LA: A B D E F H J K L2 L6 W X, JE = J+E, DD = 2D) + per count-key label. 1,000-6,000 random
+hypotheses per run, then per-key grid refinement.
+Data: LA 189 administrative documents, 774 non-total entries in 15 commodity keys (GRA 170, OLE 155, CYP 103,
+NI 101, VIN 86, *304 32, OLIV 30, DA-SI-*118 24, *308 17, TE-TU 12, AROM 12, *28B-NU-MA-RE 12, U-*325-ZA 7, *306 7,
+DI-DE-RU 6), 73 person/commodity pairs (16 adjacent to VIR, 57 against a document's VIR total).
+LB (DAMOS, all sites): 1,147 entries; T V Z S subunits kept as hidden 'fraction signs'; truth dry 96 l,
+liquid 28.8 l. Ur III (pe27 extraction): 9,130 capacity entries in sila (truth about 1 l).
+
+| LA-64.1a | E1+E2 on Linear B, full (1,147 entries, 144 pairs), units and subunit values hidden | GRA 9.5 l (x0.10 of 96), HORD x0.16, OLE x0.08, OLIV x0.05, NI x0.09, VIN 24.9 l (x0.86). Every count key labelled 'none' | FAIL: the joint fit is pulled by E2 into the narrowest (ration-day) windows |
+| LA-64.1b | Same, Linear B thinned to LA size (8 draws, 774 entries) | GRA median x0.16 (0/8 within x2), OLE x0.06 (2/8), VIN x0.43 (3/8), OLIV x0.20 (0/8), HORD x0.91 (1/8); MUL labelled person 0/8 | FAIL |
+| LA-64.1c | Same, Ur III thinned to LA size (8 draws), sila hidden | sze (barley) x0.03 (0/8 within x2), i3 (oil) x0.04, zi3 x0.13, ninda x0.07; only kasz (beer) x0.77 (4/8) | FAIL |
+| LA-64.1d | Planted LA-shaped archive (10 plants): LA documents, words and commodities, true u 0.05-200 l, 70% of entries drawn from the windows by a random role per word, 30% left real, rounded to planted fraction values | u within x2 in 35% of 150 key fits (big keys with 80+ entries 40%); misses go to x100-x600 aliases (ration-day vs year vs store) | FAIL even on data made from the windows: entry size alone does not fix a unit |
+| LA-64.1e | Diagnostic: E1 only (count/commodity pairs) vs E2 only, Linear B full and at LA size; Ur III | LB E1: GRA 105 l (truth 96; contrast 11.5 log units), at LA size 100-110 l in 4/4 draws (2-unit interval often 3-127 l: day alias). LB E2 alone: GRA 16 l, OLE 1.3 l. Ur III E2 alone: sze 0.02, i3 0.04 (truth 1). Ur III E1: full with document totals scattered (0.13-825); adjacent-only flat at LA size | E1 works where real ration lists exist (Linear B PY Ab). E2 is dropped |
+| LA-64.1 | Cycle verdict | Grade A (calibrated negative, method): bare quantity size cannot fix a commodity unit. In Linear B, Ur III and even planted archives, the 'many entries physically plausible at once' fit is off by x10-x50 in most keys, because a free unit can always put entries into the tightest (day-ration) window. Only per-head ratios (person count next to commodity) calibrate (LB GRA 100-110 l vs 96) | Next: E1 on Linear A, with nulls (numbers shuffled between documents, random units on held-out halves, nonsense rulers), a planted per-head archive, ration-word and fraction checks |
