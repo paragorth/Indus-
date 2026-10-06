@@ -10,6 +10,13 @@ Only the sign-level fields are used ("words" = Unicode signs, "transliteratedWor
 fraction values (e.g. "1/2") are NOT used: fractions are kept as raw sign letters
 (J, E, F, K, L, D, ...) decoded from the Unicode names.
 
+la71 (6 Oct 2026): corpus.json is the LEGACY version 'all'. It drops the edition's break mark U+1076B
+(it is a lacuna mark, not a line-continuation mark), keeps [[erased]] signs and numbers as live text and
+counts words joined across a break as whole words.  New loops should use the restoration-aware corpus:
+tools/la71_parse.py -> data/corpus_ra.json, loaded with la71_parse.load('rd') (default) or 'read'
+(robustness check); la60_common.load_la() now defaults to 'rd'.  corpus.json is kept unchanged so that
+earlier loops reproduce.
+
 Each token: {"t": kind, ...}
   word      {"t":"word","s":["KU","RO"]}
   logo      {"t":"logo","v":"VIN"}           commodity / ideogram / ligature
@@ -56,7 +63,7 @@ def is_syllable(comp):
 def classify(word_u, translit):
     if word_u == '\n': return [{'t': 'nl'}]
     if word_u == '𐄁' or translit == '𐄁': return [{'t': 'div'}]
-    chars = [ch for ch in word_u if ord(ch) != 0x1076B]      # 1076B = line-continuation mark in this edition
+    chars = [ch for ch in word_u if ord(ch) != 0x1076B]      # 1076B = the edition's break (lacuna) mark; see la71_parse.py
     if not chars: return []
     nums = [num_value(ch) for ch in chars]
     fracs = [frac_letter(ch) for ch in chars]

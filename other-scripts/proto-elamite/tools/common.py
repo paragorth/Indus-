@@ -16,8 +16,17 @@ def norm_code(c):
     return c
 
 
-def load():
-    T = json.load(open(os.path.join(DATA, 'pe_corpus.json')))
+def load(mode=None):
+    """mode: 'rd' (DEFAULT from pe74 on: read + damaged tokens; uncertain '?' signs become 'x', restored '[..]'
+    and supplied '<..>' signs are removed, and lines that lose a numeral are marked lacuna), 'r' (read only) or
+    'all' (every token as build_corpus.py wrote it, editorial restorations included; use it only to reproduce
+    loops up to pe73).  See tools/pe74_parse.py.  Overridden by the environment variable PE_CORPUS_MODE."""
+    mode = mode or os.environ.get('PE_CORPUS_MODE', 'rd')
+    if mode != 'all':
+        import pe74_parse
+        T = json.load(open(pe74_parse.corpus_file(mode)))
+    else:
+        T = json.load(open(os.path.join(DATA, 'pe_corpus.json')))
     for t in T:
         for l in t['lines']:
             l['numerals'] = [[n, norm_code(c)] for n, c in l['numerals']]

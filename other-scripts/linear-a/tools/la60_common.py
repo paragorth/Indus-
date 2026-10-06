@@ -54,11 +54,23 @@ SITE_CODE = {'Haghia Triada': 'HT', 'Khania': 'KH', 'Phaistos': 'PH', 'Knossos':
 
 
 def load_la():
-    """All Linear A documents (joins whose parts are also listed are dropped)."""
-    fn = os.path.join(CK, 'la_docs.json')
+    """All Linear A documents (joins whose parts are also listed are dropped).
+
+    la71 (6 Oct 2026): the default corpus is now the restoration-aware version 'rd' (read + damaged
+    tokens; restored and erased tokens kept as ['X', kind, section word] placeholders), from
+    data/corpus_ra.json via la71_parse.  LA71_VERSION=all reproduces the pre-la71 corpus.json runs
+    (la60-la70); LA71_VERSION=read is the read-only robustness check.  Under tools/la71_run.py the
+    runner serves the version itself (LA71_WRAPPED=1)."""
+    ver = os.environ.get('LA71_VERSION', 'rd')
+    wrapped = os.environ.get('LA71_WRAPPED') == '1'
+    fn = os.path.join(CK, 'la_docs.json' if (wrapped or ver == 'all') else 'la_docs_%s.json' % ver)
     if os.path.exists(fn):
         return json.load(open(fn))
-    C = json.load(open(os.path.join(D, 'corpus.json')))
+    if wrapped or ver == 'all':
+        C = json.load(open(os.path.join(D, 'corpus.json')))
+    else:
+        import la71_parse
+        C = la71_parse.load(ver)
     src = _pub_source()
     ids = {d['id'] for d in C}
     out = []
@@ -81,6 +93,12 @@ def load_la():
             elif t['t'] == 'nl':
                 if toks and toks[-1][0] != 'NL':
                     toks.append(['NL', None, None])
+            elif t['t'] == 'unk' and t.get('v') == '#R':
+                # la71: a restored / erased / damaged token removed by a corpus version; keeps its slot
+                # ['X', original kind, original word if it was a section word else None]
+                o = t.get('o') or {}
+                ow = '-'.join(o.get('s', [])) if o.get('t') == 'word' else None
+                toks.append(['X', t.get('k') or '', ow if ow in ('KU-RO', 'KI-RO', 'PO-TO-KU-RO') else None])
         while toks and toks[-1][0] == 'NL':
             toks.pop()
         while toks and toks[0][0] == 'NL':

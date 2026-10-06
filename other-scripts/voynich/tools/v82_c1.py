@@ -89,12 +89,31 @@ if __name__ == '__main__':
                 new = list(Pl.imap_unordered(score, jobs)); jl('c1_climb.jsonl', new); pop += new
                 b = max(new, key=fit)
                 print('round', rd, 'best new min-gain %.4f bad %s | overall best %.4f' % (min(b['g']), b['bad'], fit(max(pop, key=fit))), flush=True)
+    elif stage == 'shape':
+        # second climb: a generator that matches the Voynich's own gains (not only exceeds +0.03) and every band
+        R = int(sys.argv[2]); rng = random.Random(8203); init()
+        VZ = np.array([0.0305, 0.0491, 0.0857])          # ZL frozen values (this lib, 20 re-rolls)
+        def sfit(r):
+            d = sum(max(0.0, abs(r['stats'][k] - B[k][0]) / B[k][1] - 1) for k in K.STAT_KEYS)
+            g = np.clip(np.array(r['g']), 1e-3, None)
+            return -float(np.abs(np.log(g / VZ)).sum()) - 0.5 * len(r['bad']) - 0.2 * d
+        pop = load('c1_sweep.jsonl') + load('c1_climb.jsonl') + load('c1_shape.jsonl')
+        with Pool(2, initializer=init) as Pl:
+            for rd in range(R):
+                pop.sort(key=sfit, reverse=True); top = pop[:12]
+                jobs = [(perturb(t['P'], rng), 7000 + rd * 100 + j, 5, False, 'ZL') for j in range(4) for t in top]
+                new = list(Pl.imap_unordered(score, jobs)); jl('c1_shape.jsonl', new); pop += new
+                b = max(pop, key=sfit)
+                print('round', rd, 'best', ['%.3f' % x for x in b['g']], b['bad'], '%.3f' % sfit(b), flush=True)
     elif stage == 'final':
-        pop = load('c1_sweep.jsonl') + load('c1_climb.jsonl')
+        pop = load('c1_sweep.jsonl') + load('c1_climb.jsonl') + load('c1_shape.jsonl')
         init()
         okp = sorted([r for r in pop if r['ok']], key=lambda r: min(r['g']), reverse=True)[:6]
         near = sorted([r for r in pop if len(r['bad']) <= 1], key=lambda r: min(r['g']), reverse=True)[:4]
         anyp = sorted(pop, key=fit, reverse=True)[:4]
+        VZ = np.array([0.0305, 0.0491, 0.0857])
+        shp = sorted([r for r in pop if r['ok']], key=lambda r: float(np.abs(np.log(np.clip(r['g'], 1e-3, None) / VZ)).sum()))[:4]
+        okp = okp + shp
         fam = {}
         for r in sorted(pop, key=fit, reverse=True):
             fam.setdefault(r['P']['agr'], r)

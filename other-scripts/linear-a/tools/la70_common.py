@@ -204,20 +204,24 @@ def com_seq_v2(doc, roles):
 # ------------------------------------------------------------------ decoding
 def _sections_raw(doc, roles, red_words, v2close=True):
     """(tot_index, total, entries, closes, word); numbers after a RED word are kept out of the running sum."""
-    toks = doc['toks']; out = []; ent = []; skip = set()
+    toks = doc['toks']; out = []; ent = []; skip = set(); xin = False
     for i, t in enumerate(toks):
+        if t[0] == 'X':
+            # la71: a removed number or section word in this section -> its closure is untestable
+            if t[1] == 'num' or t[2]: xin = True
+            continue
         if t[0] == 'W' and roles.get(t[1]) in ('TOT', 'RES'):
             j = _num_after(toks, i)
             if j is not None:
                 skip.add(j)
                 if roles.get(t[1]) == 'TOT':
-                    if len(ent) >= 2:
+                    if len(ent) >= 2 and not xin:
                         ok = close_v2(toks[j][1], toks[j][2], ent) if v2close else \
                             close_test(toks[j][1], sum(e[1] for e in ent), 0, sum(1 for e in ent if e[2]))
                     else:
                         ok = None
                     out.append((i, toks[j][1], list(ent), ok, t[1]))
-            ent = []
+            ent = []; xin = False
             continue
         if t[0] == 'W' and t[1] in red_words and i + 1 < len(toks) and toks[i + 1][0] == 'N':
             skip.add(i + 1)
