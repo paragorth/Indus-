@@ -51,7 +51,12 @@ def pe_tablets():
     """pe59 tablets + raw (variant-bearing) signs per line, sealed flag and seal ids."""
     fn = os.path.join(CK, 'pe_tabs72.json')
     if os.path.exists(fn):
-        return json.load(open(fn))
+        T = json.load(open(fn))
+        prov = {t['id']: t['provenience'] for t in load_raw()}
+        for t in T:   # modern site (pe59 'site' keeps only the ancient name, outposts are 'uncertain')
+            m = re.search(r'mod\. ([^)]*)\)', prov.get(t['id'], ''))
+            t['msite'] = m.group(1) if m else t['site']
+        return T
     T = P.build_pe()
     raw = {t['id']: t for t in load_raw()}
     import pe70_common as C70
@@ -65,7 +70,7 @@ def pe_tablets():
         t['sealed'] = bool(s and s['sealed'])
         t['seals'] = s['seals'] if s else []
     json.dump(T, open(fn, 'w'))
-    return T
+    return pe_tablets()
 
 
 def pc_tablets():
@@ -253,8 +258,9 @@ def roles_v1():
 # ------------------------------------------------------------------ proto-cuneiform calibration readings (answer key)
 PC_EXT = {  # true Sumerological readings ADDED in v2 (calibration only)
     'COUNTED': {'SUHUR', 'MUSZEN', 'NUNUZ', 'GADA', 'GU4', 'SZAH2', 'MUNUS'},
-    'ALLOT': {'KASZ'},
-    'H_GEN': {'EN', 'SANGA'},   # official titles opening documents
+    'ALLOT': set(),     # no proto-cuneiform analogue of the scoped per-head rule is known
+    'H_GEN': set(),     # no sign is known to be positionally a header-slot sign (EN/SANGA tried: they stand in
+                        # entries as often as in headers, so a header-slot claim for them would be a WRONG reading)
 }
 
 
@@ -268,7 +274,7 @@ def pc_roles_v2(wdir, doss):
     S['COUNTED'] = S['COUNTED'] | PC_EXT['COUNTED']
     S['ALLOT'] = S['ALLOT'] | PC_EXT['ALLOT']
     S['H_GEN'] = set(PC_EXT['H_GEN'])
-    S['HSLOT'] = set(PC_EXT['H_GEN'])
+    S['HSLOT'] = set()
     S['H_RAW'] = set()
     S['GRAIN_OFFICE'] = set()
     S['ALLOT_PREV'] = set()   # no scoped per-head rule known for proto-cuneiform
@@ -464,7 +470,7 @@ def decode(t, C, numerals_from=None, want_gloss=False):
     comp = Counter()
     prev = None
     k = 0
-    yahya = t['site'].startswith('Tepe Yahya')
+    yahya = 'Yahya' in t.get('msite', '')
     for l in lines:
         if l['role'] != 'E':
             continue

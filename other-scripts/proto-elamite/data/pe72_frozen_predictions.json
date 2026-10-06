@@ -1,0 +1,286 @@
+{
+ "made": "6 Oct 2026, pe72",
+ "reading_v2_sha": "9aec01ce38e72d4214d77d7df95a2fb5fc67ba9ad50539685b5a0220e7d6779a",
+ "reading_v1_sha": "0d9540bde4df66c28d76cf42fbfec73c31ad734d5758fe61a453eb44a18d9713",
+ "supersedes": [
+  "pe59_frozen_predictions.json (P1-P10)"
+ ],
+ "still_frozen_elsewhere": {
+  "pe46_frozen_predicted_codes.json": "28b3c3daf3a437f3",
+  "pe48_frozen_forecasts.json": "1946e391ffe27be8",
+  "pe22_outofcorpus_predictions.json": "2a97d00c5d13f57f",
+  "pe64_ladder_frozen.json": "4126d5628cc5c485",
+  "pe67_frozen_predictions.json": "ccfa7850eabc61c3",
+  "pe68_frozen_broken_predictions.json": "398c02e608b7fc18",
+  "pe69_frozen_predictions.json": "2130b6cd6146fc16"
+ },
+ "predictions": [
+  {
+   "id": "Q1",
+   "grade": "C",
+   "what": "capacity unit sizes: N39C about 0.6-0.8 l (N30C 2.4-3.2 l, N24 7.2-9.6 l, N01 72-96 l), alias x9-12 (N39C 5-7 l)",
+   "src": "pe16, pe55, pe59 P1; pe57: untestable on open data",
+   "would_support": "Proto-Elamite-period standard vessels (Susa III, Malyan Banesh, Yahya IVC) with capacity modes near 0.7 l, 2.8 l and 8.4 l (or 5-7 l), beating random vessel sets (pe57 calibration: random sets pass 33-50%)",
+   "would_kill": "a measured PE-period vessel series with no mode in 0.5-1.0 l, 2-3.5 l or 4-9 l"
+  },
+  {
+   "id": "Q2",
+   "grade": "C+",
+   "what": "Yahya set: new Tepe Yahya tablets carry M056 / M044 / M219 / M136 and Susa tablets rarely carry two of them",
+   "src": "pe48, pe66 F4",
+   "corpus": {
+    "yahya_tablets": 27,
+    "yahya_with_any": 16,
+    "per_sign": {
+     "M056": 7,
+     "M044": 6,
+     "M219": 7,
+     "M136": 6
+    },
+    "susa_tablets": 1502,
+    "susa_with_any": 222
+   },
+   "would_support": ">= 1 of the 4 on >= 30% of >= 20 new Yahya tablets (corpus 16/27), above the Susa rate (corpus 222/1502 = 15%), and new Susa tablets rarely carry two of them (pe66: 5 vs 19.7 expected)",
+   "would_kill": "40+ new Yahya tablets with none of the four, or a new-Yahya rate at or below the Susa rate"
+  },
+  {
+   "id": "Q3",
+   "grade": "B (type) / C (meaning)",
+   "what": "sealed-type rules: new sealed tablets are short, headed (M157 more often than unsealed), carry M288 lines and fewer capacity lines; meaning = signed-for per-head disbursement (C); |M153+X| compounds mark the sealing party (C)",
+   "src": "pe70 F1, F5",
+   "corpus": {
+    "sealed_n": 192,
+    "sealed_M157_header": 58,
+    "sealed_with_capacity_line": 47,
+    "unsealed_n": 1393,
+    "unsealed_M157_header": 220,
+    "unsealed_with_capacity_line": 453
+   },
+   "would_support": "on >= 40 new sealed tablets: M157-header share above and capacity-line share below the unsealed rates of the same archive; a new |M153+...| tablet with a PES0329/0333/0334 impression",
+   "would_kill": ">= 40 new sealed tablets with header M157 and capacity lines at unsealed rates (15.8% / 38%); >= 3 new |M153+...| tablets with well-preserved unsealed surfaces"
+  },
+  {
+   "id": "Q4",
+   "grade": "B-",
+   "what": "per-head rule: a bare 'M288 n' line directly after a count line ending in a PERSON-class sign holds 60 N39C = 2(N39B) 1(N24) per unit (sometimes 120); 'signs + M288' lines follow no per-unit rule",
+   "src": "pe27, pe63 D3, pe66 F6, pe69 F2; pe72 held-out",
+   "heldout": {
+    "pass": 21,
+    "fail": 6
+   },
+   "pe64_L1": {
+    "id": "L1",
+    "text": "On tablets not in this corpus, a count line ending in M054, M388 or M124 followed by a bare M288 line has M288 = 60 N39C x count.",
+    "support": ">= 1 in 3 of at least 6 such new pairs",
+    "kill": "< 1 in 6 of at least 6 new pairs"
+   },
+   "would_support": ">= 50% of >= 15 new such pairs at 60k or 120k N39C (random-unit twins: 0%)",
+   "would_kill": "< 1 in 6 of >= 15 new pairs (pe64 L1), or a 30 or 20 per-unit rung on >= 10 new tablets (pe64 L2)"
+  },
+  {
+   "id": "Q5",
+   "grade": "C",
+   "what": "broken-tablet completions: lost M288 values, lost team counts, total gaps and join candidates",
+   "src": "pe68 frozen file (sha 398c02e608b7fc18), pe69 regrade (sha 2130b6cd6146fc16)",
+   "counts": {
+    "pe68_total_gaps": 78,
+    "pe68_lost_M288": 52,
+    "pe68_join_candidates": 40,
+    "pe69_lost_M288_values": 18,
+    "pe69_lost_counts": 14
+   },
+   "note": "pe69: team-count predictions withdrawn (team rule killed); the per-line rule fails on damaged runs (4/14 vs 8.4), so every completion is C",
+   "would_support": ">= 50% of restored values match on the first 10 joins or collations",
+   "would_kill": "kill lines as frozen in the pe68/pe69 files (e.g. >= 3 of the first 5 restored M288 values off-rule)"
+  },
+  {
+   "id": "Q6",
+   "grade": "B ([M327+M342]) / C+ (M005~a)",
+   "what": "header slot: |M327+M342| and M005~a stand in the header line",
+   "src": "pe66 F9, F16; pe72 held-out",
+   "heldout": {
+    "hslot_pass_tablets": 23,
+    "hslot_conflict_tablets": 6
+   },
+   "corpus": {
+    "M005~a_occurrences": 52
+   },
+   "would_support": ">= 80% of new |M327+M342| in the header line; M005~a header share > 3x plain M005",
+   "would_kill": "< 50% of >= 10 new |M327+M342| in the header line; M005~a header share <= plain M005 on >= 10 new"
+  },
+  {
+   "id": "Q7",
+   "grade": "B",
+   "what": "MEASURED-class final signs (incl. grain-office C+ M081 M265 M266 M296 M112 M286 M248) take capacity numerals; COUNTED-class never",
+   "src": "pe59 P4/P5, pe66 F10",
+   "signs": {
+    "MEASURED": [
+     "M002",
+     "M010",
+     "M036",
+     "M050",
+     "M075",
+     "M081",
+     "M106",
+     "M112",
+     "M243",
+     "M248",
+     "M265",
+     "M266",
+     "M286",
+     "M296",
+     "M297",
+     "M379"
+    ],
+    "COUNTED": [
+     "M003",
+     "M032",
+     "M046",
+     "M072",
+     "M102",
+     "M149",
+     "M263",
+     "M264",
+     "M317",
+     "M346",
+     "M362",
+     "M373"
+    ]
+   },
+   "heldout_role_checks": {
+    "pass": 1337,
+    "fail": 88
+   },
+   "would_support": ">= 80% / >= 95% on >= 50 new entries",
+   "would_kill": "MEASURED <= base capacity rate; COUNTED < 85% non-capacity"
+  },
+  {
+   "id": "Q8",
+   "grade": "A/B",
+   "what": "totals: a single reverse numeric line equals the entry sum in the tablet system; no sign marks totals",
+   "src": "pe38, pe59 P6/P7",
+   "heldout": {
+    "v1_close": 18,
+    "v2_close": 17,
+    "eligible": 101
+   },
+   "would_support": ">= 10% of new clean totalled tablets close",
+   "would_kill": "< 4% close; a sign on > 40% of new total lines"
+  },
+  {
+   "id": "Q9",
+   "grade": "B",
+   "what": "dossier rule: a new copy of a pe63 template series keeps the series header and number system",
+   "src": "pe63; pe72 held-out",
+   "heldout": {
+    "header_pass": 12,
+    "header_fail": 3
+   },
+   "series": {
+    "D1": [
+     "P008723",
+     "P008724",
+     "P008725",
+     "P008726",
+     "P008727",
+     "P008728",
+     "P008729",
+     "P008730",
+     "P008731"
+    ],
+    "D2": [
+     "P008796",
+     "P008797",
+     "P008798",
+     "P008799",
+     "P008800",
+     "P008801",
+     "P008802"
+    ],
+    "D3": [
+     "P009190",
+     "P009211",
+     "P009220",
+     "P009237",
+     "P009238",
+     "P009286",
+     "P009309"
+    ],
+    "D4": [
+     "P009056",
+     "P009137",
+     "P009138",
+     "P009140"
+    ],
+    "D1b": [
+     "P008717",
+     "P008718",
+     "P008719",
+     "P008720"
+    ],
+    "D5": [
+     "P008790",
+     "P008791",
+     "P008792",
+     "P008794"
+    ],
+    "D6": [
+     "P008100",
+     "P008125",
+     "P008193",
+     "P368479"
+    ],
+    "D7": [
+     "P393079",
+     "P393080",
+     "P393082"
+    ]
+   },
+   "would_support": ">= 4 of 5 new copies keep header and system",
+   "would_kill": "<= 2 of 5"
+  },
+  {
+   "id": "Q10",
+   "grade": "C- (demoted by pe72)",
+   "what": "class-sign weights (pe52/pe58 directions): an entry with the sign lies above (+) / below (-) its same-system siblings",
+   "src": "pe52, pe58; pe72 held-out",
+   "heldout": {
+    "pass": 270,
+    "fail": 196
+   },
+   "note": "held-out 58%, the same as frequency-matched decoy signs (58%); pe52 support line was >= 70%",
+   "would_support": ">= 70% on >= 20 new cases AND above decoy signs",
+   "would_kill": "<= decoy rate on >= 20 new cases"
+  },
+  {
+   "id": "Q11",
+   "grade": "B",
+   "what": "edge tag: top-edge 1(N34) is commoner on M157-headed tablets and never a sum",
+   "src": "pe23, pe59 P8",
+   "would_support": "rate on M157 tablets >= 2x other",
+   "would_kill": "equal rates on >= 100 new tablets"
+  },
+  {
+   "id": "Q12",
+   "grade": "B",
+   "what": "decoding new Susa tablets with the frozen v2 reading gives the held-out rates +- 10 points",
+   "heldout": {
+    "n": 564,
+    "no_conflict": 269,
+    "dense": 104,
+    "line_pass": 1588,
+    "line_fail": 289
+   },
+   "would_support": "rates within +- 10 points on >= 50 new tablets (e.g. the 88 Tehran Susa tablets once transliterated)",
+   "would_kill": "dense rate below the shuffled-role twin rate (10.6%)"
+  },
+  {
+   "id": "Q13",
+   "grade": "C",
+   "what": "independent offices, not a Susa-centred state; outposts write about local goods only as \"local to one site\"",
+   "src": "pe65, pe67 (sha ccfa7850eabc61c3)",
+   "would_kill": "a new outpost archive predicted from Susa with held-out gain >= 0.2 (pe65)"
+  }
+ ],
+ "sha256": "b54af26b4af0ce436b98554ddf921c797d0323ac0efd5e05894b0137e4db5fee"
+}

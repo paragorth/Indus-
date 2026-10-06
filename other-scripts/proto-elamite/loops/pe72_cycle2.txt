@@ -1,0 +1,13 @@
+# pe72 cycle 2 (6 Oct 2026): calibration on proto-cuneiform with its true readings, same pipeline (tools/pe72_c1.py PC; data/pe72_ckpt/c1_PC.json).
+# PC v1 = pe59's true partial reading (grain measured, rations, animals/persons/textiles counted; reproduces pe59: 679 no-conflict, 7 strict, 20/52 totals).
+# PC v2 = v1 + an extension of the same kind as PE v2: 4 more TRUE commodity readings in use (SUHUR fish, MUSZEN bird, NUNUZ egg, GADA linen, counted; MUNUS listed but absent), weights discovered and tested on the
+#   PC training half (22 signs), the catalogue sealed flag (242 sealed) as a type prior, 1 rule-based template series. No known positional header-slot sign
+#   (EN/SANGA tried and rejected before scoring: they stand in entries as often as in headers) and no known per-head rule, so those parts have no PC analogue.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-72.2a | PC v1 vs PC v2 (true extension), 858 held-out tablets, 52 totals | no-conflict 679 -> 544; dense 106 -> 118; totals 20 -> 20; pass/fail 800/133 -> 1152/487 | Like PE: more checks, more passes and more failures |
+| PE-72.2b | Twins: ALL (100), EXT (true v1, random extension, 100), UNIT (50), TRAN (50) | dense 118 vs ALL 120.7 (66/100 >=), EXT 125.0 (92/100 >=); totals 20 in every role twin, UNIT 13.5, TRAN 5.2 | With weights included even the TRUE extension does not beat random extensions |
+| PE-72.2c | Components | true commodity signs: +131 role passes (+2 fails) vs random signs +78; weights (training-derived) 554/933 = 59% vs decoy 52% (ALL) / 52% (EXT); seal prior: 0 | Correct commodity readings show up as ~+53 line passes beyond random; PC weights beat decoys by 7 points, PE weights by ~1 |
+| PE-72.2d | Without weights: PC v2 vs EXTNW / ALLNW (50 each) | no-conflict 679 = v1 (EXTNW 679.2); dense 123 (+17 over v1) vs 113.9 (0/50 >=); net 796 vs 742.8 (0/50); totals 20 = 20 | CALIBRATION: a correct partial reading of 4 more commodity signs gains, beyond random additions, +9 dense tablets (1.0% of 858), +53 net lines (0.9%), 0 no-conflict, 0 totals |
+| PE-72.2e | PE v2 (no weights) against the calibration | PE excess over random additions: +7 dense (1.2% of 564), +15 net lines (0.4%), +12 no-conflict (2.1%), 0 totals | A (method): PE's gain is the size a correct partial reading shows, but it comes from format rules (header slot, scoped M288, dossier header), not from commodity identities (PE's new commodity signs add 0 beyond random). The pipeline cannot tell 'knows the format' from 'knows the meaning' |

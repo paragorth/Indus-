@@ -78,6 +78,10 @@ def job(args):
     elif kind == 'EXT':
         R = L.twin_roles(r2, T, rng, 'ext', v1roles=r1)
         C = L.Ctx(CORPUS, R, maps, tr, sealed_override=L.shuffle_sealed(T, rng))
+    elif kind in ('EXTNW', 'ALLNW'):   # post-hoc: the same twins with the weight component removed
+        R = L.twin_roles(r2, T, rng, 'ext' if kind == 'EXTNW' else 'all', v1roles=r1)
+        R['wdir'] = {}
+        C = L.Ctx(CORPUS, R, maps, tr, sealed_override=L.shuffle_sealed(T, rng))
     elif kind == 'UNIT':
         C = L.Ctx(CORPUS, r2, L.random_units(maps, rng), tr)
     elif kind == 'TRAN':
@@ -105,6 +109,8 @@ def main():
     R2 = run(C2, ho, gloss=True)
     out['v1'] = L.summarise(R1); out['v2'] = L.summarise(R2)
     out['v1_train'] = L.summarise(run(C1, tr)); out['v2_train'] = L.summarise(run(C2, tr))
+    r2n = dict(r2); r2n['wdir'] = {}
+    out['v2_noweights'] = L.summarise(run(L.Ctx(CORPUS, r2n, maps, tr), ho))
     if CORPUS == 'PE':
         # leakage check: weights discovered on the TRAINING half only (same procedure as the PC calibration)
         cap, cnt = maps
@@ -112,8 +118,7 @@ def main():
         r2t = dict(r2); r2t['wdir'] = wtr
         out['v2_trainweights'] = L.summarise(run(L.Ctx(CORPUS, r2t, maps, tr), ho))
         out['trainweights'] = wtr
-        r2n = dict(r2); r2n['wdir'] = {}
-        out['v2_noweights'] = L.summarise(run(L.Ctx(CORPUS, r2n, maps, tr), ho))
+
     # tablet-level transitions v1 -> v2
     tr12 = {'gained_full': [], 'lost_full': [], 'gained_strict': [], 'lost_strict': [], 'gained_close': [], 'lost_close': []}
     for a, b in zip(R1, R2):
@@ -136,7 +141,8 @@ def main():
               open(os.path.join(L.CK, 'gloss_%s.json' % CORPUS), 'w'), default=str)
     print('real', json.dumps({'v1': out['v1'], 'v2': out['v2']}), time.time() - t0, flush=True)
     jobs = [(k, i) for k in ('ALL', 'EXT') for i in range(NT)] + [('UNIT', i) for i in range(NT // 2)] + \
-           [('TRAN', i) for i in range(NT // 2)] + [('V1ALL', i) for i in range(NT // 2)]
+           [('TRAN', i) for i in range(NT // 2)] + [('V1ALL', i) for i in range(NT // 2)] + \
+           [('EXTNW', i) for i in range(NT // 2)] + [('ALLNW', i) for i in range(NT // 2)]
     with Pool(2) as pool:
         res = pool.map(job, jobs, chunksize=4)
     tw = {}
