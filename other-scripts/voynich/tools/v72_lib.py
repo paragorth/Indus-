@@ -428,6 +428,12 @@ class PayloadModel:
         self.posN = {k: sum(v.values()) for k, v in self.pos.items()}
         self.bigN = {k: sum(v.values()) for k, v in self.big.items()}
         self.bigT = {k: len(v) for k, v in self.big.items()}
+        self.jb = defaultdict(Counter)                      # junction class: last glyph of previous token
+        for p in train:
+            for l in p['lines']:
+                for a, b in zip(l['w'], l['w'][1:]): self.jb[a[-1]][b] += 1
+        self.jbN = {k: sum(v.values()) for k, v in self.jb.items()}
+        self.jbT = {k: len(v) for k, v in self.jb.items()}
         self._e1 = {}
         self._pu = {}
         self._nv = {}
@@ -496,6 +502,22 @@ class PayloadModel:
                             else:
                                 n = self.bigN[prev]; t = self.bigT[prev]
                                 r.append((max(self.big[prev].get(w, 0) - self.D, 0) + self.D * t * psec) / n)
+                        elif c == 'JBIG':
+                            if prev is None or prev[-1] not in self.jb: r.append(psec)
+                            else:
+                                k = prev[-1]; n = self.jbN[k]; t = self.jbT[k]
+                                r.append((max(self.jb[k].get(w, 0) - self.D, 0) + self.D * t * psec) / n)
+                        elif c == 'BIGJ':
+                            # word bigram backing off to the junction-class bigram (so it can only add what
+                            # the identity of the previous token says beyond its last glyph)
+                            if prev is None: r.append(psec); continue
+                            k = prev[-1]
+                            pj = ((max(self.jb[k].get(w, 0) - self.D, 0) + self.D * self.jbT[k] * psec) / self.jbN[k]
+                                  if k in self.jb else psec)
+                            if prev not in self.big: r.append(pj)
+                            else:
+                                n = self.bigN[prev]; t = self.bigT[prev]
+                                r.append((max(self.big[prev].get(w, 0) - self.D, 0) + self.D * t * pj) / n)
                     rows.append(r); pcs.append(pc)
                     hist.append(w); seen.add(w); prev = w
                     if w not in self.cnt: seen_new.add(w)
@@ -527,6 +549,36 @@ def all_probs(train, test, W=20, seed=0):
 COMPS_ALL = COMPS_GEN + COMPS_MSG + ['BIGSH']
 MODELS = {'NOISE': ['U'], 'GEN': COMPS_GEN, 'MSG': COMPS_GEN + COMPS_MSG, 'GEN+PAGE': COMPS_GEN + ['PAGE'],
           'GEN+BIG': COMPS_GEN + ['BIG'], 'MSGSH': COMPS_GEN + ['PAGE', 'BIGSH']}
+
+
+def probs_generic(train, test, comps, W=20):
+    M = PayloadModel(train, W=W)
+    P, pc = M.comp_probs(test, comps)
+    return P, np.array(pc)
+
+
+def ladder_generic(train, test, comps, models, W=20, seed=0, folds=4):
+    """like ladder() for any component list and any dict of models (subsets of comps)."""
+    rng = random.Random(seed)
+    idx = list(range(len(train))); rng.shuffle(idx)
+    Ps, PCs = [], []
+    for f in range(folds):
+        tes = set(idx[f::folds])
+        P, pc = probs_generic([train[i] for i in idx if i not in tes], [train[i] for i in sorted(tes)], comps, W)
+        Ps.append(P); PCs.append(pc)
+    P = np.vstack(Ps); PCs = np.concatenate(PCs)
+    Pt, pct = probs_generic(train, test, comps, W)
+    col = {c: i for i, c in enumerate(comps)}
+    res = {}
+    for m, cs in models.items():
+        ci = [col[c] for c in cs]
+        lam = {g: em_weights(P[PCs == g][:, ci]) if (PCs == g).sum() > 20 else np.ones(len(ci)) / len(ci) for g in 'IPO'}
+        mix = np.zeros(len(pct))
+        for g in 'IPO':
+            s = pct == g
+            if s.any(): mix[s] = Pt[s][:, ci] @ lam[g]
+        res[m] = -np.log2(mix)
+    return res
 
 
 def ladder(train, test, W=20, seed=0, folds=4):
