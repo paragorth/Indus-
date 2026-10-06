@@ -83,7 +83,7 @@ def collapse(pages):
 
 # ------------------------------------------------------------------ fingerprint
 FEATS = ['d1', 'lagspike', 'near_spike', 'near_ratio', 'respell', 'run3', 'pos0', 'pos1', 'posend', 'xline',
-         'freq', 'conc', 'dlen', 'pagedisp', 'psline', 'typerec']
+         'freq', 'conc', 'dlen', 'pagedisp', 'psline', 'typerec', 'jsd12', 'resp12']
 
 
 def feats(pages, detail=False):
@@ -168,10 +168,30 @@ def feats(pages, detail=False):
     tp = defaultdict(set)
     for x in dbl: tp[x[0]].add(x[1])
     f['typerec'] = np.mean([len(tp[x[0]]) > 1 for x in dbl]) if dbl else 0.0
+    # lag-1 doubles vs lag-2/3 repeats: type divergence and re-spelling difference
+    c1 = Counter(); c2 = Counter(); r1 = []; r2 = []
+    for p in pages:
+        for l in p['lines']:
+            W = l['w']; Tl = [e1c(w) for w in W]
+            for k in (1, 2, 3):
+                for i in range(len(Tl) - k):
+                    if Tl[i] == Tl[i + k]:
+                        (c1 if k == 1 else c2)[Tl[i]] += 1; (r1 if k == 1 else r2).append(W[i] != W[i + k])
+    f['jsd12'] = _jsd(c1, c2) if c1 and c2 else 1.0
+    f['resp12'] = (np.mean(r1) if r1 else 0.5) - (np.mean(r2) if r2 else 0.5)
     if detail:
         return f, dict(npair=npair, d=d, lag=lag, nlag=nlag, e1=e1, runs=dict(runs), xl=xl, nxl=nxl, dbl=dbl,
                        top=dc.most_common(25), rawsame=float(np.mean([x[6] for x in dbl])) if dbl else None)
     return f
+
+
+def _jsd(a, b):
+    na = sum(a.values()); nb = sum(b.values()); s = 0.0
+    for k in set(a) | set(b):
+        p = a[k] / na; q = b[k] / nb; m = (p + q) / 2
+        if p: s += 0.5 * p * math.log2(p / m)
+        if q: s += 0.5 * q * math.log2(q / m)
+    return s
 
 
 def fvec(f):

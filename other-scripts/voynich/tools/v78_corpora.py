@@ -82,13 +82,17 @@ def plaoul_ditt():
                 nb = [T[j]['before'] for j in (i - 1, i + 1) if 0 <= j < len(T) and T[j]['st'] != 'd']
                 if t['before'] in nb: hit = True; nev += 1
         if not hit: continue
-        lines = [[]]
-        for t in T:
-            lines[-1].append(t['before'])
-            if t['lb']: lines.append([])
-        lines = [l for l in lines if l]
+        lines = [[]]; flags = [[]]
+        for i, t in enumerate(T):
+            src = None
+            if t['st'] == 'd':
+                for j in (i - 1, i + 1):
+                    if 0 <= j < len(T) and T[j]['st'] != 'd' and T[j]['before'] == t['before']: src = j; break
+            lines[-1].append(t['before']); flags[-1].append(src is not None and src == i - 1)
+            if t['lb']: lines.append([]); flags.append([])
+        keep = [i for i, l in enumerate(lines) if l]
         pages.append(dict(id='pl%04d' % k, sec='g%d' % (k * 6 // len(W)), lang='-', hand='-', quire='-',
-                          lines=[dict(w=l, ps=(i == 0)) for i, l in enumerate(lines)]))
+                          lines=[dict(w=lines[i], ps=(n == 0), ditto=flags[i]) for n, i in enumerate(keep)]))
     return pages, nev
 
 
@@ -129,7 +133,18 @@ def build():
     lang('MS_1001', 'REDUP', malay(), 783)
     lang('HE', 'REDUP', hebrew(), 784)
     pp, nev = plaoul_ditt()
-    C['PL_DITT'] = dict(kind='DITTOG', pages=L.through_surface(pp, 785), nev=nev)
+    S = L.through_surface(pp, 785)
+    # a copying slip copies the glyphs already written: the struck twin takes the raw form of its source (the word
+    # before it, across a line break if needed); a twin whose source is the NEXT word is left as written
+    prev = None
+    for p0, p1 in zip(pp, S):
+        prev = None
+        for l0, l1 in zip(p0['lines'], p1['lines']):
+            for i, fl in enumerate(l0['ditto']):
+                if fl and prev is not None: l1['w'][i] = prev
+                prev = l1['w'][i]
+            l1.pop('ditto', None)
+    C['PL_DITT'] = dict(kind='DITTOG', pages=S, nev=nev)
     for nm, sid, sd in (('LIST_SYON', 'CAT_SYON', 786), ('LIST_SIN', 'SINONOMA', 787)):
         e = plant_list(v75_entries(sid), sd)
         C[nm] = dict(kind='LIST', pages=L.through_surface(V._pages_from_entries(e, None, cap=40000, prefix=nm[:5]), sd))

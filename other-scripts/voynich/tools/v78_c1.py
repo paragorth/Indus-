@@ -80,12 +80,14 @@ def fmt(r, ci, keys=('rate1', 'page', 'line', 'adj', 'lag2', 'far', 'spike')):
 def main():
     C = pickle.load(open(os.path.join(L.CK, 'corpora.pkl'), 'rb'))
     res = {}
-    for name, c in C.items():
+    import sys
+    only = sys.argv[1:] == ['plant']
+    for name, c in ([] if only else C.items()):
         r, ci = summarize(c['pages'])
         res[name] = dict(kind=c['kind'], r=r, ci=ci)
         print(name, c['kind'], fmt(r, ci), flush=True)
     # Voynich halves and raw level
-    for nm in ('VOY_ZL', 'VOY_IT'):
+    for nm in ([] if only else ('VOY_ZL', 'VOY_IT')):
         for h in (0, 1):
             r, ci = summarize(L.half(C[nm]['pages'], h)); res['%s_h%d' % (nm, h)] = dict(kind='?', r=r, ci=ci)
             print(nm, 'half', h, fmt(r, ci), flush=True)
@@ -96,8 +98,8 @@ def main():
         S, lab = L.apply(C['VOY_ZL']['pages'], P, 78)
         sh, nd = L.shares(S, lab)
         r, ci = summarize(S); res['PLANT_' + mech] = dict(kind='plant', r=r, ci=ci, share=sh)
-        print('PLANT', mech, 'share of doubles planted %.2f' % sh[mech], fmt(r, ci), flush=True)
-    json.dump(res, open(os.path.join(L.CK, 'c1.json'), 'w'), default=float, indent=1)
+        print('PLANT', mech, 'share of doubles planted %.2f' % sh[list(P)[0]], fmt(r, ci), flush=True)
+    json.dump(res, open(os.path.join(L.CK, 'c1%s.json' % ('plant' if only else '')), 'w'), default=float, indent=1)
 
 
 if __name__ == '__main__':
