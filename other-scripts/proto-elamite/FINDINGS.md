@@ -610,3 +610,11 @@ About 5,200 random classifiers were trained on entries whose class sign is writt
 - **C:** 'M056 n' is an M288 allotment line written without M288. M056 stands only at the end of a line or directly before M288; with a class sign it is ALLOT 32 of 33; and M056-final lines carry the largest numbers of 61 final-sign groups. Would kill: M056-final lines of 1-3 per person, or an M056 line plus a separate M288 allotment for the same unit.
 - Not cracked; nothing is read.
 
+## pe65 one state or many offices across Iran? (6 Oct 2026; `loops/pe65_final.txt`)
+- Idea: port of la58. 300,000 simulated administrations (state, capital + offices, independent offices, temple estate, trading houses, mobile herders, none) write opaque paperwork thinned to the real counts at Susa (3 batches), Yahya, Malyan, Sialk and Sofalin; ABC reads off the structure. Controls: planted worlds, unit shuffles, Ur III and Linear B at PE shape.
+- **A (method):** the panel separates shared institutions from none (0.93) and finds planted centres at 2.5-3x background, but cannot type the hierarchy or find links. Ur III lies outside the simulated cloud and fails (reads as herders); Linear B passes only for 'separate states'.
+- **B:** PE reads as shared institutions far more than its shuffles (none + herders 0.16 vs 0.46), unlike Linear A. No centre: P(Susa-centred state) 0.12, at shuffle level and below planted Susa states (0.31-0.41).
+- **B:** the Susa batches behave as one administration, but the outposts (also Yahya + Malyan alone) are almost unpredictable from the rest (held-out gain 0.01-0.02 vs >= 0.06 in every shuffle, control and planted state).
+- **B (negative):** no institutional sign: knockouts move nothing; 0 of 295 line strings reach more outposts than shuffling predicts; both detectors fail their controls.
+- **C:** independent offices sharing script and toolkit, not a Susa-centred state with branches. Kill: a new outpost archive predicted from Susa with gain >= 0.2.
+
