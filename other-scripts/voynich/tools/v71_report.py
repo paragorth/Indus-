@@ -13,6 +13,7 @@ FSET = sys.argv[2] if len(sys.argv) > 2 else 'all'
 GROUP = {'apicius_lat': 'apicius', 'apicius_eng': 'apicius', 'apicius_index': 'apicius', 'celsus_lat': 'celsus', 'celsus_eng': 'celsus',
          'pliny_lat': 'pliny', 'pliny_index': 'pliny', 'culpeper': 'culpeper', 'culpeper_index': 'culpeper',
          'konrad_plants': 'konrad', 'konrad_other': 'konrad', 'forme_of_cury': 'cury', 'cury_glossary': 'cury'}
+NPERM = int(os.environ.get('V71_NPERM', '60'))
 CLASSES = ['procedure', 'entry', 'list', 'narrative']
 
 def load(cyc=CYC):
@@ -30,7 +31,7 @@ def features(D, fset):
 
 def fit(Xtr, ytr, C=0.3):
     mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-9
-    clf = LogisticRegression(C=C, max_iter=3000, class_weight='balanced')
+    clf = LogisticRegression(C=C, max_iter=600, class_weight='balanced')
     clf.fit((Xtr - mu) / sd, ytr)
     cent = {c: ((Xtr[ytr == c] - mu) / sd).mean(0) for c in set(ytr)}
     return mu, sd, clf, cent
@@ -74,7 +75,7 @@ def main():
     # permutation null: shuffle class labels across texts (keeping each text's chunks together)
     rng = random.Random(5); nulls = []
     ut = sorted(set(texts)); lab = {t: y[texts == t][0] for t in ut}
-    for it in range(100):
+    for it in range(NPERM):
         perm = list(lab.values()); rng.shuffle(perm); pl = dict(zip(ut, perm))
         yp = np.array([pl[t] for t in texts]); pr_ = np.empty(len(ref), dtype=object)
         for g in sorted(set(grp)):

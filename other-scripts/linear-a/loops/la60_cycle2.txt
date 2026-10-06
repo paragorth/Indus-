@@ -1,0 +1,26 @@
+LA-60 cycle 2: freeze the reading on training documents, decode the held-out half
+(tools/la60_decode.py, la60_c2.py, la60_report2.py; data/la60_ckpt/c2_*.json, frozen_*.json, c2_glosses.txt, c2_glosses_LB.txt)
+
+Frozen before decoding (primary split 'la60-main', 193 train / 194 held-out administrative documents):
+  INDUCED sha256 5c468d2dd4ae43eb5b09e186f3dd73e43f971855953d20fa4658242b29326ff7 (train-only rules)
+  PRIOR   sha256 c47f937bb83f03c7f2716a7587fd0eafd4b3c0db26b3b244ee214a58caa9de58 (hand-assembled; contaminated: built from whole-corpus loops)
+Decoder: each held-out document -> roles, gloss and checks. cover = every word gets a lexicon role or
+is an unknown word in an entry slot; roles = every role step seen in training; totals = every TOT with
+>= 2 entries closes (fraction slack); order = no commodity pair against the frozen order (margin 0.3);
+substantive = at least one total, commodity entry or ordered pair. FULL = all five. STRICT = FULL and
+at least one closing total or one order-agreeing pair. Controls through the identical pipeline (acceptor
+relearned each time): roles shuffled among the reading's types + order scores shuffled (100 per split),
+random readings of the same class sizes over training vocabulary (50), the EMPTY reading. 10 more
+site-stratified splits besides the primary one. Calibration: Linear B KN+PY at Linear A size (matched
+document-length mix) with INDUCED (same rules) and LBPRIOR (true partial LB reading, same kinds).
+
+| LA-60.2a | Primary frozen split, PRIOR / INDUCED, 194 held-out documents | PRIOR: FULL 49, STRICT 7, totals tested 16 / closed 7, order pairs agree 75 / against 19. INDUCED: FULL 38, STRICT 11, closed 7/16, agree 108 / against 45. EMPTY: FULL 35. | Only a quarter of held-out documents are explained in full, and the EMPTY reading already 'explains' 35 trivially (one entry, one number). |
+| LA-60.2b | 10 splits, INDUCED (clean) vs shuffled roles and random readings | FULL 43.0 vs shuffled 41.0 (P~0.35) vs random 38.1 vs EMPTY 40.1. STRICT 10.9 vs 5.8 (P~0.06) vs 2.6. Closing totals 5.2 vs 0.3 (P~0.04). Order agreements 155 vs 75; violations 66 vs 75 (agree share 0.70 vs 0.50). | B: a clean, train-frozen reading explains held-out documents better than its shuffles only through KU-RO arithmetic and the commodity order. The gain is 5.1 STRICT documents per ~191, 2.7 % of held-out documents. |
+| LA-60.2c | 10 splits, PRIOR (contaminated) vs controls | FULL 49.9 vs 41.3 (P~0.03) vs random 42.7; STRICT 9.2 vs 3.7 (P~0.03); closing totals 5.8 vs 0.4; order agree 90.7 / against 27.9 (0.76) vs shuffled 17.9 / 18.3. Coverage 107.9 vs 100.9. | The hand-assembled reading does better on FULL (+8.6 documents, 4.5 %), but it was built from loops that saw these documents, so the extra over INDUCED is an upper bound. |
+| LA-60.2d | Calibration: Linear B at Linear A size, same pipeline | LBPRIOR (true partial reading): FULL 35.5 vs 31.6 (P~0.04); STRICT 8.4 vs 4.3 (P~0.03); gain 4.1 documents per 141 = 2.9 %; closing totals 0.7 (to-so rarely closes at this size); order agree 64.8 / against 10.7 (0.86) vs 37.5 / 37.6. INDUCED on LB: STRICT 5.2 vs 3.2 (P~0.12), never finds to-so. | A correct partial reading of the same KIND as LA's gains the same fraction of documents (2.9 % vs 2.7-2.9 %). The pipeline cannot tell a correct partial reading from LA's reading at this size: LA's reading is about as good as a true LB partial reading of roles, and the gain is small in both. This calibration says the role layer is plausibly right, and that a role layer is far from a reading. |
+| LA-60.2e | What the FULL glosses look like (PRIOR, held-out) | e.g. 'HT85a: header A-DU [heading/transaction]; *307+*387 VIR+[?] DA-RI-DA 12 PA3-NI 12 U-*325-ZA 6 DA-SI-*118 24 KU-ZU-NI 5 TE-KE 3 DA-RE 4 / KU-RO = TOTAL 66 (sum 66: closes) / commodities *307 > VIR'; 'HT127b: ... KU-RO = TOTAL 292 (running sum 292: closes) / *307 > VIR > KI'; 'HT105: header KA-PA; VIR+[?] 234 SA-RA2 VIR+[?] 235'. Typical failures: HT9a (closes, but heading SA-RO unknown), HT122a/b (KU-RO 31 vs 22, 65 vs 15), HT94a (110 vs 111), HT125a (OLE before GRA against the order). | Every gloss is a ROLE gloss: who-what-how-many with an unknown 'who'. 1,057 of 1,526 administrative word tokens (69 %) and every entry name are unread. |
+
+Cycle 2 verdict: frozen on training documents, the reading decodes 22-26 % of held-out administrative
+documents in full (EMPTY 21 %), and beats shuffled readings by ~5 STRICT documents per 191 (2.7 %),
+carried by KU-RO closures (5 per half) and the commodity order. A true partial Linear B reading of the
+same kind gains the same 2.9 % at the same size. Grade B for the role layer; nothing here reads a word.

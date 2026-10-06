@@ -1,0 +1,20 @@
+LA-60 THE CRACK ATTEMPT: final (cycles 1-3: loops/la60_cycle1.txt, la60_cycle2.txt, la60_cycle3.txt)
+
+The reading (PRIOR, hand-assembled from FINDINGS.md; sha256 c47f937b...; machine form in tools/la60_common.py prior_reading):
+  KU-RO / PO-TO-KU-RO = total (running total allowed) A; KI-RO = residue / sub-heading B;
+  commodity class = logograms + NI KI DI RE TI MA (+ *304 *308 *306 E SU *307, C) B;
+  heading signs *301 KA KU SI RO ZE TE A I (+ TA O JA DA *164 *411-VS U) B;
+  heading/transaction words SA-RA2 PA-DE A-DU KA-PA KU-PA A-PA-RA-NE MA-KA-RI-TE *516 KU-NI-SU KU-RE KA-NA B/C;
+  OLE+U / OLE+MI / OLE+DI = entries C; order CYP = GRA = *307 < NI < VIR = OLE < OLIV = VIN = QA2 A/B;
+  site defaults KH CYP, ZA GRA B; libation-formula words = separate register B.
+  A train-only INDUCED version comes from fixed rules (KU-RO found in 8/10 halves).
+
+| LA-60.final | Assemble every B (and best C) result into one machine-checkable reading; (1) a generative grammar of whole documents scored on held-out documents vs unigram/trigram/empty-reading grammar and vs the same grammar with roles shuffled; (2) freeze on training documents (sha256), decode the held-out half into glosses, count documents explained in full vs shuffled/random/empty readings; calibrate with Linear B KN+PY at Linear A size and a true partial LB reading of the same kind; (3) freeze outside-corpus predictions (sha256 538ad6fa...), pseudo-outside test on post-1985 documents, gap list | (1) The bare kind grammar (logogram / single sign / word / number) beats a trigram by 1,486 bits per held-out half. The reading beats its own shuffles by 159 bits (10/10 splits) but loses 98 bits to the empty grammar (9/10). Only the KU-RO arithmetic pays (36 bits/half). A true LB partial reading beats the empty grammar by 211 bits. (2) Frozen INDUCED: FULL 43 / 191 held-out documents (EMPTY 40, shuffled 41); STRICT 10.9 vs 5.8 shuffled (P~0.06), closing totals 5.2 vs 0.3, order agreement 0.70 vs 0.50. The gain is 2.7 % of documents; the true LB partial reading gains 2.9 %. (3) Post-1985 documents (n = 11): no gain; KH103 goes half against the order. Word -> commodity on held-out tablets 0.47 vs site default 0.16 (C). 69 % of administrative word tokens and every entry name stay unread. | NOT CRACKED. The role layer is real and about as good as a true Linear B role layer of the same size (B), but it is a parse of the ledger, not a reading of the language: no word has a meaning, the grammar adds nothing beyond surface kinds except arithmetic, and the outside test gives no gain. Distance to 'cracked': the skeleton is in place; everything that would make it a decipherment (referents for entry words, values for fractions, a sound-to-meaning link) is missing. |
+
+Sample held-out glosses (PRIOR, frozen; data/la60_ckpt/c2_glosses.txt has all 194):
+  HT85a FULL: header A-DU [heading/transaction]; *307+*387 VIR+[?]; DA-RI-DA 12, PA3-NI 12, U-*325-ZA 6, DA-SI-*118 24, KU-ZU-NI 5, TE-KE 3, DA-RE 4; KU-RO = TOTAL 66 (sum 66: closes); order *307 > VIR.
+  HT127b FULL: NE 13; KU-RO *307 156; KU [heading] 72, VIR+*313c 24, KI+MU 15, *301 [heading] 11, [[KI+MU]] 14; KU-RO = TOTAL 292 (running sum 292: closes).
+  HT89: header A-SA-RA2 [??]; *307 / *305 23, JU+*317+QE 22, MA-I-MI 24, VIR+*313a 13, TA-RA 5; KU-RO = TOTAL 87 (closes); CYP 2 JE, NI 2 E, VIN 6; order *307 > VIR > CYP > NI > VIN (fails only on unknown heading).
+  HT9a: header SA-RO [??], TE; VIN; PA-DE 5 JE, *306-TU 10, DI-NA-U 4, QE-PU 2, *324-DI-RA 2 J, TA-I AROM 2 J, A-RU 4 E; KU-RO = TOTAL 31 JE (29 + fractions: closes).
+  HT122b: VIR+[?]; *306-KI-TA2 7 ... DA-RE 2; KU-RO = TOTAL 65 (sum 15: does NOT close); PO-TO-KU-RO 97 (the grand total across both sides, FINDINGS 2a).
+  HT125a: OLE+KI 1 D, OLE+U, OLE+MI 1 J; SA-RA2 GRA 2, OLE 1: order OLE > GRA, against the frozen order.
