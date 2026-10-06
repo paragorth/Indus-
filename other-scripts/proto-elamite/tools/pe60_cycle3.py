@@ -132,11 +132,11 @@ def score(T, label):
                         nc += 1; kc += ncls(l['nums']) != 'CAP'; rows5.append((t['id'], l['signs'], l['nums']))
     base_rate = kb / nb if nb else None
     P['P4'] = {'k': km, 'n': nm, 'base_k': kb, 'base_n': nb, 'rows': rows4,
-               'verdict': 'no MEASURED entries' if nm == 0 else ('supported' if km / nm >= 0.5 and (base_rate is None or km / nm > base_rate)
+               'verdict': 'untestable (n < 20 MEASURED entries)' if nm < 20 else ('supported' if km / nm >= 0.5 and (base_rate is None or km / nm > base_rate)
                                                                  else ('KILLED' if base_rate is not None and km / nm <= base_rate else 'neither')),
                'note': 'n tiny: a binomial interval is reported' , 'ci': wilson(km, nm)}
     P['P5'] = {'k': kc, 'n': nc, 'rows': rows5, 'ci': wilson(kc, nc),
-               'verdict': 'no COUNTED entries' if nc == 0 else ('supported' if kc / nc >= 0.95 else ('KILLED' if kc / nc < 0.85 else 'neither'))}
+               'verdict': 'untestable (n < 20 COUNTED entries)' if nc < 20 else ('supported' if kc / nc >= 0.95 else ('KILLED' if kc / nc < 0.85 else 'neither'))}
     # P6 closure needs the fitted grammar
     P['_needs_grammar'] = True
     # P7 total-line sign share

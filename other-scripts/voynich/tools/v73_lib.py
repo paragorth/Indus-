@@ -390,7 +390,7 @@ def make_bank2(n_random=2500, seed=173):
 
 def icm_select(C, mask_pages, iters=6, seed=0):
     """latent item per line chosen to maximise page + neighbour-page concentration (lift over the word's global
-    rate) of the selected stream, by iterated conditional modes on the masked pages."""
+    rate) of the selected stream; own page excluded because page-local filler repeats inside a page, by iterated conditional modes on the masked pages."""
     rng = np.random.default_rng(seed)
     idx = C.random_select(seed)
     lines = np.nonzero(mask_pages[C.line_page])[0]
@@ -403,7 +403,7 @@ def icm_select(C, mask_pages, iters=6, seed=0):
             cand = np.arange(s0, e); tk = C.tok[cand]
             sel[p, C.tok[idx[l]]] -= 1
             nb = [q for q in C.nb[p] if q >= 0]
-            sc = np.log((sel[p, tk] + 0.5 * sel[nb][:, tk].sum(0) + 0.05) / glob_[tk])
+            sc = np.log((sel[nb][:, tk].sum(0) + 0.05) / glob_[tk])   # neighbour-page lift (own page excluded)
             j = cand[int(np.argmax(sc))]; idx[l] = j; sel[p, C.tok[j]] += 1
     return idx
 

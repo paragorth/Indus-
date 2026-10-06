@@ -1,6 +1,6 @@
 import time, numpy as np, v73_lib as L, v72_lib as V
 P = V.voynich('ZL3b')
-pp, tr = L.plant(P, 'FREE', 'MK2', 'VOY', which='antid', seed=273)
+pp, tr = L.plant(P, 'FREE', 'SELFCIT', 'VOY', which='antid', seed=273)
 t = time.time(); C = L.extend(L.Corpus(pp, 'x')); print('extend', time.time() - t)
 idx = L.icm_select(C, C.half == 0); print('icm', time.time() - t)
 w = L.fit_rule(C, idx, C.half == 0); print('fit', time.time() - t)

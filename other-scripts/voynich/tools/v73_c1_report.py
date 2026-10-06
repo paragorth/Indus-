@@ -7,7 +7,7 @@ import v73_lib as L, v72_lib as V
 import v73_c1 as C1
 
 NULLSET = C1.NULLSET; GEN = [k for k in NULLSET if k != 'LSHUF']
-PRIM = [0, 1, 2]   # PI, XP, VS
+PRIM = [1, 2]   # XP, VS (power check v73_truthD.py: true item streams have PI < 0 under page-local filler)
 
 
 def load(t):
