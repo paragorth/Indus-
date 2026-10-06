@@ -107,8 +107,37 @@ def characterise():
     json.dump(out, open(fn, 'w'), default=float)
 
 
+def arrows_ctrl():
+    """where do the Voynich word arrows come from? holdout payload: real, lines shuffled within page (kills
+    within-page drift), words shuffled within line (kills in-line order), paragraph-first lines removed."""
+    fn = os.path.join(L.CK, 'c3_arrows.json')
+    if os.path.exists(fn): return
+    fz = C2.freeze(); out = {}
+    for name in ('ZL', 'IT'):
+        S, _, half = C2.corpus(name)
+        X = [p for p, h in zip(L.extract(S, L.RULES[fz['rule']]), half) if h == 1]
+        rng = random.Random(11)
+        def lshuf(P):
+            Q = []
+            for p in P:
+                ls = p['lines'][:]; rng.shuffle(ls); Q.append(dict(p, lines=ls))
+            return Q
+        def wshuf(P):
+            return [dict(p, lines=[dict(l, w=rng.sample(l['w'], len(l['w']))) for l in p['lines']]) for p in P]
+        def nops(P):
+            return [dict(p, lines=[l for l in p['lines'] if not l['ps']]) for p in P]
+        def rev(P):
+            return [dict(p, lines=[dict(l, w=l['w'][::-1]) for l in p['lines'][::-1]]) for p in P]
+        for k, f in [('real', lambda P: P), ('line_shuffled', lshuf), ('word_shuffled_in_line', wshuf),
+                     ('no_para_first', nops), ('reversed', rev)]:
+            out[f'{name}_{k}'] = [C2.arrows(f(X), s) for s in (0, 1, 2)]
+            print(name, k, [a['surv'] for a in out[f'{name}_{k}']], [a['by'] for a in out[f'{name}_{k}']], flush=True)
+    json.dump(out, open(fn, 'w'), default=float)
+
+
 if __name__ == '__main__':
     characterise()
+    arrows_ctrl()
     J = ['ZL', 'IT', 'ZL~JUNC', 'ZL~MK2', 'BRU-merge', 'BRU-verbose', 'ISI-merge', 'ISI-verbose', 'DEU-merge',
          'DEU-verbose', 'BRUL-merge', 'BRU-merge~JUNC', 'ISI-merge~JUNC']
     with Pool(int(os.environ.get('W', '2'))) as pool:
