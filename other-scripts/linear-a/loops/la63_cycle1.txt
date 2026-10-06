@@ -1,0 +1,20 @@
+la63 cycle 1 (6 Oct 2026): WHAT WOULD THE MINOAN CLERK MISS? The pe51 deletion game ported to Linear A.
+Tools: tools/la63_lib.py (corpora, plants, models, views), la63_run.py (single-type game), la63_sum.py
+(pseudo-word calibrated classes). Checkpoints: data/la63_ckpt/ (git-ignored).
+Method. Every corpus becomes documents of ENTRIES (words/logograms closed by one number; Ur III: one
+line). Random small models (transformer 1-3 layers or bi-GRU, d 32-64, random lr/dropout/epochs/
+token-dropout) are trained on 4/5 of the documents (folds by tablet) to fill in: every numeral at once
+(log2 magnitude MAG, fraction class FRAC, arithmetic total TOT), every logogram at once (its commodity
+base, LOGO), the words of alternate entries (ENT) and alternate non-numeral tokens (HEAD). On the
+held-out fifth each type with >= 3 tokens is erased everywhere (its own target slots never scored);
+loss change per key (task x same entry L / elsewhere R) minus the change for 8 draws of as many random
+other tokens erased in the same documents = excess. Calibration: each null draw played as a
+pseudo-word against the other draws (same documents, same count); z by frequency bin; p = share of
+pseudo group scores >= the type's; the threshold is set so that 2% of pseudo-words are classed. Classes:
+NUM-L (own entry's magnitude/fraction), NUM-R, LOGO, TOT, ENT, HEAD, else SILENT. No Linear B value
+enters any Linear A input; fraction letters are opaque classes. Prior work: pe51 (Proto-Elamite) and
+la49 (model dissection); web search found no deletion-profile study of Linear A.
+
+| LA-63.1a | PLANT in real Linear A (366 admin docs, 2,133 tokens): P_UNIT (20 tokens, forces fraction class E), P_UNIT4 (4), P_COM (20 tokens, only in entries of VIN documents), P_COM4 (4), 6 name tokens (4 x 20, 2 x 4) in random entries; 20 models | calibrated alpha 0.0041 (pseudo false-class 0.020). P_UNIT NUM-L z 2.7 p 0.021 (not classed); P_UNIT4 p 0.03-0.10; P_COM LOGO z 1.2 p 0.09; P_COM4 nothing; names 6/6 SILENT. Real logograms CYP and VIR+[?] classed NUM-L (p 0.001, 0.003) | FAIL (power): at Linear A size a 20-token unit marker that fixes the fraction is only at p 0.02 and a 20-token commodity-bound marker is invisible; names are correctly silent. Classes in Linear A can only be trusted for frequent types, and SILENT means 'not shown', not 'name' |
+| LA-63.1b | Linear B control (700 KN+PY docs, sign identities and opaque logograms, units folded into fraction values), 12 models; key: logograms COM, QUAL (ko-wo, ko-wa, o-na-to, pe-mo, ko-to-na ... commodity-bound qualifiers and measured nouns), PER, PLA, TRA, TOT | alpha 0.0054, false class 0.019. Classed: NUM-L L:GRA, L:OLE, O-NA-TO (z 7.5), L:BIG, DO-SO-MO; NUM-R L:HORD, A-KE-O-JO, WE-TO; LOGO SA-QA-RE-JO; ENT L:LANA. KO-WO LOGO z 4.5 p 0.008 and KO-WA LOGO z 3.6 p 0.014 (just below threshold; classed LOGO at 10 models). Places 15/15 SILENT, persons 5/6, totals 4/4 SILENT (TO-SO NUM-L p 0.03). AUC vs PER+PLA: QUAL ENT 0.87, LOGO 0.64, NUM-L 0.61 | PARTIAL PASS: the game sorts measured nouns (o-na-to 'lease' with grain, do-so-mo 'contribution') into NUM and commodity-bound qualifiers (ko-wo/ko-wa with MUL) toward LOGO, keeps places and persons silent, and like pe51 cannot see totals; power is marginal at 12 models |
+| LA-63.1 | Cycle verdict | Calibrated, conservative and weak at Linear A size: the method does not make false classes (2% by construction; names silent in both controls), finds measured nouns in LB, but misses a 20-token planted unit and commodity marker in real Linear A. Next: a dose-response plant (10/20/40 tokens), Ur III control, 60 Linear A models, the within-document null, and group erasure for rare words | KEEP the game; read Linear A SILENT as uninformative |

@@ -98,7 +98,8 @@ def run(name, m, R=8, minf=3):
         res[w] = dict(acc=acc, ndoc=len({m_[0] for m_ in meta}))
     json.dump(dict(corpus=name, m=m, arch=arch, ntab=len(ho), count={w: V.count[w] for w in types},
                    base={k: v[0] / max(1, v[1]) for k, v in base_mean.items()},
-                   res=res, t_train=t1 - t0, t_del=time.time() - t1), open(out_fn, 'w'))
+                   res=res, t_train=t1 - t0, t_del=time.time() - t1), open(out_fn + '.tmp', 'w'))
+    os.replace(out_fn + '.tmp', out_fn)
     print(name, m, arch['type'], arch['d'], 'base', {k: round(v[0] / max(1, v[1]), 3) for k, v in base_mean.items()},
           'train %.0fs del %.0fs' % (t1 - t0, time.time() - t1), flush=True)
 

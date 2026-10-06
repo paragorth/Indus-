@@ -40,7 +40,8 @@ def load(names):
     for nm in names:
         d = X.jload(nm)
         if d: R += d
-    return [r for r in R if np.isfinite(r['gap']) and np.isfinite(r['lmed']) and r['lmed'] > 0]
+    # quality rule fixed before scoring: drop pages whose line-pitch estimate sits at the search floor (28 px = failed)
+    return [r for r in R if np.isfinite(r['gap']) and np.isfinite(r['lmed']) and r['lmed'] > 0 and r['pitch'] > 28.5]
 
 
 def seps_for(R):

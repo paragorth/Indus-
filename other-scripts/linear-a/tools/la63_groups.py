@@ -172,7 +172,8 @@ def run(name, m):
                 r_['types'] = pick
                 rand.append(r_)
         res[g] = dict(types=types, real=real, rand=rand)
-    json.dump(dict(corpus=name, m=m, arch=arch, res=res, t=time.time() - t0), open(fn, 'w'))
+    json.dump(dict(corpus=name, m=m, arch=arch, res=res, t=time.time() - t0), open(fn + '.tmp', 'w'))
+    os.replace(fn + '.tmp', fn)
     print(name, m, 'groups', len(res), '%.0fs' % (time.time() - t0), flush=True)
 
 
