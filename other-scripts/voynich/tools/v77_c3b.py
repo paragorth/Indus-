@@ -58,7 +58,7 @@ def m19():
     from v18_dips import Corpus
     from v18_lib import glyphs
     from v18_cycle5 import coh, short
-    from v57_lib import lglyphs
+    from v18_cycle2 import lglyphs
     pages = json.load(open(os.path.join(DER, 'v18_latin_words.json')))
     pages = [p for p in pages if len(p['words']) >= 60]
     out = {}
