@@ -74,9 +74,9 @@ if kind == 'plantB':
 tr_tabs = [i for i, t in enumerate(T) if not C.hsplit(t['id'], 'pe62ho', 0.30)]
 trset = set(tr_tabs)
 override = None
-if kind in ('lshuf', 'wshuf'):
+if kind in ('lshuf', 'wshuf', 'lshufbnonbr', 'lshufnonbr'):
     override = {}
-    if kind == 'lshuf':
+    if kind.startswith('lshuf'):
         keys = [(ti, ei) for ti in tr_tabs for ei, e in enumerate(T[ti]['entries']) if e['label']]
         vals = [T[ti]['entries'][ei]['label'] for ti, ei in keys]
         prng.shuffle(vals)
@@ -95,7 +95,9 @@ tr_idx = [i for i in lab_idx if rows[i][0] in trset]
 ho_idx = [i for i in lab_idx if rows[i][0] not in trset]
 # true held-out labels (rows built with override only touch training tablets)
 y_all = [r[3] for r in rows]
-allowed = [g for g in C.GROUPS if g not in C.NUMBER_GROUPS] if kind == 'blind' else C.GROUPS
+allowed = [g for g in C.GROUPS if g not in C.NUMBER_GROUPS] if kind in ('blind', 'bnonbr', 'lshufbnonbr') else C.GROUPS
+if 'nonbr' in kind:  # whole-tablet masking: no visible neighbour classes at all
+    allowed = [g for g in allowed if g != 'nbr']
 log('%s %s rows %d lab %d tr %d ho %d classes %s' % (corpus, mode, len(rows), len(lab_idx), len(tr_idx),
                                                       len(ho_idx), classes))
 R = C.search(D, rows, tr_idx, ho_idx, y_all, classes, n_hyp, rng, allowed=allowed, log=log)
@@ -119,7 +121,7 @@ if truth_plant:
                         'mean_p_other': float(R['P_ho'][yi != k, k].mean())}
 # group usage among top hypotheses
 out['group_use'] = dict(Counter(g for _, hp, _ in R['top'] for g in hp['groups']))
-if kind in ('real', 'blind'):
+if kind in ('real', 'blind', 'nonbr', 'bnonbr'):
     out['P_ho'] = R['P_ho'].round(4).tolist()
     out['ho_rows'] = [(rows[i][0], rows[i][1]) for i in ho_idx]
 C.jdump(out, os.path.join(C.CK, 'c1_%s_%s.json' % (corpus, mode)))
