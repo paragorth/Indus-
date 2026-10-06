@@ -122,11 +122,14 @@ def main():
     G = groups_of(pe)
     res = {}
     with Pool(2) as pool:
-        res['pe'] = search(pe, G, rng, pool, nnull=8, label='PE')
+        import sys
+        CTRL = 'controls' in sys.argv
+        if not CTRL:
+            res['pe'] = search(pe, G, rng, pool, nnull=8, label='PE')
         res['plant'] = []
         df = collections.Counter(t for r in pe for t in r['toks'])
         rare = sorted(t for t, c in df.items() if 3 <= c <= 10)
-        for k in range(4):
+        for k in range(0 if CTRL else 4):
             P = [dict(r) for r in pe]
             for s in rng.choice(sorted(G), 3, replace=False):   # three parties get a private marker each
                 t = rng.choice(rare)
@@ -158,7 +161,7 @@ def main():
             o['recurrent_in_legend'] = [(t, c, t in leg) for t, c in o['real']['recurrent']]
             res['ur3_pe'].append(o)
             print('   legend check', o['recurrent_in_legend'][:8], flush=True)
-    json.dump(res, open(os.path.join(CK, 'c3.json'), 'w'), indent=1, default=str)
+    json.dump(res, open(os.path.join(CK, 'c3_ctrl.json' if CTRL else 'c3.json'), 'w'), indent=1, default=str)
 
 
 if __name__ == '__main__':

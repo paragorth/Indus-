@@ -26,7 +26,7 @@ for _ in range(NH):
     if rng.random() < 0.5:
         pos = sorted(rng.sample(range(10), rng.randint(2, 7)))
     HY.append(dict(rep=rng.choice(L.REPRS), idf=rng.random() < 0.6, pos=pos, grp=rng.choice(['page', 'para'])))
-NPERM = 60
+NPERM = 40
 
 
 def build(T, h):

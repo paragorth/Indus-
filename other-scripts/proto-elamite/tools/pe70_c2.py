@@ -129,13 +129,16 @@ def main():
     res = {}
     G = groups_of(pe)
     print('PE groups', {s: len(v) for s, v in G.items()}, flush=True)
-    res['pe'] = test(pe, G, rng, label='PE')
-    print('PE', {k: v for k, v in res['pe'].items() if k != 'own_list'}, flush=True)
+    import sys
+    CTRL = 'controls' in sys.argv
+    if not CTRL:
+        res['pe'] = test(pe, G, rng, label='PE')
+        print('PE', {k: v for k, v in res['pe'].items() if k != 'own_list'}, flush=True)
     # planted
     res['plant'] = []
     df = collections.Counter(t for r in pe for t in r['toks'])
     rare = sorted(t for t, c in df.items() if 3 <= c <= 8)
-    for k in range(10):
+    for k in range(0 if CTRL else 10):
         s = rng.choice(sorted(G)); t = rng.choice(rare)
         P = [dict(r) for r in pe]
         for i in G[s]:
@@ -184,7 +187,7 @@ def main():
         o['legend'] = legend_validation(sub, newG, o['own_list'], rng)
         res['ur3_pe'].append({kk: vv for kk, vv in o.items() if kk != 'own_list'})
         print(o['label'], res['ur3_pe'][-1], flush=True)
-    json.dump(res, open(os.path.join(CK, 'c2.json'), 'w'), indent=1, default=str)
+    json.dump(res, open(os.path.join(CK, 'c2_ctrl.json' if CTRL else 'c2.json'), 'w'), indent=1, default=str)
 
 
 if __name__ == '__main__':

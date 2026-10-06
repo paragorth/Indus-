@@ -26,7 +26,7 @@ def _cat(periods):
     for row in csv.DictReader(open(os.path.join(SCR, 'cdli_cat.csv'), encoding='utf-8')):
         if not any(row['period'].startswith(p) for p in periods):
             continue
-        out['P%06d' % int(row['id'])] = row
+        out['P%06d' % int(row['id_text'])] = row
     return out
 
 

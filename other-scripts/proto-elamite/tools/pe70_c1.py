@@ -23,6 +23,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 NPERM = 200
+CTRL = 'controls' in sys.argv
 NRAND = 4000
 
 
@@ -135,9 +136,10 @@ def main():
     pe, ur, pc = get('pe'), get('ur3'), get('pc')
     res = {}
     with Pool(2) as pool:
-        res['pe'] = run_corpus(pe, 'pe', rng, pool, 'PE', nulls=('band', 'volband'))
-        res['plant'] = [run_corpus(pe, 'pe', rng, pool, 'PE planted %d' % k, nulls=('volband',), plant=make_plant(),
-                                   do_rand=(k < 2), nperm=100) for k in range(5)]
+        if not CTRL:
+            res['pe'] = run_corpus(pe, 'pe', rng, pool, 'PE', nulls=('band', 'volband'))
+            res['plant'] = [run_corpus(pe, 'pe', rng, pool, 'PE planted %d' % k, nulls=('volband',), plant=make_plant(),
+                                       do_rand=(k < 2), nperm=100) for k in range(5)]
         res['pc'] = run_corpus(pc, 'pc', rng, pool, 'PC', nulls=('band', 'volband'))
         idx = rng.choice(len(ur), 4000, replace=False)
         res['ur3_full'] = run_corpus([ur[i] for i in idx], 'ur3', rng, pool, 'UR3 4000', nulls=('band', 'volband'))
@@ -147,7 +149,7 @@ def main():
             ii = list(rng.choice(sealed, 192, replace=False)) + list(rng.choice(uns, 1389, replace=False))
             res['ur3_pe'].append(run_corpus([ur[i] for i in ii], 'ur3', rng, pool, 'UR3 PE-size %d' % k,
                                             nulls=('volband',), do_rand=(k < 2), nperm=100))
-    json.dump(res, open(os.path.join(CK, 'c1.json'), 'w'), indent=1, default=float)
+    json.dump(res, open(os.path.join(CK, 'c1_ctrl.json' if CTRL else 'c1.json'), 'w'), indent=1, default=float)
 
 
 if __name__ == '__main__':
