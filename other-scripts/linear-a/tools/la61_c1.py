@@ -99,10 +99,10 @@ def run(cond):
     row = ('| LA-61.1-%s | %d docs, %d tokens; 5-fold outer CV by tablet; search = %d random restarts x %d annealed proposals + greedy polish per fold, '
            'internal 2-fold CV objective, + %d fully random assignments per fold (%s assignments scored in all); frozen, scored on the held-out fold vs the pooled scaffold class. '
            'Controls: types permuted among words (20/fold), one type for all, types without affinities, 200 random assignments/fold | '
-           'held-out occurrences %d; gain bits core (slot+size+first line+commodity) %.1f [slot %.1f, size %.1f, first line %.1f, commodity %.1f], site %.1f, all %.1f; '
+           'held-out occurrences %d; gain bits core (slot+size+first line+commodity+dispersion) %.1f [slot %.1f, size %.1f, first line %.1f, commodity %.1f, dispersion %.1f], site %.1f, all %.1f; '
            'types permuted core %.1f (max of 20 = %.1f), one type %.1f, types w/o affinities %.1f, random %.1f (max %.1f); '
            'commodity in scope right %d/%d (site default %d); full fit: %d words, %d stable (>= 0.75 of %d restarts), types %s%s |' % (
-               cond, len(docs), ntok(docs), R_OUT, ITERS, NRAND, format(nscored, ','), ntest, core, ch['slot'], ch['nb'], ch['fl'], ch['com'],
+               cond, len(docs), ntok(docs), R_OUT, ITERS, NRAND, format(nscored, ','), ntest, core, ch['slot'], ch['nb'], ch['fl'], ch['com'], ch['disp'],
                ch['site'], allg, perm.mean(), perm.max(), one, noaff, rnd.mean(), rnd.max(), chit, cn, csd, V.W, len(stable), R_FULL,
                dict(sorted(res['type_counts'].items())), tline))
     wlog(OUT, row + ' - |')

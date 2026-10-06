@@ -48,6 +48,12 @@ NBIN = 8                      # 1, 2, 3-5, 6-10, 11-30, 31-100, >100, none
 PI_C = 0.5                    # weight of a commodity-affinity hypothesis
 PI_S = 0.7                    # weight of a site-affinity hypothesis
 PRIOR_S = 3.0                 # strength of the a-priori type templates (pseudo-observations)
+NDISP = 5                     # documents containing the word: 1, 2, 3-4, 5-9, 10+ (per fitting fold)
+LAM_C = math.log(14)          # MDL cost (nats) of stating a commodity affinity
+LAM_S = math.log(11)          # MDL cost of stating a site affinity
+# dispersion templates (a priori): persons rare, offices / transactions / measures widespread
+_DISP = dict(PER=[1, .6, .3, .1, .05], PLA=[.3, .6, 1, .8, .5], OFF=[.1, .3, .6, 1, 1], TRX=[.1, .3, .6, 1, 1],
+             CSUB=[.3, .5, .8, .8, .6], QUAL=[.3, .5, .8, .8, .6], MEAS=[.1, .3, .6, 1, 1])
 
 # a-priori templates (weights; normalised then scaled by PRIOR_S) -- fixed for every corpus
 _T = {
@@ -74,7 +80,9 @@ def templates():
         pp, pn, nb, fl = _T[t]
         s = np.outer([pp[x] for x in PREV], [pn[x] for x in NEXT]).ravel()
         nb = np.array(nb, float)
-        P[t] = dict(slot=PRIOR_S * s / s.sum(), nb=PRIOR_S * nb / nb.sum(), fl=PRIOR_S * np.array([1 - fl, fl]))
+        dp = np.array(_DISP[t], float)
+        P[t] = dict(slot=PRIOR_S * s / s.sum(), nb=PRIOR_S * nb / nb.sum(), fl=PRIOR_S * np.array([1 - fl, fl]),
+                    disp=PRIOR_S * dp / dp.sum())
     return P
 
 
@@ -288,7 +296,14 @@ class Vocab:
         """Count matrices per word for the vocab's words (occurrences of other words are dropped)."""
         W = self.W
         C = dict(slot=np.zeros((W, NSLOT)), nb=np.zeros((W, NBIN)), fl=np.zeros((W, 2)),
-                 com=np.zeros((W, self.K)), site=np.zeros((W, self.S)))
+                 com=np.zeros((W, self.K)), site=np.zeros((W, self.S)), disp=np.zeros((W, NDISP)))
+        nd = defaultdict(set)
+        for o in occurrences(docs):
+            if o[0] in self.wi:
+                nd[o[0]].add(o[6])
+        for w, s_ in nd.items():
+            n = len(s_)
+            C['disp'][self.wi[w], 0 if n == 1 else 1 if n == 2 else 2 if n <= 4 else 3 if n <= 9 else 4] += 1
         for o in occurrences(docs):
             i = self.wi.get(o[0])
             if i is None:
@@ -306,7 +321,7 @@ def tpl_arrays():
     global TPL_ARR
     if TPL_ARR is None:
         TPL_ARR = dict(slot=np.stack([TPL[t]['slot'] for t in TYPES]), nb=np.stack([TPL[t]['nb'] for t in TYPES]),
-                       fl=np.stack([TPL[t]['fl'] for t in TYPES]))
+                       fl=np.stack([TPL[t]['fl'] for t in TYPES]), disp=np.stack([TPL[t]['disp'] for t in TYPES]))
     return TPL_ARR
 
 
@@ -323,7 +338,7 @@ def ll_typed(asg, Ctr, Cte, prior=True):
     M = _onehot(typ)
     P = tpl_arrays()
     tot = np.zeros(len(typ))
-    for ch in ('slot', 'nb', 'fl'):
+    for ch in ('slot', 'nb', 'fl', 'disp'):
         n = M @ Ctr[ch] + (P[ch] if prior else 0.5)
         lp = np.log(n / n.sum(1, keepdims=True))
         tot += (Cte[ch] * lp[typ]).sum(1)
@@ -336,14 +351,14 @@ def ll_typed(asg, Ctr, Cte, prior=True):
             p[has] *= (1 - pi)
             p[np.where(has)[0], aff[has]] += pi
         tot += (Cte[ch] * np.log(p)).sum(1)
-    return tot
+    return tot - 2 * (LAM_C * (caf >= 0) + LAM_S * (saf >= 0)) / 2
 
 
 def ll_pooled(Ctr, Cte):
     """The scaffold baseline: every unread word is one pooled 'entry word' class (flat prior)."""
     W = Ctr['slot'].shape[0]
     tot = np.zeros(W)
-    for ch in ('slot', 'nb', 'fl', 'com', 'site'):
+    for ch in ('slot', 'nb', 'fl', 'com', 'site', 'disp'):
         n = Ctr[ch].sum(0) + 0.5
         lp = np.log(n / n.sum())
         tot += (Cte[ch] * lp).sum(1)
@@ -384,7 +399,7 @@ class State:
     def _retype(self, t):
         sc = 0.0
         for a, b in ((0, 1), (1, 0)):
-            for ch in ('slot', 'nb', 'fl'):
+            for ch in ('slot', 'nb', 'fl', 'disp'):
                 n = self.S[a][ch][t] + self.P[ch][t]
                 sc += float(self.S[b][ch][t] @ np.log(n / n.sum()))
             for ch in ('com', 'site'):
@@ -409,7 +424,7 @@ class State:
                     qa = q[k]
                     sc[h] += ca.sum(1) * math.log(1 - pi) + ca[np.arange(len(k)), k] * (
                         np.log((1 - pi) * qa + pi) - np.log((1 - pi) * qa))
-        self.wt[m] = sc
+        self.wt[m] = sc - 2 * (LAM_C * (self.caf[m] >= 0) + LAM_S * (self.saf[m] >= 0))
 
     def _word(self, w):
         self._words(np.array([w]))
@@ -514,7 +529,7 @@ def hsh(obj):
 
 
 # ===================================================================== held-out evaluation
-CHANNELS = ('slot', 'nb', 'fl', 'com', 'site')
+CHANNELS = ('slot', 'nb', 'fl', 'com', 'site', 'disp')
 
 
 def ll_channels(asg, Ctr, Cte, pooled=False):
@@ -527,7 +542,7 @@ def ll_channels(asg, Ctr, Cte, pooled=False):
         return out
     typ, caf, saf = asg
     M = _onehot(typ); P = tpl_arrays()
-    for ch in ('slot', 'nb', 'fl'):
+    for ch in ('slot', 'nb', 'fl', 'disp'):
         n = M @ Ctr[ch] + P[ch]
         lp = np.log(n / n.sum(1, keepdims=True))
         out[ch] = float((Cte[ch] * lp[typ]).sum())
@@ -544,7 +559,7 @@ def ll_channels(asg, Ctr, Cte, pooled=False):
 def gain(asg, Ctr, Cte):
     a = ll_channels(asg, Ctr, Cte); b = ll_channels(None, Ctr, Cte, pooled=True)
     g = {ch: (a[ch] - b[ch]) / math.log(2) for ch in CHANNELS}          # bits
-    g['core'] = g['slot'] + g['nb'] + g['fl'] + g['com']
+    g['core'] = g['slot'] + g['nb'] + g['fl'] + g['com'] + g['disp']
     g['all'] = g['core'] + g['site']
     return g
 
