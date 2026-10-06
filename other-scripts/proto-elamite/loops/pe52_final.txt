@@ -1,0 +1,26 @@
+pe52 final: EVERY SIGN HAS A WEIGHT (5-6 Oct 2026). Cycles loops/pe52_cycle1-3.txt; scripts tools/pe52_*.py;
+checkpoints data/pe52_ckpt/ (git-ignored); frozen weights data/pe52_frozen_weights.json (sha 9927b69d1501a7b9).
+Idea: if PE strings are descriptions, each sign shifts the log quantity of its entry. ~70,000 random log-linear models
+(random sign subsets, ridge, sparsity, pair interactions, position features, three tablet-effect modes) fitted on half
+the tablets, screened on a quarter, rescored on a reserved quarter. Nulls: quantities shuffled within system and
+within tablet; signs re-dealt within tablet; signs shuffled within strings. Controls: planted descriptors on the PE
+skeleton; Ur III Drehem livestock (labelled), Ur III personnel/ration lines with personal names.
+Grades
+- A (method limit): weights do not separate names from descriptors in every archive. Ur III personnel names carry
+  no weight (4 of 213 name tokens vs 15 of 102 others), but Drehem recipients' names (deities, persons) are
+  weighted as often as attributes (10/101 vs 12/104). Real Drehem descriptors are recovered with the right sign
+  (udu +0.32, niga -0.21 pre-registered, saga -0.26) only once a tablet covariate is allowed; between-tablet
+  ('sys') weights are mostly tablet-scale markers (PE 47 of 64 survive within-tablet shuffling).
+- B: a small within-tablet descriptor layer exists (17 signs vs 0-3 in nulls), on entry/class signs, not name
+  strings: M288 +0.30..+0.64 log (x1.35-1.9), M269 -0.41 (x0.66), M348 +0.30, M260 -0.21..-0.32, M321 -0.25,
+  numeral insets |M036+1(N30D)| +0.35 and |M036+1(N30C)| +0.31. C: M056 +0.41, M362 +0.36, M354 +0.36,
+  M295 -0.20, M223 -0.25 (stable in one mode only). Would support / kill: frozen file, >= 70% / <= 50% of >= 20
+  new-tablet cases shifted in the stated direction.
+- B (negative): name-string signs are identifiers: 3 of 79 carry a within-tablet weight (plants on the same signs
+  are found); the frequent name signs M387, M218, M054, M124, M371, M066, M057 have zero effect. Order adds
+  nothing (signs shuffled within strings: 16 vs 17), confirming pe46.
+- B (negative): only 0.6-1.7% of distinct multi-sign strings are fully described by weighted signs, and one-off
+  strings are not predictable from weights (R -0.002 vs plant +0.09), like Ur III name-bearing strings.
+  The pe50 population puzzle does NOT dissolve: the strings are not descriptions of this kind.
+Not cracked; nothing read. FINDINGS.md / STRATEGIES.md / SUMMARY.md not edited (parallel loops writing);
+rows above are ready to insert before "## Summary".

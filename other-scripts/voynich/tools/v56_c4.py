@@ -78,5 +78,6 @@ if __name__ == '__main__':
     which = sys.argv[5].split(',') if len(sys.argv) > 5 else ['PLH', 'ZL']
     jobs = [('PLH', 'hidden', 0), ('PLH', 'cur', 0), ('ZL', 'bif', 0), ('ZL', 'bif', 1), ('ZL', 'relab', 0),
             ('ZL', 'relab', 1)]
+    jobs = [j for j in jobs if not os.path.exists(os.path.join(L.CK, '%s_%s_%s_%d.json' % ((TAG,) + j)))]   # resume
     with Pool(2) as P:
         for r in P.imap_unordered(job, jobs): print(r, flush=True)

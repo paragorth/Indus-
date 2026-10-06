@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """pe56 cycle 3: DISSECT THE RESIDUES WITH ORACLE FORGERS.
-Each cycle-1 residue (ensemble-mean p below the Bonferroni line) is re-scored against special forgers,
+Each cycle-1 residue (ensemble-mean p < 1e-3; Bonferroni flag kept in the report) is re-scored against special forgers,
 each of which is GIVEN one kind of real-world knowledge. The kind of knowledge that makes a residue vanish
 is its constraint type:
   PERM   the tablet itself with its entry lines (sign string + numeral together) permuted, header in place
@@ -106,7 +106,7 @@ def main():
         docs = json.load(open(os.path.join(CK, 'c1_%s_docs.json' % name)))
         freq = freq_set(docs)
         bonf = 0.05 / len(c1['res'])
-        keys = set(tuple(x[0]) for x in c1['res'] if x[4] < bonf)
+        keys = set(tuple(x[0]) for x in c1['res'] if x[4] < 1e-3)
         if c1.get('truth'):
             keys |= set(tuple(t) for t in c1['truth'])
         rng = random.Random(seed('pe56c3' + name))

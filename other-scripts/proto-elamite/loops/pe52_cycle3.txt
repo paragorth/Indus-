@@ -1,0 +1,11 @@
+pe52 cycle 3: are the one-off strings predictable from sign weights? (nested, 5-6 Oct 2026; tools/pe52_cycle3.py)
+Tablets halved; on one half alone the random-model search (4 splits x 80 models per half; PE tab 4 halves, others 2,
+because the machine was shared) picks rule-B20 weighted signs; a weight-only ridge model fitted on that half predicts
+the other half. R = 1 - MSE(model) / MSE(baseline), baseline = tablet mean (tab) or tablet-context-only model (ctx).
+'hapax' = multi-sign strings seen once in the whole corpus (pe50's string universe); 'recur' = seen >= 2 times.
+| PE-52.3a | PE tab mode; null qtab | hapax R -0.002 (683 entries), recurring +0.043, single-sign +0.028; null -0.006 / -0.008 / -0.001; signs picked in 4/4 halves: M056, M269, M288, M354, |M036+1(N30D)|; 3/4: M295, M321, M348, M362 | weights predict recurring and single-sign entries a little; one-off strings NOT at all |
+| PE-52.3b | Planted descriptors on the PE skeleton, tab | hapax R +0.091 (2/2 halves), single +0.038 | PASS: if the strings were built from weighted descriptors, one-off strings would be predictable at this size |
+| PE-52.3c | PE ctx mode | hapax +0.028 (2/2), recurring +0.135, single +0.032 | small; hapax gain is a fifth of the recurring gain |
+| PE-52.3d | Ur III controls, ctx: personnel / rations (PERS), Drehem livestock (HERD2) | PERS hapax +0.015, recurring +0.039; HERD2 hapax -0.058, recurring +0.089, single +0.156 | real Ur III one-off strings (which carry personal names) are also unpredictable: PE matches the real name-bearing archives, not the plant |
+| PE-52.3e | Share of strings fully explained (held-out half, descriptors from the other half) | PE 1.2% (tab) / 1.7% (ctx) of distinct multi-sign strings; plant 0.6%; HERD2 0.6%; PERS 0.05% | the pe50 'population' of strings is not a set of descriptions |
+| PE-52.3 | Cycle verdict | PE one-off strings carry no transferable quantity weight (R ~0, plant +0.09); they behave like Ur III name-bearing strings | B (negative): the long strings are not additive descriptions; the descriptor layer is entry/class signs and numeral insets |
