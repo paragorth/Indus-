@@ -825,3 +825,6 @@ Eight measures of writing care were taken on 11,576 Voynich words and 9,409 Lati
 
 ## v68 the text as a melody (5 Oct 2026)
 **B (negative):** no musical reading. Real chant, written through 3,200 random codes, is the worst of 8 sources at producing Voynich-like text. It has too many adjacent repeats and has phrase finals, and **no source under any code reproduces the Voynich's line-initial pool**. A blind hidden-pitch fit recovers coded chant (rho 0.89), but the Voynich's word-to-word coupling is weak (0.11 bits against 0.61 for chant and 0.44 for German). There are no finals or modes on held-out folios. B (measurement): Currier B sections couple neighbouring words 2–4× more than herbal A and pharma A.
+
+## v56 the book as hypertext (6 Oct 2026)
+**B (negative, limited power):** no pointer rule maps a word's frame and gallows to a page or quire address beyond the nulls (about 250 million rule evaluations). A planted code was recovered in only 1 of 4 blind runs, so the negative is weak. **B (new measurement):** a word's contexts point back to the same distant page 5–10× less in the Voynich than in two real herbals (z 4.5–10 against 52–57). Padding alone does not explain the gap. C reading: pages behave like independent records, not a cross-referenced treatise. Would kill: a real herbal matched to the Voynich type/token ratio scoring about 5.

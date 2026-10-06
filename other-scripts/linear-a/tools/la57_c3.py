@@ -24,6 +24,7 @@ from sklearn.naive_bayes import GaussianNB
 NSPEC = int(sys.argv[1]) if len(sys.argv) > 1 else 60
 NNULL = int(sys.argv[2]) if len(sys.argv) > 2 else 5
 TAG = sys.argv[3] if len(sys.argv) > 3 else 'c3'
+LAK = sys.argv[4] if len(sys.argv) > 4 else 'LA_ADM'
 OUT = os.path.join(C.CK, TAG)
 os.makedirs(OUT, exist_ok=True)
 LOG = os.path.join(OUT, 'log.txt')
@@ -59,10 +60,10 @@ def targets():
     T = {}
     for k in C.KNOWN:
         T[k] = G['X'][k]
-    T['LA'] = G['F'][('LA', 0)]['X']
+    T['LA'] = G['F'][(LAK, 0)]['X']
     for j in range(10):
-        T['LA_S1_%d' % j] = G['F'][('LA_S1', j)]['X']
-        T['LA_S2_%d' % j] = G['F'][('LA_S2', j)]['X']
+        T['LA_S1_%d' % j] = G['F'][(LAK + '_S1', j)]['X']
+        T['LA_S2_%d' % j] = G['F'][(LAK + '_S2', j)]['X']
     for j in range(3):
         T['PLANT_%d' % j] = G['F'][('PLANT', j)]['X']
     return T
@@ -117,7 +118,7 @@ def main():
             V[(role, src, rep)] = acc
     G.update(g)
     pickle.dump(V, open(os.path.join(OUT, 'votes.pkl'), 'wb'))
-    la = F[('LA', 0)]
+    la = F[(LAK, 0)]
     summary = {}
     for role in C.ROLES:
         el = elig[role]
@@ -178,7 +179,7 @@ def main():
         # shuffle control for majority: how many types get a majority in S1/S2
         def nmaj(t):
             Ms = np.array([V[(role, a, 0)][t] for a in el])
-            f = F[('LA_' + t.split('_')[1], int(t.split('_')[2]))]
+            f = F[(LAK + '_' + t.split('_')[1], int(t.split('_')[2]))]
             TT = collections.defaultdict(list)
             for i, x in enumerate(f['types']):
                 TT[x].append(i)

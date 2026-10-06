@@ -30,9 +30,9 @@ def type_table(f, models):
     return dict(ens=ens, types=keep, tmean=tm, agree=agree, T=T)
 
 
-def readout(models, F, roles, log, ntop=8):
+def readout(models, F, roles, log, ntop=8, la_key='LA'):
     out = {}
-    la = F[('LA', 0)]
+    la = F[(la_key, 0)]
     for role in roles:
         ms = models.get(role) or []
         if not ms:
@@ -50,7 +50,7 @@ def readout(models, F, roles, log, ntop=8):
         def stats(t):
             return float(np.std(t['tmean'])), float(np.max(t['agree'])), float(np.mean(t['agree'] >= 0.5))
         real = stats(tt)
-        sh = {tag: [stats(type_table(F[('LA_' + tag, j)], ms)) for j in range(20)] for tag in ('S1', 'S2')}
+        sh = {tag: [stats(type_table(F[(la_key + '_' + tag, j)], ms)) for j in range(20)] for tag in ('S1', 'S2')}
         o = np.argsort(-tt['tmean'])
         top = [(tt['types'][i], round(float(tt['tmean'][i]), 3), round(float(tt['agree'][i]), 2), len(tt['T'][tt['types'][i]]))
                for i in o[:ntop]]
@@ -61,7 +61,7 @@ def readout(models, F, roles, log, ntop=8):
             lg = C.auc(tt['ens'], y)
             lgs = []
             for j in range(20):
-                f = F[('LA_S1', j)]
+                f = F[(la_key + '_S1', j)]
                 tts = type_table(f, ms)
                 lgs.append(C.auc(tts['ens'], np.array([t.startswith('L:') for t in f['types']])))
             lg = (lg, float(np.median(lgs)), float(np.quantile(lgs, 0.95)))

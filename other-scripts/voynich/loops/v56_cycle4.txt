@@ -1,0 +1,10 @@
+v56 THE BOOK IS HYPERTEXT, cycle 4 (5-6 Oct 2026): pointer rules under alternative bindings
+Tools: tools/v56_c4.py (bifolio re-nesting/flipping inside quires; resume-safe). Checkpoints: data/v56_ckpt/c4_*.json
+Method: the cycle-2 focused search (top-10 score, unseen-type held-out, type-robust z), restricted to positional skeleton features
+(base 2-12) and ABSOLUTE page/folio addresses (880 configs, 16 starts each), run under re-nested bifolio orders and under random
+page relabellings. Control: planted 3-digit base-7 pointers that address pages in a HIDDEN bifolio order.
+
+| V-56.4.1 | Order sensitivity of the planted rule (true rule scored, not searched) | Held-out robust z: 6.57 in the hidden order vs 2.28 in the current binding (skel=3); 6.33 vs 1.41 (skel3-4) | Grade A (method): an absolute pointer code is order-specific, so a found rule would pick out its binding |
+| V-56.4.2 | Blind search, planted control in the hidden order and in the current order (all 880 configs, 1.5e7 evaluations each) | Hidden order max 2.37, current order 2.52. The rule was not recovered (best 3-4 of 7 digits). Two earlier full-grid runs in the hidden order (6 starts) also failed | CONTROL FAILS here. Across cycles 2 and 4, the blind search recovered the planted code in 1 of 4 full runs: its power at 2 pointers/page is about 25-50%, set by random-restart luck in the ascent |
+| V-56.4.3 | Voynich ZL under 2 re-nested bifolio orders vs 2 random page relabellings (305-314 / 284-285 configs reached of 880, 5-6e6 evaluations each; the machine was slower after the restart) | Max held-out z: bifolio 2.83, 2.61; relabelled 1.94, 3.32. Mean 0.01-0.11 vs 0.15-0.28. Current binding (cycle 2, absolute rules) 3.50 | Grade C negative (low power, partial coverage): no bifolio order tried gives a pointer rule; no order is supported |
+| V-56.4.4 | Cycle verdict | No order-specific rule; the control is unreliable at this density | Not cracked. Cross-reference graph: empty |

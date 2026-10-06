@@ -1,0 +1,23 @@
+v56 THE BOOK IS HYPERTEXT - final (6 Oct 2026). Loops: v56_cycle1-4.txt. Tools: tools/v56_lib.py, v56_kernel.c, v56_c1.py, v56_c2.py,
+v56_c3.py, v56_c3b.py, v56_c4.py, v56_report.py, v56_inspect.py. Checkpoints: data/v56_ckpt/ (git-ignored).
+
+Hypothesis: some Voynich words are pointers whose payload frame (o a i n y l r + gallows) encodes the address of another page.
+Score: the context of the pointer must share rare payload skeletons with the target page beyond its section, Currier language and
+distance band, and beyond a shuffle of the same targets. Held out: word types never seen in training. About 2.5e8 rule
+evaluations in total (additive, alphabetic-numeral, positional base 2-12; absolute/relative; page/folio/quire; plain, marked and
+table pointers; current and re-nested bindings).
+
+Results
+- Grade A (method): a residual-sum score lets free rules overfit, and a page split lets topical words pose as pointers. The final
+  score (top-10 hit, unseen types, type-robust z, pairing correction) fixes both. A planted 2-per-page positional code is recovered
+  exactly in 1 of 4 full blind runs (held-out z 5.9 vs null max 4.9), and the true rule is order-specific (6.6 vs 2.3).
+- Real cross-references (Culpeper's herbal, as Roman numerals with Voynich-like padding) are BELOW detection (true rule held-out
+  <= 2.8), with or without a "vide" marker. This bounds the negative.
+- Grade B negative: no arithmetic pointer rule in ZL or IT2a beats relabelled, Markov or self-citation nulls (ZL absolute 3.50,
+  relative 3.15; IT2a 2.95/3.70; null maxima 4.91/5.67). Cross-reference graph: empty. No bifolio order supported (Grade C, partial
+  coverage).
+- Grade B measurement (new): Voynich words tie pages together topically 5-10x more weakly than two real herbals (table z 4.5-10 vs
+  52-57; specificity ~0 vs 11-13). The padded Culpeper control still scores 43-57, so padding alone does not explain the gap.
+  Grade C reading: pages behave like independent records, not a cross-referenced treatise. Would kill: a real herbal matched to the
+  Voynich type/token ratio scoring about 5.
+Not cracked. Next candidate: test the record reading directly (page-independence vs register or list texts of matched TTR).
