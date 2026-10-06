@@ -52,15 +52,14 @@ def linked(P, name, rng, PA=None):
                     if x is None: continue
                     M[r, x] = -1 if y is None else int(PA[med]['toks'][x] != PA[i]['toks'][y])
             cols = [c for c in range(n) if (M[:, c] >= 0).sum() == len(others) and 0 < M[:, c].sum() < len(others)]
+            V_ = M[:, cols].astype(np.int8)                 # members x variable columns
+            nm = V_.shape[0]
             for a in range(len(cols)):
-                for b in range(a + 1, len(cols)):
-                    x, y = M[:, cols[a]].astype(float), M[:, cols[b]].astype(float)
-                    obs = abs(np.corrcoef(x, y)[0, 1])
-                    nul = [abs(np.corrcoef(x, rng.permutation(y))[0, 1]) for _ in range(50)]
-                    nul = [v for v in nul if not np.isnan(v)]
-                    if np.isnan(obs) or not nul: continue
-                    tests += 1
-                    if obs >= 0.999 and np.mean(np.array(nul) >= obs) < 0.05: sig += 1
+                x = V_[:, a]; k = int(x.sum())
+                same = (V_[:, a + 1:] == x[:, None]).all(0); comp = (V_[:, a + 1:] == 1 - x[:, None]).all(0)
+                tests += V_.shape[1] - a - 1
+                p = (1.0 / math.comb(nm, k)) * (2 if 2 * k == nm else 1)   # exact permutation p of |phi| = 1
+                if p < 0.05: sig += int((same | comp).sum())
     return dict(groups=groups, tests=tests, linked=sig, rate=sig / max(1, tests))
 
 
