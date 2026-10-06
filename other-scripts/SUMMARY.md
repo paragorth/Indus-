@@ -150,6 +150,7 @@ Every claim below has a control. The details are in each script's FINDINGS.md. L
 - the ch↔e trade-off by line;
 - the split of word-class variance across section, page, paragraph and line;
 - the verbose-cipher merge test with encrypted-language controls.
+- Kill sweep (v77): 32 grade C guesses re-tested against their own kill lines and fitted generators. 7 survive their kill, but only 2 beyond the generators (the one-glyph line-marker chain, now C+; hand-1 quire-level drift). 17 killed (among them index-like direction, A/B ending re-encoding, the payload/padding slots, stem+l -> stem+y, the Sanskrit-like line-end lean, the ink sawtooth, whole-word concepts), 6 demoted to C- (the designation code among them), 2 untestable. No surviving guess says what the text means.
 
 ## Random programs (r2)
 - ~8.9 M random and evolved small programs (copy rules, counters, lookup tables, L-systems), scored by held-out description length against Kneser-Ney, with shuffled, Markov-resynthesised, planted (grille, ledgers) and natural (Latin, Linear B) controls. Planted generators recovered 3/3. In no script does a program beat the baselines beyond its nulls: LA and PE programs only 'copy from the entry above' (gone against a document cache), Voynich gains nothing over a 3-glyph Markov chain. Grade A negative for short generators of this kind.
