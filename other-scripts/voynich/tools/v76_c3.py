@@ -16,7 +16,9 @@ import v76_c2 as C2
 
 def subset_pairs(P, pairs, kind):
     if kind == 'S': f = lambda p: p['sec'] == 'S'
-    elif kind == 'H0': f = lambda p: p['sec'] == 'H' and p['pidx'] == 0
+    elif kind == 'H0':      # herbal first paragraphs; in the controls (no 'H' section) every page's first paragraph
+        voy = any(p['sec'] == 'H' for p in P)
+        f = (lambda p: p['sec'] == 'H' and p['pidx'] == 0) if voy else (lambda p: p['pidx'] == 0)
     else: f = lambda p: True
     return [(i, j) for i, j in pairs if f(P[i]) and f(P[j])]
 
