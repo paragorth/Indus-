@@ -307,7 +307,7 @@ def gen_mk2(pages, seed=1):
     return [dict(p, lines=[dict(l, w=[word((p['sec'], i == 0)) for i in range(len(l['w']))]) for l in p['lines']]) for p in pages]
 
 
-def gen_selfcit(pages, seed=1, window=60, p_mod=0.5):
+def gen_selfcit(pages, seed=1, window=60, p_mod=0.5, p_copy=0.6):
     """self-citation: copy a word from the last `window` words of the page, change one glyph with prob p_mod,
     else draw from the section's word law (a copy-and-vary generator)."""
     rng = random.Random(seed); by = _words_by_sec(pages)
@@ -319,7 +319,7 @@ def gen_selfcit(pages, seed=1, window=60, p_mod=0.5):
         for l in p['lines']:
             ws = []
             for _ in l['w']:
-                if len(hist) >= 3 and rng.random() < 0.6:
+                if len(hist) >= 3 and rng.random() < p_copy:
                     w = rng.choice(hist[-window:])
                     if rng.random() < p_mod:
                         j = rng.randrange(len(w)); w = w[:j] + _draw(gl[p['sec']], rng) + w[j + 1:]
@@ -353,7 +353,8 @@ def gen_junction(pages, seed=1):
     return out
 
 
-GENS = dict(WSHUF=gen_wshuf, MK2=gen_mk2, SELFCIT=gen_selfcit, JUNC=gen_junction)
+GENS = dict(WSHUF=gen_wshuf, MK2=gen_mk2, SELFCIT=gen_selfcit, JUNC=gen_junction,
+            SC10=lambda pages, seed=1: gen_selfcit(pages, seed, p_copy=0.10))
 
 
 # ------------------------------------------------------------------ the payload (message-layer) model

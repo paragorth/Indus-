@@ -21,6 +21,7 @@ ARR = os.path.join(SCR, 'v70', 'arr')
 THETAS = [0, 2.5, 4]
 KS = list(range(10, 61, 2))
 MERGES = [0, 4, 8, 12]
+SEEDS = tuple(int(x) for x in os.environ.get('V70_SEEDS', '0,1').split(','))
 
 
 def embed(name, th):
@@ -110,7 +111,7 @@ def run(name):
         truth = [u[3] for u in U]
         has_truth = any(truth)
         for K in KS:
-            for seed in (0, 1):
+            for seed in SEEDS:
                 for kind in ('km', 'rnd'):
                     if kind == 'km':
                         lab = MiniBatchKMeans(K, random_state=seed, n_init=1, batch_size=4096).fit_predict(E)
