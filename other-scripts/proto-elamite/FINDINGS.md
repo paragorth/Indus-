@@ -601,3 +601,12 @@ Each grade-C, C+ and C- guess above was run against its stated kill test. Where 
 - **Untestable now** (about 30, listed in pe66_final F28-F29): unit litres, clay and imports, seriation, herd classes, frozen lists and forecasts, the pe39 translation leads, and the dip off Susa (13 tablets, power 1/3).
 - Nothing is read; nothing is cracked.
 
+## pe62 read what the clerk left out (6 Oct 2026; `loops/pe62_final.txt`)
+About 5,200 random classifiers were trained on entries whose class sign is written, with that sign deleted, and judged on held-out tablets with the class masked. All 4,745 unmarked entries were then filled in (`data/pe62_imputed_classes.tsv`). Controls passed: proto-cuneiform and Ur III with their class signs deleted, planted implicit classes (>= ~45 tokens) and x5-number classes.
+- **B (calibrated negative):** the masked class comes back (0.67 acc, 0.95 bits; label shuffle 0.00), but it comes from the tablet's other entries and the numerals. Number-blind, PE is at the within-tablet-shuffle level, as in proto-cuneiform. Ur III words keep +0.17-0.25 bits beyond the tablet.
+- **B (negative):** filling in adds no closing totals (16 of 18 either way; coin 11.5), +0.009 bits/entry on numerals beyond the tablet, and +2.3 points on the tablet's number system. 92% of fill-ins equal the tablet's written class. The clerk left out what the tablet already said.
+- **B:** on tablets with no class sign at all, names, position, header and batch give 0.11 bits/entry (PC 0.25, Ur III 1.25); the numerals give 0.54.
+- **B-:** weak hidden carriers in name strings: M056 and M217 lean to allotment lines, M259, M340 and M390 to person lines (5 of 12 replicate on held-out tablets, p 0.07).
+- **C:** 'M056 n' is an M288 allotment line written without M288. M056 stands only at the end of a line or directly before M288; with a class sign it is ALLOT 32 of 33; and M056-final lines carry the largest numbers of 61 final-sign groups. Would kill: M056-final lines of 1-3 per person, or an M056 line plus a separate M288 allotment for the same unit.
+- Not cracked; nothing is read.
+

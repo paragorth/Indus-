@@ -1,0 +1,42 @@
+PE-62 final: READ WHAT THE CLERK LEFT OUT (6 Oct 2026)
+Scripts: tools/pe62_common.py, pe62_c1.py, pe62_sum1.py, pe62_c2.py, pe62_export.py, pe62_c3.py, pe62_sched.sh, pe62_runq.sh.
+Rows: loops/pe62_cycle1.txt (masked-class search, nulls, controls, plants), pe62_cycle2.txt (fill-in and its effects),
+pe62_cycle3.txt (hidden carriers, whole-tablet masking). Output: data/pe62_imputed_classes.tsv (4,745 unmarked entries).
+Checkpoints: data/pe62_ckpt/ (git-ignored). About 5,200 random classifiers (random feature groups x weights x family x
+hyper-parameters) were scored across 39 search runs, with ~16,000 fits; 2 CPU workers on a shared machine.
+
+Idea: invert the omission. Train thousands of random classifiers on entries whose class sign IS written, with that sign deleted.
+Judge them on held-out tablets with the class masked, fill in the 4,745 entries that never wrote one, and see what changes
+(totals, number systems, numerals). Then ask which name signs hold the class when it is missing.
+
+| PE-62 | Masked-class inference by random classifier search (tablet-grouped CV, top-15 ensembles, 30% held-out tablets); fill-in of unmarked entries; hidden-carrier tests. Nulls: labels shuffled (across tablets x3-5; within tablets x4), numerals shuffled (x3), imputations permuted (500x), coin for totals (2,000x), within-tablet label permutation for carriers (400x). Controls: proto-cuneiform and Ur III with class signs/words deleted at PE size (3,489 labelled entries); planted implicit classes (name-borne x3, number-scale x2); planted carrier. | Held out: PE 0.67 acc / 0.95 bits (label shuffle <= 0.29 / 0.00; within-tablet shuffle 0.60-0.63 / 0.76-0.79; number shuffle 0.60 / 0.71-0.73). Number-blind 0.60 / 0.74 = within-tablet shuffle level. Whole tablet masked, number-blind: PE 0.11 bits, PC 0.25, Ur III 1.25. Fill-in: 92% = the tablet's commonest written class; totals +0 closures (16/18 either way, coin 11.5); numeral gain beyond the tablet +0.009 bits/entry; system prediction +2.3 points (0.739 -> 0.762, null 0.728). Carriers: 8 PE name signs at q <= 0.10, 5 of 12 replicate on held-out tablets (p 0.07; PC 7/17, Ur III 14/19). Controls pass (Ur III entry-level +0.17-0.25 bits; plants of >= 45 tokens and x5 numbers recovered). | B (calibrated negative). The unwritten class can be read back, but almost all of it is the tablet's own class and the numerals. Name strings, position, header and batch add ~0.1 bits. Filling in the gaps changes no totals and barely moves the grammar. PE behaves like proto-cuneiform, not like Ur III. C: M056 = 'M056 M288' written without M288. |
+
+Grades
+- A (method): the search recovers masked classes in both controls (PC 0.65 / 0.81 bits, Ur III 0.91 / 1.97 bits; label shuffles
+  <= 0.02 bits). It recovers a planted name-borne implicit class if the sign has about 45+ tokens (M259 recall 0.94, Ur III 'ga'
+  0.81; at 27-30 tokens it ranks the class, P ~0.2 vs 0.01, but does not call it) and a number-scale class (recall 0.87-0.91).
+  With neighbours visible, the classifier mostly copies the tablet (PE 92% of fill-ins; copy-the-tablet alone gets 0.585 acc).
+- B (negative): PE name strings carry almost no class information inside the entry. Number-blind accuracy is at the
+  within-tablet shuffle level (0.743 vs 0.755-0.792 bits). Ur III's words keep +0.17-0.25 bits; PC +0.04-0.07; PE -0.01 to -0.05.
+- B (negative): filling in unmarked entries gives totals nothing (18 tablets where the reading matters; class mix picks the
+  closing system 16 times, the same as written classes alone; coin 11.5, p 0.008). The two misses, P008229 and P009370, close only
+  in capacity although their written classes are count-type. This repeats pe42's correction for P008229.
+- B (small): written plus imputed classes predict the tablet system 0.762 vs 0.739 written-only (permuted 0.728, p < 0.005).
+- B: on tablets with no class sign at all (1,254 unmarked entries), everything except the numerals gives 0.11 bits/entry
+  (acc 0.36 vs 0.25; nulls <= 0.00 bits). Numerals bring it to 0.54 bits. Their classes in the TSV are guesses (C); use the
+  numeral-based column.
+- B- (weak): within-tablet class carriers among name signs: M056, M217 -> ALLOT; M259, M340, M390 -> PERSON (replicated
+  direction on held-out tablets); M009, M387, M004, M203, M240 did not replicate. These are candidate office or allotment words
+  inside 'names', not readings.
+- C: M056 sits only at the end of an entry (40) or directly before M288 (32); with a class sign it is ALLOT 32/33. Lines ending
+  in M056 without M288 have the largest numbers of 61 final-sign groups (median ~18; ALLOT ~10, PERSON 1). Reading: 'M056 n' is
+  an M288 allotment line written short. This fits pe66's kill of M056 as a name-frame element. Would support: new
+  M056-final lines in allotment position with M288-sized values. Would kill: M056-final lines with values of 1-3 per person,
+  or an M056-final line and a separate M288 allotment for the same unit on one tablet.
+- Untested: headerless tablets and the 142 signless totals. A total line's 'class' can only be its entries' class, so the
+  inversion has nothing to add there.
+
+Answer to the brief: inferred classes for the unmarked entries are in data/pe62_imputed_classes.tsv (821 at confidence >= 0.8
+with numerals, 596 number-blind). The signs that carry hidden class information are few and weak (list above). The gain on
+totals is 0, on held-out numeral prediction +0.009 bits/entry, and on the number-system layer +2.3 points. The clerk left out
+what the tablet already said. Not cracked; nothing is read.
