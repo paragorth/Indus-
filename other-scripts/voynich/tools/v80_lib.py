@@ -477,3 +477,159 @@ def corpora(which='all'):
 TRUTH = {'T_KAL': 'variable 5-7 cells (golden no. optional, letter, Roman date 1-2, feast 2-3)',
          'T_ALF': '13 fixed cells', 'T_HOR': '9 cells (planetary) / 6 cells (hour lengths)',
          'T_CON': 'headword + 1-4 (book, chapter) pairs', 'T_DOS': '4-6 cells (2 ingredients, unit, qty, [et semis])'}
+
+
+# ------------------------------------------------------------------ cycle 2: the row as a monotone column HMM
+def line_batches(T, rep, mask_lines=None):
+    """padded (L, maxlen) token matrix per line, plus half and page per line."""
+    t = T['r_' + rep]; ln = T['line']
+    nL = ln.max() + 1
+    lens = np.bincount(ln, minlength=nL)
+    ml = lens.max()
+    M = np.full((nL, ml), -1, np.int64)
+    pos = T['i']
+    M[ln, pos] = t
+    half = np.zeros(nL, int); half[ln] = T['half']
+    page = np.zeros(nL, int); page[ln] = T['page']
+    return M, lens, half, page
+
+
+class RowHMM:
+    """K column states, left-to-right: from column j the next token is in column j (cell continues, prob s_j) or in a
+    later column j' > j (skipped cells vanish), with a learned jump law; emissions per column, smoothed to the
+    global unigram. K=1 is the unigram. Fitted by EM (scaled forward-backward, batched over lines)."""
+
+    def __init__(self, K, V, pglob, seed=0, lam=0.7):
+        rng = np.random.default_rng(seed)
+        self.K, self.V = K, V
+        self.pg = pglob
+        self.lam = lam
+        self.pi = np.ones(K) / K
+        A = np.triu(rng.random((K, K)) + 0.5)
+        if K > 1: A[np.arange(K), np.arange(K)] += 1.0
+        self.A = A / A.sum(1, keepdims=True)
+        E = rng.random((K, V)) + 0.5
+        self.E = E / E.sum(1, keepdims=True)
+
+    def emis(self, M):
+        Mc = np.where(M < 0, 0, M)
+        P = self.lam * self.E[:, Mc] + (1 - self.lam) * self.pg[Mc][None]   # K, L, T
+        P = np.transpose(P, (1, 2, 0))
+        P[M < 0] = 1.0
+        return P
+
+    def fb(self, M, lens):
+        nL, Tm = M.shape; K = self.K
+        B = self.emis(M)
+        valid = M >= 0
+        al = np.zeros((nL, Tm, K)); c = np.ones((nL, Tm))
+        a = self.pi[None] * B[:, 0]
+        c[:, 0] = a.sum(1); al[:, 0] = a / c[:, 0:1]
+        for t in range(1, Tm):
+            a = (al[:, t - 1] @ self.A) * B[:, t]
+            s = a.sum(1)
+            s = np.where(valid[:, t], s, 1.0)
+            a = np.where(valid[:, t][:, None], a / s[:, None], al[:, t - 1])
+            c[:, t] = s; al[:, t] = a
+        ll = np.log2(np.where(valid, c, 1.0))
+        return al, c, B, valid, ll
+
+    def loglik(self, M, lens):
+        return self.fb(M, lens)[4]
+
+    def fit(self, M, lens, iters=25):
+        nL, Tm = M.shape; K = self.K
+        for _ in range(iters):
+            al, c, B, valid, ll = self.fb(M, lens)
+            be = np.ones((nL, Tm, K))
+            for t in range(Tm - 2, -1, -1):
+                b = (self.A @ (B[:, t + 1] * be[:, t + 1]).T).T / c[:, t + 1:t + 2]
+                be[:, t] = np.where(valid[:, t + 1][:, None], b, be[:, t + 1] if t + 1 < Tm else 1)
+            g = al * be
+            g /= g.sum(2, keepdims=True)
+            g[~valid] = 0
+            # transitions
+            xi = np.zeros((K, K))
+            for t in range(Tm - 1):
+                m = valid[:, t + 1]
+                if not m.any(): continue
+                x = al[m, t][:, :, None] * self.A[None] * (B[m, t + 1] * be[m, t + 1])[:, None, :] / c[m, t + 1][:, None, None]
+                xi += x.sum(0)
+            A = np.triu(xi) + 1e-3 * np.triu(np.ones((K, K)))
+            self.A = A / A.sum(1, keepdims=True)
+            pi = g[:, 0].sum(0) + 1e-3; self.pi = pi / pi.sum()
+            # emissions: responsibility of the column-specific part
+            Mc = np.where(M < 0, 0, M)
+            Ek = self.lam * self.E[:, Mc].transpose(1, 2, 0)
+            r = g * Ek / np.maximum(B, 1e-300)
+            E = np.zeros((K, self.V))
+            for k in range(K):
+                E[k] = np.bincount(Mc[valid], weights=r[..., k][valid], minlength=self.V)
+            E += 1e-3
+            self.E = E / E.sum(1, keepdims=True)
+        return self
+
+
+def edge_law_ll(T, rep, train_mask, test_mask):
+    """held-out bits/token of the edge law (first/second/last/interior), add-0.5 smoothed, trained on train_mask."""
+    t = T['r_' + rep]; V = t.max() + 1
+    e = np.where(T['i'] == T['n'] - 1, 3, np.minimum(T['i'], 2))
+    C = np.zeros((4, V)) + 0.5
+    np.add.at(C, (e[train_mask], t[train_mask]), 1)
+    P = C / C.sum(1, keepdims=True)
+    return np.log2(P[e[test_mask], t[test_mask]])
+
+
+# ------------------------------------------------------------------ cycle 3: the table written column by column
+def transposed_pages(plain_pages, block=8, line_w=8, prefix='tr'):
+    """take a real table (one row per line) and write it the other way round: blocks of `block` rows; for each
+    column c the block's values of that column are written as one line (wrapping at line_w words). A page holds a
+    few blocks. The line-type sequence then repeats with period = number of lines per block."""
+    rows = [l['w'] for p in plain_pages for l in p['lines']]
+    pages, cur = [], []
+    for b0 in range(0, len(rows), block):
+        B = rows[b0:b0 + block]
+        nc = max(len(r) for r in B)
+        for c in range(nc):
+            vals = [r[c] for r in B if len(r) > c]
+            for i in range(0, len(vals), line_w):
+                cur.append(dict(w=vals[i:i + line_w], ps=(c == 0 and i == 0)))
+        if len(cur) >= 24:
+            pages.append(dict(id='%s%03d' % (prefix, len(pages)), sec='T', lang='-', hand='-', quire='-', lines=cur)); cur = []
+    if cur: pages.append(dict(id='%s%03d' % (prefix, len(pages)), sec='T', lang='-', hand='-', quire='-', lines=cur))
+    return pages
+
+
+def line_vectors(T, rep, idf=True, skip_first=False):
+    """sparse line x type matrix (scipy) of counts (tf-idf if idf); returns matrix, line->page, line->para, line index in page, half."""
+    from scipy import sparse
+    t = T['r_' + rep]; ln = T['line']
+    m = np.ones(len(t), bool)
+    if skip_first: m &= T['i'] > 0
+    nL = ln.max() + 1; V = t.max() + 1
+    X = sparse.csr_matrix((np.ones(m.sum()), (ln[m], t[m])), shape=(nL, V))
+    if idf:
+        df = np.bincount(t[m], minlength=V) if False else np.asarray((X > 0).sum(0)).ravel()
+        w = np.log((nL + 1) / (df + 1)) + 0.0
+        X = X @ sparse.diags(w)
+    nrm = np.sqrt(np.asarray(X.multiply(X).sum(1)).ravel()); nrm[nrm == 0] = 1
+    X = sparse.diags(1 / nrm) @ X
+    page = np.zeros(nL, int); page[ln] = T['page']
+    para = np.zeros(nL, int); para[ln] = T['para']
+    lip = np.zeros(nL, int); lip[ln] = T['lip']
+    half = np.zeros(nL, int); half[ln] = T['half']
+    return X.tocsr(), page, para, lip, half
+
+
+def lag_profile(S, groups, maxlag=14, order=None):
+    """mean cosine similarity of line pairs at lag g inside groups (lines in written order or in `order`)."""
+    sums = np.zeros(maxlag + 1); cnts = np.zeros(maxlag + 1)
+    for g in groups:
+        idx = g if order is None else order[g]
+        if len(idx) < 3: continue
+        sub = S[idx][:, idx]
+        n = len(idx)
+        for k in range(1, min(maxlag, n - 1) + 1):
+            dgn = np.diagonal(sub, k)
+            sums[k] += dgn.sum(); cnts[k] += len(dgn)
+    return np.where(cnts > 0, sums / np.maximum(cnts, 1), np.nan), cnts

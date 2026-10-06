@@ -141,7 +141,7 @@ def main():
                  col_sizes={c: len(w) for c, w in cols.items()})
         for kind in ('B', 'N2'):
             NM = np.array([o[4] for o in out if o[0] == script and o[1] == kind])   # [nnull, rules, cells]
-            mu, sd = NM.mean(0), NM.std(0) + 1e-9
+            mu, sd = NM.mean(0), np.maximum(NM.std(0), 0.02)
             Z = (Mr - mu) / sd
             Zn = (NM - mu) / sd
             fw_null = Zn.reshape(len(NM), -1).max(1)
