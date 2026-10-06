@@ -15,7 +15,7 @@ for nm in sys.argv[1:]:
     P = C[base][1]
     if '@' in nm:
         sec = nm.split('@')[1].split('~')[0]; P = [p for p in P if p['sec'] in sec]
-    if nm.endswith('~sh'): P = L.shuffle_interior(P, 8801)
+    if '~sh' in nm: P = L.shuffle_interior(P, 8801 + int(nm.split('~sh')[1] or 0))
     T = L.flatten(P)
     t0 = time.time(); res = []
     rng = random.Random(802)

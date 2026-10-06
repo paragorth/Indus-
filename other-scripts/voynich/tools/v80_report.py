@@ -5,7 +5,7 @@ import v80_lib as L
 
 d = os.path.join(L.CK, sys.argv[1] if len(sys.argv) > 1 else 'c1')
 rows = []
-for fn in sorted(glob.glob(os.path.join(d, '*.json'))):
+for fn in sorted(f for f in glob.glob(os.path.join(d, '*.json')) if not f.endswith('report.json')):
     nm = os.path.basename(fn)[:-5]
     R = json.load(open(fn))
     if not isinstance(R, list): continue
