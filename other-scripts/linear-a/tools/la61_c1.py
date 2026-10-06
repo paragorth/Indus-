@@ -36,7 +36,7 @@ def run(cond):
         te = folds[k]; tr = [d for j, f in enumerate(folds) if j != k for d in f]
         V = Vocab(tr)
         fits, C1, C2 = fit(V, tr, rng, R_OUT, ITERS, 'la61-inner-%s-%d' % (cond, k))
-        nscored += R_OUT * (ITERS + 2 * V.W * (NT + V.K + V.S + 1))
+        nscored += R_OUT * (ITERS + POLISH * V.W * (NT + V.K + V.S + 1))
         # massive random phase (recorded, not used for the frozen assignment)
         rs = [cv_objective(random_asg(V, rng), C1, C2) for _ in range(NRAND)]
         nscored += NRAND
@@ -66,10 +66,10 @@ def run(cond):
     # full-data fit: glossary + typing accuracy against truth
     V = Vocab(docs)
     fits, C1, C2 = fit(V, docs, rng, R_FULL, ITERS, 'la61-full-' + cond)
-    nscored += R_FULL * (ITERS + 2 * V.W * (NT + V.K + V.S + 1))
+    nscored += R_FULL * (ITERS + POLISH * V.W * (NT + V.K + V.S + 1))
     cons = consensus(fits, V)
-    typ = {V.words[w]: TYPES[cons[w][0]] for w in range(V.W)}
-    stable = {V.words[w]: TYPES[cons[w][0]] for w in range(V.W) if cons[w][1] >= 0.75}
+    typ = {V.words[w]: TYPES[cons[w][0]] for w in range(V.W) if TYPES[cons[w][0]] != 'ENT'}
+    stable = {w: t for w, t in typ.items() if cons[V.wi[w]][1] >= 0.75}
     res['glossary'] = {V.words[w]: dict(type=TYPES[c[0]], share=c[1],
                                         com=(V.coms[c[2]] if c[2] >= 0 else None), com_share=c[3],
                                         site=(V.sites[c[4]] if c[4] >= 0 else None), site_share=c[5])
@@ -82,7 +82,7 @@ def run(cond):
         res['truth_all'] = truth_acc(typ, tr_, prng)
         res['truth_stable'] = truth_acc(stable, tr_, prng)
     res['n_scored'] = nscored; res['sec'] = time.time() - t0
-    json.dump(res, open(os.path.join(CK, 'c1_%s.json' % cond), 'w'), default=str)
+    json.dump(res, open(os.path.join(CK, 'c1_%s%s.json' % (cond, '_v2' if V2 else '')), 'w'), default=str)
     F = res['folds']
     core = sum(f['gain']['core'] for f in F); allg = sum(f['gain']['all'] for f in F)
     perm = np.sum([f['perm_core'] for f in F], 0); rnd = np.sum([f['rnd_core'] for f in F], 0)
@@ -96,14 +96,14 @@ def run(cond):
         tline = ('; truth: all typed %d/%d right (null %.1f +- %.1f, P %.4f)' % (ta['acc'], ta['n'], ta['null_mean'], ta['null_sd'], ta['P']) +
                  ((', stable %d/%d (null %.1f, P %.4f)' % (ts['acc'], ts['n'], ts['null_mean'], ts['P'])) if ts.get('n') else '') +
                  ', per class ' + '; '.join('%s %d/%d top %s' % (r, a, b, ','.join('%s%d' % x for x in top)) for r, (a, b, top) in ta['per'].items()))
-    row = ('| LA-61.1-%s | %d docs, %d tokens; 5-fold outer CV by tablet; search = %d random restarts x %d annealed proposals + greedy polish per fold, '
+    row = ('| LA-61.1%s-%s | %s%d docs, %d tokens; 5-fold outer CV by tablet; search = %d random restarts x %d annealed proposals + greedy polish per fold, '
            'internal 2-fold CV objective, + %d fully random assignments per fold (%s assignments scored in all); frozen, scored on the held-out fold vs the pooled scaffold class. '
            'Controls: types permuted among words (20/fold), one type for all, types without affinities, 200 random assignments/fold | '
            'held-out occurrences %d; gain bits core (slot+size+first line+commodity+dispersion) %.1f [slot %.1f, size %.1f, first line %.1f, commodity %.1f, dispersion %.1f], site %.1f, all %.1f; '
            'types permuted core %.1f (max of 20 = %.1f), one type %.1f, types w/o affinities %.1f, random %.1f (max %.1f); '
-           'commodity in scope right %d/%d (site default %d); full fit: %d words, %d stable (>= 0.75 of %d restarts), types %s%s |' % (
-               cond, len(docs), ntok(docs), R_OUT, ITERS, NRAND, format(nscored, ','), ntest, core, ch['slot'], ch['nb'], ch['fl'], ch['com'], ch['disp'],
-               ch['site'], allg, perm.mean(), perm.max(), one, noaff, rnd.mean(), rnd.max(), chit, cn, csd, V.W, len(stable), R_FULL,
+           'commodity in scope right %d/%d (site default %d); full fit: %d words (%d typed), %d stable (>= 0.75 of %d restarts), types %s%s |' % (
+               'v2' if V2 else '', cond, 'VARIANT v2: + untyped class ENT and an MDL cost log 8 per typed word; ' if V2 else '', len(docs), ntok(docs), R_OUT, ITERS, NRAND, format(nscored, ','), ntest, core, ch['slot'], ch['nb'], ch['fl'], ch['com'], ch['disp'],
+               ch['site'], allg, perm.mean(), perm.max(), one, noaff, rnd.mean(), rnd.max(), chit, cn, csd, V.W, len(typ), len(stable), R_FULL,
                dict(sorted(res['type_counts'].items())), tline))
     wlog(OUT, row + ' - |')
     print(row, flush=True)

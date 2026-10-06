@@ -110,6 +110,6 @@ def characterise():
 if __name__ == '__main__':
     characterise()
     J = ['ZL', 'IT', 'ZL~JUNC', 'ZL~MK2', 'BRU-merge', 'BRU-verbose', 'ISI-merge', 'ISI-verbose', 'DEU-merge',
-         'DEU-verbose', 'BRU-merge~JUNC', 'ISI-merge~JUNC']
+         'DEU-verbose', 'BRUL-merge', 'BRU-merge~JUNC', 'ISI-merge~JUNC']
     with Pool(int(os.environ.get('W', '2'))) as pool:
         for _ in pool.imap_unordered(run, J, chunksize=1): pass

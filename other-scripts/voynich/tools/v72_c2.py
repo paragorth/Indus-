@@ -54,7 +54,13 @@ def corpus(name):
         half = [L.leaf_half(p['id']) for p in S]
     else:
         txt, mode = base.split('-')
-        P = dict(BRU=L.brumati_plain, ISI=L.isidore_plain, DEU=L.german_plain)[txt]()
+        P = dict(BRU=L.brumati_plain, BRUL=L.brumati_plain, ISI=L.isidore_plain, DEU=L.german_plain)[txt]()
+        if txt == 'BRUL':                 # list-like meaningful control: page topic kept, word order destroyed
+            P = [dict(p, lines=[dict(l) for l in p['lines']]) for p in P]
+            rng = random.Random(4)
+            for p in P:
+                ws = [w for l in p['lines'] for w in l['w']]; rng.shuffle(ws); it = iter(ws)
+                for l in p['lines']: l['w'] = [next(it) for _ in l['w']]
         code = L.payload_code([w for p in P for l in p['lines'] for w in l['w']], mode=mode)
         S = L.surface(L.encode_payload(P, code)); plain = P
         half = [i % 2 for i in range(len(S))]
@@ -177,8 +183,9 @@ def jobs():
     J = []
     for c in ['ZL', 'IT'] + ['ZL~' + g for g in L.GENS]:
         J.append((c, 'payload')); J.append((c, 'surface'))
-    for txt in ['BRU', 'ISI', 'DEU']:
+    for txt in ['BRU', 'ISI', 'DEU', 'BRUL']:
         for mode in ['merge', 'verbose']:
+            if txt == 'BRUL' and mode == 'verbose': continue
             b = f'{txt}-{mode}'
             J.append((b, 'payload')); J.append((b, 'surface'))
             if mode == 'merge':

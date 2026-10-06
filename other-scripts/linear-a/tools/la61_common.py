@@ -39,12 +39,17 @@ LOOPS = os.path.join(HERE, '..', 'loops')
 from la60_common import load_la, admin_docs, prior_reading, base_of, seed, tab_of
 
 TYPES = ['PER', 'PLA', 'OFF', 'TRX', 'CSUB', 'QUAL', 'MEAS']
+V2 = os.environ.get('LA61_V2') == '1'      # variant: an untyped class ENT (flat template) + MDL cost per typed word
+if V2:
+    TYPES = TYPES + ['ENT']
+LAM_T = math.log(8)
 NT = len(TYPES)
 TRUTH_MAP = {'PER': 'PER', 'PLA': 'PLA', 'OFF': 'HDR', 'TRX': 'TRA', 'MEAS': 'UNI', 'CSUB': 'COM'}
 PREV = ['DS', 'LS', 'W', 'L', 'N', 'H']
 NEXT = ['N', 'L', 'W', 'H', 'LE', 'DE']
 NSLOT = len(PREV) * len(NEXT)
 NBIN = 8                      # 1, 2, 3-5, 6-10, 11-30, 31-100, >100, none
+POLISH = int(os.environ.get('POLISH', 1))
 PI_C = 0.5                    # weight of a commodity-affinity hypothesis
 PI_S = 0.7                    # weight of a site-affinity hypothesis
 PRIOR_S = 3.0                 # strength of the a-priori type templates (pseudo-observations)
@@ -52,7 +57,7 @@ NDISP = 5                     # documents containing the word: 1, 2, 3-4, 5-9, 1
 LAM_C = math.log(14)          # MDL cost (nats) of stating a commodity affinity
 LAM_S = math.log(11)          # MDL cost of stating a site affinity
 # dispersion templates (a priori): persons rare, offices / transactions / measures widespread
-_DISP = dict(PER=[1, .6, .3, .1, .05], PLA=[.3, .6, 1, .8, .5], OFF=[.1, .3, .6, 1, 1], TRX=[.1, .3, .6, 1, 1],
+_DISP = dict(ENT=[1, 1, 1, 1, 1], PER=[1, .6, .3, .1, .05], PLA=[.3, .6, 1, .8, .5], OFF=[.1, .3, .6, 1, 1], TRX=[.1, .3, .6, 1, 1],
              CSUB=[.3, .5, .8, .8, .6], QUAL=[.3, .5, .8, .8, .6], MEAS=[.1, .3, .6, 1, 1])
 
 # a-priori templates (weights; normalised then scaled by PRIOR_S) -- fixed for every corpus
@@ -69,6 +74,7 @@ _T = {
              [.5, .5, .6, .8, 1, .8, .5, .3], .4),
     'QUAL': (dict(DS=.1, LS=.2, W=1, L=.5, N=.2, H=.3), dict(N=.4, L=.6, W=1, H=.3, LE=.5, DE=.3),
              [.2, .2, .2, .2, .2, .2, .2, 1], .4),
+    'ENT': (dict(DS=1, LS=1, W=1, L=1, N=1, H=1), dict(N=1, L=1, W=1, H=1, LE=1, DE=1), [1] * 8, .5),
     'MEAS': (dict(DS=.05, LS=.2, W=.3, L=.6, N=1, H=.2), dict(N=1, L=.2, W=.1, H=.1, LE=.2, DE=.1),
              [1, 1, 1, .5, .2, .1, .05, .1], .3),
 }
@@ -351,7 +357,7 @@ def ll_typed(asg, Ctr, Cte, prior=True):
             p[has] *= (1 - pi)
             p[np.where(has)[0], aff[has]] += pi
         tot += (Cte[ch] * np.log(p)).sum(1)
-    return tot - 2 * (LAM_C * (caf >= 0) + LAM_S * (saf >= 0)) / 2
+    return tot - 2 * (LAM_C * (caf >= 0) + LAM_S * (saf >= 0)) / 2 - (LAM_T * (typ != NT - 1) if V2 else 0)
 
 
 def ll_pooled(Ctr, Cte):
@@ -430,7 +436,8 @@ class State:
         self._words(np.array([w]))
 
     def total(self):
-        return float(self.mt.sum() + self.wt.sum())
+        pen = 2 * LAM_T * float((self.typ != NT - 1).sum()) if V2 else 0.0
+        return float(self.mt.sum() + self.wt.sum()) - pen
 
     def set_type(self, w, t):
         a = self.typ[w]
@@ -478,7 +485,7 @@ def hill_climb(V, C1, C2, rng, iters, start=None, temp0=2.0):
         else:
             st.set(f, w, old)
     st = State(V, C1, C2, best[1]); cur = st.total()
-    for sweep in range(2):
+    for sweep in range(POLISH):
         for w in rng.permutation(V.W):
             for f, rv in ((0, range(NT)), (1, range(-1, V.K)), (2, range(-1, V.S))):
                 old = st.get(f, w); bv, bs = old, cur
