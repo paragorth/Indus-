@@ -52,10 +52,12 @@ def build():
         pages = V78.plain_pages(pr, name.lower(), cap=40000)
         C[name] = V78.through_surface(pages, 8200 + i)
         C[name + '_PLAIN'] = pages        # the same text without the surface (reference)
-    best = [json.loads(x) for x in open(os.path.join(K.CK, 'c1_final.jsonl'))]
-    zl = [r for r in best if r['which'] == 'ZL']
-    b = max(zl, key=lambda r: min(r['g']))
-    C['GEN_BEST'] = K.gen_moodagr(C['VOY_ZL'], b['P'], 9101)
+    cb = [json.loads(x) for x in open(os.path.join(K.CK, 'c1b.jsonl'))]
+    pick = {}
+    for r in cb: pick.setdefault(r['cand'], r['P'])
+    C['GEN_KILL'] = K.gen_moodagr(C['VOY_ZL'], pick[2], 9101)    # harmony H6 + passage mood, kills 10/10 seeds
+    C['GEN_NEAR'] = K.gen_moodagr(C['VOY_ZL'], pick[3], 9101)    # harmony H2 + line mood, Voynich-level gains
+    C['GEN_PMI'] = K.gen_moodagr(C['VOY_ZL'], pick[0], 9101)     # fitted harmony table + line mood (ceiling)
     import v77_lib as G
     C['GEN_STACK'] = G.generate('ZL3b', 'STACK', 9102)
     K.psave('c2_corpora.pkl', C)
