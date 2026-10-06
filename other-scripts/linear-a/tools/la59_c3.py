@@ -47,5 +47,20 @@ for k in range(6):
     nul.append(run(SCs, shuffle_offdiag(keys['diach'][1], rng)))
     print(tag, 'diach-shuffled', k, round(nul[-1]['g'], 4), np.round(nul[-1]['held'], 4), round(time.time() - t0), 's', flush=True)
 out['null_diach'] = [dict(g=x['g'], held=x['held']) for x in nul]
+# power ceiling: planted realistic syllabary (MN key), sound share 1.0, at 1x and 10x the real weight;
+# fit from random starts vs from the true states (separates search failure from non-identifiability)
+K = kernel(*keys['mn'], 0.0); d = A.sum(1); ne = int(round(A.sum() / 2)); pc = []
+for mult in (1, 10):
+    for rep in range(2):
+        st = planted_grid(len(signs), rng)
+        B = sample_planted(d, st, K, ne * mult, rng, 1.0)
+        sf, g, l = max((anneal(B, K, rng, 30) for _ in range(3)), key=lambda x: x[1])
+        so, go, lo = anneal(B, K, rng, 30, T0=0.05, T1=0.02, init=st)
+        pc.append(dict(mult=mult, g=g, g_true=gain(B, st, K), g_oracle=go,
+                       acc_c=float(np.mean(sf // 5 == st // 5)), acc_v=float(np.mean(sf % 5 == st % 5)),
+                       co_c=co_assign_agreement(sf, list(st // 5), lambda x: x // 5), co_v=co_assign_agreement(sf, list(st % 5), lambda x: x % 5),
+                       oracle_acc_c=float(np.mean(so // 5 == st // 5))))
+        print(tag, 'ceiling', {a: round(b, 3) for a, b in pc[-1].items()}, round(time.time() - t0), 's', flush=True)
+out['ceiling'] = pc
 json.dump(out, open(os.path.join(CK, f'c3_{tag}.json'), 'w'))
 print(tag, 'done', round(time.time() - t0), 's')

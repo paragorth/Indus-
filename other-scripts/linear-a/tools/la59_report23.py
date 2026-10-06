@@ -35,6 +35,10 @@ def r3():
         rows.append(f"| LA-59.3{tag} | {tag}, unconstrained fit, best of 4 restarts; held-out mean of 3 splits (best of 2). Keys: Miller-Nicely (Shepard), Miller-Nicely (Hubert), Index Diachronica sound changes, flat (identity only); null 6 shuffled diachronica keys | " +
                     '; '.join(f"{n} {k[n]['g']:.4f} / held {np.mean(k[n]['held']):.4f}" for n in ('mn', 'semds', 'diach', 'flat')) +
                     f"; shuffled diach {np.mean([x['g'] for x in nd]):.4f} / held {np.mean([np.mean(x['held']) for x in nd]):.4f} (diach in-sample z {zp(k['diach']['g'], [x['g'] for x in nd])[0]:.2f}, held z {zp(np.mean(k['diach']['held']), [np.mean(x['held']) for x in nd])[0]:.2f}) | see verdict |")
+        for mult in (1, 10):
+            q = [x for x in o.get('ceiling', []) if x['mult'] == mult]
+            if q:
+                rows.append(f"| LA-59.3{tag}-ceiling{mult}x | planted realistic syllabary, MN key, sound share 1.0, {mult}x {tag}'s weight, 2 draws; fit from 3 random starts vs annealed from the true states | fit {np.mean([x['g'] for x in q]):.3f}, true {np.mean([x['g_true'] for x in q]):.3f}, oracle start {np.mean([x['g_oracle'] for x in q]):.3f}; accuracy C {np.mean([x['acc_c'] for x in q]):.2f} (oracle start {np.mean([x['oracle_acc_c'] for x in q]):.2f}), V {np.mean([x['acc_v'] for x in q]):.2f}; co-assignment C {np.mean([x['co_c'] for x in q]):.2f}, V {np.mean([x['co_v'] for x in q]):.2f} | - |")
         if tag == 'LBs':
             te = truth_eval(o['signs'], k['diach']['s'], 'LB')
             rows.append(f"| LA-59.3LBs-truth | LB truth vs the diachronica-key fit, 2,000 permutations | " + '; '.join(f"{a} {v[0]:.3f} vs {v[1]:.3f} (P {v[2]:.3f})" for a, v in te.items() if not a.startswith('n_')) + " | - |")

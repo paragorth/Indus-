@@ -128,7 +128,11 @@ def layout(entries, rng, width=None, page_words=None):
     return pages
 
 def ref_chunks(R, key, rng, nmax=6, lo=2000, hi=3000):
-    ents = R[key]['entries']
+    ents = []
+    for e in R[key]['entries']:          # very long entries (chapters of prose) -> one entry per paragraph
+        e = [p[i:i + 800] for p in e for i in range(0, len(p), 800)]
+        if sum(len(p) for p in e) > 1000: ents.extend([[p] for p in e])
+        else: ents.append(e)
     tot = sum(len(p) for e in ents for p in e)
     out = []
     starts = []
