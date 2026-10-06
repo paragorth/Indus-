@@ -110,7 +110,9 @@ def loso(m, rows, F, with_gen=True, bases=None):
         te = [j for j in range(len(R)) if base[j] == b]
         f = Fitted(m, FF[tr], [kind[j] for j in tr], [base[j] for j in tr])
         pred, _ = f.predict(FF[te])
-        tk = [kind[j] for j in te if role[j] == 'real'][0]
+        tks = [kind[j] for j in te if role[j] == 'real']
+        if not tks or tks[0] not in {kind[j] for j in tr}: continue
+        tk = tks[0]
         pr = [p for p, j in zip(pred, te) if role[j] == 'real']
         pg = [p for p, j in zip(pred, te) if role[j] != 'real']
         out[b] = dict(kind=tk, acc=np.mean([p == tk for p in pr]),
