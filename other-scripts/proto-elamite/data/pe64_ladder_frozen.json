@@ -1,0 +1,53 @@
+{
+ "name": "pe64 Proto-Elamite ration ladder (frozen 6 Oct 2026)",
+ "units": "capacity in N39C (N39C 1 : N30D 2 : N30C 4 : N24 12 : N39B 24 : N01 120 : N14 720); counts in units",
+ "rungs": [
+  {
+   "rate_N39C_per_unit": 60,
+   "written": "2(N39B) 1(N24) per unit (= 1/2 N01)",
+   "grade": "B",
+   "marker_signs_on_count_line": [
+    "M054",
+    "M388",
+    "M124"
+   ],
+   "target_sign": "M288",
+   "evidence": "cycle 1 held-out half AB: 10 tablets vs swap null 3.5 (p 0.005); BA p 0.03-0.04; repeats pe27/pe28/pe32/pe63"
+  }
+ ],
+ "candidates": [
+  {
+   "rate_N39C_per_unit": 72,
+   "target_sign": "M297",
+   "grade": "C-",
+   "evidence": "BA only, union 6 vs 2.6 (p 0.035)"
+  },
+  {
+   "rate_N39C_per_unit": 4,
+   "target_sign": "M387",
+   "grade": "C-",
+   "evidence": "BA only, 10 vs 5.5 (p 0.045), no marker sign"
+  }
+ ],
+ "not_rungs": {
+  "48": "single direction, p 0.01 on 1 tablet; killed independently by pe66 F6",
+  "M340": "one name line on 5 tablets of one record type, not a grade term"
+ },
+ "ladder": "none: one rung only; no pair of rungs in a simple ratio",
+ "power": "a rung needs about 10 tablets (5 per half) to be seen: planted 10/rung 6 of 6, 5/rung 1 of 6, 3/rung 0 of 6; Ur III at PE size returns its top rung and term but not women/children",
+ "predictions": [
+  {
+   "id": "L1",
+   "text": "On tablets not in this corpus, a count line ending in M054, M388 or M124 followed by a bare M288 line has M288 = 60 N39C x count.",
+   "support": ">= 1 in 3 of at least 6 such new pairs",
+   "kill": "< 1 in 6 of at least 6 new pairs"
+  },
+  {
+   "id": "L2",
+   "text": "No second per-unit rung (any rate other than 60) appears on >= 10 new tablets after count lines of the M054/M388/M124 class.",
+   "support": "no such rung in >= 100 new count->capacity tablets",
+   "kill": "a rung of 30 or 20 (1/2, 1/3 of 60) after one sign class on >= 10 new tablets would be the missing ladder and would overturn the one-rung finding"
+  }
+ ],
+ "sha256_16": "4126d5628cc5c485"
+}

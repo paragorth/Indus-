@@ -1,0 +1,14 @@
+pe64 RECONSTRUCT THE RATION LADDER FROM EVERY PER-HEAD RATE: final (6 Oct 2026)
+Cycles: loops/pe64_cycle1.txt (search), pe64_cycle2.txt (ladder and signs), pe64_cycle3.txt (held-out prediction, calibration, power, freeze).
+Tools: tools/pe64_lib.py, pe64_c1.py, pe64_c2.py, pe64_c3.py, pe64_c3b.py, pe64_sum.py, pe64_runq.sh. Frozen: data/pe64_ladder_frozen.json (sha 4126d5628cc5c485).
+
+Idea: every count line paired with a capacity line is one possible rung of a ration ladder (like Ur III 60/30/20/10 sila by grade).
+About 1.02 M rate-detection rules per run (scope, target filter, N01 reading, minimum count, source and target signs, exactness; 700 k with
+random OR-sets of signs), 19 search runs (PE real, planted, null-as-real x3 seeds, Ur III full and PE-size, proto-cuneiform), discovery
+on one half, held-out test on the other, swap (same notation shape) and re-pair nulls.
+
+| PE-64.F1 | Controls | Ur III ration lists with hidden rates: full ladder (19 rungs, S 0.27 vs 0.07, p 0.0002) and grade words (gurusz 60, geme2 30, dumu 10/15, erin2 60, udu 1, gu4 5-10). At PE size (120 tablets): top rung + gurusz both halves, sheep rung, ladder p 0.054; women and children missed. Planted 20/40/80 at 10 tablets/rung: 6/6 rungs, 3/3 markers, 1:2:4 ladder (p 0.048). 5/rung: 1/6; 3/rung: 0/6. Null corpora: false strict rung in 1 of 6 runs. Proto-cuneiform: nothing found, so it cannot calibrate this format | PASS for Ur III and plants; proto-cuneiform control FAILS (format not visible) |
+| PE-64.F2 | The ladder | one rung: 60 N39C = 2(N39B) 1(N24) per unit (AB held-out 10 tablets vs 3.5, p 0.005; BA p 0.03-0.04). Candidates 72 (target M297), 4 (target M387), 48 (killed also by pe66), all single-direction at the null's level. No pair of rungs in a simple ratio | B (negative, power-limited): one rung, no ladder. Lower rungs on < ~10 tablets would be invisible |
+| PE-64.F3 | Signs on the rung | M054 (5 tablets vs 0.23), M388 (3-4 vs 0.1-0.3), M124 (5 vs 2.3); M340 is one name line on 5 tablets (one record type), not a grade term | B (repeats pe27/pe28/pe32): the rung's sign class is the known C14 class; no sign marks a different rung |
+| PE-64.F4 | Held-out prediction | half-A ladder predicts half-B capacities no better than same-shape values from other tablets (count >= 2: 37 vs 46.8, 50 vs 52.0); Ur III passes the same test (25/70 vs 2.2) | B (negative): the search adds no rate beyond what pe27 already had |
+| PE-64.F5 | Grades | A (method): a million-rule rate search recovers a real ladder and its grade words when rates are written as count line + grain line on >= ~10 tablets per rung (Ur III, plants), and lies about 1 time in 6 at the strict floor. B (negative): Proto-Elamite has one visible per-unit rung, 60 N39C, after the M054/M388/M124 class; no ladder, no sex/age/animal rungs. C-: 72 per unit to M297 lines, 4 per unit to M387 lines. Frozen predictions L1, L2 | Not cracked; nothing read |

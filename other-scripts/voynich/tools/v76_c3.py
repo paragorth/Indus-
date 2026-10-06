@@ -21,7 +21,8 @@ def subset_pairs(P, pairs, kind):
     return [(i, j) for i, j in pairs if f(P[i]) and f(P[j])]
 
 
-def linked(P, name, rng):
+def linked(P, name, rng, PA=None):
+    PA = PA or P
     d = np.load(os.path.join(V.CK, 'c1_%s.npz' % name)); sc, npair = d['sc'][:8000], d['npair'][:8000]
     r0 = random.Random(7600); tmpl = [C1.rand_template(r0) for _ in range(len(sc))]
     order = np.argsort(-np.where(npair[:, 1] >= 5, sc[:, 1], -1e9))[:C2.K]
@@ -42,12 +43,12 @@ def linked(P, name, rng):
             med = ii[int(np.argmax(sub.sum(1)))]
             others = [i for i in ii if i != med and P[i]['page'] != P[med]['page']]
             if len(others) < 3: continue
-            n = len(P[med]['toks'])
+            n = len(PA[med]['toks'])
             M = np.full((len(others), n), -1, np.int8)        # 1 varies, 0 same, -1 gap
             for r, i in enumerate(others):
-                for x, y in C2.align(P[med]['toks'], P[i]['toks']):
+                for x, y in C2.align(PA[med]['toks'], PA[i]['toks']):
                     if x is None: continue
-                    M[r, x] = -1 if y is None else int(P[med]['toks'][x] != P[i]['toks'][y])
+                    M[r, x] = -1 if y is None else int(PA[med]['toks'][x] != PA[i]['toks'][y])
             cols = [c for c in range(n) if (M[:, c] >= 0).sum() == len(others) and 0 < M[:, c].sum() < len(others)]
             for a in range(len(cols)):
                 for b in range(a + 1, len(cols)):
@@ -62,7 +63,7 @@ def linked(P, name, rng):
 
 
 def idstream(name, P):
-    fill = json.load(gzip.open(os.path.join(V.CK, 'fill_%s.json.gz' % name), 'rt'))
+    fill = json.load(gzip.open(os.path.join(V.CK, 'c2b_fill_%s.json.gz' % name), 'rt'))
     own = defaultdict(Counter)
     for X, ta, Y, tb, pos, v in fill:
         if v >= 0.5:      # at least one side page-own; credit each side that is
@@ -98,19 +99,20 @@ def job(name):
     if os.path.exists(fn): return name
     P = json.load(gzip.open(os.path.join(V.CK, 'par_%s.json.gz' % name), 'rt'))
     pr, _ = C2.pairs_for(name, P, 'ALL')
+    PA = C2.strip_d(P)
     out = {}
     for kind in ('S', 'H0'):
         sp = subset_pairs(P, pr, kind)
         if len(sp) > 6000: sp = random.Random(5).sample(sp, 6000)
-        out[kind] = C2.analyse(name, P, sp)[0] if len(sp) >= 20 else None
-    out['LINK'] = linked(P, name, np.random.default_rng(1))
-    out['ID'] = idstream(name, P)
+        out[kind] = C2.analyse(name, PA, sp)[0] if len(sp) >= 20 else None
+    out['LINK'] = linked(P, name, np.random.default_rng(1), PA)
+    out['ID'] = idstream(name, PA)
     json.dump(out, open(fn, 'w'))
     return name
 
 
 if __name__ == '__main__':
     names = sorted(os.path.basename(f)[3:-4] for f in glob.glob(os.path.join(V.CK, 'c1_*.npz')))
-    names = [n for n in names if os.path.exists(os.path.join(V.CK, 'fill_%s.json.gz' % n))]
+    names = [n for n in names if os.path.exists(os.path.join(V.CK, 'c2b_fill_%s.json.gz' % n))]
     with Pool(2) as pool:
         for n in pool.imap_unordered(job, names): print('done', n, flush=True)

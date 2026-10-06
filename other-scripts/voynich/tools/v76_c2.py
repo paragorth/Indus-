@@ -67,6 +67,7 @@ def analyse(name, P, pairs):
     pos = [posinfo(p) for p in P]
     fix = slot = cols = 0; posS = Counter(); posA = Counter()
     ps_s, ps_f, ps_r = [], [], []
+    q_s, q_r = [], []
     fillers = []
     rng = random.Random(1)
     def own(tok, X, Y, nX):          # tok elsewhere on own page X (beyond nX uses) and absent from partner page Y
@@ -95,6 +96,8 @@ def analyse(name, P, pairs):
             ra = rng.choice(byd[('a', dec(ta))]); rb = rng.choice(byd[('b', dec(tb))])
             r = 0.5 * (own(ra, X, Y, a['toks'].count(ra)) + own(rb, Y, X, b['toks'].count(rb)))
             ps_s.append(v); ps_r.append(r)
+            ow = lambda tok, Z, p: float(pages[Z][tok] > p['toks'].count(tok))
+            q_s.append(0.5 * (ow(ta, X, a) + ow(tb, Y, b))); q_r.append(0.5 * (ow(ra, X, a) + ow(rb, Y, b)))
             fillers.append((X, ta, Y, tb, pos[i][x], v))
     res = dict(name=name, npairs=len(pairs), cols=cols, FIX=fix / max(1, cols), SLOTR=100 * slot / max(1, cols),
                nslot=slot, POSH=ent(posS) - ent(posA), PS=float(np.mean(ps_s)) if ps_s else None,
@@ -102,6 +105,9 @@ def analyse(name, P, pairs):
                PSD=float(np.mean(np.array(ps_s) - np.array(ps_r))) if ps_s else None,
                PSD_se=float(np.std(np.array(ps_s) - np.array(ps_r)) / math.sqrt(len(ps_s))) if len(ps_s) > 1 else None,
                PSF=float(np.mean(ps_f)) if ps_f else None,
+               OWN=float(np.mean(q_s)) if q_s else None,
+               OWND=float(np.mean(np.array(q_s) - np.array(q_r))) if q_s else None,
+               OWND_se=float(np.std(np.array(q_s) - np.array(q_r)) / math.sqrt(len(q_s))) if len(q_s) > 1 else None,
                posS={str(k): v for k, v in posS.items()}, posA={str(k): v for k, v in posA.items()})
     return res, fillers
 
@@ -131,19 +137,32 @@ def pairs_for(name, P, which):
     return sorted(out), [int(k) for k in order]
 
 
+TAG = os.environ.get('V76_C2TAG', 'c2')
+
+
+def strip_d(P):
+    """c2b: tokens compared after deleting d (the planted surface pads with d; applied to every corpus alike)."""
+    Q = []
+    for p in P:
+        ls = [[t.replace('d', '') or '_' for t in l] for l in p['lines']]
+        Q.append(dict(p, lines=ls, toks=[t for l in ls for t in l]))
+    return Q
+
+
 def job(name):
-    fn = os.path.join(V.CK, 'c2_%s.json' % name)
+    fn = os.path.join(V.CK, '%s_%s.json' % (TAG, name))
     if os.path.exists(fn): return name
     P = json.load(gzip.open(os.path.join(V.CK, 'par_%s.json.gz' % name), 'rt'))
+    PA = strip_d(P) if TAG == 'c2b' else P
     out = {}
     for which in ('ALL', 'H1'):
         pr, order = pairs_for(name, P, which)
         if len(pr) > 6000: pr = random.Random(5).sample(pr, 6000)
-        r, fill = analyse(name, P, pr)
+        r, fill = analyse(name, PA, pr)
         r['top_templates'] = order[:10]
         out[which] = r
         if which == 'ALL':
-            json.dump(fill, gzip.open(os.path.join(V.CK, 'fill_%s.json.gz' % name), 'wt'))
+            json.dump(fill, gzip.open(os.path.join(V.CK, '%s_fill_%s.json.gz' % (TAG, name)), 'wt'))
     json.dump(out, open(fn, 'w'))
     return name
 

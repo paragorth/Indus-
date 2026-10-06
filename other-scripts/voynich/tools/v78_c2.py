@@ -73,7 +73,7 @@ def main(names, nsim, nhold=200, acc=0.03, tag='c2'):
         # per-feature fit of the accepted runs (z of observed within accepted)
         zf = {L.FEATS[j]: float((obs[0][j] - F[idx, j].mean()) / (F[idx, j].std() + 1e-9)) for j in range(len(L.FEATS))}
         # held-out
-        hj = [(name, 1, 790000 + i, R[i]['P']) for i in idx] + [(name, 1, 791000 + i, None) for i in range(nhold)]
+        hj = [(name, 1, 790000 + int(i), R[int(i)]['P']) for i in idx] + [(name, 1, 791000 + i, None) for i in range(nhold)]
         H = pool.map(sim, hj, chunksize=4)
         FH = np.array([r['f'] for r in H]); dh = dist(FH, obs[1], scale)
         da, dp = dh[:len(idx)], dh[len(idx):]
