@@ -113,7 +113,7 @@ def run(name):
             for seed in (0, 1):
                 for kind in ('km', 'rnd'):
                     if kind == 'km':
-                        lab = MiniBatchKMeans(K, random_state=seed, n_init=3, batch_size=4096).fit_predict(E)
+                        lab = MiniBatchKMeans(K, random_state=seed, n_init=1, batch_size=4096).fit_predict(E)
                     else:
                         rng = np.random.default_rng(1000 + seed * 100 + K)
                         C = E[rng.choice(len(E), K, replace=False)]

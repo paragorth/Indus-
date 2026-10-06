@@ -128,7 +128,7 @@ def main(name):
         for K in KS[::2]:
             for kind in ('km', 'rnd'):
                 if kind == 'km':
-                    lab = MiniBatchKMeans(K, random_state=0, n_init=3, batch_size=4096).fit_predict(E)
+                    lab = MiniBatchKMeans(K, random_state=0, n_init=1, batch_size=4096).fit_predict(E)
                 else:
                     rng = np.random.default_rng(1000 + K)
                     lab = nearest(E, E[rng.choice(len(E), K, replace=False)])
@@ -152,7 +152,7 @@ def main(name):
         rep = json.load(open(os.path.join(CK, 'c1_report.json')))
         b = rep['V']['km']['best']
         E, D, U = embed(name, b['theta'])
-        lab = MiniBatchKMeans(b['K'], random_state=b['seed'], n_init=3, batch_size=4096).fit_predict(E)
+        lab = MiniBatchKMeans(b['K'], random_state=b['seed'], n_init=1, batch_size=4096).fit_predict(E)
         ev, gwd = eva_span_labels(D, U, None)
         ok = [i for i, t in enumerate(ev) if t and t != '0']
         out['anatomy'] = {'best': b, 'nmi_vs_eva_spans': float(NMI([ev[i] for i in ok], lab[ok])),

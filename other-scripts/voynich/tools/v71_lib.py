@@ -310,41 +310,30 @@ def ctx_logp(ctx_tr, t_tr, ctx_te, t_te, R, a):
     p = (nct + a * put) / (nc + a)
     return np.log2(p), np.log2(put)
 
-def cache_vectors(cols, T, win):
-    """for each token, a dict class->count over the cache window (computed by groups)."""
+def cache_probs(cols, T, win):
+    """p_cache(T[i]) = share of T[i] in the cache window; has = window non-empty."""
+    from collections import Counter
     n = len(T)
-    line, para, page, pip = [np.asarray(cols[k]) for k in ('lineid', 'paraid', 'pageid', 'posinpage')]
-    res = [None] * n
+    line, para, page = [cols[k] for k in ('lineid', 'paraid', 'pageid')]
+    pc = np.zeros(n); has = np.zeros(n, bool)
     if win in ('prevline', 'prevpara', 'prevpage'):
         g = {'prevline': line, 'prevpara': para, 'prevpage': page}[win]
         groups = {}
         for i in range(n): groups.setdefault(g[i], []).append(i)
         order = sorted(groups)
-        prev_counts = {}
-        for j, gid in enumerate(order):
-            if j == 0: continue
-            pg_prev = order[j - 1]
-            # previous unit must be on the same page for line / paragraph caches
-            if win != 'prevpage' and page[groups[pg_prev][0]] != page[groups[gid][0]]: continue
-            from collections import Counter
-            prev_counts[gid] = Counter(T[i] for i in groups[pg_prev])
-        for i in range(n): res[i] = prev_counts.get(g[i])
+        for j in range(1, len(order)):
+            gp, gid = groups[order[j - 1]], groups[order[j]]
+            if win != 'prevpage' and page[gp[0]] != page[gid[0]]: continue
+            c = Counter(T[i] for i in gp); tot = len(gp)
+            for i in gid: pc[i] = c.get(T[i], 0) / tot; has[i] = True
     else:
         g = page if win == 'pagesofar' else para
-        from collections import Counter
-        cur, cg = Counter(), None
+        cur, cg, tot = Counter(), None, 0
         for i in range(n):
-            if g[i] != cg: cur, cg = Counter(), g[i]
-            res[i] = dict(cur) if cur else None
-            cur[T[i]] += 1
-    return res
-
-def cache_logp(cv, T, pu):
-    out = np.zeros(len(T)); has = np.zeros(len(T), bool)
-    for i, c in enumerate(cv):
-        if c:
-            tot = sum(c.values()); out[i] = c.get(T[i], 0) / tot; has[i] = True
-    return out, has
+            if g[i] != cg: cur, cg, tot = Counter(), g[i], 0
+            if tot: pc[i] = cur.get(T[i], 0) / tot; has[i] = True
+            cur[T[i]] += 1; tot += 1
+    return pc, has
 
 def fingerprint(pages, models, seeds=(1, 2), detail=False):
     versions = {'orig': [(pages, list(range(len(pages))))]}
@@ -398,7 +387,7 @@ def fingerprint(pages, models, seeds=(1, 2), detail=False):
                         W, C = tabs[v][k]
                         T = t.tolist()
                         cvkey = (v, k, 'cv', m['win'], m['tgt'])
-                        if cvkey not in cache: cache[cvkey] = cache_logp(cache_vectors(C, T, m['win']), T, None)
+                        if cvkey not in cache: cache[cvkey] = cache_probs(C, T, m['win'])
                         pc, has = cache[cvkey]
                         if v == 'orig' and k == 0:
                             ftr = fold != f

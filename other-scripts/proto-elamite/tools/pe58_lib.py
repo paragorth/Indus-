@@ -132,6 +132,13 @@ def draw_spec(rng):
                 bw=rng.uniform(0.05, 0.2), jmin=rng.choice([0.0, 0.2, 0.34, 0.5]), boot=rng.random() < 0.85)
 
 
+def draw_spec2(rng):
+    """calibrated family (cycle 1b: lowest planted error): mean-type estimators, no KDE mode, no corpus-wide match"""
+    return dict(est=rng.choice(['dmean', 'match', 'pairs']), sys='any', ref=rng.choice(['all', 'plain']),
+                drop1=rng.random() < 0.2, agg=rng.choice(['mean', 'mean', 'trim', 'median']), bw=0.1,
+                jmin=rng.choice([0.0, 0.2]), boot=True)
+
+
 def _jac(a, b):
     a, b = set(a), set(b)
     return len(a & b) / max(1, len(a | b))
@@ -224,11 +231,11 @@ class Est:
             return None
         return _agg(d, wt, spec['agg'], spec['bw'])
 
-    def factor(self, s, n=200, seed=0):
+    def factor(self, s, n=200, seed=0, spec2=False):
         rng = np.random.default_rng(seed); r2 = random.Random(seed)
         v = []
         for _ in range(n):
-            x = self.one(s, draw_spec(r2), rng)
+            x = self.one(s, (draw_spec2 if spec2 else draw_spec)(r2), rng)
             if x is not None:
                 v.append(x)
         if len(v) < n // 4:
@@ -280,25 +287,30 @@ def lattice_points(pmax=6):
 
 
 LAT = lattice_points()
+LATS = {6: lattice_points(6), 4: lattice_points(4)}
 
 
-def lat_dist(x):
+def lat_dist(x, pmax=6):
     x = np.atleast_1d(np.asarray(x, float))
-    return np.min(np.abs(x[:, None] - LAT[None, :]), axis=1)
+    L = LATS.get(pmax, LAT)
+    return np.min(np.abs(x[:, None] - L[None, :]), axis=1)
 
 
-def lattice_test(logs, null_pool=None, n=20000, jit=0.2, seed=0):
+def lattice_test(logs, null_pool=None, n=20000, jit=0.2, seed=0, pmax=6):
     """mean distance of the factors to the simple-ratio lattice vs (a) uniform jitter +-jit and (b) an
     empirical pool of factors (same |log| floor) drawn in sets of the same size."""
     logs = np.asarray(logs, float)
-    obs = float(lat_dist(logs).mean())
+    if len(logs) == 0:
+        return dict(obs=None, k=0)
+    lat_d = lambda x: lat_dist(x, pmax)
+    obs = float(lat_d(logs).mean())
     rng = np.random.default_rng(seed)
     J = logs[None, :] + rng.uniform(-jit, jit, (n, len(logs)))
-    nj = lat_dist(J.ravel()).reshape(J.shape).mean(1)
+    nj = lat_d(J.ravel()).reshape(J.shape).mean(1)
     out = dict(obs=obs, k=len(logs), jit_mean=float(nj.mean()), p_jit=float((np.sum(nj <= obs) + 1) / (n + 1)))
     if null_pool is not None and len(null_pool) >= len(logs):
         pool = np.asarray(null_pool, float)
-        dp = lat_dist(pool)
+        dp = lat_d(pool)
         ne = np.array([dp[rng.choice(len(pool), len(logs), replace=False)].mean() for _ in range(n)])
         out.update(emp_mean=float(ne.mean()), p_emp=float((np.sum(ne <= obs) + 1) / (n + 1)), pool=len(pool))
     return out
@@ -338,3 +350,58 @@ def phys_test(F, n=10000, seed=0, floor=0.1, shift=0.4):
     return dict(obs_signs=obs, null_signs=float(nul.mean()), p_signs=float((np.sum(nul >= obs) + 1) / (n + 1)),
                 obs_consts=nk, null_consts=float(nulk.mean()), p_consts=float((np.sum(nulk >= nk) + 1) / (n + 1)),
                 hits=h)
+
+
+def phys_dist_test(est, n=10000, seed=0, floor=0.1, shift=0.4):
+    """est: {sign: log factor point estimate}. Statistic: mean distance of |log f| to the nearest constant
+    interval (0 inside). Null: constants moved by U(-shift, shift) in log."""
+    K0 = [(abs(math.log(v['lo'])), abs(math.log(v['hi']))) for v in constants().values()]
+    K0 = [(min(a, b), max(a, b)) for a, b in K0 if max(a, b) > floor]
+    x = np.abs(np.array(list(est.values()), float))
+    def dist(K):
+        lo = np.array([a for a, b in K]); hi = np.array([b for a, b in K])
+        d = np.maximum(0, np.maximum(lo[None, :] - x[:, None], x[:, None] - hi[None, :]))
+        return d.min(1)
+    obs = float(dist(K0).mean())
+    rng = np.random.default_rng(seed)
+    nul = []
+    for _ in range(n):
+        Kr = []
+        for a, b in K0:
+            u = abs((a + b) / 2 + rng.uniform(-shift, shift)); w = b - a
+            Kr.append((max(0.0, u - w / 2), u + w / 2))
+        nul.append(dist(Kr).mean())
+    nul = np.array(nul)
+    return dict(obs=obs, null=float(nul.mean()), p=float((np.sum(nul <= obs) + 1) / (n + 1)), k=len(x))
+
+
+def qshuf_sys(C, seed):
+    """quantities shuffled across the whole corpus within number system (keeps roundness, breaks signs)"""
+    rng = random.Random(seed)
+    by = defaultdict(list)
+    for i, r in enumerate(C):
+        by[r['sys']].append(i)
+    out = [dict(r) for r in C]
+    for idx in by.values():
+        qs = [C[i]['q'] for i in idx]; rng.shuffle(qs)
+        for i, q in zip(idx, qs):
+            out[i]['q'] = q
+    return out
+
+
+def frequent(C, mino=15, mintab=5):
+    G = groups(C)
+    occ = Counter(s for r in C for s in set(r['w']))
+    return sorted(s for s in occ if occ[s] >= mino and len(sign_groups(C, G, s)) >= mintab)
+
+
+def pair_table(C, signs, minpair=5, floor=0.12, maxw=0.8):
+    E = Est(C)
+    out = {}
+    for i, a in enumerate(signs):
+        for b in signs[i + 1:]:
+            p = E.pair(a, b)
+            if p and p['ntab'] >= minpair:
+                out[(a, b)] = p
+    use = [p['mode'] for p in out.values() if abs(p['mode']) >= floor and p['mhi'] - p['mlo'] <= maxw]
+    return out, use

@@ -27,7 +27,7 @@ def kde_modes(x, bw=None, grid=None, rel=0.1):
     n = len(lx)
     if bw is None:
         s = min(np.std(lx, ddof=1), (np.percentile(lx, 75) - np.percentile(lx, 25)) / 1.34)
-        bw = 0.9 * s * n ** -0.2
+        bw = max(0.9 * s * n ** -0.2, 0.02)
     g = np.linspace(-2, 2.5, 901) if grid is None else grid
     f = np.exp(-0.5 * ((g[:, None] - lx[None]) / bw) ** 2).sum(1)
     pk = [i for i in range(1, len(g) - 1) if f[i] > f[i - 1] and f[i] >= f[i + 1] and f[i] > rel * f.max()]
@@ -38,7 +38,7 @@ def gmm_modes(x, kmax=4, seed=0):
     lx = np.log10(x)[:, None]
     best = None
     for k in range(1, min(kmax, len(x) // 4) + 1):
-        g = GaussianMixture(k, n_init=4, random_state=seed).fit(lx)
+        g = GaussianMixture(k, n_init=1, random_state=seed).fit(lx)
         b = g.bic(lx)
         if best is None or b < best[0]:
             best = (b, g)

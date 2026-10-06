@@ -107,7 +107,7 @@ def main(name):
         Z, D, U = ae_codes(name, th)
         truth = [u[3] for u in U]
         for K in KS3:
-            lab = MiniBatchKMeans(K, random_state=0, n_init=3, batch_size=4096).fit_predict(Z)
+            lab = MiniBatchKMeans(K, random_state=0, n_init=1, batch_size=4096).fit_predict(Z)
             W = words_from(lab, U, len(D['recs']))
             r, t, m = dl(Z, lab, K, W, D)
             row = {'theta': th, 'K': K, 'res': r, 'text': t, 'model': m, 'DL': r + t + m}

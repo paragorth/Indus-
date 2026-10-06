@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import v71_lib as L
 
 OUTD = os.path.join(L.CK, 'c1'); os.makedirs(OUTD, exist_ok=True)
-NMOD = int(os.environ.get('V71_NMOD', '700'))
+NMOD = int(os.environ.get('V71_NMOD', '360'))
 MODELS = L.model_types(NMOD)
 
 def jobs():
@@ -15,7 +15,7 @@ def jobs():
     J = []
     for k in sorted(R):
         rng = random.Random('ref' + k)
-        for i, ch in enumerate(L.ref_chunks(R, k, rng)):
+        for i, ch in enumerate(L.ref_chunks(R, k, rng, nmax=4)):
             J.append(('ref__%s__%d' % (k, i), {'kind': 'ref', 'text': k, 'genre': R[k]['genre'], 'coarse': R[k]['coarse']}, ch))
     gen_src = ['forme_of_cury', 'culpeper', 'caesar', 'apicius_index', 'circa_fr', 'celsus_lat']
     for k in gen_src:

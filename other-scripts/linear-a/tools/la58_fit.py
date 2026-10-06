@@ -18,21 +18,40 @@ def targets(T, K):
     return typ, role, par
 
 
-def train(tag, ntest=4000, ntree=200, leaf=3, rs=0):
+class Multi:
+    """Three separate forests (type; roles; parents) to keep memory small."""
+    def __init__(self, ntree, leaf, rs):
+        mk = lambda: RandomForestClassifier(n_estimators=ntree, min_samples_leaf=leaf, max_features='sqrt',
+                                            n_jobs=2, random_state=rs)
+        self.f = [mk(), mk(), mk()]
+
+    def fit(self, X, typ, role, par):
+        self.f[0].fit(X, typ); self.f[1].fit(X, role); self.f[2].fit(X, par)
+        self.classes_ = [self.f[0].classes_] + list(self.f[1].classes_) + list(self.f[2].classes_)
+        return self
+
+    def predict_proba(self, X):
+        p1 = self.f[1].predict_proba(X); p2 = self.f[2].predict_proba(X)
+        return [self.f[0].predict_proba(X)] + list(p1) + list(p2)
+
+
+def train(tag, ntest=4000, ntree=100, leaf=10, rs=0):
     S, T, meta = load_bank(tag)
     K = meta['K']
     S = np.nan_to_num(S, nan=-2)
     typ, role, par = targets(T, K)
     n = len(S); idx = np.random.RandomState(rs).permutation(n)
     te, tr = idx[:ntest], idx[ntest:]
-    Y = np.hstack([typ[:, None], role, par])
-    rf = RandomForestClassifier(n_estimators=ntree, min_samples_leaf=leaf, max_features='sqrt', n_jobs=2, random_state=rs)
-    rf.fit(S[tr], Y[tr])
+    rf = Multi(ntree, leaf, rs).fit(S[tr], typ[tr], role[tr], par[tr])
     P = rf.predict_proba(S[te])
     res = dict(K=K, abbr=meta['abbr'], ntrain=len(tr))
     pt = P[0]; res['type_acc'] = float((rf.classes_[0][pt.argmax(1)] == typ[te]).mean())
-    # calibration of P(type) and P(centre)
     res['type_calib'] = calib(pt, typ[te], rf.classes_[0])
+    # confusion of world types (rows truth, cols predicted)
+    cm = np.zeros((6, 6), int)
+    for t, q in zip(typ[te], rf.classes_[0][pt.argmax(1)]):
+        cm[int(t), int(q)] += 1
+    res['type_confusion'] = cm.tolist()
     aucs, cal = [], []
     for k in range(K):
         pc = proba_of(P[1 + k], rf.classes_[1 + k], 1)
@@ -41,7 +60,6 @@ def train(tag, ntest=4000, ntree=200, leaf=3, rs=0):
     res['centre_auc'] = [float(a) for a in aucs]
     pcs = np.concatenate([c[0] for c in cal]); ys = np.concatenate([c[1] for c in cal])
     res['centre_calib'] = bins(pcs, ys)
-    # parent-link accuracy among dependents
     acc = []
     for k in range(K):
         m = role[te, k] == 2

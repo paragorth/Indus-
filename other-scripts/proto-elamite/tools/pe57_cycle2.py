@@ -11,20 +11,20 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
 from pe57_common import *
 
-OUT = os.path.join(CK, 'cycle2.json')
+OUT = os.path.join(CK, 'cycle2' + ('_argaric' if os.environ.get('PE57_ARGARIC') else '') + '.json')
 res = {}
 sets = {'AbuSalabikh_JN_all': abu_salabikh(), 'AbuSalabikh_round': abu_salabikh(' R'),
         'AbuSalabikh_flat': abu_salabikh(' F'), 'JebelAruda_all': mesh_set('aruda'),
         'JebelAruda_BRB': mesh_set('aruda', bowls_only=True)}
 sets['Uruk_JN_pooled'] = np.r_[sets['AbuSalabikh_JN_all'], sets['JebelAruda_all']]
-if os.path.exists(os.path.join(CK, 'mesh_argaric.json')):
+if os.environ.get('PE57_ARGARIC') and os.path.exists(os.path.join(CK, 'mesh_argaric.json')):
     sets['Argaric_null'] = mesh_set('argaric')
 for name, x in sets.items():
     if len(x) < 5: continue
     km, bw = kde_modes(x)
     gm, gw = gmm_modes(x)
     bk, allk = bootstrap(x, 2000, use='kde')
-    bg, allg = bootstrap(x, 300, use='gmm')
+    bg, allg = bootstrap(x, 100, use="gmm")
     res[name] = {'n': int(len(x)), 'median': float(np.median(x)), 'range': [float(x.min()), float(x.max())],
                  'kde_modes': km.round(3).tolist(), 'bw_log10': float(bw), 'gmm_means': gm.round(3).tolist(),
                  'gmm_w': gw.round(2).tolist(), 'verdict_kde': verdict(km), 'verdict_gmm': verdict(gm),
