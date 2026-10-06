@@ -18,10 +18,10 @@ T = L.load(C)
 truth = None
 if V == 'small':
     T = [T[i] for i in sorted(rng.sample(range(len(T)), 120))]
-elif V == 'plant':
-    T, truth = L.plant_ladder(L.null_swap(T, random.Random(7)), rng, rungs=(20, 40, 80), per=10)
-elif V == 'nullreal':
-    T = L.null_swap(T, random.Random(11))
+elif V.startswith('plant'):
+    T, truth = L.plant_ladder(L.null_swap(T, random.Random(7)), rng, rungs=(20, 40, 80), per=int(V[5:] or 10))
+elif V.startswith('nullreal'):
+    T = L.null_swap(T, random.Random(int(V[8:] or 11)))
 A, B = L.split(T, 'pe64' + C)
 if D == 'BA':
     A, B = B, A

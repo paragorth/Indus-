@@ -1,0 +1,123 @@
+{
+ "name": "la66 Linear A word weights",
+ "date": "2026-10-06",
+ "target": "log integer quantity, within document x (commodity x fraction use)",
+ "test_rule": "for each listed feature, new entries carrying it are compared with their same-document, same-commodity siblings; a feature is supported when >= 70 % of >= 10 new cases move in the stated direction, killed when <= 50 %.",
+ "factors": [
+  {
+   "feature": "W:KI",
+   "log_factor": -0.639,
+   "factor": 0.53,
+   "ci95": [
+    0.35,
+    0.78
+   ],
+   "n_docs": 5,
+   "direction": "down",
+   "status": "stable",
+   "grade": "C"
+  },
+  {
+   "feature": "S:E",
+   "log_factor": 0.916,
+   "factor": 2.5,
+   "ci95": [
+    1.21,
+    5.1
+   ],
+   "n_docs": 9,
+   "direction": "up",
+   "status": "stable",
+   "grade": "C-"
+  },
+  {
+   "feature": "W:*516",
+   "log_factor": 0.34,
+   "factor": 1.41,
+   "ci95": [
+    0.63,
+    3.06
+   ],
+   "n_docs": 5,
+   "direction": "up",
+   "status": "candidate",
+   "grade": "C-"
+  },
+  {
+   "feature": "W:A-DU",
+   "log_factor": 0.617,
+   "factor": 1.85,
+   "ci95": [
+    1.0,
+    4.26
+   ],
+   "n_docs": 6,
+   "direction": "up",
+   "status": "candidate",
+   "grade": "C-"
+  },
+  {
+   "feature": "W:TA",
+   "log_factor": -0.356,
+   "factor": 0.7,
+   "ci95": [
+    0.39,
+    1.21
+   ],
+   "n_docs": 11,
+   "direction": "down",
+   "status": "candidate",
+   "grade": "C-"
+  }
+ ],
+ "internal_check": {
+  "feature": "W:KU-RO",
+  "factor": 7.45,
+  "ci95": [
+   5.41,
+   10.33
+  ],
+  "n_docs": 28
+ },
+ "identifiers": [
+  "S:TA",
+  "S:KU",
+  "S:MA",
+  "S:I",
+  "S:KA",
+  "S:RU",
+  "S:DI",
+  "S:TI",
+  "S:JA",
+  "S:RI",
+  "G:KI",
+  "S:PI",
+  "S:SU",
+  "G:JA",
+  "G:PU",
+  "S:RO",
+  "S:ZA",
+  "G:KA",
+  "G:RE",
+  "G:MI",
+  "W:SI",
+  "S:*118",
+  "W:KA",
+  "W:A",
+  "G: ",
+  "S:*306",
+  "G:A",
+  "G:TA",
+  "G:RO",
+  "W:TI",
+  "W:*21M",
+  "S:KE",
+  "S:*305",
+  "S:PU₂",
+  "W:PA₃",
+  "S:*188",
+  "G:K",
+  "W:MA-DI"
+ ],
+ "sha256_of_body_without_this_field": "3127699d217b345c8c1f4d15a6c124caab4a8a32bf4c5f641fcc1069b475ff36"
+}

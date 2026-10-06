@@ -24,11 +24,11 @@ T = L.load(C)
 if V == 'small':
     T = [T[i] for i in sorted(random.Random(L.seed('pe64c1' + C + V + 'AB')).sample(range(len(T)), 120))]
     # note: the AB and BA runs draw different subsamples; we use the AB one for sign association
-elif V == 'plant':
+elif V.startswith('plant'):
     T, truth = L.plant_ladder(L.null_swap(T, random.Random(7)), random.Random(L.seed('pe64c1' + C + V + 'AB')),
-                              rungs=(20, 40, 80), per=10)
-elif V == 'nullreal':
-    T = L.null_swap(T, random.Random(11))
+                              rungs=(20, 40, 80), per=int(V[5:] or 10))
+elif V.startswith('nullreal'):
+    T = L.null_swap(T, random.Random(int(V[8:] or 11)))
 
 val = defaultdict(list)       # rate -> rules
 dirs = defaultdict(set)
