@@ -26,7 +26,18 @@ def thresholds(corp):
     return thr
 
 
-def components(groups, thr, cap=40):
+def pairz(ix, T):
+    idx = {t['id']: i for i, t in enumerate(T)}
+
+    def z(x, ys):
+        i = idx[x]
+        J = [idx[y] for y in ys if y != x]
+        v = (ix.S[i, J] - (ix.mu[i] + ix.mu[J]) / 2) / np.sqrt((ix.sd[i] ** 2 + ix.sd[J] ** 2) / 2)
+        return float(v.mean())
+    return z
+
+
+def components(groups, thr, cap=40, zf=None, zmin=3.0):
     """greedy dossiers: best significant group first; a later significant group joins a dossier when at
     least half of its members are already in that dossier and none is in another (no chaining)."""
     sig = [g for g in groups if g['h'] > thr.get(C.size_class(len(g['G'])), 1e9)]
@@ -41,7 +52,9 @@ def components(groups, thr, cap=40):
         elif len(own) == 1:
             k, c = own.most_common(1)[0]
             new = [x for x in g['G'] if x not in owner]
-            if c >= len(g['G']) / 2 and len(dos[k]['ids']) + len(new) <= cap:
+            if zf is not None:
+                new = [x for x in new if zf(x, dos[k]['ids']) >= zmin]
+            if c >= 2 and c >= len(g['G']) / 3 and len(dos[k]['ids']) + len(new) <= cap:
                 dos[k]['ids'] |= set(new)
                 for x in new:
                     owner[x] = k
@@ -91,7 +104,7 @@ def main():
         T = [t for t in T if len(t['lines']) >= 3]
         ix = C.Index(T)
         thr = thresholds(corp)
-        sig, comps = components(R['groups'], thr)
+        sig, comps = components(R['groups'], thr, zf=pairz(ix, T))
         byid = {t['id']: t for t in T}
         zs = []
         for d in comps:
@@ -128,7 +141,7 @@ def main():
         if not R:
             continue
         thr = thresholds('PE')
-        sig, comps = components(R['groups'], thr)
+        sig, comps = components(R['groups'], thr, zf=pairz(C.Index(R['tabs']), R['tabs']))
         tr = set(R['truth']['ids'])
         bestc = max(comps, key=lambda d: len(tr & set(d['ids']))) if comps else {'ids': []}
         pl.append({'seed': s, 'recovered': len(tr & set(bestc['ids'])), 'of': len(tr),

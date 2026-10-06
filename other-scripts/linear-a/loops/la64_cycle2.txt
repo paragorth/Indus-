@@ -1,0 +1,22 @@
+la64 cycle 2 (6 Oct 2026): the per-head instrument (E1) on Linear B, Linear A and planted archives.
+Script tools/la64_c2.py; checkpoints data/la64_ckpt/c2_*.json (git-ignored).
+E1: a person count on the same, previous or next line as a commodity quantity, or the person total of the
+document (KU-RO of a VIR block, else the sum of the VIR counts). Per head, q x u / persons must fall in a
+ration window (day, month or year) of the commodity class. Fodder windows apply for grain only. Each count key
+is labelled person, small stock, large stock or none, whichever is best. Unit profile: 241-point grid,
+0.01-1,000 l. Nulls: numbers (quantities and person counts) shuffled between documents (20-30 times), random
+units on held-out halves (300), and 30-60 nonsense rulers (every window moved by an independent factor of
+10^U(-1.5, 1.5)).
+Linear A pairs after cleaning (persons with whole counts only): 66 in all (GRA 17, NI 18, CYP 15, DA-SI-*118 4,
+OLE 4, VIN 3, *304 3), of which 15 are next to a VIR line and 51 are against a document total.
+
+| LA-64.2a | LB full, E1, GRA (51 MUL pairs, mostly PY Ab), subunits at true values | GRA 105 l (interval 95-121; truth 96), single peak, contrast 15.9. HORD, VIN, OLIV, NI, FAR flat (< 2 units) | PASS for GRA only, the one commodity with real ration lists |
+| LA-64.2b | LB at LA size (10 draws, 82-117 pairs) | GRA peak 100-110 l in 10/10. The 2-unit interval is 83-127 l in 6/10 and stretches to the day alias (3.5 l) in 4/10 | PASS (peak); the period alias is not always excluded |
+| LA-64.2c | LB nulls | Shuffled numbers: GRA peak scattered 0.7-950 l (2/20 within 90-120), contrast 2-10 vs 15.9 real. Nonsense rulers: contrast median 15.96 vs physics 15.9 (50% of rulers >= physics). Held-out halves (8): random-unit p 0.01-0.42 (median 0.16); nonsense rulers beat or equal physics in 30-97% | The real ratios are coherent (beats shuffles); physics fixes only the absolute scale, it is not a better shape than nonsense windows (as pe55 F4) |
+| LA-64.2d | LB fraction value: dry subunit T (truth 0.1 of a unit) scored jointly with u_GRA | best T 0.065-0.10 (score 17.9 at 0.065, 17.4 at 0.103, 2.2 at 0.42) | recovered within x1.5; cycle 3 tests whether it is physics or bookkeeping consistency |
+| LA-64.2e | LA full, E1, every key with >= 3 pairs | GRA contrast 0.94 (peaks 0.02-62 l, no interval); CYP, NI, OLE, VIN, *304, DA-SI-*118: physics never beats the unit-free background (contrast 0). Adjacent pairs only: same | FAIL: no unit fixed |
+| LA-64.2f | LA nulls | GRA contrast 0.94 vs shuffled median 1.9 (83% of shuffles >= real); 98% of nonsense rulers >= physics; held-out halves: score 0 in 8/8 (p_units 1.0) | LA's person/commodity pairs carry no physical signal above shuffled numbers |
+| LA-64.2g | Planted per-head archive on LA's own 66 pairs (12 plants: true u 0.05-200 l, one random period d/m/y, ration drawn from the windows, rounded to halves) | GRA true u inside the interval in 12/12, but interval width x365 to x100,000; keys with 3-18 pairs have flat profiles; peak within x2 in 3/12 (GRA) | FAIL at LA size: even perfect per-head rations on these pairs would not fix a unit |
+| LA-64.2h | Ration-like words, best case: entries' ration posterior at TRUE units (LB 96 / 28.8 l; Ur III 1 l); truth = entries on lines with person counts | LB AUC 0.57 (76 person entries / 1,147), Ur III AUC 0.47 (218 / 9,130) | FAIL: even with the right units, entry size does not mark ration entries (group allotments, not per-person amounts). 'Person-like words take ration-sized quantities' cannot be read in LA |
+| LA-64.2i | LA fraction values: 400 random value sets for A B D E F H J K L2 L6 W X, summed E1 maxima | range 3.8 log units; smaller D (r -0.67), E (-0.44), J (-0.36) score higher | void: the base fit fails its nulls (2f), so no fraction preference is read |
+| LA-64.2 | Cycle verdict | Grade A (calibrated negative): with 66 Linear A person/commodity pairs, physics fixes no unit, and a planted perfect-ration archive of the same shape is not recovered either. Linear B passes only through PY Ab (GRA 100-110 l vs 96), and there nonsense rulers fit as well, so physics sets scale, not shape. Ration-sized entries do not mark ration entries even in the controls | Next: the one LA pattern with a clean person total (HT 27a, 89, 94a, 100: men, KU-RO, then small CYP/NI/VIN/OLE amounts) against an outside object (ZA Zb 3 pithos); is the LB subunit recovery physics or consistency? |
