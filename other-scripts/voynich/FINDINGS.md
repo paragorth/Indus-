@@ -852,3 +852,6 @@ Eight measures of writing care were taken on 11,576 Voynich words and 9,409 Lati
 - A (confound): unit width alone identifies Voynich pages at 0.50 (EVA 0.27); image alphabets must beat a width-only null.
 - Limit: the real Latin control fails at 2000-px scans (letters not recovered), so this bounds but does not settle the question. EVA stands. Would revive: full-resolution TIFFs where a Latin manuscript gives back its letters.
 
+
+## v71 order fingerprints and genre (6 Oct 2026)
+The genre classifier is **killed**: generator texts land on a genre 18 of 18 times. **B:** order above the line is invisible to held-out predictability at 2–3k words in every genre. **B (against a known generator):** the self-citation generator with a 60-word window leaves a cross-page order trace (0.085 bits/token) that neither transcription shows (0.005–0.020). This counts against that generator as the source of the text. **C:** word pairs inside a Voynich line carry direction (+0.018 to +0.038), above recipe, herbal and prose texts (up to +0.011) and close to indexes (+0.051). That fits v72's grade C reading of a short designation code.

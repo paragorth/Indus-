@@ -107,7 +107,7 @@ def page(args):
         for k in range(len(ws) - 1):
             g, j = at(ws[k]['x1'])
             g0 = at(al0[k][1])[0] if al0 is not None else np.nan
-            rec.append(dict(folio=pg['folio'], li=li, k=k, nw=len(ws), a=ws[k]['word'], b=ws[k + 1]['word'],
+            rec.append(dict(folio=pg['folio'], li=li, n=ws[0].get('n', li + 1), k=k, nw=len(ws), a=ws[k]['word'], b=ws[k + 1]['word'],
                             x=int(ws[k]['x1']), gap=g, gap0=g0, same0=bool(al0 is not None and abs(al0[k][1] - ws[k]['x1']) <= 3),
                             hgt=float(np.nanmean([hg[k], hg[k + 1]])), pitch=s, lcost=ws[k].get('lcost', 0.0)))
         gs = np.array([r['gap'] for r in rec]); g0s = np.array([r['gap0'] for r in rec])

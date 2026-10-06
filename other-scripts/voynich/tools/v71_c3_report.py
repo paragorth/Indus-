@@ -6,7 +6,7 @@ from collections import defaultdict, Counter
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import v71_lib as L
 import v71_report as R1
-SC = ['W', 'L', 'Lm', 'P']
+SC = os.environ.get("V71_SC", "W,L,Lm,P").split(",")
 
 def main():
     D = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(L.CK, 'c3', '*.json')))]
@@ -25,7 +25,7 @@ def main():
         lab = (m['coarse'] if m['kind'] == 'ref' else 'gen_' + m['gen'] + ('_V' if m['src'].startswith('V') else '_ref') if m['kind'] == 'gen'
                else ('V_%s_%s' % (m['sec'], m['tr'][:2]) if m['kind'] == 'voy' else m['name']))
         groups[lab].append(d)
-    P('ARROW EXCESS = held-out direction accuracy (mean of 20 configurations) minus the same on the unit-shuffled chunk; raw accuracy in brackets')
+    P('ARROW EXCESS = held-out direction accuracy (mean of 10 configurations) minus the same on the unit-shuffled chunk; raw accuracy in brackets')
     for lab in sorted(groups):
         G = groups[lab]; V = np.array([vec(d) for d in G])
         P('  %-20s n %3d  ' % (lab, len(G)) + '  '.join('%s %+.3f+-%.3f [%.3f]' % (s, V[:, i].mean(), V[:, i].std() / np.sqrt(len(G)), np.nanmean([raw(d, s) for d in G])) for i, s in enumerate(SC)))

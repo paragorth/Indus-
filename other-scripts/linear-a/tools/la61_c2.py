@@ -212,54 +212,77 @@ def search_signs(R0, targets, sel, rng, nrand=40, sweeps=2):
     return cur, cb, f(default), len(cache)
 
 
-def run_signs():
-    t0 = time.time()
+NSPL = int(os.environ.get('NSPL', 2))
+
+
+def _setup():
     A = admin_docs(load_la()); R0 = prior_reading()
     for w in TARGET:
         R0['roles'].pop(w, None)
-    sel = [la60_split(A, 'la61-sel-%d' % k) for k in range(4)]
-    ev = [la60_split(A, 'la61-ev-%d' % k) for k in range(4)]
+    sel = [la60_split(A, 'la61-sel-%d' % k) for k in range(NSPL)]
+    ev = [la60_split(A, 'la61-ev-%d' % k) for k in range(NSPL)]
+    return A, R0, sel, ev
+
+
+def run_signs_real():
+    t0 = time.time()
+    A, R0, sel, ev = _setup()
     rng = random.Random(seed('la61-c2-signs'))
-    cur, cb, c0, n = search_signs(R0, TARGET, sel, rng)
+    cur, cb, c0, n = search_signs(R0, TARGET, sel, rng, nrand=15, sweeps=1)
     ev_best = grammar_bits(with_roles(R0, TARGET, cur), ev); ev_def = grammar_bits(with_roles(R0, TARGET, ['SGL'] * 6), ev)
     per = {}
-    for i, w in enumerate(TARGET):                       # each sign's own role, others default
+    for i, w in enumerate(TARGET):
         rv = ['SGL'] * 6; rv[i] = cur[i]
         per[w] = (cur[i], ev_def - grammar_bits(with_roles(R0, TARGET, rv), ev))
-    # decoys: frequency-matched single signs not in the scaffold
+    json.dump(dict(roles=cur, sel_gain=c0 - cb, ev_gain=ev_def - ev_best, per=per, n=n, sec=time.time() - t0),
+              open(os.path.join(CK, 'c2_signs_real.json'), 'w'), ensure_ascii=False)
+    print('real', cur, c0 - cb, ev_def - ev_best, per, flush=True)
+
+
+def run_signs_dec(k0, k1):
+    A, R0, sel, ev = _setup()
     cnt = Counter(t[1] for d in A for t in d['toks'] if t[0] == 'W' and '-' not in t[1])
     pool = [w for w, c in cnt.items() if w not in R0['roles'] and w not in TARGET and c >= 3]
     tf = sorted(cnt[w] for w in TARGET)
-    dec = []
-    nscored = n
-    for k in range(24):
+    out = []
+    for k in range(k0, k1):
         r2 = random.Random(seed('la61-sdec-%d' % k))
         ds = []
         for f_ in tf:
             cand = [w for w in pool if w not in ds and 0.5 * f_ <= cnt[w] <= 2 * f_] or [w for w in pool if w not in ds]
             ds.append(r2.choice(cand))
-        Rk = copy.deepcopy(R0)
-        dflt = [Rk['roles'].get(w, 'SGL') for w in ds]
-        cur2, _, _, n2 = search_signs(Rk, ds, sel, r2, nrand=20, sweeps=1)
-        e_b = grammar_bits(with_roles(Rk, ds, cur2), ev); e_d = grammar_bits(with_roles(Rk, ds, ['SGL'] * 6), ev)
-        dec.append((ds, cur2, e_d - e_b)); nscored += n2
+        cur2, _, _, n2 = search_signs(R0, ds, sel, r2, nrand=15, sweeps=1)
+        e_b = grammar_bits(with_roles(R0, ds, cur2), ev); e_d = grammar_bits(with_roles(R0, ds, ['SGL'] * 6), ev)
+        out.append((ds, cur2, e_d - e_b, n2))
         print('decoy', k, ds, cur2, round(e_d - e_b, 1), flush=True)
-    g = ev_def - ev_best
-    dg = np.array([x[2] for x in dec])
-    res = dict(target=TARGET, roles=cur, sel_gain=c0 - cb, ev_gain=g, per=per, decoys=dec, n_scored=nscored,
-               sec=time.time() - t0)
-    json.dump(res, open(os.path.join(CK, 'c2_signs.json'), 'w'), ensure_ascii=False)
+        json.dump(out, open(os.path.join(CK, 'c2_signs_dec_%d.json' % k0), 'w'), ensure_ascii=False)
+
+
+def report_signs():
+    import glob
+    r = json.load(open(os.path.join(CK, 'c2_signs_real.json')))
+    dec = [x for f in glob.glob(os.path.join(CK, 'c2_signs_dec_*.json')) for x in json.load(open(f))]
+    dg = np.array([x[2] for x in dec]); g = r['ev_gain']
+    nsc = r['n'] + sum(x[3] for x in dec)
     row = ('| LA-61.2a | SINGLE SIGNS BETWEEN LINES: roles for RA PA PA3 TU ME *318 in {SGL default, HDR, COM, TOT (number predicted as running sum), TRX}; '
-           '%d role vectors scored by the la60 grammar (held-out bits; selection on 4 splits, evaluation on 4 other splits). Control: 24 decoy sets of 6 frequency-matched single signs, same search | '
-           'chosen roles %s; selection gain %.1f bits, EVALUATION gain %.1f bits (per sign: %s). Decoys: evaluation gain %.1f +- %.1f (max %.1f; %d/24 >= real) |' % (
-               nscored, ' '.join('%s=%s' % x for x in zip(TARGET, cur)), c0 - cb, g,
-               '; '.join('%s %s %+.1f' % (w, r, x) for w, (r, x) in per.items()), dg.mean(), dg.std(), dg.max(), int((dg >= g).sum())))
-    verdict = ('real gain beats %d/24 decoys: %s' % (int((dg < g).sum()),
-               'the roles carry information beyond what any single sign gains from a role (candidate)' if (dg >= g).sum() <= 1 else
+           '%d role vectors scored by the la60 grammar (held-out bits; selection on %d splits, evaluation on %d other splits). Control: %d decoy sets of 6 frequency-matched single signs, same search | '
+           'chosen roles %s; selection gain %.1f bits, EVALUATION gain %.1f bits (per sign: %s). Decoys: evaluation gain %.1f +- %.1f (max %.1f; %d/%d >= real) |' % (
+               nsc, NSPL, NSPL, len(dec), ' '.join('%s=%s' % x for x in zip(TARGET, r['roles'])), r['sel_gain'], g,
+               '; '.join('%s %s %+.1f' % (w, a, b) for w, (a, b) in r['per'].items()), dg.mean(), dg.std(), dg.max(), int((dg >= g).sum()), len(dec)))
+    verdict = ('real gain beats %d/%d decoys: %s' % (int((dg < g).sum()), len(dec),
+               'the roles carry information beyond what arbitrary single signs gain from a role (candidate, C)' if (dg >= g).sum() == 0 and g > 0 else
                'not distinguishable from what arbitrary single signs gain; no role for these signs is supported'))
     wlog(OUT, row + ' ' + verdict + ' |')
     print(row, verdict)
 
 
 if __name__ == '__main__':
-    {'arith': run_arith, 'signs': run_signs}[sys.argv[1]]()
+    m = sys.argv[1]
+    if m == 'arith':
+        run_arith()
+    elif m == 'real':
+        run_signs_real()
+    elif m == 'dec':
+        run_signs_dec(int(sys.argv[2]), int(sys.argv[3]))
+    else:
+        report_signs()
