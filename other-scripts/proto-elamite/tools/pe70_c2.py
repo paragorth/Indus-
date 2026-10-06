@@ -152,7 +152,11 @@ def main():
         U = [r for r in ur if r['vol'] == site]
         GU = groups_of(U)
         GU = {s: v for s, v in GU.items() if len(v) <= 40}
-        o = test(U, GU, rng, nperm=200, label='UR3 ' + site)
+        keep = sorted(GU)
+        if len(keep) > 250:
+            keep = sorted(rng.choice(keep, 250, replace=False))
+        GU = {s: GU[s] for s in keep}
+        o = test(U, GU, rng, nperm=40, label='UR3 ' + site)
         o['legend'] = legend_validation(U, GU, own(GU, U, *idf(U)[:1], len(U)), rng)
         res['ur3_' + site] = o
         print(o['label'], {k: v for k, v in o.items() if k != 'own_list'}, flush=True)

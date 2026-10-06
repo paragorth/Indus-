@@ -1,0 +1,13 @@
+pe70 cycle 3: invert the problem -- guess who signed from the text alone, held out by seal
+(tools/pe70_c3.py; data/pe70_ckpt/c3.json, c3_ctrl.json)
+20,000 random 'party marker' hypotheses (1-3 tokens drawn from tokens on seal-id tablets, rarer favoured), read as 'tablets
+carrying ANY of these belong to one party'. Score on TRAIN seals: share of marker-carrying tablet pairs that share a seal,
+minus the base share (lift). Survivors = top 1% by train lift; statistic = their mean lift on HELD-OUT seals (seals split
+in half; 10 splits). Nulls: seal ids shuffled among seal-id tablets, freely and within volume (same hypotheses, same splits).
+
+| Row | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-70.3a | CONTROL Ur III at PE size (12 Umma seals with PE group sizes + 55 single-seal tablets = 97), 5,000 hypotheses, 4 draws x 2 nulls | held-out lift 0.12-0.18 (share > 0: 0.29-0.40) vs nulls -0.008 to 0.007; real above every null 4/4. Recurrent survivors are personal names and places (la-ni, a-szi-an, a-lu5-lu5, damar-dsuen, lu2-dszul-gi-ra ... ); 1-2 of the top 8 per draw are in the seal legends | PASS: at PE size, text predicts which held-out tablets share a seal, through names |
+| PE-70.3b | CONTROL planted: 3 seal groups each given a private df 3-10 sign, 5,000 hypotheses, 4 seeds x 2 nulls | real above both nulls 3/4 (lift 0.042, 0.146, 0.060 vs <= 0.049); 0.007 vs 0.010 in the fourth; a planted sign is among the recurrent survivors 4/4 | PASS with moderate power |
+| PE-70.3c | PE, 20,000 hypotheses, 8 nulls (4 free, 4 within volume) | held-out lift 0.019 (share > 0: 0.28) vs nulls -0.010 to 0.040; 1 of 8 nulls >= real (p ~0.2). Recurrent survivors: M222 (PES0198), M383 (PES0924), M332, M380, M252 (PES0821), M122, |M153+X|, M340 | NULL: PE text does not predict seal-sharing on held-out seals; the recurrent signs are each one seal's own sign (cycle 2) |
+| PE-70.3 | Cycle verdict | The same search that recovers Ur III parties through names at PE size finds nothing transferable in PE | B (negative): no sign or sign set behaves like a party name across seals. With cycle 2: PE seals mark template series, not named parties whose names recur on their documents (Ur III: 20/20 and 4/4 at the same size). Absence is an upper bound for this sample (42 tablets on recurring seals); seals shared by >= 3 parties' documents with a written name would have been seen |
