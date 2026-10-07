@@ -1,0 +1,19 @@
+pe82 cycle 2 (7 Oct 2026): WHAT THE READER COULD NOT HAVE KNOWN (novelty tolerance). Candidate I2 of loops/pe82_cycle1.txt.
+Tools: tools/pe82_c2.py, pe82_c2_an.py; checkpoints data/pe82_ckpt/c2_*.json.
+Idea: a sign the reader has never seen can be absorbed only where the context fixes its role, so the places where later
+publication batches show signs never seen in earlier batches mark open-class slots (names), and signs that sit there are
+name material; closed-class codes (commodities, units) should never neighbour novelty.
+Design: discovery batches D, held-out batches H (two batch groups each way; PE: MDP 26 + 26S + TCL 32/MDP 31 vs MDP 17 + 06 +
+other; PC: Uruk III / Uruk IV / other, three ways). A token in H is NOVEL if its base sign never occurs in D (PE 166-299 novel
+tokens; PC 732-2,145). Tolerance of a context = smoothed rate, in D, of signs found on only one D tablet. 3,000 context
+definitions per split (all 92 subsets of 1-3 of 8 features + random sign partitions of the neighbours into 2-20 classes);
+score = held-out AUC gain over the entry-position x entry-length reader. Selection on one H batch group, re-test on the
+other (and reverse). Null: novelty labels shuffled within (entry length x position), 2 replicates, same selection.
+Pre-registered reading (before scoring): if a context survives, the signs that license novelty are compared with the pe45
+name-frame elements (M056 M010 M001 final; M157 M210 initial; M054 M009); PC goods signs (PC_WORLD) should be closed.
+
+| PE-82.2.1 | PLANTED open slot: in H, half of the tokens right after one sign Q (Q drawn among signs with 60-300 right neighbours) replaced by brand-new signs (33-45 tokens, 10-20% of all novel tokens), 2 seeds x 2 splits | top-50 contexts selected on one H half gain +0.029 to +0.066 AUC on the other half (3 of 4 directions >= +0.028; null replicates -0.038 to +0.047, mostly <= +0.006); selected contexts are 'left neighbour' partitions, as planted | PASS (weak): a slot carrying >= ~10-20% of the novelty is found |
+| PE-82.2.2 | REAL PE, 2 splits x 3,000 contexts | entry position x length reader AUC 0.55-0.59 (same as its null); top-50 re-test gain -0.044 to +0.021 vs null -0.031 to +0.032 | NULL: beyond entry position and length, nothing predicts where never-seen signs turn up |
+| PE-82.2.3 | CALIBRATION proto-cuneiform, 3 splits, same pipeline | position x length AUC 0.54-0.62 = null; re-test gain -0.010 to +0.009 vs null -0.034 to +0.015 | NULL in the known script too |
+| PE-82.2.4 | PC PLANTED open slot (55-120 tokens, 5-10% of novel tokens) | re-test gain -0.011 to +0.009, inside null | FAIL (power): in PC a planted slot holding 5-10% of novelty is not found |
+| PE-82.2.F | Verdict I2 'what the reader could not have known' | new signs in later publication batches appear wherever entry position and length allow, in PE and in proto-cuneiform; the instrument finds a planted slot only when it carries >= ~10-20% of all novelty | A (method limit) + NULL: novelty tolerance does not separate open (name) slots from closed (code) slots at either corpus size; no sign class read; nothing frozen |

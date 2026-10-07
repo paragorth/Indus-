@@ -1,0 +1,52 @@
+# v95 cycle 1 (7 Oct 2026): candidate list and choice. VOY_MODE=glyph. Illustrations not used. Max 2 CPU workers.
+# Read first: STRATEGIES.md (v5-v93), FINDINGS.md, SUMMARY.md, LITERATURE.md, loops/v89-v93 finals, v92_cycle1 (running: page-recurring
+#   word frames), v94 (running: source-text search over a 300+ text pool).
+# Families already tried, one line each (not repeated):
+#   reading order / grids / acrostics (v6); slot templates, dice, volvelles, wheels, Lullian slots (v7, v9, v14, v64, v90);
+#   seriation, drift clocks, bifolio units, ink/pen clocks (v8, v18, v41, v57, v74, v88); maps and walks in word space (v11);
+#   weaves and lags (v12); segmentation / spaces (v16); sorting (v19); quotas (v20); forgers, generators, ABC (v21, v26, v42, v53,
+#   v82, v84, v87); corrections and slips (v24, v63); stroke features, harmony, allographs (v25, v28, v29, v36, v40); A->B dialect
+#   rules (v30, v59, v61, v77); calendar beats (v32); stem+ending ecology (v33); spells / voces magicae (v31); list records, fields,
+#   tables row- and column-wise (v37, v52, v80); picture-text (v38); residual choices, rule breakers, sparse channels (v45, v49, v81,
+#   v91); speech model (v51); near-repeats (v54); almanac codes (v55); cross-reference hypertext (v56); source by shape / recurrence
+#   graph / text pool (v58, v89, v94); verse, metre (0/1 glyph weightings), refrains (v62); page seams (v65); keyword networks (v66);
+#   music / chant (v68); care index (v69); ink alphabets (v70); text-type classifier (v71); two-layer crack model (v72, v73);
+#   designation codes (v75); copy-and-vary entries (v76); level decomposition (v78); margin counters, periods, index letters (v79);
+#   transcription uncertainty (v83); hand dictionaries (v85); squeeze / abbreviation recoverability (v86); interlinear translation,
+#   checkerboards, dialogue (v93); page-recurring frames' slots (v92, running).
+# Candidates (all outside those families; each = thousands of random hypotheses scored automatically, survivors re-tested on held-out
+#   folios (leaf parity) and on IT2a / GC2a with frozen parameters; planted control = a real document of that kind written through
+#   the v72 merge code + Voynich-like surface; kill = shuffled twins and copy-and-vary / mood generators):
+#  M1 THE WRITER MEASURED SOMETHING. Every word is a number in an additive, non-positional notation (value = weighted glyph count,
+#     Roman-numeral style, weights unknown). A physical quantity read off day by day or hour by hour (sun height, day length, a
+#     pulse, a water clock) is smooth WITH MOMENTUM: its increments persist, so a linear extrapolation from the last two readings
+#     beats repeating the last reading. Language, iid draws (lambda 3) and copy-and-vary random walks (lambda 2) cannot do that
+#     (lambda = E[2nd difference^2] / E[1st difference^2] < 1 only for a smooth process). Hypotheses: random glyph sets x position
+#     split x series (along the line, down a word column, line totals, line means; per paragraph or page) x mode (closed-form
+#     generalised-eigen fit of the weights on train folios, or blind Roman-like integer guesses). Plants: a real ephemeris (day per
+#     line, sun degree / minute, day length) and a real altitude table (hourly sun heights per day), Roman numerals (additive form)
+#     through the merge code + surface. Meaning payoff: the glyph values, the quantity's shape (daily / yearly cycle) and which
+#     line field is the reading.
+#  M2 A HIDDEN MACHINE. Words are instructions to a counting board / register machine (put on, take off); a legal program never
+#     takes from an empty register and ends each line or paragraph with the board cleared. Random signed increment assignments to
+#     glyph classes; score = non-negativity of prefix sums + return to zero at unit ends, against redeal nulls that keep position and
+#     length. Plant: a real counting-board trace (Roman-numeral additions written as put/take moves) and a real double-entry style
+#     balance (receipts and payments that close each line).
+#  M3 THE CHART WAS COMPUTED. A geomantic chart (the most popular late-medieval divination) is 4 'mother' figures drawn at random and
+#     12 figures DERIVED by bitwise parity (XOR) of fixed pairs. If the lines record charts, some binary word features obey exact
+#     XOR laws between fixed positions, which no language obeys. Random binary feature sets x random position triples; plant = real
+#     geomantic charts (random mothers, true derivation rules) written as Voynich-like words. (A voynich.ninja thread (tid 5831)
+#     proposes geomancy as a word GENERATOR; no algebraic test of computed figures was found.)
+#  M4 A GAME RECORD. Lines as moves of a board game; a move's legality depends on the board state built from all earlier moves,
+#     so the vocabulary allowed at a point is predicted by a long-range state that an n-gram cannot see. Dropped for now: no scoring
+#     rule that a state-free copy generator cannot also satisfy was found in the design time.
+#  M5 MNEMONIC ROUTE (method of loci): each page walks the same fixed sequence of loci. Dropped: too close to entry templates (v37,
+#     v76) and line-position studies (v79, v80).
+#  M6 INVERT: THE SMALLEST EXTERNAL KEY. Find the shortest external list (k items in a fixed order) such that reading each word as an
+#     index into it makes the pages more compressible. Dropped: equivalent to source-text alignment (v89, v94 running).
+# Web check (7 Oct 2026): 'Voynich numbers time series smooth additive', 'Voynich conservation / counter / stack machine / dance',
+#   'Voynich geomancy XOR derived figures': Roman-numeral cipher guesses and a 'procedural operators' framework exist (no statistical
+#   momentum test); a voynich.ninja geomancy-generator thread exists (no XOR-law test); Stolfi notes and the Hurst-exponent letter-
+#   distance study do not test increment persistence of word values. M1-M3 not found done.
+# Choice: cycle 1 = M1 (most direct payoff: values and a referent; the closed-form fit makes 10^4-10^5 hypotheses per corpus cheap).
+#   Next: M2 (cycle 2), M3 (cycle 3).

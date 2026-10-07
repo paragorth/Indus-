@@ -1,0 +1,46 @@
+la81 cycle 1 (7 Oct 2026): candidate list, prior-work check, choice, run log
+
+STEP 1. Families already tried on Linear A (STRATEGIES.md la1-la80, FINDINGS.md, SUMMARY.md, LITERATURE.md)
+- sign values and LB analogies, value grids, sign-shape coding (la1, la7, la21, la38, la59); hands from SigLA ink (la34)
+- numbers and economy: totals, fractions, exchange rates, value vectors, vessel pouring, physiology, digit forensics, rounding, sorted lists (la6, la9, la20, la24, la27, la30, la36, la56, la61, la64, la74-la76)
+- language fingerprints, typology, breeding, ancestors, mixtures (la5, la10, la11, la19, la44)
+- grammar/role induction: automata, templates, attention, abbreviations (la68 sealing single signs), doublets, ligatures, number-bends-word, headings (la8, la35, la37, la39, la40, la45, la53, la65, la67)
+- LAYOUT: la47 'the layout is the grammar' (100,000 random spatial grammars over physical lines; found run-on writing: 14 % of line breaks split a word or number, 0 in LB) - it measured THAT words are split, never WHERE inside the word the scribe cut
+- spread/society: epidemics, travel, land, urban scaling, seal network, phylogeography, private spellings, queues, archive clocks, government simulators (la16, la17, la23, la26, la29, la31, la33, la55, la58, la73, la77)
+- validation machinery: forgers, iterated learning, circuits, reader independence, time travel, counterfactual excavation (la14, la49, la52, la69, la78, la79)
+- la80 (parallel): clay outlines and lump shapes from photos (K1-K3 physical object). Not repeated here.
+
+STEP 2. Candidates (simulate the writers / change the medium), each with massive random guessing and a killable control
+K1 THE SCRIBE'S HYPHEN. When a Linear A scribe ran out of line inside a sign-group, he cut it. Cuts are a bodily
+   act made under time pressure and are the only place where the WRITER, not the modern editor, segments a word.
+   If scribes felt sub-units (stem | ending, compound parts) the cut falls at them more than the physical prior
+   (position in word) allows. 20,000 random boundary theories (sparse random weights over 10 corpus-internal
+   boundary statistics computed ONLY from documents published by 1950: prefix/suffix standalone, prefix/suffix
+   family size, successor/predecessor variety, sign transition surprisal, final/initial sign tendency) scored as
+   log-likelihood gain over a position-only model on cuts in 1945-published tablets (HT), survivors frozen
+   (sha256) and scored on cuts in tablets published after 1950 (Zakros, Khania, Arkhalkhori, Kophinas, Petras ...).
+   Controls: cut positions shuffled within word length (whole lottery rerun, 50 runs); planted worlds where cuts
+   follow one statistic 60 % of the time; random-hypothesis reference on the test set. LB calibration impossible:
+   LB scribes never split words (la47: 0), recorded as such.
+   Prior work: web search ('Linear A word division across line break', 'scribes hyphenation syllabic script
+   morpheme boundary'): nothing on Linear A cut positions; general note that copyists cut at syllable breaks.
+   KEEP (chosen).
+K2 GIVEN BEFORE NEW. An abbreviation can only follow its full form in writing time. Within-document pairs where a
+   short sign-group equals the first / last / middle sign of a longer one, counted by order. Pre-count (corpus_ra,
+   all documents): initial-sign 28 after vs 36 before; final-sign 35 vs 21; mid-sign 29 vs 23; 2-sign rules 1-2
+   cases. No given->new asymmetry and n too small for a lottery. DROPPED at pre-count (logged as LA-81.1.0).
+K3 PANINI'S LAW FOR MINOAN. Speakers put light before heavy in fixed pairs. 10,000 random sign 'weight' functions
+   predict which of two adjacent sign-groups (no number or logogram between them) is written first; frozen on HT,
+   scored on later finds. Reserve for cycle 2 (check overlap with la20/la78 order work first).
+K4 THE WRITER'S MODEL OF THE READER. Rational omission: a scribe writes a commodity logogram only when the
+   reader could not infer it. Random word->commodity maps scored by how well they explain which entries carry an
+   explicit logogram vs a carried-over one. Reserve for cycle 3.
+K5 PRIMING CHAIN. Seriate each HT hand's tablets as the path that maximises text priming between consecutive
+   tablets (random restarts); validate on findspot co-location. Reserve.
+K6 SPACE PRESSURE. Short forms of a word at crowded line ends (truncation instead of a cut). Folded into K1 as a
+   side count (are words that end exactly at a line end shorter than their type's other spellings?).
+
+Choice: K1 first.
+Honesty note: while checking the alignment, the list of split sign-groups (including about 12 non-HT cuts: KH5,
+KOZa1, PE1, ZA5b, ZA15a, GOWc1a ...) was printed once before the features were coded. Feature definitions are
+generic boundary statistics fixed below, not chosen from those cases.

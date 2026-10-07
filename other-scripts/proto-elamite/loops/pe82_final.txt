@@ -1,0 +1,17 @@
+pe82 FINAL (7 Oct 2026): INVERTED PROBLEM - what the reader needed, could not know, or what the writer optimised. Design log,
+seven candidates and three drops: loops/pe82_cycle1.txt. Tools: tools/pe82_common.py, pe82_c1.py, pe82_c1_an.py,
+pe82_c2.py, pe82_c2_an.py, pe82_c3.py, pe82_c3_eval.py. Checkpoints data/pe82_ckpt/ (git-ignored).
+Frozen: data/pe82_c3_frozen_defs.json (sha256 ec5703d5f2d0138d74adb15b9399f7e667848aeb4d2b643e650fac3cc116a723).
+Held-out splits are by publication batch (MDP 06 / 17 / 26 / 26S / TCL 32 + MDP 31 / other) and, for proto-cuneiform, by
+Uruk IV / Uruk III / other provenience; for Ur III by archive (Umma / Girsu). No random-tablet splits (la78 lesson).
+Compute: ~2.8 M (marker x reader-model) tests over 11 runs (cycle 1), 3,000 context definitions x 2-3 splits x 7 runs with
+shuffled-novelty nulls (cycle 2), 1,152 protection definitions on 27,440 Ur III tablets x 2 + 36 frozen x 300 ruler
+permutations on PE x 3 (cycle 3); at most 2 workers.
+
+| ID | Method and control | Result | Verdict |
+|---|---|---|---|
+| PE-82.1.F | INK WHERE THE READER WOULD STUMBLE (uniform-information writer): 60 random reader models (leave-one-batch-out naive Bayes on header, neighbours, look-ahead, tablet majority, position) x 2,150 sign sets; within (tablet x target x length-without-marker) covariance of marker presence with reader surprisal; discovery / confirmation by batch. Kill: strings shuffled within strata (3 seeds); planted marker b 0-3; PC calibration with pre-registered goods signs | real 0 survivors, 87 both-halves hits vs shuffles 74-115; planted marker never found blind (max z 3.45 at 7-20x odds per sd); PC goods signs p 0.32. A version-1 'M288 marks surprise' result was a stratification artefact (logged, discarded) | A (method limit) + NULL |
+| PE-82.2.F | WHAT THE READER COULD NOT HAVE KNOWN (novelty tolerance): where do signs unseen in earlier batches appear? 3,000 context definitions per split incl. random neighbour partitions, selected on one held-out batch group, re-tested on the other; novelty-shuffled null; planted open slot; PC calibration | PE and PC: nothing beats entry position x length (re-test gains inside null); planted slot found at >= 10-20% of novelty in PE, not at 5-10% in PC | A (method limit) + NULL |
+| PE-82.3.F | WRITERS PROTECT WHAT IS WORTH STEALING: checksum protection vs mass; 1,152 definitions calibrated on Ur III archives, 36 frozen, applied to PE with the pe80 frozen size ruler; line-order kill; planted heavy-sign checksums | Ur III signal survives its own kill (chance sums: protected lines 5,324 real vs 5,111 shuffled); PE median rho 0.08-0.15, p 0.14-0.21; plant not recovered | A (method limit) + NULL |
+| PE-82.3.B | Side result: exact run-sum lines vs line-order shuffles | only the PE reverse total of the whole obverse beats chance (20 tablets vs 5-6); every looser 'sum line' rule is at chance in PE and Ur III | B (restates pe23/attack_arith: real PE checksums exist on about 15-20 tablets only) |
+| PE-82.F | Loop verdict | Three inverted questions (reader surprise, reader novelty, writer protection) each had a planted control and a known-meaning calibration; all three calibrations failed or collapsed under their own kill, so none of them can read a sign at PE size | NOT CRACKED. Nothing read; no grade-C reading proposed. Lesson: questions about the reader's or writer's optimisation need within-tablet contrast, and PE tablets are too short (median 3 numeric lines) to supply it |

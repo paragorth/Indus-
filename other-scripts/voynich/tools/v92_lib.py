@@ -114,7 +114,10 @@ GEN_P = {
 
 
 def corpus(name):
-    """named corpus, cached."""
+    """named corpus, cached. Suffix _H0 / _H1 = train / held-out folios (leaf parity) of the base corpus."""
+    if name.endswith(('_H0', '_H1')):
+        h = int(name[-1])
+        return [p for p in corpus(name[:-3]) if split_half(p['id']) == h]
     if name.startswith('E_') and not name.endswith(('_WPS', '_WLS')): return corpus_e(name)
     c = pload('corp_%s.pkl' % name)
     if c is not None: return c
@@ -133,6 +136,10 @@ def corpus(name):
         c = within_line_shuffle(corpus(name[:-4]), 9291)
     elif name == 'G_SELF':
         c = V.gen_selfcit(corpus('ZL3b'), seed=9293, p_copy=0.04)
+    elif name == 'G_GM2':
+        import v84_lib as L84
+        P = dict(GEN_P['G_GM']); P.update(gm_beta=1.5, gm_rho=0.9, hseed=924)
+        c = L84.gen_page(corpus('ZL3b'), P, seed=9299)
     elif name in GEN_P:
         import v84_lib as L84
         c = L84.gen_page(corpus('ZL3b'), dict(GEN_P[name]), seed=9294 + sorted(GEN_P).index(name))

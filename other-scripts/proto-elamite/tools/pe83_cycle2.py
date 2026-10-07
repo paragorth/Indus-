@@ -17,6 +17,9 @@ for r in R:
     c = cat[r['id']]
     r['pres'] = c['object_preservation'] or 'none'; r['surf'] = c['surface_preservation'] or 'none'
     r['kind'] = ('black' if r['bg'] < 30 else 'white' if r['bg'] > 200 else 'grey') + ('g' if r['sat'] < 6 else 'c')
+TAG = ''
+if os.environ.get('PE83_INTACT'):
+    R = [r for r in R if r['l1lac'] == 0 and r['l1dam'] == 0]; TAG = '_intact'
 X, names, _ = E.features([('S', r['t']) for r in R])
 hd = np.array([r['hd'] for r in R]); n = len(R)
 col = lambda k: np.array([np.nan if r.get(k) is None else r[k] for r in R], float)
@@ -149,4 +152,4 @@ sus = np.array(['Susa' in r['site'] for r in R])
 out['C2.4_susa'] = {k: P.partial(v[sus], hd[sus], Z0[sus], 1000, rng) for k, v in CF.items()}
 out['C2.4_not_susa'] = {k: P.partial(v[~sus], hd[~sus], Z0[~sus], 1000, rng) for k, v in CF.items()}
 print(json.dumps({k: out[k] for k in out if k.startswith('C2.4')}, indent=1), flush=True)
-json.dump(out, open(os.path.join(P.CK, 'c2.json'), 'w'), indent=1)
+json.dump(out, open(os.path.join(P.CK, 'c2' + TAG + '.json'), 'w'), indent=1)

@@ -1,0 +1,15 @@
+# v92 cycle 3 (7 Oct 2026): K4 SIMULATE THE WRITER. VOY_MODE=glyph. Tools: tools/v92_c3.py (writer + summaries), tools/v92_sum3.py (ABC);
+#   checkpoints data/v92_ckpt/c3_*.json.
+# Novelty check: v84 fitted meaningless generators to page vocabulary; v87 ran ABC over encoders of real plaintexts. Neither put a NAME
+#   layer into the writer and asked how much of the page recurrence it must carry. Web search: no ABC/writer simulation of Voynich
+#   page-specific words found.
+# Writer program (random, 700 per target, rewriting the target's own page/line skeleton and section word stock): base = junction draw
+#   (next word from the words that follow a word with the same last glyph in that section; line-initial pool), per-page lexical mood
+#   (beta 0-1.5), per-page seed vocabulary with copy-and-vary (0-9 seeds, rate 0-0.08), novelty (middle varied, 0-0.5); ENTITY layer =
+#   k_e (0-6) page-specific names (rare real words with 1-2 middle glyphs varied) written at rate r_e (0-0.06) with fade phi (0-3) and
+#   per-mention variation v_e (0-0.5). Summaries of page-recurring frames only (count 2-20): recurrence rate, confinement to one page
+#   (>= 80% of tokens on it), front-loading, spelling likeness of a page's recurring frames vs random pairs, rare left neighbour,
+#   frames recurring per 100 tokens, log-log slope of the dominant frame's page count on page length, frame hapax share.
+# ABC: closest 5% (35) by standardised distance; posterior entity share of tokens; self-validation = leave-one-out on 60 simulated pages
+#   (correlation of true and posterior share). Calibration: plants (entry pages through the surface) must have a higher posterior share
+#   than generators run through the same ABC.

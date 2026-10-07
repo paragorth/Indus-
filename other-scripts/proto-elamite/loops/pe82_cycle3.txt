@@ -1,0 +1,22 @@
+pe82 cycle 3 (7 Oct 2026): WRITERS PROTECT WHAT IS WORTH STEALING. Candidate I3 of loops/pe82_cycle1.txt.
+Tools: tools/pe82_c3.py, pe82_c3_eval.py; checkpoints data/pe82_ckpt/c3_*.json. Frozen: data/pe82_c3_frozen_defs.json
+(sha256 ec5703d5f2d0138d74adb15b9399f7e667848aeb4d2b643e650fac3cc116a723), written after the Ur III scan and before any PE
+protection score.
+Idea (inverted): ask which entries the writer made tamper-evident. An entry is PROTECTED when it sits in a run of entries
+re-stated by a later line equal to their exact sum (a checksum). If checksums were spent on what mattered, the things
+protected more often (beyond tablet length and archive) are the heavier / dearer ones. Language-free: only values, line order
+and one key token per line are used. Answer keys fixed before this loop: the pe80 Ur III mass table (written before pe80 saw
+counts) and the pe80 frozen PE size ranking (sha256 b692200a...9113).
+Design: 1,152 protection definitions (side any/reverse x run must start at top or not x skip 0/1 line x minimum run 2-5 x key
+first/last token x strata size or size+archive x size bin 1/2/4 x minimum n 5/10/20) scored by Spearman(protection excess,
+log mass) in Umma and in Girsu (CDLI Ur III, 27,440 tablets; values from disz/u numerals only, as pe80). Survivors (rho >= 0.3
+in both archives; 36 definitions) frozen and applied once to PE batch halves A (MDP 26, 26S, other) and B (MDP 17, 06, TCL 32 /
+MDP 31). Nulls: 300 permutations of the PE ruler; kill = lines re-ordered within each tablet (keeps every value, breaks real
+checksums, keeps chance sums); planted = true checksum lines appended to tablets carrying a top-third (heaviest) sign.
+
+| PE-82.3.1 | UR III CALIBRATION, 1,152 definitions, archive halves | mean rho +0.135 (Umma) / +0.125 (Girsu); top 20 by Umma re-test on Girsu +0.25, reverse +0.40; 36 definitions >= 0.3 in both (frozen) | looked like a pass |
+| PE-82.3.2 | UR III KILL: line order shuffled within tablets, same 1,152 definitions | mean rho +0.143 / +0.189; 16.5% of definitions >= 0.3 in both (real 3.1%); frozen definitions median +0.41 / +0.33 (real +0.36 / +0.49); protected lines 5,111 (real 5,324) | FAIL: the Ur III 'calibration' is carried by chance sums among small numbers, not by checksums |
+| PE-82.3.3 | Checksum census, real vs order-shuffled (3 shuffles) | Ur III tablets with an exact run-sum line: 1,967 vs 2,159-2,172 (any position), 93 vs 125-132 (reverse total of all lines); PE 103 vs 88-92, 75 vs 77-79, and 20 vs 5-6 (reverse total of all lines) | B (method): with unit/ten values only, exact sums are at chance in both corpora; only the strict PE reverse total of the whole obverse beats chance (about 14 tablets), too few to rank signs |
+| PE-82.3.4 | REAL PE, frozen 36 definitions vs pe80 frozen ruler | median rho A +0.148 (null95 0.211, p 0.14), B +0.109 (p 0.17), all +0.082 (p 0.21); kill medians -0.14 to +0.22 | NULL |
+| PE-82.3.5 | PE PLANTED: true checksum appended to tablets with a heaviest-third sign, q 0.3 (42 tablets) and q 1.0 | median rho +0.10 to +0.16, p 0.10-0.20; kill -0.08 to +0.29 | FAIL (power): even a perfect 'heavy things get checksums' rule is invisible at PE size under this ruler |
+| PE-82.3.F | Verdict I3 'writers protect what is worth stealing' | the outside calibration collapses under its own kill (chance sums), PE sits inside its ruler-permutation null, and a planted rule is not recovered | A (method limit): checksum-protection cannot rank counted things in Ur III or PE with unit/ten values; NULL for PE. The frozen definitions are kept only as a record of the pre-registration |
