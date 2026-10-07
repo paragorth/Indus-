@@ -7,7 +7,7 @@
     on half B. Null: vocabularies permuted within strata (20 runs, same metrics). Planted: 25 'scribes' = groups of 4
     stylus-nearest tablets each given 2 shared private signs; must replicate.
 usage: python3 pe84_cycle2.py feats.json -> data/pe84_ckpt/c2.json"""
-import sys, os, json, re
+import sys, os, json, re, collections
 import numpy as np
 from scipy.stats import rankdata, norm
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -22,11 +22,22 @@ def vocab(t):
     return {common.base(g) for l in t['lines'] for g in l['signs'] if common.is_sign(g)}
 
 
+PURGE = os.environ.get('PE84_PURGE') == '1'
+RARE = os.environ.get('PE84_RARE') == '1'
+CONTENT = ('num_lines', 'numonly_share', 'ob_nums_per_line', 'rv_nums_per_line', 'signs_per_entry', 'header', 'hdr_M157',
+           'sys_C', 'sys_B', 'sys_SDB', 'sys_N23', 'sys_S-frac', 'rv_any', 'rv_total_only')
+
+
 def spec_matrix(R, face='ob'):
     X = np.array([[r['ph'].get('%s_%s' % (face, k)) if r['ph'].get('%s_%s' % (face, k)) is not None else np.nan
                    for k in SPEC] for r in R], float)
     # spectrum shape: granulometry normalised by its sum (scale-free), relief ratios
     g = X[:, 3:7]; X[:, 3:7] = g / np.nansum(g, 1, keepdims=True)
+    if PURGE:
+        Zc = np.column_stack([np.ones(len(R))] + [np.array([r['tx'][k] for r in R], float) for k in CONTENT])
+        for j in range(X.shape[1]):
+            ok = np.isfinite(X[:, j])
+            X[ok, j] = X[ok, j] - Zc[ok] @ np.linalg.lstsq(Zc[ok], X[ok, j], rcond=None)[0]
     return X
 
 
@@ -116,6 +127,10 @@ def main():
     R = C.rows(sys.argv[1])
     R = [r for r in R if r['ph'].get('ob_E08') is not None and r['tx']['n_distinct'] >= 3]
     VOC = [vocab(r['t']) for r in R]
+    if RARE:
+        dfc = collections.Counter(g for v in VOC for g in v)
+        keep = {g for g, n in dfc.items() if n <= 0.05 * len(R)}
+        VOC = [v & keep for v in VOC]
     out = {'n': len(R), 'meter': meter_check(R)}
     print('meter', out['meter'], flush=True)
     half = np.array([r['half'] for r in R])
@@ -168,7 +183,7 @@ def main():
     rsp = run_metrics(R, VOCp, metrics, pairsets, covp)
     out['planted'] = dict(rep=score(rsp, ntab), medA=round(float(np.median(rsp[:, 0])), 4), medB=round(float(np.median(rsp[:, 1])), 4))
     print('planted', out['planted'], flush=True)
-    json.dump(out, open(os.path.join(C.CK, 'c2.json'), 'w'), indent=1)
+    json.dump(out, open(os.path.join(C.CK, 'c2%s.json' % os.environ.get('PE84_TAG', '')), 'w'), indent=1)
 
 
 if __name__ == '__main__':

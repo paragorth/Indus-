@@ -62,7 +62,7 @@ if __name__ == '__main__':
     import glob
     ids = {os.path.basename(p)[:7] for p in glob.glob(os.path.join(D, 'P*.jpg')) if os.path.getsize(p) > 2000}
     A = parse(sys.argv[2], ids)
-    with Pool(2) as pool:
+    with Pool(int(os.environ.get('NW', 2))) as pool:
         S = dict(pool.map(measure, sorted(ids), chunksize=10))
     R = []
     for pid, f in S.items():
