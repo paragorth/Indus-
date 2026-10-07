@@ -1,0 +1,14 @@
+# v85 final (7 Oct 2026): DIFFERENT SCRIBES, ONE DICTIONARY?
+Data: ZL3b and IT2a (VOY_MODE=glyph), paragraph text, Davis five-hand attribution from the IVTFF page headers. Level 'canon' = v72 rule E2_line (strips the known spelling mood). Tools: tools/v85_lib.py, v85_c1.py, v85_c2.py, v85_c3.py, v85_c4.py, v85_c4b.py. Rows: loops/v85_cycle1-4.txt. Checkpoints: data/v85_ckpt/ (git-ignored, < 5 MB).
+Controls: one real text (Culpeper, Konrad, Macer, Forme of Cury) dealt to two 'scribes' with two different surface machineries -> sharing ratio ~1 on every statistic; different authors on the same plants (Culpeper x Gerard, Macer x Hildegard) -> 0.05-0.33 (coverage) and 0.53-0.67 (fingerprint); planted private vs shared dictionaries on Voynich word shapes -> 0.41-0.47 vs 0.98-1.00.
+
+| Grade | Result |
+|---|---|
+| A | No Voynich hand has a lexicon above its own order-2 glyph grammar: mid/low-frequency coverage real/Markov x0.76-1.01 (real texts x1.4-2.2), word-preference fingerprint excess -0.06 to +0.04 in 18 of 18 hand pairs over both transcriptions (real texts +0.37 to +0.52; random-frequency dictionary on Voynich shapes +0.21 to +0.29). |
+| A (calibration) | Both statistics are blind to a dictionary whose word frequencies follow glyph likelihood (PRIVm/SHAREDm); so the result says: if there is a dictionary, its frequencies are set by word shape. No real text in the controls behaves that way. |
+| B | What hands share follows section and Currier language, not hand: herbal B hands 2, 3, 5 are interchangeable (fingerprint cross/within 0.95-1.08), while hand 2 herbal vs hand 2 bio is 0.13-0.21. Word prediction: other hand same section beats same hand other section (herbal +0.06 to +0.69 bits). |
+| B (kill) | A section-wide glyph Markov with no dictionary and no hands reproduces that ordering (+0.71 vs +0.69) and the size of the shared herbal word stock (42.5 +- 4.8 vs 47 real). |
+| C | Contexts of shared words agree across hands as much as within a hand (neighbour profile ratio 0.54-1.13), but excess over a spelling-only junction null is small and does not follow section. Would support: same-section pairs show larger context agreement than different-section pairs; would kill: a pooled junction generator matches the ratios. |
+| C- | 'One dictionary about shared subjects' as evidence of meaning. 'Private habit per scribe' is also refuted: there is no private layer. The scribes behave as users of one section-bound glyph process. |
+
+Answer: the Voynich scribes share their vocabulary completely within a section, but there is nothing lexical to share beyond what a shared glyph grammar per section makes; the shared lexicon (47 band types in herbal B, e.g. Co, oHCy, air, Cor, oaiin, Caiin, olGy) is the grammar's own output (z +0.9). Not cracked.
