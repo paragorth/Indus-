@@ -1,0 +1,18 @@
+pe84 final (7 Oct 2026). The writing as a physical trace: impressions, not the outline. Full-resolution CDLI photos of
+823 Susa tablets and 280 proto-cuneiform tablets (scratchpad, not committed), measured at fixed physical scale
+(tools/pe84_feats.py); engines tools/pe84_common.py, pe84_cycle1.py, pe84_cycle2.py, pe84_cycle3.py, pe84_freeze.py.
+
+| PE-84.c.1 | K1 clay clock: reverse-minus-obverse impression depth vs total-only reverse; 2,000 stratified permutations, publication halves; planted 25% relief flattening at image level; K1b numeral-share control | raw r -0.29 (both halves -0.33); with numeral-share control -0.04 (p 0.48); planted -0.71 | DEAD (B negative): 'shallow totals' are round numeral pits vs line signs, not later writing in harder clay |
+| PE-84.c.2 | K7 5,000 random physical x text hypotheses, held out by publication half; 20 within-strata text permutations | 171 replications vs null 1-56, all about where and how much is written; non-amount 46 vs null 0-54 (p ~0.1) | A (positive control: photos see the writing); nothing else beyond the null |
+| PE-84.c.3 | K2 stylus census: 3,000 random impression fingerprints, k-NN vocabulary lift, held-out halves, 20 nulls, planted scribes (recovered, 119-120) | raw 100 vs null max 56; content-purged 51 vs 95th 41; rare signs 38 (inside); strict lot + record-kind control 42 vs 95th 79 (inside) | KILLED: impression look tracks record kind and find lot, not writers |
+| PE-84.c.4 | Meter calibration, proto-cuneiform vs PE (within-tablet) | numeral-richer face: coarser impressions in both (PC +0.16/+0.20, PE +0.11); PC clock with control null (E04 -0.16, p 0.046, 1 of 3) | A (method): meter general; no drying clock visible at ~12 px/mm in either script |
+| PE-84.c.5 | Frozen meter-only prediction of total-only reverses for 87 Tehran tablets (data/pe84_frozen_tehran_reverse.json, sha256 be77b9cf...) | CV AUC 0.65 (shuffled max 0.55); across publication halves 0.54-0.57 | C-: would support AUC >= 0.70 once read; would kill < 0.60 |
+
+Grades
+- A (method): a photo impression meter at 8 px/mm sees numeral pits vs drawn signs in both PE and proto-cuneiform; any
+  physical-text link must be conditioned on it.
+- B (negative): no sign that PE totals or reverses were written in stiffer clay (upper bound |r| < 0.08 after control;
+  a 25% relief loss gives -0.71).
+- B (negative): impression fingerprints do not pick out writers; the shared-vocabulary link is record kind plus find lot.
+- C-: physique alone predicts a total-only reverse weakly (frozen for Tehran).
+Not cracked; no sign is read.

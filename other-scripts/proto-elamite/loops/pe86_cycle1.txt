@@ -1,0 +1,25 @@
+pe86 cycle 1 (7 Oct 2026): the clay as witness. Where do the clay and our text header definition disagree, and why?
+Plan and kill lines written before running (tools/pe86_cycle1.py; data/pe86_ckpt/c1.json).
+Clay label: residual top-corner fill (cf_top ranked, size/aspect/thickness/line count/damage/reverse removed; pe83/pe85
+outlines, no new photos), 589 tablets with intact line 1. Text label: common.header() (line 1 has signs, no numerals).
+
+ 1a Disagreement scan: inside the 184 text-UNHEADED tablets, which text features (line-1 form, line-1 tokens, first
+    token, line-2 first token; >= 5 tablets) go with a square top? Inside the 405 HEADED tablets, which go with a round
+    top? Family-wise null: max |r| over all features under 500 stratified shuffles of the squareness labels.
+    A feature counts only if it beats the family-wise 95% line.
+ 1b Pre-named natural test: a header-shaped line 1 (no numerals) whose sign the editor could only read as x or '?'
+    (the loader turns '?' into x, so our definition misses it). If these are real headers, their top should look like
+    headed tablets. Kill: mean residual top of this group closer to the other unheaded tablets than to the headed.
+ 1c Planted header sign: token PLANT put into line 1 of 15 unheaded tablets drawn with weight rank(top)^2; 5 plants.
+    Pass if PLANT is the top feature and beats the family line in >= 4/5.
+ 1d Bottom-end control: the same scan on the bottom end. A feature that explains the top AND the bottom is a whole-
+    tablet effect, not a header effect.
+
+Results (data/pe86_ckpt/c1.json). 589 tablets with intact line 1 (405 text-headed, 184 not). Family-wise 95% lines from
+500 stratified shuffles of the squareness labels: unheaded scan 0.214 (23 features), headed scan 0.155 (47 features).
+
+| PE-86.1.a | Disagreement scan, top end: inside text-unheaded tablets, which text features go with a square top; inside headed, which with a round top; family-wise null from 500 shuffles of the squareness label | unheaded: nothing passes; best 'line 1 = one sign + number' (n 108, r 0.21, line 0.214, p 0.006) and 'line 2 starts M210' (n 5, 0.21). The squarest unheaded tablets are mostly one-entry or two-entry tablets whose line 1 is a sign with a number (P009045 M297~b, P009115, P009109, P009147). headed: nothing passes; best |M327+X| headers on round tops (n 12, r -0.14, p 0.008, line 0.155) | no missed header sign and no false header sign beats the family line. Leads: very short one-entry tablets are squared like headed ones (C-); |M327+X| 'headers' are not squared (C-) |
+| PE-86.1.b | Pre-named natural test: header-shaped line 1 whose sign the editor read only as x or '?' (the loader drops '?' to x, so our definition misses it; n 54) | mean residual top: headed +34, illegible header-shaped -94, other unheaded -68 (p 0.80 that they are squarer than other unheaded). Counting them as headed lowers the header r from 0.363 to 0.271 | KILLED as 'missed headers carry the square end'. Either they are not headers, or (more likely) the same wear that made line 1 illegible rounded the top: the clay witness is blind where the top is worn |
+| PE-86.1.c | Planted header sign: PLANT in line 1 of 15 unheaded tablets drawn by squareness rank^2, blind scan, 5 plants | PLANT top feature in 4/5, beats the family line in 4/5 (r 0.21-0.32) | the scan can find a missed header sign of that size; the real corpus has none at that strength |
+| PE-86.1.d | Bottom-end control (same scan, bottom end) | headed: 'line 2 has no numerals' goes with a ROUND bottom (n 80, r -0.275, passes, p 0.002); unheaded: CDLI's own 'header' comment on lines we do not count (n 23) goes with a square bottom (0.22, passes) but not a square top | the passing features live at the bottom, not the header end. Line-2-without-numerals is probably damage (lost numbers) and the illegible-header group has a square bottom with a worn top, which points to wear, not to a header code. Logged for re-test in cycle 3 |
+| PE-86.1.V | Verdict cycle 1 | the clay and the text definition disagree on about a third of tablets, but no sign or sign form explains the disagreement beyond chance; the planted sign is found | B (negative, upper bound): no missed header sign of PLANT size (15 tablets, r >= 0.21) exists among the unheaded tablets. C-: one-entry tablets square-topped without a header; |M327+X| unsquared headers |

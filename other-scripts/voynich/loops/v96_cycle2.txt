@@ -1,0 +1,26 @@
+# v96 cycle 2 (7 Oct 2026): N5 TWO DIALS. VOY_MODE=glyph. Illustrations not used. 2 CPU workers.
+# Idea: simulate writers from real texts with a TOPIC dial (tau = fraction of lines left in their real page; the rest dealt among
+#   the line slots of their page group) and a KEY dial (none with p 1/4, else a random cycle-1-style page key). Every summary is
+#   taken relative to the corpus's own fully line-dealt twin (topic and key both destroyed), so the Voynich (twin dealt within
+#   section|language|hand) is measured on the same footing as the plants.
+# Summaries (book minus twin): dC / dR = cycle-1 common / rare stratum page spelling (first 8 frozen cycle-1 views, both halves);
+#   dW / dF = v92 recurrence profile of rare words / frames; conf = share of page-recurring rare words confined to their page;
+#   loc = line gap between successive lines holding a page-recurring rare word, observed / expected under line-order permutation.
+# Run: tools/v96_c2.py (500 random books, 100 per text, plus targets), v96_c2rep.py (leave-one-text-out kNN + quadratic ridge).
+#   Spec, method check and predictions frozen before the Voynich targets were computed: data/v96_frozen_c2.json,
+#   sha256 bf245fe5533372fecb2e94c81c7466e872879fa5ee2ad3f5332c1897de6db5a5.
+# Method check: LOTO r(tau) 0.88 (kNN and ridge), key-present AUC 0.987. Fresh real-order plants: Pliny 0.89, entry-per-page Konrad
+#   0.84, Circa 0.91 (plain-text Konrad/Circa 0.89-0.90 but outside the cloud), Macer floridus (verse) 0.36 = miss. Their dealt twins
+#   0.18-0.29 (all < 0.4). Generators: G_GM2 key 1.00 tau 0.70; G_GM tau 0.85, G_SELF 0.67 (copy-and-vary reads as 'topic'),
+#   G_SEED 0.43, G_LX 0.34. So tau measures page-local recurrence, which local copying also makes; a low tau would argue against
+#   topic, a high tau would not prove it.
+# Voynich (inside the cloud, nn-dist 0.81-1.29 vs sims p95 1.40): key 1.00 in ZL3b, IT2a, GC2a; tau kNN 0.40 / 0.44 / 0.33, ridge
+#   0.51 / 0.52 / 0.47. Dealt Voynich twins: key 0.08-0.20, tau 0.16-0.25 (the machinery reads its own null correctly).
+#   Single-summary posteriors among key-on books (40 nearest): confinement (-0.004 / 0.018 / -0.006; percentile 2-15 of key-on
+#   books, below the tau 0-0.2 median 0.022) -> tau 0.22-0.28; line locality (0.88-0.92) -> tau 0.57-0.74; dW -> 0.52-0.54.
+| V-96.c.2 | N5 TWO DIALS: 500 books simulated from 5 real texts with a random topic dial and a random page key, each summary taken relative to the book's own line-dealt twin; LOTO kNN/ridge ABC frozen (sha256 bf245fe5...) before the Voynich was run. Controls: fresh real-order plants and their dealt twins, 5 generators, the Voynich's own dealt twins | Key 1.00 in all three transcriptions (twins 0.08-0.20). Topic dial 0.33-0.52: neither the no-topic (R1, < 0.35) nor the topic (R2, > 0.65) prediction held. The summaries disagree: page confinement (the summary most specific to topic once a key is on) is at the floor of the key-on books (tau about 0.2), while line locality reads tau about 0.6-0.7, a value local copy generators also reach (G_SELF 0.67, G_GM 0.85) | B (measurement): a page key is present (A-level separation in the plants, AUC 0.99). Topic under the key: undecided (both frozen predictions failed). Method miss: verse (Macer) reads as low-topic |
+# Verdict: the key is confirmed by an independent route (twin-relative, six summaries). The topic dial lands in the middle because two
+#   summaries pull opposite ways; the one that copy-and-vary cannot fake (confinement) says 'no topic', the one it can (locality)
+#   says 'some'. Grade for 'a topic under the key': C- (would support: a summary specific to topic and blind to local copying,
+#   e.g. confinement measured at entry scale, reaching the tau > 0.6 range; would kill: confinement at the tau-0 floor in a
+#   held-out half of all three transcriptions). -> cycle 3 (N8: one key or two page factors?).

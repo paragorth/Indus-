@@ -1,0 +1,19 @@
+pe86 cycle 2 (7 Oct 2026): massive random guessing of header definitions, judged by the clay. Plan and kill lines
+written before running (tools/pe86_cycle2.py; data/pe86_ckpt/c2.json).
+
+ A random definition is a rule on line 1 (or line 1 or 2): numerals allowed or not, token count range, legible-only or
+ not, a random sign set S (1-15 signs from the 120 commonest line-1/2 tokens) used as 'first token in S required',
+ 'first token in S excluded' or ignored, and a combination with the standard definition (replace / OR / AND).
+ 5,000 definitions per split. Score = partial r (rank top fill vs definition, size/shape/lines/damage/reverse removed).
+ Train = a random half of publication batches (volume x 50 publication numbers); the top 50 are re-scored on the
+ held-out batches and on line-art tablets with intact line 1 that have no photo outline (independent drawing record).
+ 5 splits.
+ Kill controls:
+  K1 shuffled squareness labels on the train half (5 nulls per split): if the real top-50's held-out gain over the
+     standard definition is not above the null's, the search found nothing.
+  K2 planted header sign: PLANT added to line 1 of 20 unheaded tablets (weighted by squareness rank^2, train and test):
+     the top definitions must contain PLANT in an OR rule (pass >= 4/5 splits).
+  K3 length-only family: the same search with no sign set. If the best full definitions do not beat the best
+     length-only definitions held-out, the survivors only re-discover line length.
+ Pre-registered support: a definition family beats the standard definition held-out (photo and line art) in >= 4/5
+ splits AND beats K1 and K3. Kill: the standard definition is never beaten held-out by more than the null gain.

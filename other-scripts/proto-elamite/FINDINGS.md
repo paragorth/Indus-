@@ -752,3 +752,11 @@ The pe59 reading was updated with every survivor since and none of the killed gu
 - **B (replication):** header -> square top on 103 held-out line-art-only tablets: r 0.364 (p 0.002).
 - **B (negative):** no storage or handling model predicts which tablets are squarest: dossiers, seal-mates, findspot-mates and header families are not alike at the header end (p 0.25-0.80); grip, joint, office, wear killed; no gravity effect. Dossier BOTTOM ends are alike (p 0.0002), a content effect.
 - **C:** squaring is part of heading a record, the same in every office and lot, not a filing device. Would kill: a storage group sharing end shape regardless of header. **C (lead):** top-edge tags go with a squarer header end (p 0.05-0.17). C-: an MDP 26-only neighbour effect. Not cracked; nothing is read.
+
+## pe84 the impressions as a physical trace (7 Oct 2026; `loops/pe84_final.txt`)
+- Measured the writing itself (relief, impression width and contrast, stroke-width spectrum, slant) on full CDLI photos of 823 Susa tablets and 280 proto-cuneiform tablets, at fixed physical scale.
+- A (method): the meter reads numeral pits vs drawn signs in both scripts (the face with more numerals has coarser impressions). Every physical-to-text link has to be conditioned on this.
+- B (negative), clay clock: total-only reverses look shallower (r -0.29), but the effect vanishes once numeral share is controlled (r -0.04). A planted 25% relief loss gives r -0.71, so the test had power. Proto-cuneiform shows no clock either.
+- B (negative), stylus census: tablets whose impressions look alike share common vocabulary (100 replications against a null maximum of 56). The link weakens when text content is removed, disappears for rare signs, and sits inside the null once numeral system, record kind and close find lot are controlled. The 'look' tracks record kind and lot, not writers.
+- C-: a model using physique only predicts a total-only reverse (CV AUC 0.65, but 0.54-0.57 across publication volumes). Predictions for the 87 Tehran tablets are frozen in `data/pe84_frozen_tehran_reverse.json` (sha256 be77b9cf...). Would support: AUC >= 0.70 once the tablets are read. Would kill: AUC < 0.60.
+- Not cracked.

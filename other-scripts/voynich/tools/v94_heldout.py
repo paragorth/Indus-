@@ -8,7 +8,7 @@ Test (once): best of the 5 frozen maps scored on ALL held-out pairs (Pearson of 
   (a) 200 block-shuffled held-out orders under the same 5 maps (best-of-5 each), and
   (b) the same 5-map family placed at 200 random offsets of the same source (best-of-5 each).
 Pass: real above 95% of both nulls (p < 0.05 each).
-usage: python3 v94_heldout.py freeze   |   python3 v94_heldout.py test"""
+usage: python3 v94_heldout.py freeze TAG   |   python3 v94_heldout.py test TAG   (TAG voy -> data/v94_frozen.json)"""
 import os, sys, json, hashlib, zlib, time
 os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ.setdefault('V89_LOWRANK', '2'); os.environ.setdefault('VOY_MODE', 'glyph')
 import numpy as np
@@ -18,14 +18,16 @@ import v94_lib as V
 import v89_lib as L
 import v94_run as R
 
-FROZEN = os.path.join(V.VD, 'data', 'v94_frozen.json')
-FROZEN_SHA = os.path.join(V.VD, 'data', 'v94_frozen.sha256')
-OUT = os.path.join(V.CK, 'heldout.jsonl')
+TAG = sys.argv[2] if len(sys.argv) > 2 else 'voy'
+# Voynich predictions are frozen in data/ (committed with their sha256); calibration ones stay in the checkpoint dir
+FROZEN = os.path.join(V.VD, 'data', 'v94_frozen.json') if TAG == 'voy' else os.path.join(V.CK, 'frozen_%s.json' % TAG)
+FROZEN_SHA = FROZEN.replace('.json', '.sha256')
+OUT = os.path.join(V.CK, 'heldout_%s.jsonl' % TAG)
 TRAIN_FRAC = 0.6
 
 
 def pairs_list():
-    return json.load(open(os.path.join(V.CK, 'heldout_pairs.json')))   # [[tset, target, src], ...]
+    return json.load(open(os.path.join(V.CK, 'heldout_pairs_%s.json' % TAG)))   # [[tset, target, src], ...]
 
 
 def units_of(tset, tname):
@@ -100,7 +102,9 @@ if __name__ == '__main__':
     if sys.argv[1] == 'freeze':
         jobs = [tuple(x) for x in pairs_list()]
         with Pool(2) as p:
-            frs = p.map(freeze_one, jobs, chunksize=1)
+            frs = []
+            for fr in p.imap(freeze_one, jobs, chunksize=1):
+                frs.append(fr); print('froze', fr['target'], fr['src'], 'train B %.3f' % fr['train_B'], flush=True)
         blob = json.dumps(frs, sort_keys=True, indent=1)
         open(FROZEN, 'w').write(blob)
         h = hashlib.sha256(blob.encode()).hexdigest()

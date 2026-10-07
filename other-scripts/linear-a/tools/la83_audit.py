@@ -96,7 +96,7 @@ def audit():
             if sg and tt not in BLANK and not any(x in ('num', 'frac') for x in ks):
                 comps = [x for x in tt.split('-') if x]
                 if '+' not in tt:
-                    if len(comps) != len(sg):
+                    if len(comps) != len(sg) and len(sg) > 1:   # one glyph = *4xx-VS etc. is notation
                         add(k, 'T3', 'SOURCE', {'pair': i, 'codes': [code(c) for c in sg], 'translit': tt,
                                                 'why': 'sign count'})
                     else:
@@ -105,12 +105,14 @@ def audit():
                         if bad:
                             add(k, 'T3', 'SOURCE', {'pair': i, 'translit': tt, 'why': 'value',
                                                     'diff': [{'code': a, 'translit': b, 'majority': c} for a, b, c in bad]})
-        cat = ''.join(x for x in W if x != '\n')
+        sig = lambda z: [c for c in z if kind(c) == 'sign']
+        cat = sig(''.join(W))
         for fld in ('transcription', 'parsedInscription'):
-            s = (v.get(fld) or '').replace('\n', '')
-            if s and s.replace(' ', '') != cat.replace(' ', ''):
-                twin = [o for o, ov in raw.items() if o != k and ''.join(x for x in ov['words'] if x != '\n') == s]
-                add(k, 'T4', 'SOURCE', {'field': fld, 'len_field': len(s), 'len_words': len(cat), 'equals_words_of': twin})
+            s = sig(v.get(fld) or '')
+            if s and s != cat:   # sign content differs (break marks, numbers, fraction notation ignored)
+                twin = [o for o, ov in raw.items() if o != k and sig(''.join(ov['words'])) == s]
+                add(k, 'T4', 'SOURCE', {'field': fld, 'signs_field': len(s), 'signs_words': len(cat),
+                                        'equals_words_of': twin})
         if len(v.get('names') or []) > 1:
             add(k, 'T5', 'SOURCE', {'names': v['names']})
         d = ra.get(k)

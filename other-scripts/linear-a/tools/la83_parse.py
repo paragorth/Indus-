@@ -9,7 +9,8 @@ SigLA flags: the SigLA pages used by la71 are not on disk (git-ignored checkpoin
 source pairs are untouched by a rule below, v2 copies the v1 tokens verbatim (so all la71 flags, SigLA and
 stipple included, are kept).  For a document touched by a rule, the document is re-parsed with the la71 flag
 rules and the SigLA-derived flags (unsure, unid, variant, nodraw, worn) are carried over from the v1 tokens
-by aligning v1 and v2 tokens (Needleman-Wunsch on token keys).
+by aligning v1 and v2 tokens (Needleman-Wunsch on token keys); 'erased' is carried too (SigLA erasure role).
+Majority sign values: a pair with one glyph votes its whole transliteration (ligatures, *4xx-VS glyphs).
 
 Rule changes (each logged per document in data/corpus_ra_v2.json['_log'] and data/la83_parse_log.json):
  R1  truncation: la71 cut every record to min(len(words), len(transliteratedWords)).  When the
@@ -52,12 +53,9 @@ import la71_parse as P
 
 DATA = os.path.join(HERE, '..', 'data')
 GAP = P.GAP
-SIGLA_FLAGS = {'unsure', 'unid', 'variant', 'nodraw', 'worn'}
+SIGLA_FLAGS = {'unsure', 'unid', 'variant', 'nodraw', 'worn', 'erased'}  # 'erased' also from SigLA erasure role
 P.DAMAGE_FLAGS |= {'fromuni', 'editor'}
 SUPERSEDED = {'KH79': 'KH79+89', 'HTWa1733': 'HTWa1845+1733'}
-EDITOR = {
-    'KHZc106': {'pairs': [('\U00010649', 'X')], 'words': [GAP and None], 'note': ''},
-}
 SUB = {'2': '₂', '3': '₃'}
 
 
@@ -81,7 +79,10 @@ def majority(raw):
         for w, t in zip(v['words'], v['transliteratedWords']):
             sg = [c for c in w if ukind(c) == 'sign']
             comps = [x for x in (t or '').strip().split('-') if x]
-            if sg and len(sg) == len(comps) and '+' not in t and not any(ukind(c) in ('num', 'frac') for c in w):
+            if any(ukind(c) in ('num', 'frac') for c in w): continue
+            if len(sg) == 1 and t.strip() and t.strip() not in ('None', '?', '\u2014', '\u2248'):
+                votes[ucode(sg[0])][t.strip().strip(GAP)] += 1      # one glyph = one value (ligatures, *4xx-VS)
+            elif sg and len(sg) == len(comps) and '+' not in t:
                 for c, x in zip(sg, comps):
                     votes[ucode(c)][x] += 1
     return {c: v.most_common(1)[0][0] for c, v in votes.items()}
@@ -112,6 +113,8 @@ def split_mixed(w, t, maj):
             runs[-1][1] += c
         else:
             runs.append([k, c])
+    for a, b in zip(runs, runs[1:]):   # a break mark between two runs touches both of them
+        if a[1].endswith(GAP) and not b[1].startswith(GAP): b[1] = GAP + b[1]
     comps = [x for x in t.split('-') if x and not any(ukind(c) == 'num' for c in x)]
     out = []
     for k, s in runs:
@@ -196,9 +199,9 @@ def fix_record(k, v, maj, raw, use_editor=True):
 
 # R10 editorial readings, written as source-style pairs (Unicode, transliteration)
 EDITORIAL = {
-    'KHZc106': {'pairs': [('\U00010646\U00010634\U00010635' + GAP, 'MI-RA-O', set())],
+    'KHZc106': {'pairs': [('\U0001063b\U00010634\U00010635' + GAP, 'MI-RA-O', set())],
                 'note': 'KH Zc 106 = AB 73-60-61-[ (MI-RA-O, broken right); record SA-SA-RA-ME'},
-    'THEZb15': {'pairs': [('\U00010608\U0001076e', 'SE-*332', set()), ('\U00010108', '2', set())],
+    'THEZb15': {'pairs': [('\U00010608\U00010678', 'SE-*332', set()), ('\U00010108', '2', set())],
                 'note': 'THE Zb 14 = AB 09-A332 2 (SE-*332 2); record RE-SA 2'},
 }
 
