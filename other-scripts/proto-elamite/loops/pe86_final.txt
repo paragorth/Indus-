@@ -1,0 +1,42 @@
+pe86 final (7 Oct 2026). The clay as an independent witness of the header: the squared header end (pe81/83/85, B) is a
+physical mark nobody made by reading Proto-Elamite, used here to judge our text-based header definition. Three cycles
+(loops/pe86_cycle1-3.txt; tools/pe86_common.py, pe86_cycle1-3.py; data/pe86_ckpt/), reusing the pe83 outline features
+(589 photo tablets with intact line 1, 678 drawings, 103 held-out line-art-only tablets), 1 worker.
+
+| PE-86.c1 | Disagreement scan (clay square but no text header; text header on round clay) over line-1 form, line-1 tokens, first tokens, line-2 tokens; family-wise null from 500 shuffled squareness labels; planted header sign (15 tablets); bottom-end control | no feature passes at the top end (unheaded best 0.21 vs line 0.214; headed best |M327+X| -0.14 vs 0.155); plant found 4/5; illegible header-shaped lines are NOT square on photos (-94 vs headed +34; counting them as headers lowers r 0.36 -> 0.27); only bottom-end features pass | no missed or false header sign at PLANT size |
+| PE-86.c2 | MASSIVE RANDOM GUESSING: 5 x 20,000 random header definitions trained on half the publication batches, top 50 re-scored on held-out batches and 103 line-art-only tablets; 25 shuffled-label nulls, 5 length-only runs, 5 planted runs (26 tablets) | held-out gain over the standard definition -0.016 to -0.005 (photo), -0.025 to +0.008 (line art); top 50 agree with it on 97-98% of tablets; length-only family equal; null top 50 held-out 0.14; plant at rank 1 in 3/5 (fails the pre-registered 4/5); searches keep excluding |M327+X|, |M175+M136|, M388, |M157+M131| on train only | the clay endorses 'numeral-free line 1 with signs' and nothing else; survivors only re-discover line form |
+| PE-86.c3 | Clay as header detector (grouped CV, shuffled nulls); pseudo-test on damaged line 1; header kind; FREEZE for 294 lost first lines; leads re-tested on drawings | clay adds AUC 0.09 (0.724 -> 0.815; null q95 0.009); on damaged line 1 no gain (CI -0.12 to +0.03); kind gain 0.000; every sign lead dies on drawings; numeral-free line 2 = broken line (round bottom = damage); illegible header-shaped tablets square at the bottom (drawings held-out +0.38, p 0.004) | clay detects THAT, not WHICH; blind on damaged ends |
+
+Grades
+- B: on intact tablets the clay is an independent header detector: clay outline adds about 0.09 AUC beyond size and
+  layout, held out by publication batch (p 0.01 vs shuffled labels).
+- B (negative, bounded): no random redefinition of 'header' (sign sets required or excluded, line-1 length, legibility,
+  line 2) predicts the squared end better than the standard 'line 1 has signs and no numerals' on held-out batches or on
+  drawings. Our definition and the clay agree; no header sign is missed or misclassified at the size of a group of about
+  15-26 tablets (planted recovery 4/5 at 15 in the direct scan, 3/5 at 26 in the definition search; smaller groups are
+  not excluded). Would kill: a sign group on new tablets whose inclusion or exclusion raises held-out r by >= 0.03.
+- KILLED: |M327+X| (and M388, |M157+M131|, |M175+M136|) as 'headers that are really something else' (train-only,
+  fail on drawings); one-entry tablets as unheaded-but-squared; 'numeral-free line 2' as a two-line header (it is a
+  broken line; the round bottom is damage); illegible header-shaped lines as missed headers with a square top.
+- C: tablets whose numeral-free line 1 has an unread sign (CDLI comments it as a header; our loader drops it to x) have a
+  SQUARE BOTTOM (photo +0.22 passes the family line; drawings +0.16 p 0.02, held-out +0.38 p 0.004) and an
+  inconsistent top (round on photos, squarish on drawings). Would support: the same on new tablets with an unread
+  opener; would kill: bottom difference <= 0 on the next 20 such tablets. Reading: possibly worn or re-oriented tablets.
+- C-: frozen header probabilities for 294 tablets whose first line is lost (data/pe86_frozen_lost_headers.json).
+  The clay failed the damaged-line-1 pseudo-test, so a null result is expected. Would support / kill: rule in file
+  (top third by clay_minus_size header rate >= 0.15 above bottom third; kill < 0.05, n >= 20 resolved).
+- Not possible: header KIND from the clay (M157 vs others, gain 0.000).
+
+Frozen file and the re-freeze (note for the record)
+- Two versions exist in git history. Version 1 (sha256 125a0a150c67bcf0ad2fedcfe15796509383f39a6746394e3368e2fbaf22ecd2,
+  331 tablets, committed in 57d9a45) is SUPERSEDED. Version 2 (sha256
+  48c41b0ba285037f1f2a19b4cb33fd9a559fccfae8713b625c8da37a33e57110, 294 tablets, committed in d996284) is the
+  PRE-REGISTERED one.
+- Why: version 1 selected 'unknown' tablets by a primed first line number only, which let in 37 tablets whose line 1
+  is intact (header status known, and those tablets were in the model's training set). Version 2 restricts to primed
+  AND not intact (tools/pe86_cycle3.py line 30). Model, features, seed and rule are unchanged.
+- No outcome data had been looked at: there is no outcome for these tablets in any source we hold (no joins,
+  collations or new edge photos were consulted). Between the two freezes only in-corpus results on other tablets
+  (3a-3c, 3e) were seen, which do not bear on the header status of the lost first lines. Version 2 = version 1 minus the 37
+  leaked tablets; the other 294 entries are identical except 3 values that differ by 0.001 (solver rounding). Frozen files will not be changed again.
+Not cracked; no sign is read.

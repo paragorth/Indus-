@@ -152,10 +152,19 @@ def score(occ, terms, rule, rng, nperm=200):
     return float(obs), float((obs - nl.mean()) / (nl.std() + 1e-9)), int(x.sum())
 
 
-def prepare(planted=False, seed=0):
+def prepare(planted=False, seed=0, shuf=None):
     lex = lex_build()
     occ = occurrences()
     rng = random.Random(seed)
+    if shuf is not None:
+        # control: positional features permuted among the groups of one document (rule outcomes stay with the word)
+        sr = random.Random(shuf); bd = collections.defaultdict(list)
+        for o in occ:
+            bd[o['doc']].append(o)
+        for v in bd.values():
+            fs = [o['f'] for o in v]; sr.shuffle(fs)
+            for o, f in zip(v, fs):
+                o['f'] = dict(f)
     if planted:
         # plant: final sign dropped with prob 0.4 for groups of >= 3 signs that are last group on a line at fill >= 0.8
         for o in occ:
@@ -172,12 +181,13 @@ def prepare(planted=False, seed=0):
     return occ
 
 
+SHUF = int(os.environ['LA84_SHUF']) if os.environ.get('LA84_SHUF') else None
 RULES = ['P1', 'P1x', 'S1', 'I1', 'ANY']
 
 
 def job(args):
     seed, n, planted = args
-    occ = prepare(planted)
+    occ = prepare(planted, shuf=SHUF)
     tr = [o for o in occ if o['year'] <= 1950]
     rng = random.Random(seed); nrng = np.random.default_rng(seed)
     out = []
@@ -192,10 +202,12 @@ def job(args):
 if __name__ == '__main__':
     planted = len(sys.argv) > 2 and sys.argv[2] == 'planted'
     tag = 'planted' if planted else 'real'
+    if SHUF is not None:
+        tag = 'shuf%d' % SHUF
     H = int(os.environ.get('LA84_H', '3000'))
     with Pool(2) as pool:
         res = sum(pool.map(job, [(84000 + k, H // 10, planted) for k in range(10)]), [])
-    occ = prepare(planted)
+    occ = prepare(planted, shuf=SHUF)
     tr = [o for o in occ if o['year'] <= 1950]; te = [o for o in occ if o['year'] > 1950]
     nh = [o for o in occ if not o['ht']]
     # unique hypotheses, survivors = top 25 by z with d > 0 (the squeeze direction: shorter under pressure)
