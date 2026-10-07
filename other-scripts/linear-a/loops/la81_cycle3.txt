@@ -1,0 +1,17 @@
+la81 cycle 3 (7 Oct 2026): THE COPYIST'S EYE (tools/la81_c3.py)
+Idea: a scribe copying a written model by eye keeps its line breaks; one writing from dictation, memory or
+receipts re-flows the text. Cycle 1 hinted at it (the same HT word cut at the same sign on two faces).
+For every pair of tablets sharing >= 2 sign-groups (sign-groups on > 30 documents excluded), count shared
+sign-groups that start a physical line in both. Null: each document's line-start flags permuted within token
+class (entry-initial sign-group vs other), 20,000 times, which keeps line density and entry structure.
+Prior work: la36 (lists sharing recipients), la69 (drafts vs fair copies by reader independence), la75 (copied
+quantities) never used physical line breaks. Web search ('scribes copying layout line breaks preserved
+copy detection tablets'): copying of layout is discussed for manuscripts, not tested on Linear A.
+Plan frozen as data/la81_c3_plan.json, sha256 4bf1afecfe442b7deeb6f0f0b880491858c0998f62056fa458c3d951b2357d5c
+(written after the job was launched, before its output was read).
+
+| LA-81.3.1 | Planted copying: in 25 % / 50 % of the real LA pairs the second document takes the first one's line starts for shared sign-groups (5 seeds, 2,000 permutations). | 25 %: z 0.4-1.9 (0 of 5 reach 2); 50 %: z 2.5-3.2 (5 of 5). | Power only for copying in about half the pairs or more. |
+| LA-81.3.2 | Linear B, same code: KN (507 pairs) and PY (876 pairs, 3,000 sampled max). | KN 360 shared sign-groups start a line in both vs 306 +- 10 (z 5.2, P < 5e-5); PY 752 vs 632 +- 24 (z 5.0). | Positive calibration (with the caveat that part of it is LB's fixed entry layout beyond the class split). |
+| LA-81.3.3 | Linear A: 450 aligned documents, 30 pairs, 90 shared sign-groups. Splits: two faces of one tablet (4 pairs), other tablets (26), both published by 1950 (25), one later (5). | all 15 vs 13.7 +- 2.9 (z 0.46, P 0.37); same tablet 2 vs 2.1 (P 0.68); other tablets 13 vs 11.6 (P 0.36); early P 0.30; later 1 vs 1.5 (P 0.83). | KILLED (B at the 50 % level; a minority of eye copies cannot be excluded): Linear A documents that share sign-groups do not share line breaks. Read with LA-81.1.4, the same-cut repeats on HT 86 and HT 95 are not layout copies of whole faces. HT lists were re-flowed, not traced, consistent with cycle 2 (no writing-time arrow). |
+
+Cycle 3 verdict: killed. No copying by eye detectable.
