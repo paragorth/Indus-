@@ -238,6 +238,7 @@ def draw_align(rng, src, n, base=None, step=None):
 
 
 def unit_to_tok(src, u):
+    u = np.clip(u, 0, src.M - 1e-9)
     i = np.minimum(np.floor(u).astype(int), src.M - 1); f = u - i
     return src.bounds[i] + f * (src.bounds[i + 1] - src.bounds[i])
 
@@ -264,6 +265,7 @@ def make_cuts(src, a, lens):
             left, right = b[j - 1], b[j]
             inner = np.where(inner - left < right - inner, left, right).astype(float)
             inner = np.clip(inner, t0, t1)
+    inner = np.clip(np.sort(inner), t0, t1)
     return np.concatenate([[t0], inner, [t1]]).astype(np.int64)
 
 

@@ -192,9 +192,11 @@ def main():
     hyps = make_hyps(A, rng)
     ntest = len(hyps) * len(RELS)
     surv = []
+    allr = []
     for h in hyps:
         r = eval_h(A, h, RELS, rng)
         for rel, x in r.items():
+            allr.append((x['pA'], str(h), rel, x['H'], round(x['mu'], 1)))
             if x['H'] >= 4 and x['pA'] < 0.05 / ntest and x['pAemp'] <= 1 / (NPERM + 1) + 1e-9:
                 surv.append((h, rel, x))
     # null B on survivors, then replication on half B
@@ -217,6 +219,9 @@ def main():
                n_repl=sum(f['stage'] == 'replicated' for f in final),
                n_repl_truth=sum(f['stage'] == 'replicated' and is_truth(f['h']) for f in final),
                final=[dict(f, h=[f['h'][0], f['h'][1] if not isinstance(f['h'][1], tuple) else list(f['h'][1])], truth=is_truth(f['h'])) for f in final])
+    allr.sort()
+    out['top10_train'] = allr[:10]
+    out['n_pA_lt_0.001'] = sum(1 for a in allr if a[0] < 0.001)
     fn = os.path.join(pc.CK, 'c1_%s_%d.json' % (run, seed))
     json.dump(out, open(fn, 'w'), indent=1, default=str)
     print(run, seed, {k: v for k, v in out.items() if k != 'final'})

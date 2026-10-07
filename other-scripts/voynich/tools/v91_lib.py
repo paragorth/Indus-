@@ -639,6 +639,11 @@ def build(name, seed=0):
         L = markov_cover(zl, 113)
     elif name == 'N2b':
         L = permute_lines_in_page(zl, 112)
+    elif name == 'N4':  # words permuted among odd slots and among even slots of each line
+        rng = random.Random(14); L = []
+        for r in zl:
+            w = list(r['words']); ev = w[0::2]; od = w[1::2]; rng.shuffle(ev); rng.shuffle(od)
+            w[0::2] = ev; w[1::2] = od; L.append(dict(r, words=w))
     elif name == 'ITN1':
         L = shuffle_within_line(voy_lines('IT2a'), 31)
     else:
