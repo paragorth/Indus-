@@ -17,7 +17,7 @@ def job(args):
     for h in range(NH // 2):
         H = sample_H(rng)
         d = simulate(H, NSIM, rng)
-        mp, sc, e = fit_mapping(d, H['k'], train, ltr, signs, rng, iters=100)
+        mp, sc, e = fit_mapping(d, H['k'], train, ltr, signs, rng, iters=60)
         te = ll_strings(d, mp, test, lte, e)
         res.append(dict(H=H, map=mp, e=e, gtr=(sc - base_tr) / len(train), gte=(te - base_te) / len(test)))
     return res
