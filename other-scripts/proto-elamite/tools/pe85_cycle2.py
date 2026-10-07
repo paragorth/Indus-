@@ -109,7 +109,7 @@ for intact in (True, False):
 cat = P.catalogue(); LA = json.load(open(os.path.join(P.CK, 'lineart_feats.json'))); T = {t['id']: t for t in common.load()}
 S = []
 for k, r in cat.items():
-    if r['findspot_square'] and LA.get(k) and k in T:
+    if r['findspot_square'] and LA.get(k) and k in T and T[k]['lines']:
         t = T[k]; l1 = t['lines'][0]
         site = 'Malyan' if 'Mal' in r['provenience'] else 'Susa'
         sq = re.sub(r'\s*\(.*', '', r['findspot_square']).replace('-', '').replace(' ', '')

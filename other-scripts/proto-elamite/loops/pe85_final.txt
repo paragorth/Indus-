@@ -1,0 +1,29 @@
+pe85 final (7 Oct 2026). Question: WHY would a scribe square the header end, and what does it say about how tablets were used?
+Three cycles (loops/pe85_cycle1-3.txt), reusing the pe81/pe83 outline measurements (no new photos), 1 worker.
+Frozen files: data/pe85_ckpt/frozen_c1.json (sha256 d0602cd0...8783), frozen_outside.json (72fbd7ee...29f1).
+
+| PE-85.c1 | Use-model tournament: 6 named use-models (spine/upright filing, grip, joint, office mark, retrieval wear, seal roll) as signed predictors of residual top squareness; 5,000 random signed models selected on MDP 26 and re-tested on the other volumes and back; shuffled-y pipeline (100) and planted spine / grip worlds | no named model passes on both halves; grip, joint, office, wear killed by the frozen rule; spine and seal one half each; random survivors 13 vs 5.4 null (p 0.11) on intact tablets; planted worlds named correctly with 35-46 survivors | storage and handling attributes do not predict which headed tablets are squarest |
+| PE-85.c2 | Group and face tests: publication neighbours, pe63 dossiers, seal units, header families, top-edge tag face; frozen outside test on CDLI excavation findspots (Susa Acropole, Malyan; line art) | series, seal-mates and findspot-mates do not share top shape (p 0.25-0.80; dossier BOTTOMS alike, p 0.0002, a content effect); header family p 0.27; tag face not flatter (p 0.20); findspots: header end squarer (p 0.024, not blind, inside pe83 line art), same square not alike (p 0.33) | joint, office and co-storage killed at the header end; weak MDP 26 neighbour signal |
+| PE-85.c3 | Simulate the writers: CHOOSE (turn the squarer end up) vs MAKE (square the end that takes the header), planted 20/20; gravity (stand to dry); neighbour re-test; 103 held-out line-art-only tablets | CHOOSE cannot reach top r 0.363 even at q = 1 (0.18) and predicts bottom -0.22 (observed +0.065); MAKE +0.25 at the header end (+0.04 at the other) fits both; headless tablets have no oriented asymmetry (0.000; proto-cuneiform 0.012); gravity 0.005-0.059 n.s.; neighbours only in MDP 26; held-out header -> top 0.364 (p 0.002) | squaring is an act performed when a tablet is headed |
+
+Grades
+- B: the header end is MADE square when a header is written, not CHOSEN from a ready blank. A choose-the-squarer-end writer
+  could give at most top r 0.18 and would make the other end rounder (r -0.22); the data show 0.36 and +0.07. Tablets
+  without a header have no squared end (top minus bottom 0.000), as in proto-cuneiform. Would kill: 3D scans showing that
+  headed and unheaded blanks have the same total end shape distribution and only differ in orientation.
+- B (replication on held-out tablets): pe83's top-end claim holds on 103 line-art-only tablets never used in pe81/83/85
+  cycles 1-2 (r 0.364, p 0.002).
+- B (negative, upper bounds at this n): no storage or handling use-model explains which tablets carry the square end.
+  Template series (24-41 tablets), seal-mates (6-19), excavated same-square tablets (38 pairs) and header families are
+  not alike at the header end; heavier tablets are not flatter there (no drying-on-end); retrieval wear and grip
+  predictions fail on held-out volumes; planted versions of each model were found.
+- C (meaning): squaring the top is part of the act of heading a record, done the same way in every office, series and
+  find lot: a 'this is the start' gesture or a step of preparing the writing surface for the header, not a filing
+  device. Would support: the squared end shows tool marks or a flat facet on 3D scans of headed tablets only. Would kill:
+  a storage find in which tablets of one group share end shape regardless of header.
+- C (lead): top-edge tags (pe23) go with a slightly squarer header end (photos +0.20 sd p 0.17; line art p 0.05), the
+  one 'spine' prediction still alive. Would support: the same on the Tehran tablets or 3D scans; would kill: tag
+  difference <= 0 on new tablets.
+- C- : a top-only neighbour concordance inside MDP 26 (r 0.17), absent elsewhere; a local lot effect.
+- KILLED: CHOOSE; grip, joint/binding, office-mark, retrieval-wear use-models; header x reverse use (held-out 0.02).
+Not cracked; nothing is read.

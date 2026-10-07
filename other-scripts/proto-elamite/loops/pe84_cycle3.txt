@@ -14,3 +14,12 @@ pe84 cycle 3 (7 Oct 2026): CALIBRATION ON PROTO-CUNEIFORM AND A FROZEN OUTSIDE P
     lines) vs anything else (blank or longer reverse). Training AUC is reported with 5-fold CV and the held-out publication half; the
     per-tablet probabilities are frozen with sha256 before anyone transliterates them. Would support (B): AUC >= 0.70 on
     the Tehran tablets once read. Would kill: AUC < 0.60.
+
+Results (tools/pe84_cycle3.py pc, pe84_freeze.py; data/pe84_ckpt/c3_pc.json, c3_pe.json; frozen
+data/pe84_frozen_tehran_reverse.json, sha256 be77b9cfb3cab5ba56a141bc87f7bb6cc4a146e35ecc3646135289e1b7efffd7).
+
+| PE-84.3.1 | 3a meter on proto-cuneiform (213 Uruk III/IV tablets, both faces inscribed; within-tablet numeral-share difference vs physical difference; 2,000 permutations) | big-granule share r +0.16 (p 0.02; without ink control +0.20, p 0.005), coarse relief E16 +0.18 (p 0.01); depth -0.13 (p 0.06), E04 -0.11, width 0.00. PE: big-granule +0.11 (p 0.02), depth -0.24, E04 -0.23 | A (method): in both scripts the face with more numerals has coarser impressions; the meter is general, its depth reading is mostly a numeral-vs-sign signal |
+| PE-84.3.2 | 3b clay clock on proto-cuneiform with the numeral control (43 total-only vs 125 continuation reverses) | depth r -0.04 (p 0.65), E04 -0.16 (p 0.046, 1 of 3 tests, not significant after correction), width 0.00 | NULL: no calibrated 'later, shallower totals' in proto-cuneiform either; CDLI photos at ~12 px/mm cannot show drying stages beyond a 25%-relief effect |
+| PE-84.3.3 | 3c meter-only classifier for total-only reverses (photo features at scales relative to tablet width; logistic, 5-fold CV; held-out publication halves; 20 shuffled-label refits; amount-only controls) | CV AUC 0.65 (shuffled max 0.55; ink amount only 0.54; reverse presence/area 0.52); across publication halves 0.57 and 0.54 | weak: beyond shuffles and amount, but transfers poorly between volumes |
+| PE-84.3.4 | FROZEN for the 87 untransliterated Tehran Susa tablets (P520211-P520300): per-tablet P(total-only reverse); 16 predicted at the training base-rate threshold (photos from a different camera campaign: distribution shift) | sha256 be77b9cf... | C-: physique predicts reverse layout. Would support: AUC >= 0.70 once the tablets are read. Would kill: AUC < 0.60 (likely, given 0.54-0.57 across volumes) |
+| PE-84.3.V | Cycle verdict | Meter calibrated in two scripts; no clock in either; a weak frozen outside prediction | A (method) + B negative (clock) + C- (freeze) |

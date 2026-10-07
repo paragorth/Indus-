@@ -1,0 +1,28 @@
+pe85 cycle 3 (7 Oct 2026): CHOOSE vs MAKE, a gravity model, and held-out re-tests. Plan and kill lines written just after launch.
+Only the first 3 lines of c3.log had been seen (the observed top r 0.363, known from cycle 1) when this file was written.
+
+ 3a CHOOSE vs MAKE (simulate the writers). Two mechanisms give 'headed tablets have a square top':
+    CHOOSE: blanks come with two ends of random shape; a writer who will write a header turns the squarer end up
+            (probability q). Then the OTHER end of a headed tablet is the rounder one: bottom r must be NEGATIVE.
+    MAKE:   the writer squares the end that takes the header (shift q); the other end is untouched: bottom r ~ 0.
+    Simulation: headed tablets get end pairs drawn from headless tablets of the same size/line stratum, then CHOOSE or
+    MAKE is applied over a grid of q (60 runs each); compare the simulated (top r, bottom r) with the observed
+    (0.36, 0.09). Kill MAKE if the observed bottom r falls inside the CHOOSE band at the q that matches the top r and
+    outside every MAKE band; kill CHOOSE in the opposite case. Also: top-minus-bottom asymmetry of headless PE tablets
+    against proto-cuneiform headless tablets (the pipeline's own top/bottom bias).
+ 3b GRAVITY (U8, new): tablets stood to dry on the header end flatten it under their own weight; heavier blanks
+    flatten more. Prediction: header x log(mass) > 0 on top residual, on both MDP 26 and the other volumes, and on the
+    line-art record. Kill: <= 0 on both photo halves.
+ 3c Re-test of cycle-2 neighbour concordance (filing batch) on held-out halves (MDP 26 vs others) and on the line-art
+    record; support: top r > null q95 on both halves and on line art, bottom not. Kill: below null q95 on both halves.
+ 3d Held-out tablets that never entered cycles 1-2: line-art-only tablets with intact line 1 (no photo outline).
+    Core claim re-test (header -> square top, kill if r < 0.15), header x reverse (cycle-1 candidate; support > 0),
+    tag on top (U1; support > 0).
+
+Results (data/pe85_ckpt/c3.json, c3b.json; tools/pe85_cycle3.py, pe85_cycle3b.py). 589 intact photo tablets (405 headed).
+
+| PE-85.3.a | CHOOSE vs MAKE: headed tablets given end pairs of headless tablets of the same size/line stratum; CHOOSE (squarer end turned up with prob q) vs MAKE (header end squared by q); 60 simulations per setting; planted check: 20 CHOOSE worlds and 20 MAKE worlds through the same discriminator | observed top r 0.363, bottom 0.065. CHOOSE at q = 1 (always the squarer end): top 0.18 [0.13-0.22], bottom -0.22 [-0.25 to -0.18]: cannot reach the observed top and gives the wrong bottom sign. MAKE q 0.25: top 0.39 [0.36-0.42], bottom -0.03 [-0.07 to 0.01]; MAKE q 0.25 + 0.04 on the other end: top 0.39 [0.37-0.42], bottom 0.05 [0.01-0.10] (fits both). Planted: CHOOSE worlds give a negative bottom 20/20; MAKE worlds never below -0.08 (0/20). Headless PE tablets: top minus bottom fill 0.000 (proto-cuneiform 0.012); headed 0.186 | CHOOSE KILLED: the scribes did not pick the squarer end of a ready blank. MAKE fits: the header end is squared (about +0.25 corner fill) on headed tablets, with a slight squaring of the whole blank (+0.04). Tablets without a header have no oriented end at all |
+| PE-85.3.b | GRAVITY (U8, stand-to-dry on the header end): header x log(mass) vs residual top, one-sided p within strata (1,000) | all 0.030 (p 0.22); MDP 26 0.005 (p 0.39); other 0.059 (p 0.16); line art 0.004, line-art held-out 0.005 | not supported (not killed by the frozen line, which needed <= 0 on both halves); heavier blanks are not flatter at the header end, so drying on that end is not the cause |
+| PE-85.3.c | Neighbour (filing batch) re-test on held-out halves and on the line-art record | MDP 26: top 0.169 (q95 0.090, p 0.003), bottom -0.033; other volumes: top -0.013 (p 0.60); line art (678): top 0.272 (q95 0.235, p 0.002) but bottom also 0.094 (p 0.03) | fails the frozen support rule (needs both halves); confined to MDP 26, and on line art it hits both ends (drawing plates). Demoted to C- (a local MDP 26 lot effect) |
+| PE-85.3.d | HELD-OUT tablets never used in cycles 1-2: line-art-only, intact line 1 (103; 55 headed) | header -> top r 0.364 (p 0.002), bottom 0.174 (p 0.08); header x reverse 0.02 (cycle-1 candidate fails); tag on top among headed (all line art, 67 tagged): positive, p 0.050 two-sided (photos: +0.20 sd, p 0.17) | core claim REPLICATES on new tablets (passes the 0.15 kill line); header x reverse dropped; tag stays a weak C lead |
+| PE-85.3.V | Verdict cycle 3 | the square header end is MADE when a tablet is headed, uniform across sizes, offices, series, seals, find lots and volumes; none of the storage or handling use-models explains which tablets carry it | B: MAKE not CHOOSE. B (negative): no storage-group signal. C: spine/tag lead |

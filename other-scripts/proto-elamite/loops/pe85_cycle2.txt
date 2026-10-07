@@ -1,0 +1,28 @@
+pe85 cycle 2 (7 Oct 2026): structure tests + frozen outside test. Plan written before running.
+
+After cycle 1 the remaining use-models make predictions about GROUPS and FACES rather than single attributes:
+ 2a FILING BATCH / JOINT: neighbours in publication order inside a volume (the excavators' and editors' lot order) share
+    top-end squareness beyond the header (U1 batch filing, U3 binding). Null: order shuffled within volume (2,000).
+    Planted: a 0.4 sd block effect in runs of 4 consecutive tablets. Bottom end as a check.
+ 2b DOSSIERS / SEAL UNITS: pe63 dossier members (D1-D6) and same-seal tablets (pe70/pe71 units) have more similar residual
+    top fill than random same-size groups drawn from the same volume (5,000). Planted: dossier members given a shared
+    offset (0.7 of variance). U3/U4 predict YES at both ends; U7 predicts NO.
+ 2c OFFICE STYLE: among headed tablets, the first header sign (families with >= 8 tablets) predicts residual top fill
+    beyond random relabelling (Kruskal H, 2,000 permutations). U4 predicts YES.
+ 2d TAG FACE (U1 spine, the one survivor): the top-edge view (pe83 c1d: topedge_rect, topedge_end_fill) is flatter /
+    fuller on tablets that carry a top-edge tag, among headed tablets; and tagged headed tablets have squarer residual top.
+    Bottom-edge view as the control face. Permutation 5,000. Support: tag effect > 0 at p < 0.05 on the top face and
+    not on the bottom face. Kill: tag effect <= 0 on the top face.
+ 2e OUTSIDE (frozen data/pe85_ckpt/frozen_outside.json, sha256 72fbd7eeb78131600432760d661aea029dd866a5c1937bd0f1e8edcbdf1729f1):
+    excavated findspot squares and levels from the CDLI catalogue (Susa Acropole S.ACR; Malyan ABC/TUV), line-art outlines.
+    O1 header end squarer on headed intact tablets; O2 same-square tablets more alike in top squareness; O3 levels differ.
+    Caveat frozen with it: the per-tablet values were listed once before freezing (no statistic), so the test is not blind.
+
+Results (data/pe85_ckpt/c2.json; tools/pe85_cycle2.py). y = residual top fill (header and covariates removed), z-scored.
+
+| PE-85.2.a | FILING BATCH / JOINT: y correlation between publication-order neighbours inside a volume; null = order shuffled within volume (2,000); planted 0.4 sd blocks of 4 | intact: top r 0.092 (null q95 0.074, p 0.020), bottom 0.005 (p 0.55); planted 0.21 (p 0.002). Full set: top 0.054 (p 0.07), bottom 0.058 (p 0.07) | top-only neighbour concordance on intact tablets: a weak batch signal at the header end (C candidate, re-test in cycle 3). Not a photo-session artefact (that would hit the bottom too) |
+| PE-85.2.b | DOSSIERS and SEAL UNITS: mean pairwise |y| difference vs random same-size groups from the same volume (5,000); planted shared offset | dossiers (5-6 groups, 24-41 tablets): top p 0.80 / 0.69, BOTTOM p 0.020 / 0.0002; seal units (2-6 groups): top p 0.55 / 0.25, bottom p 0.29 / 0.044; planted p 0.001 | U3 JOINT (both ends) and U1 'series filed together' KILLED at the header end: copies of one template do not share a top shape. Their BOTTOM ends are alike, which fits pe83 (bottom shape follows number-only lines, i.e. content) |
+| PE-85.2.c | OFFICE STYLE: first header sign (9-12 families, >= 8 tablets) vs y; Kruskal H vs 2,000 relabellings | intact H 10.0, p 0.27; full p 0.48 | U4 OFFICE KILLED: the header end is squared alike whichever header sign is written |
+| PE-85.2.d | TAG FACE (U1 spine): top-edge view rectangularity / end fill by top-edge tag among headed tablets (bottom-edge view = control); tag vs y | top edge rect +0.009 (p 0.20), end fill -0.007 (p 0.52; full -0.019 p 0.06); bottom +0.004 (p 0.68); y +0.20 sd (p 0.17), within M157 +0.29 sd (p 0.13) | U1 not supported: the face that carries the tag is not flatter on tagged tablets. Not killed (signs >= 0); stays below C |
+| PE-85.2.e | OUTSIDE, frozen (sha256 72fbd7ee...29f1): CDLI excavation findspots (Susa Acropole S.ACR, Malyan), line-art outlines, 25-36 tablets; not blind (values listed once before freezing) | O1 headed intact tablets: top-minus-bottom gap +0.232 over unheaded (7 vs 18, p 0.024); O2 same findspot square: top shapes NOT more alike (-0.026, p 0.33; 38 pairs); O3 levels: Susa p 0.50, Malyan p 0.06 | O1 passes (the end effect holds on stratified, excavated tablets, including Malyan) but these drawings were inside pe83's line-art set, so it is a repeat, not new evidence. O2 fails: no co-storage signal; tiny n (upper bound only) |
+| PE-85.2.V | Verdict cycle 2 | joint, office, dossier-filing and spine predictions fail; header-end squareness is not shared by tablets of one series, seal or findspot; only a weak publication-neighbour concordance at the top end survives | squaring looks like a per-tablet act at the moment of heading, not a property of a storage group. C candidate (batch) goes to cycle 3 |
