@@ -64,7 +64,7 @@ def job_screen(args):
     big = tgt.n >= 150
     res = V.search(src, tgt, n_rand=60 if big else 150, top=2, refine=6 if big else 8,
                    seed=zlib.crc32((tname + sk).encode()), max_off=40 if big else 80,
-                   max_off_prop=15 if big else 30, max_off_fine=12 if big else 25)
+                   max_off_prop=20 if big else 60, max_off_fine=12 if big else 25)
     if res is None: return {'target': tname, 'src': sk, 'skip': True}
     s = V.summarize(res)
     s.update({'target': tname, 'src': sk, 'n': tgt.n, 'sec': time.time() - t0, 'nA': res[0]['nA']})
@@ -128,6 +128,7 @@ if __name__ == '__main__':
         for t in TG:
             rr = ranked([r for r in rows if r['target'] == t], TG[t][2])
             pick = [r['src'] for r in rr[:K]]
+            pick += [r['src'] for r in sorted(rr, key=lambda d: -(d['B'] - d['nullB_mu']))[:K] if r['src'] not in pick]
             pick += [r['src'] for r in sorted(rr, key=lambda d: -d['zB'])[:max(2, K // 3)] if r['src'] not in pick]
             pick += [p for p in TG[t][1] if p in keys and p not in pick and p not in TG[t][2]]   # partners always re-tested
             jobs += [(t, p) for p in pick]

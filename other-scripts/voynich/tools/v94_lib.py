@@ -36,6 +36,7 @@ encode_text = L.encode_text
 DROPS = (0, 30, 100)
 SCHEMES = ('ent', 'par', 'sen', 'tok')
 TOKW = 25
+MINPIECE = 2   # every mapped source piece must hold >= 2 tokens (no empty pieces)
 MAXTOK = int(os.environ.get('V94_MAXTOK', '200000'))
 
 
@@ -197,12 +198,17 @@ def make_cuts(src, a, lens):
             inner = seg_to_tok(src, s, us)
         inner = inner + rng.normal(0, a['jit'] * (t1 - t0) / n, n - 1)
         inner = np.clip(np.sort(inner), t0, t1)
-        inner = snap(src, s, inner).astype(float)
+        if a['map'] == 'prop':   # length-proportional cuts fall inside entries: snap to sentences (or none)
+            if src.M['sen'] > src.M[s]: inner = snap(src, 'sen', inner).astype(float)
+            else: inner = np.round(inner)
+        else:
+            inner = snap(src, s, inner).astype(float)
     inner = np.clip(np.sort(inner), t0, t1)
     return np.concatenate([[t0], inner, [t1]]).astype(np.int64)
 
 
 def score_cuts(src, tgt, cuts, drop, v):
+    if np.diff(cuts).min() < MINPIECE: return -1.0, -1.0
     R = resid_from_sets(src.pieces(cuts, drop))
     za, zb = zvec(R, tgt.PA), zvec(R, tgt.PB)
     return float(za @ tgt.ZA[v]) / len(za), float(zb @ tgt.ZB[v]) / len(zb)
@@ -216,8 +222,13 @@ def score_align(src, tgt, a, variants=None):
         key = v if a['map'] == 'prop' else 0
         if key not in cache:
             cuts = make_cuts(src, a, tgt.vlens[v])
-            R = resid_from_sets(src.pieces(cuts, a['drop']))
-            cache[key] = (zvec(R, tgt.PA), zvec(R, tgt.PB))
+            if np.diff(cuts).min() < MINPIECE:   # degenerate map (empty / near-empty pieces): invalid
+                cache[key] = None
+            else:
+                R = resid_from_sets(src.pieces(cuts, a['drop']))
+                cache[key] = (zvec(R, tgt.PA), zvec(R, tgt.PB))
+        if cache[key] is None:
+            sa.append(-1.0); sb.append(-1.0); continue
         za, zb = cache[key]
         sa.append(float(za @ tgt.ZA[v]) / len(za)); sb.append(float(zb @ tgt.ZB[v]) / len(zb))
     return np.array(sa), np.array(sb)

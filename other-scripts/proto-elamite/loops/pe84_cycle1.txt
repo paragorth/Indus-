@@ -1,0 +1,47 @@
+pe84 cycle 1 (7 Oct 2026): THE WRITING AS A PHYSICAL TRACE (not the outline). Plan written before any test was run.
+
+Step 1. Families already tried for Proto-Elamite (STRATEGIES.md, FINDINGS.md, SUMMARY.md, LITERATURE.md):
+ text-internal statistics of every kind (roles, grammar induction, entropy, n-grams, slot models, random programs, forgers,
+ reader-surprise pe82), number arithmetic and fingerprints (pe23, pe42, pe44, pe47), herd/ration/demography models
+ (pe16, pe20, pe54, pe55, pe64), cross-script transfer (x2, x3, x4, pe39, pe79), seal picture and seal presence (pe33,
+ pe35, pe70, pe71), hands from variant sign forms (pe29, pe76), clay colour (pe26), clay size and thickness, finger
+ rulers (pe75, pe80), the tablet OUTLINE (pe81; pe83 is attacking it now), photo transliteration and audits (pe60, pe73),
+ joins (pe68), site/climate (pe81 c1). Nothing so far has measured the impressions themselves: depth, width, slant, wear,
+ cracks, or how they differ between faces and parts of one tablet.
+
+Step 2. Candidates (all from full-resolution CDLI fat-cross photos, which nobody produced by interpreting PE; features at
+fixed physical scale, 8 px/mm from the catalogue width, so photo resolution drops out):
+ K1 CLAY CLOCK. Clay stiffens as it dries. Text written later sits in harder clay: shallower, narrower, lower-relief
+    impressions. Use the depth of impressions as a timestamp and ask which parts of the text were written later (reverse
+    totals? the last third of the obverse? the header?). Conventional decipherers read the signs; this reads the time.
+    Control: blank-reverse tablets (no writing) give the photo baseline; text labels shuffled within strata; planted
+    contrast loss on random reverses. Web check: 3D wedge-depth work exists for cuneiform (Bogacz, GigaMesh; Gocator
+    scans) for hands and joins; no use of depth as a writing-order clock for PE found.
+ K2 STYLUS CENSUS. The stroke-width spectrum (granulometry, mm) of each tablet is a stylus fingerprint. Tablets with the
+    same stylus should share a writer/sitting; test whether stylus neighbours share vocabulary beyond museum lot and size.
+    Web check: stylus-based scribe identification is published for cuneiform (CNRS 2019, cdln 2015-12 'Cuneiform stylus
+    addenda', reed-fibre prints for joins). Concept partly done elsewhere, never for PE; kept as cycle-2 candidate only
+    if K1 dies, and run as a vocabulary test, not a hand attribution.
+ K3 SLANT. Dominant stroke angle relative to the tablet axis and diagonal gradient energy = how the stylus was held; ask
+    whether slant predicts record type (a hand writing at an angle is a hand in a hurry?). Enters the random pool.
+ K4 TURNING AXIS (obverse -> reverse, flip top-bottom or left-right). Dropped: CDLI orients every reverse for reading, so
+    the photos do not keep the turn.
+ K5 CRACK / DRYING clock: low-frequency dark ridges (E16 relief, G4 granulometry) as drying-crack density; tablets kept
+    moist for later additions should crack less. Enters the random pool.
+ K6 ERASURE HUNT: smooth holes (low E04) inside written areas. Dropped for cycle 1: thumbnail-free but still too noisy to
+    detect automatically at 8 px/mm; would need RTI.
+ K7 INVERTED: predict text features from physique alone. 5,000 random (physical feature x text feature x covariate set)
+    hypotheses, selected on one set of publication volumes (MDP 06 + 17 + 31), re-tested on the other (MDP 26 + 26S +
+    other), and the reverse direction; null = the same pipeline with text features permuted within (volume x size x
+    line-count) strata, 20 runs; planted = image-level contrast loss (depth x 0.8, blurred) applied to the photos of a
+    random half of tablets and attached to a fake text flag; must be recovered as a survivor.
+
+Choice for cycle 1: K7 engine with K1 as the single pre-registered primary test.
+ PRIMARY (K1, written before running): dD = depth(reverse) - depth(obverse) and dE = E08(reverse) - E08(obverse),
+ covariates obverse/reverse ink, brightness, lighting gradients, size, thickness, s_orig. Reverse kinds: TOTAL-ONLY
+ (reverse inscribed with <= 2 lines, every line with numerals) vs CONTINUATION (reverse with >= 3 lines). Prediction:
+ total-only reverses are shallower (dD < 0, written later in harder clay). Support: partial r(total-only, dD) <= -0.15
+ with stratified-permutation p < 0.01, same sign in both publication halves. Kill: |r| < 0.08 or wrong sign.
+ Secondary (same rule): within the obverse, depth of the bottom third minus the top third vs whether the obverse ends
+ in a total-like numeric-only line.
+ Calibration: the same pipeline on full photos of proto-cuneiform (Uruk III) tablets from CDLI in cycle 3.

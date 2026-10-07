@@ -153,7 +153,7 @@ def code_entry(h, e):
 def list_stats(seq, K):
     """per list: trend of state 0 (sum of centred ranks), cyclic flux (K=3)"""
     n = len(seq)
-    if n < 3: return 0.0, 0.0
+    if n < 3 or len(set(seq)) < 2: return 0.0, 0.0
     r = [(i / (n - 1)) - 0.5 for i in range(n)]
     tr = sum(ri for ri, s in zip(r, seq) if s == 0)
     fl = 0.0
@@ -161,7 +161,8 @@ def list_stats(seq, K):
         for a, b in zip(seq, seq[1:]):
             if (b - a) % 3 == 1: fl += 1
             elif (b - a) % 3 == 2: fl -= 1
-    return tr, fl
+    tr = round(tr, 9)
+    return (0.0 if abs(tr) < 1e-9 else tr), fl
 
 
 def score(H, lists):

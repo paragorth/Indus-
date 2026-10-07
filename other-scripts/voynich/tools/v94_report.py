@@ -31,7 +31,18 @@ def screen(f):
                 d = rows[ix]
                 print('  partner %s rank %d/%d B %.3f zB %.1f zDecoy %.1f' % (p, ix + 1, len(rows), d['B'], d['zB'], zdec(Bs, ix)))
         dec = [(d, zdec(Bs, i)) for i, d in enumerate(rows) if d['src'] not in P]
-        print('  decoys passing zB>=4 & zDecoy>=3: %d of %d' % (sum(1 for d, z in dec if d['zB'] >= 4 and z >= 3), len(dec)))
+        print('  [v89 rule, B] decoys passing zB>=4 & zDecoy>=3: %d of %d' % (sum(1 for d, z in dec if d['zB'] >= 4 and z >= 3), len(dec)))
+        # v94 rule: rank by excess B (B - mean of the source's own block-null B)
+        for d in rows: d['xB'] = d['B'] - d['nullB_mu']
+        rx = sorted(rows, key=lambda d: -d['xB']); X = np.array([d['xB'] for d in rx])
+        for i, d in enumerate(rx[:4]):
+            print('   x%d %-44s xB %.3f B %.3f zB %5.1f zDecoyX %5.1f' % (i + 1, d['src'][:44], d['xB'], d['B'], d['zB'], zdec(X, i)))
+        for p in P:
+            if p in [d['src'] for d in rx]:
+                ix = [d['src'] for d in rx].index(p); d = rx[ix]
+                print('   partner %s xB-rank %d/%d xB %.3f zDecoyX %.1f' % (p, ix + 1, len(rx), d['xB'], zdec(X, ix)))
+        decx = [(d, zdec(X, i)) for i, d in enumerate(rx) if d['src'] not in P]
+        print('  [v94 rule, excess B] decoys passing zB>=4 & zDecoyX>=3: %d of %d' % (sum(1 for d, z in decx if d['zB'] >= 4 and z >= 3), len(decx)))
         out[t] = rows
     return out
 
