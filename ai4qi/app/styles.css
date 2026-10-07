@@ -1306,3 +1306,17 @@ textarea.is-sent { animation: idea-fly .65s cubic-bezier(.5,0,.75,0) forwards; }
 .qr-ov-x { margin: 0; color: #a9b2c3; font-size: .85rem; }
 @keyframes qr-in { from { opacity: 0; transform: scale(.96); } }
 @media (max-width: 560px) { .qr-btn { position: absolute; right: 72px; top: 14px; width: 36px; height: 36px; margin: 0; } }
+
+/* "Start this audit": top of the audit page and a closing box at the bottom */
+.start-cta.start-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 18px 0 4px; }
+.start-cta.start-top span { color: var(--muted); font-size: .95rem; flex: 1 1 220px; }
+.btn-start { padding: 14px 26px; font-size: 1.05rem; box-shadow: 0 6px 16px rgba(11, 31, 58, .18); }
+.btn-start svg { margin-left: -4px; }
+.start-cta.start-bottom { margin: 36px 0 8px; padding: 26px 24px; border-radius: 14px; background: var(--ink); color: var(--on-ink); text-align: center; }
+.start-cta.start-bottom h2 { color: var(--on-ink); margin: 0 0 6px; }
+.start-cta.start-bottom p { color: var(--on-ink-muted); margin: 0 0 16px; }
+.start-cta.start-bottom .btn-start { background: var(--mint); border-color: var(--mint); color: var(--ink); }
+.start-cta.start-bottom .btn-start:hover { background: #d8b673; }
+.start-cta.start-bottom { display: flex; flex-direction: column; align-items: center; grid-template-columns: none; }
+.start-cta.start-bottom > * { grid-column: auto; width: auto; max-width: 100%; margin-left: 0; }
+.start-cta.start-bottom h2 { text-align: center; }

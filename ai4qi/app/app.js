@@ -640,7 +640,7 @@
       sec(++n, 'Why this audit matters', whyPoints(p.why)) +
       sec(++n, 'Method', how) +
       sec(++n, 'Data sheet', templateTable(p) + '<div class="no-print sheet-dl">' + dl + '</div>' +
-        '<p class="muted sheet-note">Choosing the audit adds it to <strong>My audits</strong>: you upload your sheet there and get the results and slides. The re-audit gets its own sheet, with a code that ties it to this audit. Only the sheet\'s own columns are ever read, so names, NHS numbers and dates of birth are never imported.</p>') +
+        '<p class="muted sheet-note">Starting the audit adds it to <strong>My audits</strong>: you upload your sheet there and get the results and slides. The re-audit gets its own sheet, with a code that ties it to this audit. Only the sheet\'s own columns are ever read, so names, NHS numbers and dates of birth are never imported.</p>') +
 
       (extra.status ? '<div class="status-row">' + extra.status + '</div>' : '') +
       (extra.feedback || '') +
@@ -935,9 +935,21 @@
   function chooseActions(id) {
     var run = Array.from(S.runs.values()).filter(function (r) { return r.auditId === id && !r.closed; })[0];
     return (run ? '<a class="btn" href="#/run/' + attr(run.id) + '">Open in My audits</a>' :
-      '<button class="btn" type="button" data-choose="' + attr(id) + '">Choose this audit</button>') +
+      '<button class="btn" type="button" data-choose="' + attr(id) + '">Start this audit</button>') +
       '';
   }
+  // A clear "Start this audit" at the top and bottom of every audit page (not inside Claude).
+  function startCta(id, where) {
+    if (window.AI4QI_EMBED) return '';
+    var run = Array.from(S.runs.values()).filter(function (r) { return r.auditId === id && !r.closed; })[0];
+    var btn = run ? '<a class="btn btn-start" href="#/run/' + attr(run.id) + '">Open in My audits</a>' :
+      '<button class="btn btn-start" type="button" data-choose="' + attr(id) + '">' + ICON_PLAY + 'Start this audit</button>';
+    var note = run ? 'You have already started this audit.' : 'Free. Adds it to My audits with the data sheet, reminders, results and slides.';
+    return where === 'bottom' ?
+      '<section class="start-cta start-bottom no-print"><h2>Ready to start?</h2><p>' + note + '</p>' + btn + '</section>' :
+      '<div class="start-cta start-top no-print">' + btn + '<span>' + note + '</span></div>';
+  }
+  var ICON_PLAY = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>';
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-proto-xlsx]');
     if (!b) return;
@@ -963,9 +975,9 @@
 
     page('<nav class="breadcrumb" aria-label="Breadcrumb"><a href="#/">Home</a> › <a href="#/proposed">Proposed audits</a> › <a href="#/proposed?area=' + encodeURIComponent(p.area) + '">' + esc(p.area) + '</a></nav>' +
       '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.id) + '</span>' + PROPOSED_BADGE + badge(p.area, 'primary') + '</div>' +
-      titleBlock(p) +
+      titleBlock(p) + startCta(p.id, 'top') +
       (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + '</header>' +
-      supervisorBox(p) + body + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
+      supervisorBox(p) + body + startCta(p.id, 'bottom') + '</article>', p.id + ' ' + trunc(p.question, 60), 'proposed');
     showUsefulCount(p.id);
   }
 
@@ -1602,9 +1614,9 @@
       'Your audit records are never sent to the AI or to Ai4Qi. <a href="#/how-it-works">How Ai4Qi works</a></p></aside>';
     page(crumbs + '<article class="doc"><header class="doc-head"><div class="eyebrow"><span class="id-tag">' + esc(p.topic) + '</span>' + BUILT_BADGE +
       (p.area ? badge(p.area, 'primary') : '') + '</div>' +
-      titleBlock(p) +
+      titleBlock(p) + startCta(p.id, 'top') +
       (window.AI4QI_EMBED ? '<div class="doc-actions">' + chooseActions(p.id) + '</div>' : '') + variantsNav(p) + '</header>' +
-      supervisorBox(p) + (p._sim || '') + body + '</article>', trunc(p.question, 70), 'build');
+      supervisorBox(p) + (p._sim || '') + body + startCta(p.id, 'bottom') + '</article>', trunc(p.question, 70), 'build');
     delete p._sim;
     showUsefulCount(p.id);
   }
@@ -1963,11 +1975,15 @@
     if (e.target.closest('[data-demo-step]')) { demoStep(r); runPut(r); renderRunKeep(r, '[data-demo-step]'); }
   });
 
-  function chooseAudit(p) {
-    if (!accessGate(function () { chooseAudit(p); })) return;
-    if (!V.key) { S.pendingChoose = p.id; location.hash = '#/my-audits'; return; }
+  // now: the "Start this audit" buttons on the audit page start it straight away (start date today, reminders on).
+  function chooseAudit(p, now) {
+    if (!accessGate(function () { chooseAudit(p, now); })) return;
+    if (!V.key) { S.pendingChoose = p.id; S.pendingNow = !!now; location.hash = '#/my-audits'; return; }
     var existing = Array.from(S.runs.values()).filter(function (r) { return r.auditId === p.id && !r.closed; })[0];
-    if (existing) { location.hash = '#/run/' + existing.id; return; }
+    if (existing) {
+      if (now && !existing.committed && !isStarted(existing)) { existing.committed = true; existing.committedAt = new Date().toISOString(); if (existing.details.startDate < todayIso()) existing.details.startDate = todayIso(); runPut(existing); }
+      location.hash = '#/run/' + existing.id; return;
+    }
     var proto = JSON.parse(JSON.stringify(p));
     delete proto.feedback;
     var r = { id: newRunId(), auditId: p.id, protocol: proto, created: new Date().toISOString(), stage: 'setup', closed: false,
@@ -1975,6 +1991,7 @@
       cycles: { c1: { rows: [] }, c2: { rows: [] } }, changeMade: { description: '', date: '' }, reminders: false,
       options: { monthOnly: false, noFreeText: false } };
     if (DEMO) r.demo = true;                             // chosen in demo mode: an example audit from the start
+    if (now && !DEMO) { r.committed = true; r.committedAt = r.created; }
     if (!runPut(r)) { window.alert && 0; }
     if (/^B-/.test(p.id)) { var b = builtGet(p.id); if (b) { b.chosen = true; builtSave(b); } }
     if (AN.kind === 'plausible' && typeof window.plausible === 'function') window.plausible('Audit chosen', { props: { kind: /^B-/.test(p.id) ? 'built' : 'proposed' } });
@@ -2391,9 +2408,9 @@
     return true;
   }
   function afterUnlock() {
-    var id = S.pendingChoose; S.pendingChoose = null;
+    var id = S.pendingChoose, now = S.pendingNow; S.pendingChoose = null; S.pendingNow = false;
     var p = id && anyAudit(id);
-    if (p) chooseAudit(p); else route();
+    if (p) chooseAudit(p, now); else route();
   }
   document.addEventListener('submit', function (e) {
     var f = e.target, st = f.querySelector && f.querySelector('[data-vault-status]');
@@ -2453,7 +2470,7 @@
     }
     var head = '<div class="ar-head" aria-hidden="true"><span>Audit</span><span>Stage</span><span>Result</span><span>Next step</span><span></span></div>';
     var body = !list.length ?
-      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Choose this audit</em>. It will appear here with its data sheet, deadlines and results.</p></div>' :
+      '<div class="empty"><p><strong>No audits yet.</strong> Build one or pick a ready-made protocol, then press <em>Start this audit</em>. It will appear here with its data sheet, deadlines and results.</p></div>' :
       (open.length ? '<section class="dash-list"><h2>In progress</h2>' + head + '<ul class="ar-list">' + open.map(row).join('') + '</ul></section>' : '') +
       (done.length ? '<details class="dash-list dash-done"' + (open.length ? '' : ' open') + '><summary><h2>Completed <span class="count">' + done.length + '</span></h2></summary>' + head + '<ul class="ar-list">' + done.map(row).join('') + '</ul></details>' : '');
     var hello = BE.user && BE.profile && BE.profile.full_name ? 'Welcome back, ' + esc(String(BE.profile.full_name).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i, '').split(/\s+/)[0]) + '.' : 'Your audits, where each one is up to, and what to do next.';
@@ -2830,7 +2847,7 @@
         '<li><strong>Honest suggestions.</strong> If one of our ready-made audits would suit you better, it tells you.</li>' +
         '<li><strong>It learns from you.</strong> If you press <em>Not quite right</em>, your reasons go into the next version.</li></ul>' +
         '<p class="prose">A topic nobody has published on still gets a full audit, built from the national standard; it simply has no evidence section.</p>') +
-      step(5, 'Run it and close the loop', '<p class="prose">Sign in first: an institutional email (NHS, HSE or university) gets instant access; other emails go through a quick approval. Then press <em>Choose this audit</em>, then <em>Start this audit</em> when you are ready. Download the data sheet, send the proposal to your supervisor, record your data, see the results, make the change and re-audit. Once you start, we email you when each step is due.</p>') +
+      step(5, 'Run it and close the loop', '<p class="prose">Sign in first: an institutional email (NHS, HSE or university) gets instant access; other emails go through a quick approval. Then press <em>Start this audit</em>. Download the data sheet, send the proposal to your supervisor, record your data, see the results, make the change and re-audit. Once you start, we email you when each step is due.</p>') +
       '</ol>' +
       '<h2>What stays with you</h2><p class="prose">Your audit records stay encrypted on your own device. They are never sent to Ai4Qi or to the AI. <a href="#/privacy">How your data is protected</a></p>' +
       '<h2>Always check</h2><p class="prose">An audit built by AI is a well-founded draft. Check the standard against its linked source and ask your supervisor to review the protocol before you collect data. Register the audit with your audit department.</p>' +
@@ -2856,7 +2873,7 @@
   function curRun() { var el = main.querySelector('[data-run]'); return el ? S.runs.get(el.getAttribute('data-run')) : null; }
   document.addEventListener('click', function (e) {
     var ch = e.target.closest('[data-choose]');
-    if (ch) { var p = anyAudit(ch.getAttribute('data-choose')); if (p) chooseAudit(p); return; }
+    if (ch) { var p = anyAudit(ch.getAttribute('data-choose')); if (p) chooseAudit(p, true); return; }
     var r = curRun(); if (!r) return;
     var tab = e.target.closest('[data-run-tab]');
     if (tab) { S.view.runTab = tab.getAttribute('data-run-tab'); renderRunKeep(r, '[data-run-tab="' + S.view.runTab + '"]'); return; }
@@ -3084,7 +3101,7 @@
     var r = Array.from(S.runs.values()).filter(function (x) { return x.auditId === code.id && !x.closed; })[0];
     if (!r) {
       var p = anyAudit(code.id);
-      if (!p) { sayIn(st, 'Audit ' + code.id + ' is not on this device. Open it (Build an audit or Proposed audits), press Choose this audit, then paste the code there.'); return; }
+      if (!p) { sayIn(st, 'Audit ' + code.id + ' is not on this device. Open it (Build an audit or Proposed audits), press Start this audit, then paste the code there.'); return; }
       chooseAudit(p);
       r = Array.from(S.runs.values()).filter(function (x) { return x.auditId === code.id && !x.closed; })[0];
       if (!r) return;
@@ -4512,7 +4529,7 @@
   /* ---------- help box: instant answers, no AI, nothing leaves the device ---------- */
   // Each answer: q (the question), k (extra words people use), a (short answer), go ([label, link]).
   var HELP = [
-    { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it, press Choose this audit, then Start this audit when you are ready.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
+    { q: 'How do I start an audit?', k: 'begin new first create make choose pick', a: 'Type a topic on the home page and press Build, or pick one of the ready-made audits. Open it and press Start this audit.', go: [['Build an audit', '#/'], ['Ready-made audits', '#/proposed']] },
     { q: 'Is Ai4Qi free?', k: 'cost price pay money subscription charge', a: 'Yes. Ai4Qi is free to use.' },
     { q: 'Do I need an account?', k: 'sign register login log email password', a: 'Browsing is open to everyone. To build or run an audit, sign in: an institutional email (NHS, HSE or university) gets instant access; other emails go through a quick approval first. We send a code; there is no password.', go: [['Sign in', '#/account']] },
     { q: 'I did not get the sign-in email', k: 'email code link spam junk arrive missing login not received', a: 'Wait a minute or two, then check Junk and the Other tab. NHSmail is slower with new senders. Still nothing after 3 minutes? Sign in with a personal email instead.', go: [['Sign in again', '#/account']] },
