@@ -34,7 +34,7 @@ def est(m, toks_fn, k=20, seed=0):
     for j in range(k):
         r = np.random.default_rng(seed * 1000 + j)
         v.append(float(m.predict(dstats(toks_fn(r), n, r)[None])[0]))
-    return dict(mean=float(np.mean(v)), sd=float(np.std(v)), S=float(np.exp(np.mean(v))))
+    return dict(mean=float(np.mean(v)), sd=float(np.std(v)), S_est=float(np.exp(np.mean(v))))
 
 
 res = {}
@@ -64,7 +64,7 @@ for S in (0.2, 1, 3, 10, 25):
         r0 = np.random.default_rng(int(S * 10) * 10 + k)
         th = dict(logS=np.log(S), logM=np.log(8), idio=0.7, loyal=0.8, logW=np.log(0.7), mix=0.3)
         tk = B2.sim(th, toks, n, r0)
-        L.append(dict(S=S, **est(m, lambda r: tk, 4, 30 + k)))
+        L.append(dict(S_true=S, **est(m, lambda r: tk, 4, 30 + k)))
 res['DRIFT_PLANT'] = L
 L = []
 for S in (0.2, 1, 3, 10):
@@ -72,7 +72,7 @@ for S in (0.2, 1, 3, 10):
         r0 = np.random.default_rng(500 + int(S * 10) + k)
         th = dict(logS=np.log(S), logM=np.log(8), idio=0.6, loyal=0.8, logW=np.log(1.5), mix=0.0)
         tk = B2.sim(th, toks, n, r0)
-        L.append(dict(S=S, **est(m, lambda r: tk, 4, 40 + k)))
+        L.append(dict(S_true=S, **est(m, lambda r: tk, 4, 40 + k)))
 res['DRIFT_PLANT_wide_nomix'] = L
 def office_plant(K, rng, strength=0.8):
     from sklearn.cluster import KMeans
