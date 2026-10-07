@@ -58,7 +58,7 @@ def load(name):
 
 def stat_job(args):
     label, pages = args
-    s = T.stats(pages)
+    s = T.stats(pages); s['T_conf'] = T.confined(pages)
     r = K.PB(pages, nnull=6, variants=('PB', 'PB_far'))
     s['PB'] = r['PB'][0]; s['T_far'] = r['PB_far'][0] / max(r['PB'][0], 1e-3)
     return label, s
@@ -72,10 +72,10 @@ if __name__ == '__main__':
         fn = 'c3_fit_%s.jsonl' % name
         pop = [r for r in load(fn) if 'err' not in r]
         with Pool(2, initializer=init, initargs=(name,)) as Pl:
-            if len(pop) < 120:
-                jobs = [(K.sample_params(rng), 200 + i) for i in range(120 - len(pop))]
+            if len(pop) < 80:
+                jobs = [(K.sample_params(rng), 200 + i) for i in range(80 - len(pop))]
                 new = list(Pl.imap_unordered(score, jobs, chunksize=2)); jl(fn, new); pop += [r for r in new if 'err' not in r]
-            for rd in range(8):
+            for rd in range(6):
                 pop.sort(key=fit, reverse=True); top = pop[:10]
                 jobs = [(C2.perturb(t['P'], rng), 7000 + rd * 100 + j * 10 + k) for j in range(2) for k, t in enumerate(top)]
                 new = [r for r in Pl.imap_unordered(score, jobs) if 'err' not in r]; jl(fn, new); pop += new

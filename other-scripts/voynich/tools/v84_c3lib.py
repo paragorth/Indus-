@@ -103,3 +103,20 @@ def stats(pages, seed=843):
     out['T_top'] = float(np.mean(top)) if top else 0.0
     out['nburst'] = nb / len(pages)
     return out
+
+
+def confined(pages, seed=844, nsh=3):
+    """T_conf: share of types with 2-4 interior tokens that sit on a single page, over the same share in page-shuffled
+    twins (words dealt across pages within section). Added after cycle 2: at matched held-out PB, the best generators
+    fall short on the plug-in page MI, which rare page-confined types drive."""
+    import v84_lib as K
+
+    def share(P):
+        loc = defaultdict(set); n = Counter()
+        for i, p in enumerate(P):
+            for l in p['lines']:
+                for w in l['w'][1:]: loc[w].add(i); n[w] += 1
+        ts = [w for w in n if 2 <= n[w] <= 4]
+        return sum(len(loc[w]) == 1 for w in ts) / max(len(ts), 1)
+    o = share(pages); s = np.mean([share(K.page_shuffle(pages, seed + k)) for k in range(nsh)])
+    return o / max(s, 1e-9)

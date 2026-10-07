@@ -128,7 +128,7 @@ if __name__ == '__main__':
         for r in sorted(pop, key=fit, reverse=True):
             byf.setdefault(mechs(r['P']), []).append(r)
         for m, rs in byf.items():
-            for r in rs[:2]:
+            for r in rs[:1]:
                 key = json.dumps(r['P'], sort_keys=True)
                 if key not in seen: seen.add(key); cand.append(r)
         for r in sorted(pop, key=fit, reverse=True)[:6]:
