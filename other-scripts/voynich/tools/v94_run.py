@@ -28,6 +28,13 @@ def cal_targets():
     return out
 
 
+def cal2_targets():
+    T = L.all_texts()
+    rng = np.random.default_rng(941)
+    ce = [u['tok'] for u in T['celsus_eng']['units'][40:120]]
+    return {'cal_celsus_coded_samecuts': (L.encode_text(ce, rng), ['v89_celsus_lat', 'v89_celsus_eng'], ['v89_celsus_eng'])}
+
+
 def voy_targets(tr):
     S = L.voynich_sections(tr)
     return {'%s:%s' % (tr, s): ([u['tok'] for u in S[s]], [], []) for s in SECS}
@@ -35,6 +42,7 @@ def voy_targets(tr):
 
 def targets(name):
     if name == 'cal': return cal_targets()
+    if name == 'cal2': return cal2_targets()
     if name.startswith('voy_'): return voy_targets(name[4:])
     raise ValueError(name)
 

@@ -4,7 +4,7 @@ import numpy as np
 from collections import defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 PARTNERS = {'cal_celsus_recut_coded': ['v89_celsus_lat'], 'cal_celsus_abr_recut_coded': ['v89_celsus_lat'],
-            'cal_pliny_en_vs_la': ['v89_pliny_nh_lat']}
+            'cal_pliny_en_vs_la': ['v89_pliny_nh_lat'], 'cal_celsus_coded_samecuts': ['v89_celsus_lat']}
 
 
 def zdec(Bs, i):

@@ -27,7 +27,7 @@ def X_of(idx, clay=True):
     return np.column_stack(cols)
 train = np.where(l1ok)[0]
 known_damaged = np.where(~l1ok & ~primed & ~lac)[0]  # line 1 damaged but present: header status readable (pseudo-test)
-unknown = np.where(primed)[0]  # start of text lost: header status unknown
+unknown = np.where(primed & ~l1ok)[0]  # start of text lost: header status unknown (none in the training set)
 out = dict(n_train=len(train), n_known_damaged=len(known_damaged), n_unknown=len(unknown))
 
 def fit(Xtr, ytr):
@@ -137,9 +137,34 @@ def lead(y, sub, feat, sign):
     return res
 out['3e'] = {'one_sign_plus_number_unheaded_top(+)': lead(yt, hL == 0, 'L1:1sign+number', 1),
              'M327+X_header_top(-)': lead(yt, hL == 1, 'L1first:|M327+X|', -1),
+             'M175+M136_header_top(-)': lead(yt, hL == 1, 'L1first:|M175+M136|', -1),
+             'M388_header_top(-)': lead(yt, hL == 1, 'L1first:M388', -1),
+             'M157+M131_header_top(-)': lead(yt, hL == 1, 'L1first:|M157+M131|', -1),
              'L2_no_numerals_headed_bottom(-)': lead(yb, hL == 1, 'L2:no_numerals', -1),
              'illegible_header_shaped_unheaded_top(-)': lead(yt, hL == 0, 'L1:header_shaped_illegible', -1),
              'illegible_header_shaped_unheaded_bottom(+)': lead(yb, hL == 0, 'L1:header_shaped_illegible', 1)}
 out['3e_n'] = dict(all=len(RL), heldout=int(ho.sum()))
 print('3e', json.dumps(out['3e'], indent=0), flush=True)
+json.dump(out, open(os.path.join(Q.CK, 'c3.json'), 'w'), indent=1)
+
+# 3f what is 'numeral-free line 2 on a headed tablet'? split by line-2 preservation, on photos (intact line 1) and drawings
+DI = Q.build(True); RI = DI['R']
+def l2kind(t):
+    if len(t['lines']) < 2: return 'none'
+    l = t['lines'][1]
+    if l['numerals']: return 'num'
+    return 'nonum_broken' if (l['lacuna'] or l['damaged']) else 'nonum_intact'
+res = {}
+for nm, RR, yb, hh, ss in (('photo', RI, DI['ybot'], DI['hd'], DI['strata']), ('lineart', RL, yb, hL, sL)):
+    k = np.array([l2kind(r['t']) for r in RR])
+    for kk in ('nonum_intact', 'nonum_broken'):
+        m = (hh == 1) & np.isin(k, ['num', kk]); f = (k == kk).astype(float)
+        r0 = Q.corr(f[m], yb[m]); c = 0
+        for _ in range(2000):
+            yp = Q.perm_within(yb, ss, rng); c += Q.corr(f[m], yp[m]) <= r0
+        res[f'{nm}_{kk}'] = dict(n=int(f[m].sum()), of=int(m.sum()), r=round(r0, 3), p_one_sided=round((c + 1) / 2001, 4))
+    # second line that is a pure sign string followed by entries: example raws
+    res[f'{nm}_examples'] = [RR[i]['t']['lines'][1]['raw'][:50] for i in np.where((hh == 1) & (k == 'nonum_intact'))[0][:8]]
+out['3f_line2'] = res
+print('3f', json.dumps(res, indent=0), flush=True)
 json.dump(out, open(os.path.join(Q.CK, 'c3.json'), 'w'), indent=1)

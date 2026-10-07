@@ -1,0 +1,15 @@
+pe86 cycle 3 (7 Oct 2026): lost first lines, predicted from the surviving clay; leads re-tested on drawings.
+Plan and kill lines written before running (tools/pe86_cycle3.py; data/pe86_ckpt/c3.json).
+
+ 3a Logistic header predictor on the 589 intact tablets: size covariates alone vs size + clay (top, bottom, reverse
+    header-end fill, hulls, top minus bottom). Grouped CV by publication batch; 100 shuffled-label nulls of the clay
+    gain. Kill: clay gain <= null q95.
+ 3b Pseudo-test on 186 tablets whose line 1 is damaged but present (header status readable; their header end may be
+    damaged too). Support: clay+size AUC above size-only with a bootstrap CI above 0. Kill: CI includes 0 and gain < 0.02.
+ 3c Header KIND: does the clay tell an M157 header from the others (grouped CV)? Kill if AUC gain over size < 0.03.
+ 3d FREEZE: header probabilities for the 294 tablets whose first line is lost (primed line numbers), with sha256.
+ 3e Re-test on the hand-drawn line-art record (all drawings with intact line 1; and the subset with no photo outline)
+    of the cycle-1/2 leads: one-sign+number unheaded tablets square (+); |M327+X|, |M175+M136|, M388, |M157+M131|
+    headers round (-); headed tablets with numeral-free line 2 round at the bottom (-); illegible header-shaped line 1
+    round at the top (-) and square at the bottom (+). One-sided p from 2,000 stratified shuffles. A lead survives only
+    with p < 0.05 on the drawings with the predicted sign; otherwise it is dropped.

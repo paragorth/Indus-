@@ -1,0 +1,56 @@
+LA-84 CYCLE 1: CANDIDATES, CHOICE AND THE FIRST RUN (7 Oct 2026)
+Corpus: data/corpus_ra.json (v1). la83 is still running: only la83_cycle1.txt exists (no final, no recommendation), so
+corpus_ra_v2.json is NOT used; its changes touch 15 records / 30 tokens (0.6 %), none of them a SigLA 'worn' word.
+
+STEP 1. Families already tried (STRATEGIES.md la1-la83, FINDINGS.md, SUMMARY.md, LITERATURE.md):
+ sub-unit / fraction tables (la1, la9), formula and anchor attacks, picture codes (la7), grammar MDL and evolved grammars
+ (la8, la10, la24, la60), typology and language families (la11, la19, la44), ledger jigsaw (la12), sites as languages (la13),
+ forgery worlds (la14, la46), field-ecology richness / capture-recapture / post-GORILA forecast (la15), private spellings
+ (la16), words as pathogens and winds (la17, la31), anti-co-occurrence morphology (la18), pecking order / commodity order
+ (la20, la50), restoration ensembles (la22), cross-site transfer (la23), seasonal destruction clock (la25), seal network
+ (la26), weights (la27), receipts (la28), land (la29), rates (la30), confusion physics (la32), storeroom queues (la33),
+ shape hands (la34), number bends the word (la35), shared recipients (la36), sign-pair physics (la37), Packard-style
+ relabelings (la38), ligature parts (la39), type inference (la40), families (la41), layout grammar (la47), conserved
+ economy (la48, la76), running sums and inclusion rules (la49, la56, la61), urban scaling (la55), bureaucracies vote and
+ government simulation (la57, la58), phonetic maps (la59), physiology of numbers (la64), clerk deletion game (la63),
+ templates (la65), weights (la66), heading words (la67), sealing words (la68), reader-independence (la69), crack attempts
+ (la62, la70, la72-la74), number forensics (la75), mutant phylogeography (la77), time travel and counterfactual digs
+ (la78, la79), clay outline (la80), writers' bodies (la81), outside material (la82), parser audit (la83).
+
+STEP 2. Candidates outside those families (each: would a conventional decipherer do it? no):
+ K1 THE READER'S PULL (editors as an instrument to be calibrated). SigLA's stipple ('worn', measured from the drawing, la71)
+    is physical surface damage and does not depend on the content. If wear is content-blind, a worn sign-group was, before
+    anyone read it, drawn from the same population as an unworn one of the same site, support and length. What the
+    editors made of it is then an experiment on the editors: random misreading makes worn groups LESS familiar
+    (fewer repeats elsewhere), reading toward known words (gravity) makes them MORE familiar. Massive random guessing:
+    tens of thousands of random reader models (error rate, gravity, target pool, frequency exponent, share of signs worn)
+    are run on unworn groups and scored by ABC against the worn groups. Controls: pseudo-worn unworn groups with no reader
+    (must give error ~0), planted readers (random-error and gravity) to recover, wear labels shuffled within strata.
+    Outside test: SigLA's independent re-drawing ('variant' = another sign) is a second reader, held out of the fit:
+    gravity predicts that groups SigLA reads otherwise are MORE familiar than their strata; random error predicts LESS.
+    Web check (7 Oct 2026, 'editorial bias damaged signs Linear A statistical test'): nothing found.
+ K2 INVERSE TAPHONOMY. Explicit destruction physics (tablet length, fracture into pieces, size-dependent recovery by
+    excavation era, joins) fitted by ABC on the edge-break flags and surviving lengths of documents published by 1950;
+    survivors must predict the damage profile of later finds (time travel), against shuffled publication years and a
+    planted physics world. Then ask what the lost part contained. Web check: no Linear A fragmentation/recovery model.
+ K3 PHYSICS PREDICTS ARITHMETIC. The K2 physics, fitted without any number, predicts how much of each KU-RO section was
+    lost on broken tablets; scored on the written totals (a channel the fit never saw), against shuffled totals.
+ K4 THE SQUEEZE. Scribes short of room at a line end abbreviate: sign-groups at the end of crowded physical lines
+    (la81 line layer) as shorter variants of groups elsewhere; thousands of random drop rules, line positions shuffled.
+ K5 THE UNRECORDABLE. Structural zeros (feature combinations expected >= 3 times, seen 0) mined at HT and tested
+    leave-one-site-out against zeros mined in site-shuffled corpora. (Closest to la18/la65; kept last.)
+ K6 FIRE AS A SORTING MACHINE. Little's law on each burnt snapshot: stock of nodules and roundels per tablet entry as a
+    dwell-time ratio per site, compared with planted office simulations. (Small n per site; kept last.)
+Choice: K1 now (it calibrates every reading the earlier loops used), then K2, then K3 (or K4 if K2 dies).
+
+STEP 3. K1 run (tools/la84_common.py, la84_c1.py, la84_c1b.py; checkpoints data/la84_ckpt, git-ignored).
+Data: sign-groups of >= 2 signs on the 699 SigLA-covered documents; READ 553 (read, no flag), WORN 173 (only flag: SigLA
+stipple >= 0.20 of a sign box), edge-truncated groups left out. VAR (SigLA reads another sign, n = 20) was meant as a
+held-out second reader; its raw exact rate (0.40) was printed during a format check before any freeze, so it is NOT
+used as a test (and n = 20 is too small anyway).
+
+| LA-84.1.1 | THE READER'S PULL, raw test. Familiarity of a group = it recurs in another document (exact) / only a one-sign neighbour recurs (near). Worn groups vs unworn groups drawn in the worn groups' strata (HT/other x tablet/other x length 2/3/4+), 5,000 matched draws. Premise: stipple is surface damage and does not know the text, so before reading a worn group is a draw from its stratum. | Exact 0.382 vs 0.471 (P 0.005); near-only 0.324 vs 0.252 (P 0.016). Worn groups repeat less and sit next to an attested group more: the signature of misreading (a corrupted group lands one sign away from its true form), not of a pull toward known words (which would raise exact). | B. Worn sign-groups in the edition are less often real repeats than their strata predict. |
+| LA-84.1.2 | Massive random guessing: 60,000 random reader models (m share of signs worn 0.15-1, e misread rate 0-0.8, g share of misreads pulled to an attested group 0-1, pull exponent a 0-2, random-misread frequency exponent b 0-1) run on matched unworn groups; ABC (nearest 1 %) against the worn groups. Controls, 20 pseudo-observed sets each: no reader (shuffled wear labels), planted random reader (e 0.4, g 0), planted gravity reader (e 0.4, g 0.85). | Real: e 0.26 [90 %: 0.10-0.57], g 0.51 [0.06-0.83] (prior-like), m 0.46 [0.18-0.93]. Net random noise e(1-g) 0.135; no reader 0.033; planted random 0.393 (true 0.40); planted gravity 0.077 (true 0.06). Pull e*g: real 0.15, no reader 0.08, planted gravity 0.25 (true 0.34). | B (method passes: noise recovered, null near 0). Real: a per-worn-sign misread rate of about a quarter (C on the exact value). Gravity is not identifiable at n = 173: neither shown nor excluded. |
+| LA-84.1.3 | Kill tests. (a) Same documents only: worn vs unworn groups of the same length on one document (72 documents, 92 worn, 125 unworn), wear labels permuted within document and length, 10,000 permutations; kills a document-level confound (worn tablets with rare vocabulary). (b) Leave-site: HT and non-HT separately, each against its own matched null. (c) Time: documents first published by 1950 vs later (la78 years). | (a) exact -0.098 (P 0.065), near +0.080 (P 0.082): same size as the pooled effect, weaker P (half the data). (b) HT exact 0.46 vs 0.55 (P 0.035); non-HT 0.15 vs 0.27 (P 0.034); near +0.06 / +0.11. (c) <= 1950: 0.44 vs 0.53 (P 0.020); later: 0.16 vs 0.27 (P 0.072), near +0.14 (P 0.044). | B. The deficit has the same sign and size at HT and outside HT, in early and late editions and within one document; not a site, era or document artefact. Each split alone is P 0.02-0.08, so B, not A. |
+| LA-84.1.4 | Frozen outside prediction: the 56 worn groups that are near-only (no exact repeat elsewhere, a one-sign neighbour elsewhere), with their neighbours: data/la84_frozen_c1.json, sha256 77a0f995d9fd01821a6a9679fb5532479c2ae4c5ce2d5fc5e2ed188a68e75af4. | Prediction: on autopsy or new photographs (RILA-S1 plates, SigLA revisions) >= 25 % of the 56 change by one sign, and >= half of those changes go to a listed neighbour; matched unworn near-only groups change in <= 10 %. | C. Would support: as stated. Would kill: < 10 % change, or changes go to non-neighbour signs as often as to neighbours. |
+| LA-84.1.final | Cycle verdict | The edition's readings of physically worn sign-groups carry measurable reading noise: about 9 points fewer real repeats and 7 more near-misses than content-blind wear allows, replicated at HT and elsewhere, early and late, and within documents; the ABC puts the per-worn-sign misread rate near 0.26. Consequence for every earlier loop: near-variant pairs (la16, la77) and hapax counts (la15) that involve a worn sign are partly reading noise; 173 worn groups are 3 % of word tokens, so corpus-level results are little changed. | B (reading noise in worn groups); C (the 56 listed groups). Nothing read. K1 survives as a calibration, not a reading; move to K2. |

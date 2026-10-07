@@ -50,3 +50,29 @@
 #   distance study do not test increment persistence of word values. M1-M3 not found done.
 # Choice: cycle 1 = M1 (most direct payoff: values and a referent; the closed-form fit makes 10^4-10^5 hypotheses per corpus cheap).
 #   Next: M2 (cycle 2), M3 (cycle 3).
+
+# Machinery: tools/v95_lib.py (corpora, planted documents, twins, glyph x position features), tools/v95_c1.py (search),
+#   tools/v95_sum1.py (selection), tools/v95_c1rep.py (frozen re-test). Checkpoints data/v95_ckpt/ (git-ignored).
+# Statistic: G = 1 - lambda, lambda = E[(2nd difference)^2] / E[(1st difference)^2] (forward and backward steps pooled, top 5% of
+#   squared differences trimmed so that wrap-arounds (29 -> 0 degrees) and misreadings do not dominate). iid values give G = -2,
+#   a random walk or copy-and-vary -1, a smooth measured quantity G > 0. Word value = c . (glyph x position counts).
+# Hypotheses: 4,000 per corpus = 26 full-alphabet fits (13 series x pooled / position-split) + random glyph sets (2-16 glyphs,
+#   pooled or split) x 13 series (along the line; word 0 / 1 / 2 / last down the paragraph or page; line totals; line means) x
+#   mode (closed-form generalised-eigen fit on train folios with one 5%-trimmed refit, 60%; blind Roman-like integer guesses
+#   1/5/10/50/100, 40%). Each scored on held-out folios (leaf parity) and on 4 order-destroying twins (words shuffled in the line,
+#   lines permuted in the page). 9 corpora x 5 variants x 4,000 = 180,000 scored hypotheses.
+# Selection fixed before the Voynich summary: top 20 by the corpus's own train-half G; a pass needs held-out G >= 0.2, excess over
+#   the twins >= 0.5 and z >= 3. (A first summary ranked on train excess over twins; twins' degenerate negative G made that rank
+#   meaningless, so it was replaced before any Voynich value was read as a result.)
+# Plants (real astronomical quantities, latitude 45/50 N, additive Roman numerals, merge code + v72 surface): P_EPH 3-year
+#   kalendar-ephemeris (day, sun sign, degree, minute, day length h/m, moon sign, degree; 8,760 tokens), P_ALT altitude table
+#   (9 hourly sun heights per day, 2 latitudes; 6,570), P_MIX kalendar lines of 6 Circa instans words with the sun degree and the
+#   day-length minutes in fixed slots (8,760). Second surfaces (same code, new surface seed) P_EPH2, P_ALT2 = 'second transcription'.
+# Kills: P_CIRCA (Circa instans through the same code + surface), G_SELF (copy-and-vary), G_LX (lexical page mood + junction + harmony).
+
+| V-95.1.1 | Calibration: momentum search on the three planted numerical documents | P_EPH best held-out G +1.00 (the day counter, word 0 down the month), sun degree +0.34 (word 2); P_ALT +0.78 (along the line, the daily arc of the sun); P_MIX +0.34 (slot 1, the sun degree hidden among prose words). Top-20 passes 10/20, 16/20, 5/20 | A (method): a measured quantity written in an additive notation is found blind, in the right field, through the merge code and the Voynich-like surface. Blind spot: slow quantities whose daily step is below the reading noise (minutes of day length; 1-degree steps reach only +0.2-0.3) |
+| V-95.1.2 | Frozen re-test of the plants' top 20 on a second surface (same code, new pads, q-, marks, gallows habits) | P_ALT -> P_ALT2 20/20 pass z >= 3 (median excess +2.47, median G +0.50); P_EPH -> P_EPH2 20/20 (median excess +2.18, G +0.21) | A (method): frozen glyph values transfer to a second 'transcription' |
+| V-95.1.3 | Kill controls | Max held-out G over 4,000 hypotheses: P_CIRCA -1.07, G_SELF -1.01, G_LX -1.04; top-20 passes 0/20 each | Clean: language and copy/mood generators never show momentum (best = random-walk level, -1) |
+| V-95.1.4 | Voynich ZL3b / IT2a / GC2a, all 13 series | Max held-out G of all hypotheses: ZL -1.08, IT2a -1.08, GC2a -1.06 (per series between -1.90 and -1.06); top-20 passes 0/20 in each | B (negative): no weighted glyph count of any word, line or word column behaves like a smoothly varying measured quantity; the best value is the random-walk level that prose and copy generators also reach |
+| V-95.1.5 | Frozen ZL top 20 on IT2a and GC2a held-out folios | Excess over order-destroying twins z >= 3 in 10/20 (IT2a) and 9/20 (GC2a), median excess +0.42 / +0.31, but median G -1.31 / -1.28 | Order matters (neighbouring words and lines are alike, the known local similarity), but the frozen values never reach momentum (G <= -1). Same in prose and generators |
+| V-95.1.V | Cycle verdict | - | M1 dies. Grade B (negative): the Voynich is not a record of readings of a smooth quantity (sun heights, day lengths, degrees, counters) in any additive glyph notation within reach (2-23 glyphs, position-split or not, 13 line/column series). Would revive: a series with G >= 0.2 on held-out folios in two transcriptions under a frozen weighting. Not cracked |
