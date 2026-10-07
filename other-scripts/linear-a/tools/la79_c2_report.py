@@ -61,4 +61,5 @@ def main():
     json.dump(res, open(os.path.join(CK, 'c2_report.json'), 'w'))
 
 
-main()
+if __name__ == "__main__":
+    main()

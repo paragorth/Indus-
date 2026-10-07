@@ -1,0 +1,54 @@
+pe81 cycle 1 (7 Oct 2026): DESIGN STEP, then THE TEXT SORTS THE SITES, THE WEATHER JUDGES.
+
+STEP 1. Families already tried (pe2-pe80, x2-x4, r2-r3; and the Linear A / Voynich loops for ideas that travel)
+F1  Cross-script bridges (pe2, pe39, x3, pe61, pe79, attack 1/f).
+F2  Arithmetic of quantities: totals, unit values, ratios, rates, ration ladders, team rule, red ink, check digits, exchange factors (pe5, attack 2, pe12, pe24, pe27, pe28, pe30, pe58, pe64, pe69); cross-tablet sums vs museum neighbours (pe5 4.3, pe29 3c).
+F3  Layout / slot grammar / forms / type inference (a-d, pe4, pe8, pe38, pe46, pe47, pe51, pe62, pe63).
+F4  Names: lexicon, bags, phylogeny, breeding population, capture-recapture vs town size (e, pe7, pe9, pe31, pe36, pe45, pe50).
+F5  Hands, sessions, memory, tics, time depth (pe13, pe25, pe29, pe49, pe76).
+F6  Physical medium: size, aspect, ruler quantum, blanks, colour, XRF (pe10, pe17, pe21, pe26, pe75).
+F7  Biology / physiology rulers: herds, lambing, bones, Taylor law, hunger, agronomy, FAO energy needs (pe11, pe15, pe16, pe20, pe37, pe53, pe54, pe55, pe78).
+F8  Seals (pe33, pe35, pe70, pe71).  F9 Chronology, seriation vs strata, rota (pe19, pe40).
+F10 Simulated societies, economies, forgers (pe6, pe41, pe56, pe65, pe77, r3).
+F11 Geography: plateau vs Susa rates (pe18), outposts as offices (pe65), trade (pe48), local materials (pe67).
+F12 Unseen tablets, joins, repertoire census (pe22, pe60, pe68).  F13 Audits and crack attempts (pe59, pe66, pe72-74).
+F14 Compounds, periodicity, digit forensics, weights, errors, random programs (pe14, pe23, pe34, pe42-44, pe52, r2).
+Other scripts: urban scaling with hectares (la55), fire clock (la25), winds (la31), farming year (la50), real sky (v55), hot/cold (v60).
+pe80 (parallel) took: numbers as labels, taphonomy as library card, shelf life. Not used here.
+
+STEP 2. Candidates (each must end in a test on outside data)
+K1 THE TEXT SORTS THE SITES, THE WEATHER JUDGES. Ignore what any sign means. Thousands of random text statistics (1-3 features
+   from ~180: system mix, magnitudes, layout, sign presence) are scored per site; survivors are statistics whose ordering of the
+   five writing sites (Susa, Malyan, Yahya, Sialk, Sofalin) repeats between disjoint tablet halves more often than when tablets
+   are re-dealt among sites. The survivors' consensus site axes are frozen (sha256) BEFORE any environmental number is fetched.
+   Outside test: NASA POWER long-term climate at each site (precipitation primary; temperature, humidity secondary), elevation,
+   distance from Susa, settlement area. Primary test is outposts only (Susa is extreme on everything and already known to differ:
+   pe18, pe65). Controls: site-shuffled corpus (kill), planted rulers at real sizes (power), 24/120 ruler permutations (p).
+   Web (7 Oct 2026): no study linking PE site text profiles to climate or environment; la55 used hectares for Linear A only.
+   Conventional decipherer? No: it never asks what a sign means, and the answer key is the weather. PICKED.
+K2 ISLAND BIOGEOGRAPHY OF THE SCRIPT (richness and Susa-shared share vs isolation and area). Area half = la55; isolation half folded
+   into K1's ruler panel as a secondary ruler. DROPPED as separate run.
+K3 FOUNDER-DRIFT CLOCK VS RADIOCARBON (outposts as colonies; drift since founding vs 14C). pe76 showed time depth is not
+   measurable (BLOCK shuffles reproduce it), and published 14C ranges for Susa III, Middle Banesh, Yahya IVC, Sialk IV2 and Sofalin
+   overlap within c. 100-200 years, so no ordering to test. DROPPED.
+K4 CEMETERY DEMOGRAPHY AS THE DEPENDANT RULER (Shahr-i Sokhta age-at-death -> share of dependants on ration lists). F7 / pe16 /
+   pe32 / pe55 physiology rulers; calibration already failed there. DROPPED.
+K5 TOKEN MISCOUNT SIGNATURE (Susa bullae token counts predict which units are mis-added). Token-to-numeral mapping is sign-shape
+   mapping (banned) and the token tables are not open. DROPPED.
+K6 SCRIPT NICHE MODEL (MaxEnt over climate layers; predict other PE-horizon find spots). Five occurrence points; the text adds
+   nothing a site list does not. DROPPED.
+K7 CLAY WEATHER (evaporation at each site -> tablet thickness and size beyond text amount). Physical, F6-adjacent, but a new ruler.
+   Kept as the next run if K1 dies (same outside panel, frozen before fetch).
+Order: K1, then K7.
+
+Pre-registration (written before any site statistic or environmental value is computed or fetched):
+ - Primary: Spearman between the frozen OUTPOST-only consensus axis (PC1 of survivor site scores, outposts only) and annual
+   precipitation; p = rank among the 24 orderings of the 4 outposts (exact). Pass needs p <= 1/24 AND planted power >= 50%.
+ - Secondary (descriptive, Bonferroni x5): temperature, relative humidity, elevation, distance from Susa, area.
+ - Kill: survivor count not above the site-shuffled null (95th pct), or planted recovery < 50%.
+ AMENDMENT (before any statistic was computed): the PC axis has no sign, so an undirected 4-outpost ordering can reach at best
+ p = 2/24 = 0.083. The primary test is therefore DIRECTED: text-only 'Susa-likeness' of each outpost (mean standardized distance
+ of the outpost's score from Susa's over the stable statistics; frozen). Primary prediction: outposts whose climate is closer to
+ Susa's (|log precipitation - log precipitation at Susa|) write more like Susa. One-sided Spearman over 4 outposts, exact p over
+ 24 orderings (floor 0.042). Secondary (directed, Bonferroni x4): distance from Susa (farther = less Susa-like), |temperature
+ difference|, |elevation difference|; descriptive: area. Undirected PC1/PC2 vs every ruler is reported as descriptive only.

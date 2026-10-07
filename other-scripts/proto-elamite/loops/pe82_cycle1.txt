@@ -1,0 +1,49 @@
+pe82 cycle 1 (7 Oct 2026): DESIGN STEP (inverted problem), then INK WHERE THE READER WOULD STUMBLE.
+
+STEP 1. Families already tried (pe2-pe81, x2-x4, r2-r3); same list as loops/pe80_cycle1.txt F1-F14, plus:
+F15 Numbers as labels, taphonomy, abundance-size ruler (pe80).  F16 Site text profiles vs climate (pe81, running in parallel; not used).
+F17 Graft of foreign ledgers / universal role tagger (pe79); count fluctuation laws (pe78); forgers (pe77); career time depth (pe76).
+Lesson carried in from la78 (Linear A): random-document CV rewards overfitting; split by publication batch / site instead.
+Batches used here (PE): MDP 06 | MDP 17 | MDP 26 | MDP 26S | TCL 32 + MDP 31 | all other volumes and non-Susa sites.
+Proto-cuneiform calibration batches: Uruk IV (Uruk) | Uruk III (Uruk) | every other provenience.
+
+STEP 2. Inverted candidates. The question is never 'what does sign X mean' but 'what did the reader need, or not know,
+or what was the writer optimising'. Quick web search on each (7 Oct 2026); no hit for any of them on PE or PC.
+I1 INK WHERE THE READER WOULD STUMBLE (uniform-information writer). A writer who optimises for a reader spends
+   optional signs exactly where the reader, from the rest of the tablet, would mispredict the kind of entry (its
+   number system). Reader models = random context predictors (header sign, previous line, look-ahead, tablet
+   majority, position, surface) trained leave-one-batch-out. Hypotheses = thousands of (sign set x reader model) pairs;
+   score = within (tablet x system x length) covariance of 'marker present' with the reader's surprisal. Survivors
+   selected on discovery batches, re-tested on held-out batches. Controls: sign strings shuffled within (tablet x system
+   x length) strata (kill); planted UID marker on the real skeleton (power); proto-cuneiform with pre-registered
+   goods/commodity signs (do known commodity signs come out as stumble-markers?). Conventional? No: it reads the
+   writer's effort budget, never a sign value. PICKED first.
+I2 WHAT THE READER COULD NOT HAVE KNOWN (novelty tolerance). A reader can absorb a sign never seen before only where
+   context fixes its role. Fit, on discovery batches, thousands of random context definitions; score each by how well
+   'novelty tolerance' of a context predicts where signs unseen in discovery appear in held-out batches. Then classify
+   known signs by how often they sit in novelty-tolerant slots (open class = names; closed class = codes). Controls:
+   novelty labels shuffled within line-length strata; planted open-class slot; PC calibration (personal-name-like vs
+   pre-registered goods signs). Second.
+I3 WRITERS PROTECT WHAT IS WORTH STEALING (security economics). Entries covered by an arithmetic check (a closing total
+   that equals the sum) are tamper-evident. Random sign sets scored by 'protection rate' beyond tablet length and
+   system; held out by batch; outside ruler = pe80 frozen size ranking (sha256 b692200a...), fixed before this loop.
+   Controls: totals re-dealt among same-length tablets; PC calibration with goods of known value. Third.
+I4 HOMOGRAPH LOAD (where must the reader use context?). Same sign, two behaviours (bimodal magnitude or system) by
+   context; random context partitions; held out by batch; PC calibration with conventional polyvalent signs.
+   Kept in reserve.
+I5 HOW MANY REGISTERS DOES THE READER CARRY? Random finite-state readers that carry 0-3 tokens of state from line to
+   line, scored on predicting the next entry's system; topic-setting vs state-needing signs. DROPPED: overlaps pe59
+   cache models and pe9 tablet-topic cache, and I1 already uses the reader's context.
+I6 INVERSE REINFORCEMENT OF THE WRITER'S ORDERING OBJECTIVE. DROPPED: equals pe13 canonical-order search.
+I7 READER-COMPETENCY FACTORISATION (minimal vocabularies of specialist readers). DROPPED: pe8 forms, pe18 genres,
+   pe49 clerk habits, topic models in the literature (Born et al. 2019).
+Order: I1, I2, I3 (I4 if one dies early).
+
+Pre-registration for I1 (written before any PE score was computed):
+ - Target: line system (common.system_of; C, C*, B, N23, S-frac, SDB, mod*). Lacuna lines dropped. Signs = base forms, 'x' dropped.
+ - Statistic: for marker set M and reader model R, Z = sum over strata (tablet, system, n-signs) of cov(present, surprisal),
+   standardised by its exact within-stratum permutation variance.
+ - Discovery: batches MDP 26 + MDP 26S + other; confirmation: MDP 17 + MDP 06 + TCL 32/MDP 31 (and the reverse split).
+ - Survivor: discovery z >= 3.5 AND Bonferroni-free replication: confirmation z >= 2 with the same sign.
+ - Kill: survivors on the stratum-shuffled corpus >= real survivors (mean of 3 shuffles), or planted recovery < 50%.
+ - Also length-level UID: n-signs vs surprisal within (tablet, system).

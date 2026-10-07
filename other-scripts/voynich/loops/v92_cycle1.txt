@@ -1,0 +1,32 @@
+# v92 cycle 1 (7 Oct 2026): WHAT DO THE PAGE-RECURRING WORDS DO? Candidate list and choice. VOY_MODE=glyph.
+# Starting point (v90, B): whole words and word frames (word minus its middle) recur on their own page beyond hand/section
+#   spelling habit in ZL, IT2a and GC2a (z 3.7-5.2). v84: page vocabulary is weak evidence of content (C-). v91 (running): sparse channel.
+# Families already tried (not repeated): cognate/sign-shape/place-name moves (banned); hoax/generator confirmations (v21, v26, v42, v53, v82, v84:
+#   banned as a goal); page vocabulary size and generator fitting (v84); cross-page pointers / hypertext (v56); entry templates and
+#   dossiers (v76); one item per line, recurring item pairs (v73); opening-line subjects, rule-breakers (v49); first-mention care (v69);
+#   alphabetical sorting (v19); keyword networks / mind maps (v66, Montemurro-Zanette 2013); source alignment by recurrence graph (v89)
+#   and entry lengths (v58); concept wheels and Lullian slots (v64, v90); record fields (v52); line consensus (v67); sparse choice channel (v91);
+#   picture-text links (v38, illustrations not used here); ABC over encoders (v87); burstiness/keyword entropy (Montemurro-Zanette).
+# Candidates (each: thousands of random hypotheses scored on train folios, survivors re-tested on held-out folios; planted control = a real
+#   herbal / recipe / astronomical text written through a Voynich-like merge code + the v72 surface; kill controls = within-page word shuffle
+#   and page-recurrence generators):
+#  K1 NAMES HAVE A SLOT. A name of a thing (plant, ingredient, star) is a noun: the words that recur on a page should sit in characteristic
+#     syntactic surroundings (after the same carrier words, at the same line positions), different from rare words that do not recur,
+#     after matching their own spelling. An instruction word or a spelling-mood word has no such slot. Random hypotheses = context
+#     definitions (neighbour offset x neighbour property x position features x unit = word/frame x rarity band). Kill: within-page word
+#     shuffle keeps every page-recurrence and destroys the slot; page-mood and copy-and-vary generators make recurrence without syntax.
+#     Meaning payoff: the carrier words that announce a name ('of', 'take', 'against') and a list of name-like frames per page.
+#  K2 NAMES DO NOT SCALE. A headword is said a few times whatever the length of its entry; a spelling mood fills a page in proportion to its
+#     length. Exponent of the dominant recurring frame's count vs page length, under random frame/recurrence rules.
+#  K3 NAMES ARE TRANSPLANTABLE. Swap the recurring frames of two pages of one section; if they are names, a context model trained elsewhere
+#     barely notices (names share slots); if they are mood words, the page's other words are tuned to them and the swap costs bits.
+#  K4 SIMULATE THE WRITER. ABC over thousands of random writer programs (entity-driven entries, mood, copy, mixtures) fitted to a
+#     fingerprint of the page-recurring frames only; posterior share of entity-driven writing.
+#  K5 THE CAST LIST FOLLOWS THE GENRE. Number and dominance of recurring frames per page by section (one star per herbal page, many
+#     ingredients per recipe page, many single-use names on star pages) vs encoded herbal / recipe / astronomy plants.
+#  K6 NAMES FADE. Within a page a name is introduced and then replaced by pronouns: the recurrence trajectory of page-recurring frames
+#     decays along the page relative to line order shuffles; moods are stationary.
+# Web check (7 Oct 2026): searches on context-predicts-recurrence and headword scaling find Montemurro-Zanette keywords, Stolfi's Heaps-law
+#   notes and 'leaf words' blog posts (page-specific words), but nothing asking whether page-recurring words occupy a syntactic slot (K1)
+#   or how a headword's count scales with page length (K2). K6 is close to v49's front-loading test, K5 close to v76's item-page count.
+# Choice for cycle 1: K1 (most direct meaning payoff: it would name the carrier words and the name-like frames). Next: K2, K3.
