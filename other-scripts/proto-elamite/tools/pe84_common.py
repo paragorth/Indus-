@@ -31,7 +31,7 @@ def text_feats(t, topsigns):
     f['n_signs'] = len(sg); f['n_distinct'] = len(set(sg))
     f['x_share'] = sum(g == 'x' for g in toks) / max(1, len(toks))
     f['dam_share'] = sum(l['damaged'] or l['lacuna'] for l in L) / max(1, len(L))
-    nums = [n for l in L for n, c in l['numerals']]
+    nums = [n or 0 for l in L for n, c in l['numerals']]
     f['n_num_marks'] = sum(nums)
     f['num_lines'] = sum(1 for l in L if l['numerals']) / max(1, len(L))
     f['numonly_share'] = sum(1 for l in L if l['numerals'] and not [g for g in l['signs'] if common.is_sign(g)]) / max(1, len(L))
@@ -50,9 +50,9 @@ def text_feats(t, topsigns):
     for s in topsigns:
         f['sg_' + s] = float(s in ss)
     f['rv_signs_share'] = sum(len(l['signs']) for l in rv) / max(1, sum(len(l['signs']) for l in L))
-    f['rv_nums_share'] = sum(n for l in rv for n, c in l['numerals']) / max(1, sum(nums))
-    f['ob_nums_per_line'] = sum(n for l in ob for n, c in l['numerals']) / max(1, len(ob))
-    f['rv_nums_per_line'] = sum(n for l in rv for n, c in l['numerals']) / max(1, len(rv)) if rv else 0.0
+    f['rv_nums_share'] = sum(n or 0 for l in rv for n, c in l['numerals']) / max(1, sum(nums))
+    f['ob_nums_per_line'] = sum(n or 0 for l in ob for n, c in l['numerals']) / max(1, len(ob))
+    f['rv_nums_per_line'] = sum(n or 0 for l in rv for n, c in l['numerals']) / max(1, len(rv)) if rv else 0.0
     return f
 
 

@@ -22,6 +22,13 @@ good = (col('closed') == 1) & (np.abs(np.log(col('la_aspect')) - col('asp')) < 0
 out['credible_subset_n'] = int(good.sum())
 for k in ('la_cf', 'la_cf_top', 'la_cf_bot', 'la_hull_top'):
     out['cred_' + k] = P.partial(col(k)[good], hd[good], Z[good], 2000, rng)
+# line-1-intact subset (cycle 2 breakage confound)
+it = np.array([not r['t']['lines'][0]['lacuna'] and not r['t']['lines'][0]['damaged'] for r in R])
+for k in ('la_cf', 'la_cf_top', 'la_cf_bot', 'la_hull_top'):
+    out['intact_' + k] = P.partial(col(k)[it], hd[it], Z[it], 2000, rng)
+Zl = P.design(R, [np.array([float(r['t']['lines'][0]['lacuna']) for r in R]), np.array([float(r['t']['lines'][0]['damaged']) for r in R])])
+for k in ('la_cf', 'la_cf_top'):
+    out['line1flags_' + k] = P.partial(col(k), hd, Zl, 2000, rng)
 # drawings for tablets WITHOUT a CDLI photo-outline in pe81 (fully independent tablets)
 nophoto = np.array([not F1.get(r['id']) for r in R])
 out['no_photo_tablets_n'] = int(nophoto.sum())

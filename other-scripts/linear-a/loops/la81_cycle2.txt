@@ -1,0 +1,25 @@
+la81 cycle 2 (7 Oct 2026): THE ARROW OF WRITING TIME (tools/la81_c2.py)
+Idea: a list is written in time. If entries were written as things happened (arrivals, deliveries, a running
+procedure) some entry property drifts or cycles in writing order; reversing the list then changes the
+statistics. The list-reversal null is exact: each list's direction is flipped at random, which keeps every
+list's content and every within-list dependency except direction. Checked first: la20 (pecking order of
+items), la53 (earliness of words), and the HT descending-amount finding are about WHICH item comes first,
+scored against within-list shuffles; none uses time-reversal asymmetry (trend and cyclic flux). Web search
+('arrow of time detection administrative lists entry order entropy production'): nothing on ancient lists.
+Units: lists = tablets with >= 6 entries (an entry closes at a number); first and last entries dropped
+(headings and totals are positional by construction). Entry properties: first sign, last sign, sign-group
+length, amount class, fraction present, logogram present, sign-group frequency in the 1950 lexicon.
+Hypotheses: 20,000 random codings (1-2 properties, random partitions into 2-3 states). Statistics: signed
+trend of state 0 (sum of centred ranks) and, for 3 states, cyclic flux (0->1->2->0 minus reverse); z under
+the exact flip null. Survivors |z| >= 3 on lists published by 1950 (78 HT lists) frozen, scored on lists
+published later (21). Controls: whole lottery rerun on direction-flipped training lists (20 runs);
+planted drift (in half the lists, long sign-groups pushed later); Linear B KN -> PY and, within Pylos,
+series A-E -> F-Z (structural only); commodity coding as a positive.
+Bug found and fixed before the verdict: sequences of one state gave trend values of 1e-17 (rounding), which
+the flip null cannot move; the first LA freeze (sha256 00e7d51a...) came from that code and was discarded.
+
+| LA-81.2.1 | Planted drift, same code (half of all lists: sign-groups of >= 3 signs moved later with noise). | 1,818 survivors vs 104 under flipped training; later-list agreement 0.95 vs 0.49 (P 0 of 10). | Method works at LA list counts. |
+| LA-81.2.2 | Linear B calibration. KN train (80 lists) -> PY test (142); within PY, series A-E (63) -> F-Z (79). | KN: 414 survivors vs 33 under flipped training (P 0 of 20): real arrows, mostly word length drifting along KN lists. They do not transfer: PY agreement 0.08, mean signed z -0.33 (reversed). Within Pylos: 16 survivors vs 20 (P 0.5), agreement 0.44. Commodity flux: 1 survivor (KN), agrees on PY. | Calibration: a known administration has strong list arrows in one archive that do not carry to another, and none across Pylos series. A transferable arrow is not to be expected even if the writers wrote in time. |
+| LA-81.2.3 | Linear A: 78 lists published by 1950 (HT) -> 21 later lists. Frozen data/la81_frozen_c2_1950.json, sha256 926a6d069cb843362e53bfe757f5865c514ad918bfbc7564756a3cdca6d91a6c. | 71 survivors vs 73.6 mean under flipped training (P 0.3): no arrow in the HT lists beyond the reversal null. Later lists: agreement 0.38 vs 0.43 for flipped-training survivors (P 0.3). Commodity coding: 1 flux survivor, wrong sign later. | KILLED (B, calibrated by planted drift): the interior of Hagia Triada lists carries no direction of writing time in first/last sign, length, amount, fraction, logogram or frequency. Unlike Knossos, whose lists drift in word length, an HT list read backwards looks the same as read forwards. C: HT lists were written from a set of items rather than as events arrived (would support: no arrow in 50 new HT lists; would kill: a flip-null P < 0.01 on new lists). |
+
+Cycle 2 verdict: killed. Next: cycle 3, THE COPYIST'S EYE (layout kept between documents that share sign-groups).

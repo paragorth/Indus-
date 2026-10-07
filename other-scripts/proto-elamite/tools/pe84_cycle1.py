@@ -24,7 +24,7 @@ def density(R):
     return np.array([np.log1p(r['tx']['n_signs'] + r['tx']['n_num_marks']) - r['la'] for r in R])
 
 
-def primary(R, B=2000):
+def primary(R, B=int(os.environ.get('PE84_B', 2000))):
     out = {}
     have = [r for r in R if r['tx']['rv_any'] and 'd_depth' in r['ph']]
     for kind in ('rv_total_only',):
@@ -111,16 +111,34 @@ def main():
     print('rows', len(R), 'with reverse photo', sum('d_depth' in r['ph'] for r in R),
           'half A', sum(r['half'] == 'A' for r in R), flush=True)
     out = {'n': len(R)}
+    if os.environ.get('PE84_ONLYPLANT'):
+        N = int(os.environ.get('PE84_N', 5000))
+        PL = set(x.strip() for x in open(sys.argv[3]))
+        Rp = C.rows(sys.argv[2])
+        for r in Rp:
+            r['tx']['PLANT'] = float(r['id'] in PL)
+        Hp = hyps(Rp, N, np.random.default_rng(841), extra_text=('PLANT',))
+        repp, scp = engine(Rp, Hp)
+        sm = summarise(repp, Hp)
+        out['planted'] = dict(n_rep=sm['n_rep'], plant_hyps=sum(1 for h in Hp if h[1] == 'PLANT'),
+                              plant_rep=[x for x in sm['top'] if x[1] == 'PLANT'])
+        # primary on planted features with the planted flag as 'total-only'
+        x = arr(Rp, 'd_depth', 'ph'); y = arr(Rp, 'PLANT', 'tx')
+        out['planted']['d_depth_r'] = C.pr(x, y, C.covmat(Rp))
+        out['planted']['d_E04_r'] = C.pr(arr(Rp, 'd_E04', 'ph'), y, C.covmat(Rp))
+        print('planted', out['planted'], flush=True)
+        json.dump(out, open(os.path.join(C.CK, 'c1_planted.json'), 'w'), indent=1)
+        return
     out['primary'] = primary(R)
     print(json.dumps(out['primary'], indent=0), flush=True)
-    N = 5000
+    N = int(os.environ.get('PE84_N', 5000)); NN = int(os.environ.get('PE84_NULLS', 20))
     H = hyps(R, N, rng)
     rep, sc = engine(R, H)
     out['real'] = summarise(rep, H)
     print('real', out['real']['n_rep'], out['real']['n_rep_nonamount'], flush=True)
     s = C.strata(R)
     nulls = []
-    for k in range(20):
+    for k in range(NN):
         perm = C.permute_within(s, rng)
         repn, _ = engine(R, H, perm)
         sm = summarise(repn, H)

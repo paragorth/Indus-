@@ -45,3 +45,12 @@ Choice for cycle 1: K7 engine with K1 as the single pre-registered primary test.
  Secondary (same rule): within the obverse, depth of the bottom third minus the top third vs whether the obverse ends
  in a total-like numeric-only line.
  Calibration: the same pipeline on full photos of proto-cuneiform (Uruk III) tablets from CDLI in cycle 3.
+
+Added after the primary result and before running it (7 Oct 2026): the primary passes its support rule (below), but a
+smoke run of the cycle-3 meter on 149 tablets showed that the 'depth' meter falls where a face carries more numeral marks
+(round pits give less top-hat contrast than thin line shadows). A total-only reverse is mostly numerals, so the primary
+can be the meter, not the clock. K1b (pre-registered): repeat the primary with x = numeral-mark share (reverse minus
+obverse) and the reverse/obverse amount ratio as covariates (tools/pe84_cycle3.py pe, 'clock_*'). Kill: |r| < 0.08 or
+p > 0.05 for d_depth and d_E04 with x in the model. Second kill: among CONTINUATION reverses only, x alone must not
+reproduce the primary's size (if r(x, d_depth) within continuation reverses is as strong as the total-only effect, the
+meter explains it).

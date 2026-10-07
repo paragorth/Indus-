@@ -1,0 +1,17 @@
+# v92 cycle 4 (7 Oct 2026): K3' TRANSPLANT BY SPELLING. Are the page-recurring frames arbitrary labels (names) or the page's own spelling?
+# VOY_MODE=glyph. Tools: tools/v92_c4.py (phase A = selection on train folios, phase B = one held-out test), tools/v92_sum4.py;
+#   checkpoints data/v92_ckpt/c4A_*.json, c4_*.json. Frozen: data/v92_frozen_predictions.json
+#   (sha256 c2f77630ed89e4389f66785df41e19576d90c43af65d3ddb0fa439519740389b), written after phase A and before phase B.
+# Idea (inverts K1): a name is an arbitrary label, so the spelling of the rest of a page should not tell which page a set of recurring
+#   names came from (beyond section and hand). A spelling mood writes its recurring words in the page's own glyphs. For each random view
+#   (glyph unigrams / bigrams / first-and-last-3 positional glyphs / both; optional random glyph merge classes; optional ends dropped; unit
+#   word or frame; rarity band; minimum lines; smoothing), each page's recurring units are scored against the glyph log-ratio profile of
+#   every same-group page, built from that page's words with all its own recurring units removed. Accuracy = mean normalised rank of the
+#   true page (0.5 chance). 1,500 random views x 13 corpora (about 17,000 scored); top 20 per corpus tested once on held-out folios
+#   against 200 within-group relabellings; 'far' = only candidate pages more than 4 pages away (removes neighbour drift).
+# Novelty check: v84 (T_form: burst words spelled alike) and v40 (the page chooses the twin) measured page spelling preferences; neither
+#   asked whether the page's REPEATED words can be put back on their page from the spelling of its OTHER words, against real named texts.
+| V-92.4.1 | Calibration: five real texts through the merge code + v72 surface (their recurring words include plant, dish and star names) | Held-out median accuracy of selected views: Konrad 0.617, Circa 0.732, Apicius 0.585, Hyginus 0.572, Culpeper 0.672; fixed frame-unigram view 0.49-0.66. Recurring units ranking in the bottom fifth on their own page ('orphans'): 13-21% | A (method): real recurring words do carry some of their page's spelling (morphological relatives stay on the page), but they are placed only modestly above chance |
+| V-92.4.2 | Generators | G_SELF 0.491, G_SEED 0.471, G_LX 0.570, G_GM (weak glyph mood) 0.571, G_GM2 (strong drifting glyph mood, recurrence 0.36) 0.767; orphans 11-21% | Only a strong page glyph mood reaches high accuracy |
+| V-92.4.3 | Voynich, frozen predictions tested once on held-out folios | P1 pass: median 0.823 / 0.804 / 0.822 (ZL3b / IT2a / GC2a), z >= 3 in 20 / 19 / 20 of 20 views. P2 pass: far medians 0.810 / 0.839 / 0.833 (not neighbour drift). P3 pass: every Voynich median exceeds the best plant (0.732). Fixed view 0.755-0.773 (z 8.7-9.0). Orphans: 6-9% (plants 13-21%, strong-mood generator 11%) | B (measurement, frozen and held out, three transcriptions): Voynich page-recurring frames are written in their page's own spelling, more than the recurring words of any real text tested and as much as a strong page glyph-mood generator. They behave like the page's spelling, not like arbitrary labels |
+| V-92.4.V | Cycle verdict | - | The page-recurring frames of v90 are mostly page spelling. At most 6-9% of them are orphan-like (label-like), fewer than in real texts (13-21%) and fewer than in a mood generator (11%). As meaning carriers, names-of-things readings of these frames are demoted. Not cracked |
