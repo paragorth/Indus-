@@ -1,0 +1,35 @@
+LA-82 FINAL: OUTSIDE MATERIAL FOR THE FROZEN PREDICTIONS (7 Oct 2026). Cycles loops/la82_cycle1-3.txt.
+Scripts: tools/la82_verify.py (hash check), tools/la82_chronique.py (Chronique des fouilles harvest), tools/la82_shot.py (JS page render), tools/la82_score.py (scorer with planted controls). New data: data/la82_new_material.json (14 items, sources, dates, confidence). PDFs, press photos and harvests stay in the scratchpad.
+
+| LA-82.final | (1) Verify every frozen prediction file by its own hash method and list its kill lines and needs. (2) Search open sources 2015-2026 for Linear A not in corpus_ra.json: lineara.xyz live, Crossref (all Kadmos 2014-2025), Cambridge Apollo/Core, Ariadne Suppl. 5 (Kanta et al.; Del Freo's Rapport 2016-2021), Madrid 2025 colloquium abstracts and bibliography, the EFA RILA-S1 contents, a full OAI-PMH harvest of Chronique des fouilles (20,673 records), Greek press. Positive controls: 9/9 recent items named in article titles and 8/8 known Chronique Linear A reports must be found. (3) Score each frozen prediction by its kill line, with a within-document shuffled-label null; scorer checked on planted agree / reversed / shuffled material. | (1) 19/19 hashes verify; none edited. Every prediction needs batch material (5-50 lists or tablets, 30-200 tokens). (2) Controls 9/9 and 8/8. lineara.xyz is current to about 2022 (221 post-1985 documents). New: 14 items: KN Zg 57 faces B-D and KN Zg 58 (Anetaki ivories; Zg 58 has 4 + 2 fraction signs, unpublished), 2 Linear A tablets and 1 roundel from Khania Kastelli (2022, 2024; press photos only), Phaistos Chalara and Hagia Photini sherds, Kommos sherd, Zominthos stepped table (probably masons' marks), VRY Za 4, KN Zb 36c-d, ZA 11/13 joins, PE 6. Only KN Zg 57 face B carries sign data (I KU WI RA KA DU | GRA GRA OLIV; lineara holds it, our la71 parse dropped it). Side audit: corpus KHZc106 and THEZb15 disagree with the editors' readings. (3) Scorer: planted agree SUPPORTED, reversed KILLED, shuffled KILLED. Real material: GRA before OLIV 1/1 (chance 0.68); la79 P1 6 of 200 tokens; everything else 0. | UNTESTABLE, ALL OF IT. No frozen prediction passes or fails on the open record: the new material is existence without text. This is not support for any reading. The decisive material is closed (RILA-S1, the 2024 Khania tablets, KN Zg 58, the ZA 11/13 joins) and needs a human (below). Not cracked. |
+
+Grades
+- A (data): the open web 2015-2026 has no new Linear A administrative text beyond lineara.xyz; new finds are known by existence, prose and press photos.
+- B (data audit): corpus_ra drops KN Zg 57 face B (lineara stores it as single-sign words with empty transliteration). KHZc106 (SA-SA-RA-ME) and THEZb15 (RE-SA 2) do not match the editors' KH Zc 106 (AB 73-60-61-[) and THE Zb 14 (AB 09-A332 2). Would kill: the editors' readings being wrong on autopsy.
+- C (unchanged): commodity order GRA before OLIV, one more agreeing pair (chance level, < 1 bit).
+- Data point for the fraction work: one object (KN Zg 58) carries 4 different fraction signs in one group; up to now at most 3 were known together. The la-series fraction writing order (JE, L, E, J, Y, A, F, H, B, K, L6, L2, L4; FINDINGS 'Writing order', graded A in la79) gives a sharp test: would support: the published Zg 58 order is a sub-sequence of it; would kill: two of the 4 + 2 signs in reverse order.
+
+PROPOSED TEXT FOR docs/HUMAN-ACTIONS.md, SECTION M (not edited by this loop; add below L3)
+- L4. RILA-S1 concordance pages (Del Freo & Zurbach 2024, Etudes Cretoises 21.6, pp. xxvi-xxxv 'Concordance generale') and
+      the editions of every tablet, roundel and nodule (pp. 3-68). The cheapest route is the e-book: Torrossa / Casalini
+      ID 6259024 (https://digital.casalini.it/9782869586420, EUR 52.88), or the Cambridge University Library copy
+      (https://idiscover.lib.cam.ac.uk/, search 'Recueil des inscriptions en lineaire A supplement'). Open contents list:
+      https://editions.efa.gr/action.php?r=download_public_files&type_fichier=SOMMAIRE&id_fiche=1050 . Sections with no
+      open counterpart: Palaikastro Wy (p. 64), Pseira Zb (p. 113), Poros Herakleiou Zg (pp. 134-135), Crete(?) Zg (p. 132),
+      Haghia Triada Zg (p. 133); tablets of Kea (pp. 9-12), Knossos (pp. 33-36), Petras incl. PE 6 (pp. 37-44), Phaistos
+      (pp. 45-48), Thera (pp. 49-56), Khania (pp. 13-32). Scan these pages to the scratchpad; la82 tools/la82_score.py
+      scores them once entered in data/la82_new_material.json.
+- L5. KN Zg 58 faces delta and epsilon: the identities and order of the 4 + 2 fraction signs and the integers before them
+      (Kanta & Perna, 'New light on the fractional system in the Linear A script', 16th Mycenaean Colloquium, Madrid, Sept
+      2025; abstract p. 57 of https://blogs.uned.es/madridmycenaeancolloquium/wp-content/uploads/sites/601/2025/09/Book-of-abstracts.pdf ;
+      contact address printed in that abstract). One line of data decides the fraction-order test above.
+- L6. Khania, Kastelli hill, Katre 1 (Sept-Oct 2024): transcriptions or high-resolution photos of the two Linear A tablets
+      (hania.news 31 Jan 2025, photos 10-11: https://hania.news/2025/01/31/622731/) and of the 2022 inscribed roundel
+      (https://www.haniotika-nea.gr/apokalyptetai-stadiaka-to-anaktoriko-kentro-ston-lofo-kastelli-fot/). Ask the
+      Ephorate of Antiquities of Chania (excavation director M. Andreadaki-Vlazaki) whether a preliminary transcription
+      exists. Tests: la72 P-kuro-KH (KU-RO absent at Khania), P-sitedefault (CYP default at Khania), P-sealings.
+- L7. Zakros ZA 11 and ZA 13 new joins (V. Petrakis, Room XVI publication in preparation; Del Freo, Ariadne Suppl. 5, p. 108):
+      the joined text. Tests: P-zakros-template and the Zakros cut habit (la81 C).
+- L8. Del Freo, 'Rapport 2022-2025 sur les textes ... en lineaire A' (16th Mycenaean Colloquium proceedings, forthcoming)
+      and Greco 2022, 'Un frammento iscritto in Lineare A da Festos', Pasiphae XVI, 153-166 (Cambridge UL or Faculty of
+      Classics). The Rapport is the only complete list of 2022-2025 finds; ask for a pre-print.

@@ -8,8 +8,9 @@ HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, '..', 
 ver = json.loads(subprocess.run([sys.executable, os.path.join(HERE, 'la82_verify.py')], capture_output=True, text=True).stdout)
 bad = [f for f, v in ver.items() if isinstance(v, dict) and v['claimed'] and not v['verified']]
 assert not bad, f'frozen file altered: {bad}'
-M = json.load(open(os.path.join(D, 'la82_new_material.json')))
+M = json.load(open(os.environ.get('LA82_MATERIAL', os.path.join(D, 'la82_new_material.json'))))
 items = [x for x in M['items'] if x.get('usable_text')]
+all_items = M['items']
 rng = random.Random(82)
 
 def count(pred):
@@ -43,18 +44,19 @@ for a, b in PAIRS:
     st = 'untestable' if n < 5 and n - agree < 3 else ('KILLED' if n - agree >= 3 else ('SUPPORTED' if agree >= 4 else 'not supported'))
     res = f'{agree}/{n} agree; shuffled-label null expects {sum(null):.2f}/{n}' if n else 'no new list with both'
     row(f'la72 P-order-{a}-{b}', '5 new lists with both (kill: 3 against)', n, st, res)
-for pid, need, key in [('la72 P-decode', '>= 40 new admin documents', 'admin'), ('la72 P-firstsign', '>= 30 new non-HT entry pairs', 'entries'),
+MINS = {'admin': 40, 'entries': 30, 'htwords': 100, 'KI': 10, '*308': 3, 'SA-RA2': 1, 'TA-I': 2, 'A-DU': 3, 'DB': 1, 'sealing': 5}
+for pid, need, key in [('la72 P-decode', '>= 40 new admin documents (text)', 'admin'), ('la72 P-firstsign', '>= 30 new non-HT entry pairs', 'entries'),
                        ('la72 P-consonants / P-QA', '>= 100 new HT word types', 'htwords'), ('la72 P-KI', '10 new KI cases', 'KI'),
-                       ('la72 P-308', '*308 with an amount', '*308'), ('la72 P-sara2 / la75 SA-RA2', 'a new SA-RA2 entry', 'SA-RA2'),
-                       ('la72 P-TAI', 'TA-I on a new tablet', 'TA-I'), ('la72 P-head-A-DU / *516', '3 new uses', 'A-DU'),
-                       ('la72 P-DB', 'a new amount with D or B', 'DB'), ('la72 P-sealings', 'new sealing deposit', 'sealing')]:
+                       ('la72 P-308', '*308 with an amount on 3+ entries', '*308'), ('la72 P-sara2 / la75 SA-RA2', 'a new SA-RA2 entry', 'SA-RA2'),
+                       ('la72 P-TAI', 'TA-I on 2+ new tablets', 'TA-I'), ('la72 P-head-A-DU / *516', '3 new uses', 'A-DU'),
+                       ('la72 P-DB', 'a new amount with D or B (read)', 'DB'), ('la72 P-sealings', '>= 5 new sealing signs from a deposit with tablets (read)', 'sealing')]:
     if key == 'admin': have = len(admin)
     elif key == 'entries': have = sum(max(0, len(x.get('sign_groups') or []) - 1) for x in admin if not x['site'].startswith('Haghia'))
     elif key == 'htwords': have = len({tuple(g) for x in items if x['site'].startswith('Haghia') for g in (x.get('sign_groups') or [])})
     elif key == 'DB': have = count(lambda x: any(f in ('D', 'B') for f in (x.get('fraction_letters') or [])))
-    elif key == 'sealing': have = count(lambda x: x['object_type'] in ('roundel', 'nodule'))
+    elif key == 'sealing': have = count(lambda x: x['object_type'] in ('roundel', 'nodule') and x.get('signs'))
     else: have = count(lambda x: key in ['-'.join(g) for g in (x.get('sign_groups') or [])] + (x.get('logograms') or []))
-    row(pid, need, have, 'untestable' if have == 0 or (key in ('admin', 'entries', 'htwords', 'KI') and have < int(need.split()[1] if need.split()[1].isdigit() else 10)) else 'test', '')
+    row(pid, need, have, 'untestable' if have < MINS[key] else 'test', '')
 row('la73 seen-token share', '>= 50 new HT tablets with words', count(lambda x: x.get('sigla_prefix') == 'HT'), 'untestable', '')
 bigfr = count(lambda x: x.get('fraction_letters') and (x.get('integer_with_fraction') or 0) >= 5)
 row('la74 K/L2 on big integers', '30 new fractions on integers >= 5', bigfr, 'untestable' if bigfr < 30 else 'test', '')
@@ -72,6 +74,8 @@ row('la79 P4 affixes / LB words', '>= 100-150 new word types', len({tuple(g) for
 row('la80 c1-c3 blank shape', '50 new complete tablets with scaled photos', 0, 'untestable', '')
 row('la81 c1/c2 cuts, Zakros last-gap', '10 new Zakros cuts / 10 HT repeats', 0, 'untestable', '')
 row('la22 SigLA edge predictions', 'new SigLA documents', 0, 'untestable', '')
-out = dict(verified=sorted(f for f, v in ver.items() if isinstance(v, dict) and v['verified']), n_items=len(M['items']),
+import collections
+exist = collections.Counter(f"{x['sigla_prefix']} {x['object_type']}" for x in all_items)
+out = dict(existence_counts=dict(exist), verified=sorted(f for f, v in ver.items() if isinstance(v, dict) and v['verified']), n_items=len(M['items']),
            n_usable_text=len(items), rows=rows)
 print(json.dumps(out, indent=1, ensure_ascii=False))

@@ -1,0 +1,36 @@
+pe85 cycle 1 (7 Oct 2026): WHY is the header end squared? Use-model tournament. Plan written before any test was run.
+
+Step 1. Read FINDINGS.md (pe81, pe83, pe63 dossiers, pe70/pe71 sealed type and PES0329/PES0334 series, pe23 top-edge tags),
+STRATEGIES.md, SUMMARY.md, LITERATURE.md (no storage or tablet-position item). Web searches (7 Oct 2026):
+ - Mesopotamian archive practice: tablets kept in reed baskets/boxes on shelves or brick benches, basket tags (pisan-dub-ba);
+   Ebla palace archive: tablets stood upright on wooden shelves, obverse out, leaning back so the opening line could be
+   read (csmc.uni-hamburg.de 2023-09-13; Wikipedia 'History of libraries'). Interpretation used as an idea only, not as data.
+ - Proto-Elamite: Encyclopaedia Iranica 'Elam iii': PE scribes turned the tablet about the VERTICAL axis, so the header end
+   is the top on both faces. Tepe Yahya / Malyan find contexts: only bibliographic hits (Damerow & Lamberg-Karlovsky 1989;
+   Stolper 1985 Kadmos 24); no open per-tablet storage record found.
+ - No study of PE tablet end shape, of squaring and storage, or of tag faces found. Not done before for PE.
+ - Outside data that DOES exist in the open CDLI catalogue: excavation findspot squares / loci and levels for 16 Susa
+   Acropole (S.ACR, Le Brun) and about 33 Malyan tablets (ABC C66, U168-155 ...), mostly with CDLI line art only. This is
+   the only tablet-position record available; used in cycle 2 as the outside test, predictions hashed first.
+
+Use-models (frozen in data/pe85_ckpt/frozen_c1.json, sha256 d0602cd05469a44600e17b97f91f37bfed1886f0d8deb69412c1c9ef48ea8783):
+ U1 SPINE: tablets were filed standing, header end visible; the top edge is a label face (pe23 edge tags sit on it).
+    Predicts: edge tag +, dossier member +, sealed +, M157 header +; header effect larger on tagged tablets.
+ U2 GRIP: the end pinched while writing is flattened. Predicts: reverse use +, more lines +, effect larger on small/thin tablets.
+ U3 JOINT: tablets bound or stacked end to end. Predicts: dossier members square at BOTH ends; neighbours concordant (cycle 2).
+ U4 OFFICE: squareness is an issuer's blank style. Predicts: header family M157 + vs M327 family -, outposts differ,
+    sealed +, at both ends.
+ U5 WEAR: retrieved records rubbed round. Predicts the opposite signs of U1 (tag -, dossier -, sealed -, M157 -).
+ U6 SEAL ROLL: rolling a seal over the blank squares the ends. Predicts sealed + at top and bottom.
+ U7 PREP: the end is dressed as the start of writing; nothing but the header predicts it; homogeneous across batches.
+Dropped: stylus/impression physics (pe84); ink (killed in pe83).
+
+Would a conventional decipherer do this? No: it reads nothing; it asks what the clay object was for, from its outline.
+
+Engine (cycle 1): y = rank of top-corner fill (pe83 c1_feats), residual on the pe83 covariates + header. 589 tablets with an
+intact first line (primary) and 1,202 with line-1 flags as covariates (rare attributes). Named models scored as the
+correlation of y with their signed z-scored predictor. MASSIVE RANDOM GUESSING: 5,000 random signed models of 1-4 features
+from a pool of 19 attributes and their 19 header interactions, selected on MDP 26 and re-tested on all other volumes (and
+the reverse). Shuffled control: y permuted within volume x size strata, the whole pipeline re-run 100 times (survivor count
+null). Planted controls: a 'spine world' (y += 0.25 sd x tag + 0.15 sd x dossier) and a 'grip world' (y += 0.25 sd x
+-z(size) x header) planted into the real y; the engine must name the planted model. Kill/win rules frozen in the json.

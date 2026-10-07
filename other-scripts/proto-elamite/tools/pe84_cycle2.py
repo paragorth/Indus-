@@ -105,7 +105,14 @@ def pair_covs(R, I, J):
     vol = np.array([r['vol'] for r in R]); bat = np.array([r['batch'] for r in R])
     nv = np.array([len(x) for x in VOC])
     sbg = np.abs(sb[I] - sb[J]); sbg = np.where(np.isfinite(sbg), np.log1p(sbg), np.nanmedian(np.log1p(sbg)))
-    return np.column_stack([np.ones(len(I)), np.abs(la[I] - la[J]), la[I] + la[J], np.abs(nl[I] - nl[J]), nl[I] + nl[J],
+    extra = []
+    if os.environ.get('PE84_STRICT') == '1':
+        for k in ('sys_C', 'sys_B', 'sys_SDB', 'sys_N23', 'num_lines', 'numonly_share', 'header', 'rv_total_only'):
+            v = np.array([r['tx'][k] for r in R], float)
+            extra += [np.abs(v[I] - v[J]), v[I] * v[J]]
+        sbr = np.abs(sb[I] - sb[J])
+        extra.append(np.where(np.isfinite(sbr), (sbr < 20).astype(float), 0.0))
+    return np.column_stack(extra + [np.ones(len(I)), np.abs(la[I] - la[J]), la[I] + la[J], np.abs(nl[I] - nl[J]), nl[I] + nl[J],
                             sbg, (vol[I] == vol[J]).astype(float), (bat[I] == bat[J]).astype(float), np.abs(br[I] - br[J]), np.abs(so[I] - so[J]),
                             np.log1p(nv[I]) + np.log1p(nv[J]), np.abs(np.log1p(nv[I]) - np.log1p(nv[J]))])
 

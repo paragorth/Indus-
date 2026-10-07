@@ -27,3 +27,16 @@ median lift z 2.5 / 2.1 (nulls so far 5-31, medians -1.0 to 1.2). Because the me
     metrics, 20 nulls, planted. Kill: replications <= null 95th percentile, or both half medians <= null 95th pct.
  2d RARE-SIGN VOCABULARY: Jaccard over signs on <= 5% of tablets only (name-like, little tied to record kind), with the
     content-purged fingerprint. Same kill.
+
+Results (tools/pe84_cycle2.py; data/pe84_ckpt/c2.json, c2c.json, c2d.json; 637 tablets with >= 3 distinct signs).
+
+| PE-84.2.1 | 2a meter: obverse fingerprint closer to its own reverse than to reverses of other tablets in the same photo batch and volume | AUC 0.66 (n 637) | the fingerprint is tablet-specific (tool, clay or photo session; it cannot say which) |
+| PE-84.2.2 | 2b 3,000 random stylus metrics, k-NN vocabulary lift (5 nearest), covariates Sb gap, volume, photo batch, size, lines, brightness, scale, vocabulary sizes; select on one publication half, re-test on the other; null 20 within-strata vocabulary permutations; planted 25 four-tablet 'scribes' | 100 replications (null 5-56, median 12); median lift z A 2.52 / B 2.07 (null max 1.77 / 1.16); planted 120, medians 3.9 / 4.5 | passes its support rule |
+| PE-84.2.3 | 2c content-purged fingerprint (physique residualised on 14 text-composition variables) | 51 replications (null 1-41, 95th 41); median z A 1.09 (null 95th 1.59: inside), B 1.58 (null max 1.38: above); planted 119 | survives the kill rule, damaged (one half inside the null) |
+| PE-84.2.4 | 2d rare-sign vocabulary only (signs on <= 5% of tablets), purged fingerprint | 38 replications (null 0-46, 95th 43: inside); medians A 1.14 (2 of 20 nulls above), B 1.94 (above null max 1.31); planted 120 (medians 7.5 / 7.9) | KILLED by its rule: writer-specific (name-like) vocabulary is not tied to the impression fingerprint |
+| PE-84.2.V | Cycle verdict | Tablets whose impressions look alike share common vocabulary beyond find lot, volume, photo batch, size and text composition, but not rare name-like signs | C+: the physical 'look' of the writing tracks the kind of office or account (shared common vocabulary), not individual writers. Would support: the link holds when fingerprints come from another imaging source or inside one Sb block. Would kill: it vanishes with a finer lot control (Sb gap < 20 pairs only) or with numeral system as a pair covariate |
+
+ 2e (pre-registered before running, after 2.V): the kill line run. Purged fingerprint, common vocabulary, plus pair
+    covariates for numeral-system shares (C, B, SDB, N23: gap and product), numeric line share, numeric-only share, both
+    headed, both total-only reverses, and an Sb-gap < 20 indicator. Kill: replications <= null 95th percentile or both
+    half medians inside the null 95th percentile.

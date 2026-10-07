@@ -401,3 +401,24 @@ def recut_greedy(src, tgt, a, v, steps=(-4, -2, -1, 1, 2, 4), sweeps=2, fine=Non
             if best: A0, B0, cuts = best; moved += 1
         if not moved: break
     return A0, B0, cuts
+
+
+def local_perm_test(src, tgt, a, v=0, w=4, n_perm=300, seed=0, cuts=None):
+    """unit-level vs block-level correspondence. Score the map's held-out B (even-even pairs) against the same map
+    with the source pieces shuffled WITHIN consecutive windows of w units (keeps any coarse topical-block alignment,
+    destroys unit-by-unit correspondence). Returns B, mean/sd of permuted B, zL."""
+    if cuts is None: cuts = make_cuts(src, a, tgt.vlens[v])
+    R = resid_from_sets(src.pieces(cuts, a['drop']))
+    n = tgt.n
+    B0 = float(zvec(R, tgt.PB) @ tgt.ZB[v]) / len(tgt.PB[0])
+    rng = np.random.default_rng(seed)
+    vals = []
+    for k in range(n_perm):
+        p = np.arange(n)
+        for s0 in range(int(rng.integers(0, w)) - w, n, w):
+            lo, hi = max(0, s0), min(n, s0 + w)
+            if hi - lo > 1: p[lo:hi] = rng.permutation(p[lo:hi])
+        Rp = R[np.ix_(p, p)]
+        vals.append(float(zvec(Rp, tgt.PB) @ tgt.ZB[v]) / len(tgt.PB[0]))
+    vals = np.array(vals)
+    return {'B': B0, 'Bperm_mu': float(vals.mean()), 'Bperm_sd': float(vals.std()), 'zL': float((B0 - vals.mean()) / (vals.std() + 1e-9))}

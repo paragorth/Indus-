@@ -152,6 +152,8 @@ def corpus(name):
     elif name.startswith('PL_'):                       # plain (no code) version of a planted document
         fn, pre, seed = DOCS['P_' + name[3:]]
         c = pages_from_lines(fn(), pre)
+    elif name.endswith('J') and name[:-1] in ('P_CIRCA', 'P_KONRAD'):
+        c = justify(corpus(name[:-1]), seed=9531)
     elif name in ('G_SELF', 'G_LX', 'G_SEED', 'G_GM', 'P_CIRCA', 'P_KONRAD'):
         c = _v92(name)
     else:
@@ -313,3 +315,22 @@ def doc_geomancy(n=1100, seed=953):
 
 
 DOCS.update({'P_GEO': (doc_geomancy, 'ge', 9521)})
+
+
+def justify(pages, seed, width=(36, 46)):
+    """negative control for layout: the same words in the same order re-wrapped greedily into lines of a fixed glyph width
+    (one width per page, drawn from the Voynich range); paragraph starts kept at the first line of each old paragraph run."""
+    rng = random.Random(seed); out = []
+    for p in pages:
+        W = rng.randint(*width); lines = []; cur = []; n = 0; ps = True
+        for l in p['lines']:
+            if l['ps'] and cur:
+                lines.append(dict(w=cur, ps=ps)); cur = []; n = 0; ps = True
+            elif l['ps']: ps = True
+            for w in l['w']:
+                if cur and n + len(w) > W:
+                    lines.append(dict(w=cur, ps=ps)); cur = []; n = 0; ps = False
+                cur.append(w); n += len(w) + 1
+        if cur: lines.append(dict(w=cur, ps=ps))
+        out.append(dict(p, lines=lines))
+    return out

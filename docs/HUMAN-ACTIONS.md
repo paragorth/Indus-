@@ -102,6 +102,30 @@ The frozen Linear A reading (la60, sha256 538ad6fa…; superseded by la70 v2, re
       https://ejournals.lib.uoc.gr/Ariadne/article/view/1841
 - L3. Notti, E. 2023, 'La scrittura "fuori" da Creta. Nuove evidenze epigrafiche ad Akrotiri (Thera)': PDF only
       inside the IULM network; request a copy from https://apeiron.iulm.it/handle/10808/48144
+(L4-L8 added after la82, 7 Oct 2026.)
+- L4. RILA-S1 concordance pages (Del Freo & Zurbach 2024, Etudes Cretoises 21.6, pp. xxvi-xxxv 'Concordance generale') and
+      the editions of every tablet, roundel and nodule (pp. 3-68). The cheapest route is the e-book: Torrossa / Casalini
+      ID 6259024 (https://digital.casalini.it/9782869586420, EUR 52.88), or the Cambridge University Library copy
+      (https://idiscover.lib.cam.ac.uk/, search 'Recueil des inscriptions en lineaire A supplement'). Open contents list:
+      https://editions.efa.gr/action.php?r=download_public_files&type_fichier=SOMMAIRE&id_fiche=1050 . Sections with no
+      open counterpart: Palaikastro Wy (p. 64), Pseira Zb (p. 113), Poros Herakleiou Zg (pp. 134-135), Crete(?) Zg (p. 132),
+      Haghia Triada Zg (p. 133); tablets of Kea (pp. 9-12), Knossos (pp. 33-36), Petras incl. PE 6 (pp. 37-44), Phaistos
+      (pp. 45-48), Thera (pp. 49-56), Khania (pp. 13-32). Scan these pages to the scratchpad; la82 tools/la82_score.py
+      scores them once entered in data/la82_new_material.json.
+- L5. KN Zg 58 faces delta and epsilon: the identities and order of the 4 + 2 fraction signs and the integers before them
+      (Kanta & Perna, 'New light on the fractional system in the Linear A script', 16th Mycenaean Colloquium, Madrid, Sept
+      2025; abstract p. 57 of https://blogs.uned.es/madridmycenaeancolloquium/wp-content/uploads/sites/601/2025/09/Book-of-abstracts.pdf ;
+      contact address printed in that abstract). One line of data decides the fraction-order test above.
+- L6. Khania, Kastelli hill, Katre 1 (Sept-Oct 2024): transcriptions or high-resolution photos of the two Linear A tablets
+      (hania.news 31 Jan 2025, photos 10-11: https://hania.news/2025/01/31/622731/) and of the 2022 inscribed roundel
+      (https://www.haniotika-nea.gr/apokalyptetai-stadiaka-to-anaktoriko-kentro-ston-lofo-kastelli-fot/). Ask the
+      Ephorate of Antiquities of Chania (excavation director M. Andreadaki-Vlazaki) whether a preliminary transcription
+      exists. Tests: la72 P-kuro-KH (KU-RO absent at Khania), P-sitedefault (CYP default at Khania), P-sealings.
+- L7. Zakros ZA 11 and ZA 13 new joins (V. Petrakis, Room XVI publication in preparation; Del Freo, Ariadne Suppl. 5, p. 108):
+      the joined text. Tests: P-zakros-template and the Zakros cut habit (la81 C).
+- L8. Del Freo, 'Rapport 2022-2025 sur les textes ... en lineaire A' (16th Mycenaean Colloquium proceedings, forthcoming)
+      and Greco 2022, 'Un frammento iscritto in Lineare A da Festos', Pasiphae XVI, 153-166 (Cambridge UL or Faculty of
+      Classics). The Rapport is the only complete list of 2022-2025 finds; ask for a pre-print.
 
 ## N. Unseen Proto-Elamite tablets for the outside test of the frozen reading (pe60)
 The frozen pe59 predictions can only be tested on tablets outside the corpus. Photo reading here gives 3% sign recall, so these need a human or an expert:

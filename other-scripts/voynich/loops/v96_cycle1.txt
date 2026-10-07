@@ -39,3 +39,22 @@
 #   edit-distance studies exist; no stratum (common vs rare) page-spelling test calibrated on planted key and topic worlds, no
 #   tilted-lexicon forgery, no seam contrast found. N1-N5 not found done.
 # Choice: cycle 1 = N1 (cheap, direct; 300 random views x 48 corpora on train folios, top 20 frozen, held-out once). Next: N2, N3/N4.
+# Run: tools/v96_lib.py (planted worlds), v96_c1.py (statistic, train and held-out phases), v96_c1sel.py (selection, freeze,
+#   report). 300 random views (glyph unigram / bigram / positional, optional random glyph merge, common-stratum share 20-40%,
+#   rare band, glyph budget per sample 48-120, smoothing) x 48 corpora on train folios = 14,400 scorings; selection used only the
+#   40 planted W0/W1/W2/W12 corpora (Voynich and fresh plants unseen). Top 20 views (train AUC 1.0) frozen with cuts:
+#   data/v96_frozen_c1.json, sha256 f020386d8f2912046ac81897f8922890c227310ee7da9b02761bd11a2f2e1e53 (predictions P1-P4 inside).
+#   Held-out: once on the other leaf-parity half, plus far (candidate pages within 4 positions excluded), core (no para-first
+#   lines, no line-first or line-last word) and no-first-paragraph variants. (A denominator bug in the far rank was fixed before
+#   the reported held-out run; the train phase and the frozen cuts are unaffected.)
+# Held-out medians over the 20 frozen views (aC-0.5 = commonest-word sample put back on its page; chance 0):
+#   Voynich ZL3b 0.190 (far 0.198, core 0.189, no-first-para 0.233), IT2a 0.175 (0.182, 0.171, 0.211), GC2a 0.178 (0.190, 0.143, 0.198);
+#     votes 20/20 in all three. Rare stratum aR-0.5: 0.270-0.277.
+#   W1 plants (real page order): -0.001 to 0.043; fresh W1 (Macer, Pliny, entry-per-page Konrad/Circa, plain-text Konrad/Circa):
+#     0.001 to 0.038 (far max 0.049). W0 (dealt): -0.005 to 0.013.
+#   W2 plants (dealt + key): 0.060-0.455 (median 0.24); W12 (topic + key): 0.047-0.474 (median 0.21).
+#   Generators: G_GM2 (strong drifting glyph mood) 0.236, G_GM 0.073, G_SEED 0.057, G_LX 0.044, G_SELF 0.000.
+#   Plant classification by frozen cuts, held-out: 45/46 (P_HYGIN 11/20 votes the one miss).
+| V-96.c.1 | N1 DOES THE PAGE'S SPELLING REACH ITS COMMONEST WORDS? Equal-glyph samples of a page's commonest-type tokens put back on their page from the profile of its middle-frequency tokens; 300 random views selected on planted W0/W1 vs W2/W12 (train folios), top 20 frozen (sha256 f020386d...) and run once on held-out folios. Controls: 5 real texts in real page order (W1), dealt (W0), keyed (W2, W12), 6 fresh W1 plants never used for selection, 5 generators | Voynich held-out 0.175-0.190 above chance (20/20 views; 0.18-0.20 with neighbouring pages excluded; 0.14-0.19 with line edges and para-first lines removed; 0.20-0.23 without the page-first paragraph), every W1 plant <= 0.043 (fresh <= 0.038), W0 <= 0.013, W2 median 0.24, G_GM2 0.236; plants classified 45/46; P1-P3 held in ZL3b, IT2a, GC2a | B (measurement, frozen, held out, three transcriptions): the Voynich page's commonest words carry the page's spelling as strongly as its rare words do in planted key worlds; no real text in real page order does this (0/11, < 3/11 upper bound). A topic alone does not produce it; a page-level spelling key or mood does |
+# Verdict: W2 (a page-level spelling habit) is required; pure W1 (topic only) is excluded at this method's calibration. Whether a
+#   topic ALSO sits under the key (W12) is not decided: aR-aC overlaps between W2 and W12 plants. -> cycle 2 (N5, two dials).
