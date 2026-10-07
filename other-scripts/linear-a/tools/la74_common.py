@@ -136,8 +136,8 @@ def simulate(H, N, rng):
     keep = counts.sum(1) > 0
     counts = counts[keep]
     C = Counter()
-    for row in map(tuple, counts):
-        C[row] += 1
+    for row in counts.tolist():
+        C[tuple(row)] += 1
     n = int(keep.sum())
     return {key: c / n for key, c in C.items()}
 
@@ -161,7 +161,7 @@ def ll_strings(dist, mapping, strings, lnv, e):
         tot += math.log((1 - e) * ph + e * math.exp(l0))
     return tot
 
-EGRID = (0.05, 0.1, 0.2, 0.35, 0.5, 0.7, 0.9, 1.0)
+EGRID = (0.05, 0.1, 0.2, 0.35, 0.5, 0.7, 0.85, 0.95, 1.0)
 
 
 def fit_mapping(dist, k, strings, lnv, signs, rng, iters=150):
@@ -190,3 +190,44 @@ def fit_mapping(dist, k, strings, lnv, signs, rng, iters=150):
         if sc > best:
             best, be, mapping = sc, e, mp
     return mapping, best, be
+
+
+def nv_sample(nv, n, rng):
+    out = []
+    Ls = list(nv.PL); pL = np.array([nv.PL[l] for l in Ls])
+    V = nv.V; pv = np.array([nv.p[x] for x in V])
+    for _ in range(n):
+        L = Ls[rng.choice(len(Ls), p=pL)]
+        idx = rng.choice(len(V), size=L, replace=False, p=pv)
+        seen = [V[i] for i in idx]
+        if L > 1:
+            can = sorted(seen, key=lambda k: nv.rank[k])
+            if rng.random() > nv.eps: seen = can
+            else:
+                perms = [list(p) for p in itertools.permutations(seen) if list(p) != can]
+                seen = perms[rng.integers(len(perms))]
+        s = []
+        for x in seen:
+            c = 1
+            while rng.random() < nv.q: c += 1
+            s += [x] * c
+        out.append(tuple(s))
+    return out
+
+
+def dist_sample(dist, mapping, n, rng):
+    keys = list(dist); p = np.array([dist[k] for k in keys]); p /= p.sum()
+    out = []
+    for i in rng.choice(len(keys), size=n, p=p):
+        s = []
+        for j, c in enumerate(keys[i]): s += [mapping[j]] * c
+        out.append(tuple(s))
+    return out
+
+
+def shuffle_signs(strings, rng):
+    toks = [x for s in strings for x in s]; rng.shuffle(toks)
+    out = []; i = 0
+    for s in strings:
+        out.append(tuple(toks[i:i + len(s)])); i += len(s)
+    return out

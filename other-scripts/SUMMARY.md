@@ -90,6 +90,8 @@ Data: CDLI, 1,585 transliterated tablets, 95% from Susa, so nearly every result 
 | Unit scale: N39C about 0.6-0.8 l (or 5-7 l on an alias) | pe16, pe55, pe57 | C | pe57 retired the vessel window as evidence; needs PE-period vessel capacities |
 | A 48-per-unit grade local to one dossier (P008764-P008810) | pe69 | C | |
 | pe69 scope clause ('signs + M288' lines do not follow the rule) and pe70 'M288-final' separator, both demoted from B/B- by pe74 | pe69, pe70, pe74 | C | |
+| Tablets with M297 have their own clay format (taller for width, thinner than the text predicts; frozen model held out +25 mbit, p 0.006) | pe75 | C+ | frozen model gain <= 0 on >= 30 newly measured M297 tablets |
+| PE tablet heights step at ~11 mm (both museums); no ~17 mm finger (B negative) | pe75 | C | ripple lost on independent re-measurement |
 
 About 30 further guesses cannot be tested on the existing corpus (`proto-elamite/loops/pe66_final.txt`, F28-F29).
 
