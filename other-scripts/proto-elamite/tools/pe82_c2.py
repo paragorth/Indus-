@@ -19,7 +19,7 @@ import pe82_common as pc
 FEATS = ['epos', 'elen', 'left', 'right', 'sys', 'lidx', 'surf', 'hdr']
 SPLITS = {'PE': [({'MDP26', 'MDP26S', 'TCL31'}, {'MDP17', 'MDP06', 'OTHER'}),
                  ({'MDP17', 'MDP06', 'OTHER'}, {'MDP26', 'MDP26S', 'TCL31'})],
-          'PC': [({'U3'}, {'U4', 'OTHER'}), ({'U4', 'OTHER'}, {'U3'})]}
+          'PC': [({'U3'}, {'U4', 'OTHER'}), ({'U4'}, {'U3', 'OTHER'}), ({'OTHER'}, {'U3', 'U4'})]}
 
 
 def tokens(T):

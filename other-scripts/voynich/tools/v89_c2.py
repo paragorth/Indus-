@@ -35,6 +35,9 @@ if __name__ == '__main__':
         for l in open(OUT):
             d = json.loads(l); done.add((d['target'], d['src']))
     jobs = [(t, s) for t in SECS for s in SRC_KEYS if (t, s) not in done]
+    if os.environ.get('V89_ONLY'):
+        only = set(tuple(x.split(':')) for x in os.environ['V89_ONLY'].split(','))
+        jobs = [j for j in jobs if j in only]
     print(len(jobs), 'jobs', flush=True)
     with Pool(2) as p, open(OUT, 'a') as f:
         for s in p.imap_unordered(job, jobs):

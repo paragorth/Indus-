@@ -1,0 +1,38 @@
+pe83 cycle 1 (7 Oct 2026): TRY TO KILL pe81 (square-cornered blanks carry a header). PHOTO ARTEFACTS.
+
+Target: PE-81.2.5, partial r 0.35 between rank corner fill of the obverse outline (CDLI fat-cross thumbnails, threshold 40,
+15% corner boxes) and 'line 1 is signs without numerals', size / aspect / thickness / line count / damage / reverse use removed.
+Attack stance: assume the effect is a photographic or segmentation artefact until each test below fails to kill it.
+Global kill rule (written before running): the pe81 result is KILLED if any single pre-registered confound test brings the
+partial r below 0.15 (less than half of 0.35) with the confound removed, or flips its sign; it is DAMAGED (B -> C) if two or
+more tests bring it to 0.15-0.25. Survives at B if every test leaves r >= 0.25. Upgrade to A only with an independent
+outline source (cycle 3) reproducing r >= 0.20 and a calibration that does not show the same link where it should not.
+
+Pre-registered tests (all on the same pe81 tablet set; partial r and stratified-permutation p reported each time):
+ C1.1 Photo kind. From each thumbnail: border luminance (white/grey/black background), colour vs greyscale, number of large
+      blobs, obverse blob touching the image border, obverse rectangularity > 0.97 (a tile or background block, not clay),
+      thumbnail height in px (layout/resolution proxy), CDLI photo batch (photo_up: none / 600ppi 20160630 / 600ppi 20160913)
+      and collection (Louvre / Tehran / other). (a) header rate by photo kind; (b) partial r with all of them as covariates;
+      (c) partial r inside the largest homogeneous kind (black background, colour, fat cross, no border touch).
+      Kill: (b) or (c) < 0.15.
+ C1.2 Lighting and shadow at corners. Per corner: mean brightness of clay pixels in the corner box vs the blob centre, and
+      the brightness gradient top->bottom and left->right of the obverse. Covariates added. Kill: r < 0.15.
+ C1.3 Camera angle / perspective: keystone (top width vs bottom width), left/right asymmetry, tilt of the principal axis.
+      Covariates added; and r inside the third of tablets with the smallest keystone and tilt. Kill: r < 0.15.
+ C1.4 Ink, not clay. Headers sit on the top edge of the obverse; if dark incisions near the edge cut the threshold mask the
+      top corners lose fill. Tests: (a) bottom corners only (no header ink there); (b) the REVERSE face blob (no header on it)
+      and the two edge-view blobs; (c) heavy closing (radius 6) before filling, which bridges incisions; (d) convex-hull based
+      corner fill (ink inside the outline cannot change the hull). Kill: (a) and (b) both < 0.10 while top corners carry it,
+      or (c)/(d) < 0.15.
+      Planted: paint a dark 'header band' (luminance 10) along the top 12% of the obverse mask on a random half of tablets
+      and report how much corner fill moves under each metric (shows which metrics an ink artefact could fake).
+ C1.5 Massive random segmentation: 400 random pipelines (channel L/R/G/B, threshold 15-90 or Otsu-scaled, blur 0-2,
+      opening 0-3, closing 0-6, corner box 8-25%, metric box-fill / hull-fill / chamfer-distance), each run on all tablets.
+      Kill: more than 10% of pipelines give partial r < 0.10, or any credible pipeline (photo-vs-catalogue aspect rho > 0.85)
+      reverses the sign. Null: the same 400 pipelines with header permuted within strata (max |r| distribution).
+ C1.6 Neighbours / crops: tablets whose obverse blob touches the frame or has a second big blob beside it at the same height
+      excluded. Kill: r < 0.15.
+ C1.4e (added after C1.4a showed the effect lives only at the top end, before running): the reverse-face outline split by
+      physical end (CDLI fat cross: the reverse's lower image corners are the obverse's top end), the top and bottom edge
+      views, and ink darkness / mask roughness of the obverse top strip as covariates. Kill (ink): reverse corners at the
+      header end r < 0.10 (the reverse carries no header ink), or cf_top with ink covariates < 0.15.

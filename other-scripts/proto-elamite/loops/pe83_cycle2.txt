@@ -1,0 +1,21 @@
+pe83 cycle 2 (7 Oct 2026): TRY TO KILL pe81. BREAKAGE AT THE TOP, NONLINEAR CONFOUNDS, DOCUMENT TYPE, PERIOD.
+
+Written before running. Cycle 1 moved the target: the effect is all in the TOP-END corners (obverse top r 0.43, bottom 0.09),
+and it shows equally on the reverse photo at the same physical end (0.43). The obvious remaining killer is breakage: a tablet
+that lost its top end loses its header line and gets a broken, irregular top (top-edge roughness vs header r -0.27).
+Same global kill rule as cycle 1 (r < 0.15 kills, two tests at 0.15-0.25 damage).
+ C2.1 Intact top only. Subsets: (a) first line not lacuna and not damaged; (b) (a) + catalogue 'complete'; (c) (a) + top-edge
+      roughness below median; (d) (a) + no 'x' anywhere. Covariates as pe81 plus line-1 lacuna/damage flags in the full set.
+      Kill: cf_top partial r < 0.15 in (a) or (b) (n permitting; report CI by bootstrap 2,000).
+ C2.2 1,000 random confound models: random subsets of a 30-variable confound pool (size, aspect, thickness, lines, entries,
+      numeric-only lines, damage, reverse use, line-1 lacuna/damage, preservation, surface state, collection, photo batch,
+      photo kind, lighting, perspective, top roughness, distinct signs, numeric-system shares), 0-6 random pairwise
+      interactions and 0-2 binned (spline-like) variables. Kill: median r < 0.15 or > 10% of models < 0.10.
+      Plus cross-fitted double ML (gradient boosting, 5 folds) for header and rank corner fill on the full pool.
+      Planted: a fake header driven only by a size x line-count interaction and top roughness (no corner link) must fall
+      to |r| < 0.05 under the double ML; a fake header tied to cf_top at r 0.3 must survive it.
+ C2.3 Document type. Condition on the whole text profile except line 1 (181 pe81 text features minus header; cross-fitted
+      ridge and boosting). If r falls below 0.15 the corner is a document-type marker, not a header marker (result 'real,
+      means something else'). Also within the dominant numeric system (tablets whose majority system is the same).
+ C2.4 Period / deposit: within Sb blocks of 5 (pe81: 0.29) repeated for cf_top; within publication volume; Susa vs
+      non-Susa sites separately. Kill: within-block cf_top r < 0.15.

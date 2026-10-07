@@ -1,0 +1,24 @@
+la80 cycle 1 (7 Oct 2026): candidate list, prior-work check, choice, run log
+
+STEP 1. Families already tried on Linear A (STRATEGIES.md la1-la79, FINDINGS.md, SUMMARY.md, LITERATURE.md)
+- sign values / LB analogies and value grids (la1, la21, la38, la59); sign-shape coding of glyphs (la7, la34 hands from SigLA drawings)
+- numbers and economy: totals, fractions, exchange rates, value vectors, vessel pouring, physiology, forensic digits, allotment MDL (la6, la9, la24, la27, la30, la36, la64, la74-la76)
+- language fingerprints, typology, language breeding, ancestor simulation, mixtures of languages (la5, la10, la11, la19, la44)
+- grammar / role induction: automata, type-checking, templates, layout grammar from transcribed lines, attention, abbreviations, doublets, ligature parts, number-bends-word (la8, la35, la37, la39, la40, la45, la47, la53, la65, la68)
+- spread and society: epidemics, wind/sea travel, land use, urban scaling, seal-ring network, phylogeography, scribes' private spellings, capture-recapture, queues, archive clocks (la16, la17, la23, la26, la29, la31, la33, la55, la73, la77)
+- find context: rooms and assemblages (la51), receipts vs ledgers (la28 roundels/nodules by TEXT match), destruction season (la25), calendar (la50)
+- validation machinery: forgers, iterated learning, circuits, reader independence, time travel and counterfactual excavation histories (la14, la49, la52, la69, la78, la79)
+- NOT tried on Linear A: the physical object as measured from photographs (outline, corners, taper, edge roughness, scale, clay tone, lump morphology). la34 used sign boxes inside SigLA drawings (ink, not clay); la47 used transcribed line breaks. pe81 (Proto-Elamite) did photo outlines, header <-> square corners.
+
+STEP 2. Candidates outside those families (each: massive random guessing, planted + shuffled control, outside test)
+K1 PROPHESY THE CLAY. Invert pe81: let the TEXT of each tablet face predict the shape of the clay it sits on (corner fill, aspect, taper, convexity, edge roughness, curvature spectrum, absolute size at the 150 dpi plate scale). 20,000 random (text feature x outline feature) pairs, partial rank correlation net of sign count, line count, break marks; selected on Hagia Triada only, deposit-out replication (Villa Magazine / Casa 7 / Casa del Lebete / Casa 9). Predictions for every non-HT face are frozen (sha256) BEFORE any non-HT photograph is downloaded or measured; then outlines of 250 non-HT faces (Khania, Zakros, Phaistos, others; published 1958-2020) are measured and scored. Controls: stratified shape shuffles inside HT (line-count bins), planted text->shape links, random pairs scored on the test set, a sign-shuffled text control, publication-time split of the test set.
+  Prior work: Tomas (2010, 'Saving on clay', Writing as Material Practice ch. 9) notes qualitatively that HT tablets were cut before writing and are often too large; ML on cuneiform silhouettes (Shaping History, arXiv 2406.04039) dates cuneiform from shape; nobody has scored Linear A text against measured outlines. KEEP.
+K2 PROPHESY THE LUMP. Nodules and roundels: random sign-class hypotheses (which signs a lump bears) predict lump morphology measured from photos; selected on one site, frozen, scored on another site's lumps measured afterwards. Prior work: Hallager's typology (Aegaeum 14, 1996) classifies types by eye; no random-hypothesis photometric test. KEEP as cycle 2.
+K3 READ THE BLANK. Where the writing stops on the face (incision-density profile from the photo) vs where the text says it should (lines, entries, totals); random text hypotheses predict the unused clay beyond length. Inverts Tomas's 'flatteners' claim into a test: if blanks were made before the text, no text feature beyond length predicts the blank; if a template/planned copy existed, some do. KEEP as cycle 3.
+K4 FIRE AS A FILING CLOCK. Clay grey tone and texture of burnt tablets in one photo campaign as a proxy for which tablets burnt together; text-similarity predicted from tone pairs. Confounded by plate printing per GORILA volume; run only inside one volume. Reserve.
+K5 SIGN-BLIND IMAGE READER. Blur away the incisions; thousands of random filter-bank features of the remaining clay image predict text variables; leave-one-site-out. Folded into K1 as the reverse arm (shape -> text), not run separately.
+K6 Fingerprint ridges on the clay edge: not resolvable at 150 dpi plate scans. Dropped.
+
+Choice: K1 first (largest n, cleanest freeze-then-measure design), then K2, then K3.
+Data: lineara.xyz images (GORILA plates and later photographs, (c) holders; downloaded to data/la80_ckpt/img, git-ignored, never committed). Only geometry numbers are kept.
+Honesty note: KH5-Inscription.jpg was viewed (one image) while checking the photo format before the freeze; KH5 is excluded from the K1 test set.
