@@ -1,10 +1,10 @@
-"""v93 cycle 3: 1,500 random dialogue (zig-zag) hypotheses x corpora; select on train+selection pages, test on test pages."""
+"""v93 cycle 3: 1,000 random dialogue (of 1,080 possible) (zig-zag) hypotheses x corpora; select on train+selection pages, test on test pages."""
 import os, json, random, time
 from multiprocessing import Pool
 import v93_dial as D
 import v93_lib as L
 CORPORA = ['PE_DIAL', 'PE_SHUF', 'PE_MONO', 'CE_LA', 'PS_EN', 'ZL3b', 'IT2a', 'ZLshuf0', 'ZLshuf1', 'ITshuf0', 'SELFCIT', 'MK2', 'JUNC']
-NH = 1500
+NH = 1000
 
 
 def hyps():

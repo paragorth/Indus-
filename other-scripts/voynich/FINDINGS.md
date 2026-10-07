@@ -998,3 +998,11 @@ The frozen hashes were verified unchanged. **P1 killed (A, physical measurement)
 - B (negative): 0 of 203 section x text pairs pass the frozen rule (zB mean 0.10, sd 1.15). There is no ordered re-encoding between Voynich sections either (Currier A/B herbal, pharma/herbal, bio/stars). A bio <- stars near miss (zB 3.6) dies in IT2a (zB -2.3).
 - B (measurement): Voynich sections carry as much recurrence structure as real texts of the same unit sizes (oracle 0.40-0.57 vs 0.39-0.67). The negative is therefore not a lack of signal.
 - C (open): the source is outside the pool, or its entries were re-cut. Would kill: the same null result with Voynich-era herbals (Tractatus de herbis, Herbarius latinus) and a merge-tolerant map. No mapping was frozen. Not cracked.
+
+## v93 the page translates itself? a dialogue? what excludes what? (7 Oct 2026; `loops/v93_final.txt`)
+- Idea: three places where meaning could sit that no earlier loop looked at. (1) Each page holds its content twice, a text and its translation or gloss, interleaved by line, paragraph or half-page. (2) The book is a two-speaker dialogue. (3) Alternatives of one attribute (perennial/annual, hot/cold) never share an entry, as competing species never share an island (ecologists' checkerboard test).
+- A (method): IBM-1 phase asymmetry finds an interlinear Hebrew/English Psalter and a paragraph-alternating Latin/English Celsus under the v72 Voynich-like surface. It holds out and reads the lexicon blind (ki->for, elohim->god, atah->you). Line halves are not specific.
+- B (negative): no translation pairing at line, paragraph, half-paragraph or half-page scale. This holds in ZL3b and IT2a, and in GC2a under frozen predictions (data/v93_frozen.json, sha256 95d2aa99...; 2 of 3 held). The third failed on the effect below.
+- B (negative): paragraphs do not alternate between two idiolects. Petrarch's Secretum under the same surface gives z 2-3.3, and its carrier words decode blind as i/you/me/my/your. The Voynich gives z -1.4 to -0.3.
+- B (measurement): the page's first paragraph uses different word frames from the page's later paragraphs (GC2a z -7, IT2a -2.8). This is position, not translation.
+- Method failure: page-level checkerboards are not detectable even in real herbals of 50-240 entries, so (3) is untested rather than negative. Not cracked.

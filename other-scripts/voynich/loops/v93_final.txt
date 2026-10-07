@@ -1,0 +1,24 @@
+# v93 final (7 Oct 2026): THE PAGE TRANSLATES ITSELF? / WHAT EXCLUDES WHAT? / A DIALOGUE? Three frame-breaking searches for where meaning sits.
+# Cycles: loops/v93_cycle1.txt (candidate list I1-I6 + interlinear translation), v93_cycle2.txt (ecological checkerboards), v93_cycle3.txt (dialogue
+#   zig-zag), v93_cycle4.txt (frozen GC2a test). Tools: tools/v93_lib.py, v93_c1.py, v93_c1_report.py, v93_ex.py, v93_c2.py, v93_c2_report.py,
+#   v93_dial.py, v93_c3.py, v93_c3_report.py. Checkpoints: data/v93_ckpt/ (git-ignored). Frozen: data/v93_frozen.json (sha256 95d2aa99...6126).
+# Size: cycle 1 400 pairing hypotheses x 17 corpora (two IBM-1 fits per twin, ~27,000 model fits); cycle 2 25,000 random word sets x 6 unit/
+#   representation configurations x 10 corpora (1.5 M set scorings, 40 curveball nulls per matrix); cycle 3 1,000 of the 1,080 possible
+#   dialogue hypotheses x 13 corpora; cycle 4 400 hypotheses on GC2a + 120 shuffle recalibrations. VOY_MODE=glyph. Illustrations not used.
+| V-93.c.1 | I1 calibration: interlinear Hebrew/English Psalms (by line, in-line), Celsus Latin/English paragraph pairs, through the v72 code + surface | Found blind and held out (|score| 0.27-0.45 bits/token vs kills <= 0.05; 19-20 of 20 top survivors); the blind lexicon decodes (ki->for, lo->not, elohim->god, atah->you). In-line halves not specific (monolingual verse halves score too) | A (method) |
+| V-93.c.2 | I1 on ZL3b / IT2a vs shuffles and three generators | 0 of 263 non-HLINE hypotheses pass both transcriptions, both splits, all kills | B (negative) |
+| V-93.c.3 | I2 calibration: checkerboard word sets (curveball null) in three planted herbals | Held-out zSE <= 2.2 in plants, kills up to 1.9 | Method failure (A, negative) at this corpus size |
+| V-93.c.4 | I2 on ZL3b / IT2a | zSE <= 2.3, sets not shared between transcriptions | B (negative, weak instrument) |
+| V-93.c.5 | I3 calibration: Petrarch's Secretum, 536 alternating turns | Family-level z 1.5 / 2.2 (whole 3.3); shuffled turns -0.8 / -0.7; the carrier words decode as i, you, me, my, your, am; blind best-of-1,000 is swamped by generator artefacts | B (method, family level only) |
+| V-93.c.6 | I3 on ZL3b / IT2a | Family z ZL -1.4 / -0.3, IT2a -0.3 / -0.8; 0 blind survivors in both transcriptions | B (negative) |
+| V-93.c.7 | Frozen GC2a test of cycle 1 | 2 of 3 predictions held; the third failed on a PARA/frame asymmetry (GC2a 0.38) | Logged as failed |
+| V-93.c.8 | What that asymmetry is | Vanishes when the page-first paragraph is left out (z -7.0 -> +2.6 in GC2a, ZL and IT2a likewise) | B (measurement): page-first paragraph differs; position, not translation |
+| V-93.F | Loop verdict | - | Three new places where meaning could sit, each shown to be findable in a real text written through a Voynich-like surface, are empty in the Voynich: no second (translated) version of the page at line, paragraph or half-page scale (A-method, B-negative), no alternating two-speaker paragraphs (B), and no page-level checkerboards (instrument too weak even for real herbals). Not cracked |
+GRADES
+- A (method): an IBM-1 phase-asymmetry test on paired units (same distance, other phase) finds an interlinear or paragraph-alternating translation hidden under the v72 Voynich-like surface and reads its lexicon blind; in-line halves are not specific.
+- B (negative): the Voynich page does not carry its content twice (line, paragraph, half-paragraph, half-page pairing), in ZL3b, IT2a and (frozen) GC2a.
+- B (negative): Voynich paragraphs do not alternate between two idiolects (no dialogue of Secretum strength); no person-marker vocabulary found.
+- B (measurement): the page-first paragraph uses different word frames from the later paragraphs of its page (GC2a z -7, IT2a -2.8; ZL noisy).
+- Method failure: page-level mutual exclusion (checkerboards) cannot be detected even in real herbals of 50-240 entries.
+- C- (guess): a small opposite-sign paragraph-pair asymmetry after removing the page-first paragraph (GC2a +2.6). Would support: z > 3 in ZL3b and IT2a. Would kill: already below 2 in both.
+- Demoted: none carried in. Nothing predicted outside the corpus. Not cracked.

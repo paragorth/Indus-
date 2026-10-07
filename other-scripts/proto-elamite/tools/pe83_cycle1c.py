@@ -7,11 +7,11 @@ from scipy.stats import spearmanr
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe83_common as P
 
-NPIPE = 400
+NPIPE = 200
 rng0 = np.random.default_rng(8315)
 PIPES = [dict(ch=int(rng0.integers(4)), thr=float(rng0.uniform(15, 90)), blur=float(rng0.choice([0, 0.7, 1.2, 2.0])),
               op=int(rng0.integers(0, 4)), cl=int(rng0.integers(0, 7)), c=float(rng0.uniform(0.08, 0.25)),
-              metric=str(rng0.choice(['box', 'hull', 'chamfer']))) for _ in range(NPIPE)]
+              metric=str(rng0.choice(['box', 'chamfer']))) for _ in range(NPIPE)]
 
 
 def metric(m, c, kind):
@@ -68,8 +68,14 @@ if __name__ == '__main__':
     if os.path.exists(ck):
         res = json.load(open(ck))
     else:
+        part = ck + '.part'
+        res = json.load(open(part)) if os.path.exists(part) else {}
+        todo = [r['id'] for r in R if r['id'] not in res]
         with Pool(2) as pool:
-            res = dict(pool.map(run, [r['id'] for r in R], chunksize=10))
+            for i, (pid, o) in enumerate(pool.imap_unordered(run, todo, chunksize=5)):
+                res[pid] = o
+                if i % 100 == 99:
+                    json.dump(res, open(part, 'w')); print('done', len(res), flush=True)
         json.dump(res, open(ck, 'w'))
     R = [r for r in R if res.get(r['id'])]
     M = np.array([[v[0] for v in res[r['id']]] for r in R]); AS = np.array([[v[1] for v in res[r['id']]] for r in R])
@@ -100,7 +106,7 @@ if __name__ == '__main__':
                 share_below_0_10=round(float((rr < 0.10).mean()), 3), credible_share_below_0_10=round(float((rr[good] < 0.10).mean()), 3),
                 negative=int((rr < 0).sum()), null_absmax_median=round(float(np.median(nm)), 3),
                 beats_own_null=round(float((rr > nm).mean()), 3),
-                by_metric={k: round(float(np.median(rr[np.array([x['metric'] == k for x in rows])])), 3) for k in ('box', 'hull', 'chamfer')},
+                by_metric={k: round(float(np.median(rr[np.array([x['metric'] == k for x in rows])])), 3) for k in ('box', 'chamfer')},
                 worst5=sorted(rows, key=lambda x: x['r'])[:5])
     print(json.dumps(summ, indent=1))
     json.dump(dict(summary=summ, rows=rows), open(os.path.join(P.CK, 'c1c.json'), 'w'), indent=1)

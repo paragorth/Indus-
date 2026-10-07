@@ -25,8 +25,6 @@ def cal_targets():
         k = int(rng.integers(40, 121)); s = int(rng.integers(0, max(1, len(u) - k))); ab.append(u[s:s + k])
     out['cal_celsus_abr_recut_coded'] = (L.encode_text(V.recut_units(ab, rng), rng), ['v89_celsus_lat', 'v89_celsus_eng'], ['v89_celsus_eng'])
     out['cal_pliny_en_vs_la'] = ([u['tok'] for u in T['pliny_nh_eng']['units'][600:690]], ['v89_pliny_nh_lat', 'v89_pliny_nh_eng'], ['v89_pliny_nh_eng'])
-    ps = [u['tok'] for u in T['psalms_en']['units'][20:120]]
-    out['cal_psalms_recut_coded'] = (L.encode_text(V.recut_units(ps, rng), rng), ['v89_psalms_he', 'v89_psalms_en', 'sef_Psalms'], ['v89_psalms_en'])
     return out
 
 
@@ -63,9 +61,10 @@ def job_screen(args):
     tgt = get_tgt(tname, 6, 7)
     src = get_src(sk)
     t0 = time.time()
-    n_rand = 300 if tgt.n < 150 else 120
-    res = V.search(src, tgt, n_rand=n_rand, top=3, refine=12 if tgt.n < 150 else 6,
-                   seed=zlib.crc32((tname + sk).encode()), max_off=150 if tgt.n < 150 else 60)
+    big = tgt.n >= 150
+    res = V.search(src, tgt, n_rand=60 if big else 150, top=2, refine=6 if big else 8,
+                   seed=zlib.crc32((tname + sk).encode()), max_off=40 if big else 80,
+                   max_off_prop=15 if big else 30, max_off_fine=12 if big else 25)
     if res is None: return {'target': tname, 'src': sk, 'skip': True}
     s = V.summarize(res)
     s.update({'target': tname, 'src': sk, 'n': tgt.n, 'sec': time.time() - t0, 'nA': res[0]['nA']})

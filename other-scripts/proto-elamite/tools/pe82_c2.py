@@ -92,8 +92,8 @@ def run(corpus, mode, seed, n_h=3000):
         Ht = [dict(t) for t in tok if t['batch'] in H]
         seenD = {t['s'] for t in Dt}
         if mode == 'plant':
-            cnt = collections.Counter(t['s'] for t in Dt)
-            mids = [s for s, c in cnt.items() if 40 <= c <= 150]
+            cnt = collections.Counter(t['left'] for t in Ht if t['left'] != '^')
+            mids = [s for s, c in cnt.items() if 60 <= c <= 300]
             Q = random.Random(seed + si).choice(sorted(mids))
             k = 0
             for t in Ht:

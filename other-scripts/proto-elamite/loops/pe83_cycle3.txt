@@ -1,0 +1,20 @@
+pe83 cycle 3 (7 Oct 2026): TRY TO KILL pe81. A SECOND OUTLINE SOURCE AND A CALIBRATION SCRIPT.
+
+Written before running.
+ C3.1 Second, independent source: CDLI line art (1,440 PE drawings, 150 ppi scans; mostly the excavators' hand drawings in
+      the MDP volumes, drawn about a century before the CDLI photographs, by different people, with different 'lighting'
+      (none) and no segmentation threshold on clay). Outline = filled outer contour of the drawing nearest the image centre
+      in its upper part; ink-proof variant = convex hull of all strokes of that drawing. Credibility: drawing aspect vs
+      catalogue aspect rho must exceed 0.6, and drawing corner fill vs photo corner fill rho must be positive.
+      Test: partial r (pe81 covariates) of header vs drawing corner fill (all corners; top end; bottom end).
+      Kill: r < 0.10 for the top end on the drawings (the photo effect is 0.43). Pass: >= 0.20. In between: damaged.
+      Note the drawings share one weakness with the photos: a draughtsman also sees the header; hull and top/bottom split
+      are reported, and the reverse-face photo test (cycle 1) is the guard against ink.
+ C3.2 Second photo source (Louvre collections site, Wikimedia Commons). Pre-check: the Louvre site answers scripted
+      requests with a robot check (HTTP 429/403; not clicked through, per standing rules); Wikimedia Commons holds about 15
+      PE tablet photos, most at oblique museum-case angles: too few for a test (power < 0.2 at r 0.35). Logged as not run.
+ C3.3 Calibration on proto-cuneiform (Uruk III, CDLI photos, same pipeline, same thresholds): 'header analogue' = obverse
+      line 1 has signs and no numerals. Not a kill test for PE; it tells whether the pipeline makes the same link in an
+      unrelated accounting script. Reported for all corners, top, bottom and the reverse at the line-1 end.
+ C3.4 Planted on the drawings: a fake header tied to drawing top-end fill at r 0.3 must be recovered (power check), and a
+      shuffled header within size x line-count strata must give |r| < 0.08 (95th pct of 1,000 shuffles reported).

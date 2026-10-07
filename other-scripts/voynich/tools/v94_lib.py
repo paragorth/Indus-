@@ -166,7 +166,8 @@ def draw(rng, src, n, schemes, base=None, step=None):
         span = float(np.exp(rng.uniform(np.log(lo), np.log(hi))))
         span = min(span, M * 0.98)
         off = float(rng.uniform(0, max(1e-9, M - span)))
-        mp = ['unif', 'unif', 'prop', 'sub', 'sub'][int(rng.integers(5))]
+        mp = ['unif'] * 5 + ['prop'] + ['sub'] * 4
+        mp = mp[int(rng.integers(len(mp)))]
         return {'sch': s, 'off': off, 'span': span, 'map': mp, 'jit': float(rng.uniform(0, 0.4)),
                 'drop': int(rng.choice(DROPS)), 'seed': int(rng.integers(1 << 30))}
     a = dict(base); M = src.M[a['sch']]
@@ -231,7 +232,7 @@ def grid(src, n, rng, schemes, max_off=150, max_off_prop=60, max_off_fine=60):
         return np.arange(0, hi + 1e-9, max(1.0, hi / k)) if hi > 0 else np.array([0.0])
     for s in schemes:
         M = src.M[s]
-        if s == 'ent': plan = [(f * n, 'unif', max_off) for f in (0.75, 1.0, 1.5, 2.0)] + [(f * n, 'prop', max_off_prop) for f in (0.8, 1.25)]
+        if s == 'ent': plan = [(f * n, 'unif', max_off) for f in (0.75, 1.0, 1.5, 2.0)] + [(f * n, 'prop', max_off_prop) for f in (1.0,)]
         else: plan = [(f * n, 'unif', max_off_fine) for f in (2, 4, 8)]
         for sp_, mp, k in plan:
             sp_ = min(sp_, M * 0.98)
@@ -242,11 +243,11 @@ def grid(src, n, rng, schemes, max_off=150, max_off_prop=60, max_off_fine=60):
     return out
 
 
-def search(src, tgt, n_rand=300, top=3, refine=12, seed=0, max_off=150, return_all=False):
+def search(src, tgt, n_rand=300, top=3, refine=12, seed=0, max_off=150, max_off_prop=60, max_off_fine=60):
     rng = np.random.default_rng(seed)
     sch = src.schemes(tgt.n)
     if not sch: return None
-    A = grid(src, tgt.n, rng, sch, max_off) + [draw(rng, src, tgt.n, sch) for _ in range(n_rand)]
+    A = grid(src, tgt.n, rng, sch, max_off, max_off_prop, max_off_fine) + [draw(rng, src, tgt.n, sch) for _ in range(n_rand)]
     nv = len(tgt.perms)
     SA = np.zeros((len(A), nv)); SB = np.zeros((len(A), nv))
     for i, a in enumerate(A):

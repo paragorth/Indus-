@@ -151,3 +151,84 @@ if __name__ == '__main__':
         h = hashlib.sha256(open(fn, 'rb').read()).hexdigest()
         open(fn.replace('.json', '.sha256'), 'w').write(h + '  la80_frozen_c1.json\n')
         print(json.dumps(frozen['log'], default=float)); print('survivors', len(S_real), 'sha256', h)
+
+def hyp_from_json(x):
+    k, a = x['h']
+    return (k, tuple(a) if isinstance(a, list) else a), SHAPES.index(x['shape']), np.sign(x['r_ht'])
+
+def test_stage(frozen_fn, test_ids_fn, shape_fn, year_filter=None, site_filter=None):
+    import la78_common as Y
+    fr = json.load(open(frozen_fn))
+    ids = json.load(open(test_ids_fn))
+    yrs = {d['id']: d['year'] for d in Y.load()}
+    if year_filter:
+        ids = [i for i in ids if year_filter(yrs.get(i, 2000))]
+    B = build(ids, shape_fn)
+    keep = [k for k in B['tabs'] if k in B['TS']]
+    if site_filter:
+        keep = [k for k in keep if site_filter(B['site'][B['tabs'].index(k)])]
+    keep_idx = np.array([B['tabs'].index(k) for k in keep])
+    M = shape_matrix(B, keep)
+    sites = [B['site'][i] for i in keep_idx]
+    us = sorted(set(sites))
+    D = np.array([[s == u for u in us[1:]] for s in sites], float).reshape(len(sites), -1)
+    X = np.c_[B['cov'][keep_idx], D]
+    def rs_of(entries, Mm):
+        out = []
+        for x in entries:
+            h, j, sg = hyp_from_json(x)
+            t = TX.eval_text_feature(h, B['F'], B['S'], B['G'], B['first'])[keep_idx]
+            col = Mm[:, j]; ok = ~np.isnan(col)
+            tt = t[ok]
+            if len(set(tt)) < 2 or (set(tt) <= {0, 1} and min(tt.sum(), len(tt) - tt.sum()) < 3):
+                out.append(np.nan); continue
+            out.append(sg * float(resid(tt, X[ok]) @ resid(col[ok], X[ok])))
+        return np.array(out)
+    def agree(v):
+        v = v[~np.isnan(v)]; return (float(np.mean(v > 0)) if len(v) else np.nan, len(v), float(np.mean(v)) if len(v) else np.nan)
+    res = {'n_test_tablets': len(keep), 'sites': dict(collections.Counter(sites))}
+    res['real'] = agree(rs_of(fr['survivors'], M))
+    res['shuffle_runs'] = [agree(rs_of(r, M)) for r in fr['shuffle_survivors']]
+    res['random_ref'] = agree(rs_of(fr['random_ref'], M))
+    # tablet bootstrap of the real share
+    rng = np.random.default_rng(7); bs = []
+    for b in range(200):
+        ix = rng.integers(0, len(keep), len(keep))
+        Bk = dict(B); 
+        Mb = M[ix]; Xb = X[ix]; kb = keep_idx[ix]
+        v = []
+        for x in fr['survivors']:
+            h, j, sg = hyp_from_json(x)
+            t = TX.eval_text_feature(h, B['F'], B['S'], B['G'], B['first'])[kb]
+            col = Mb[:, j]; ok = ~np.isnan(col); tt = t[ok]
+            if len(set(tt)) < 2: continue
+            v.append(sg * float(resid(tt, Xb[ok]) @ resid(col[ok], Xb[ok])))
+        bs.append(np.mean(np.array(v) > 0))
+    res['real_boot_95'] = [float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))]
+    # per shape-feature breakdown
+    v = rs_of(fr['survivors'], M); by = collections.defaultdict(list)
+    for x, r in zip(fr['survivors'], v):
+        if not np.isnan(r): by[x['shape']].append(r)
+    res['by_shape'] = {k: (round(float(np.mean(np.array(a) > 0)), 2), len(a), round(float(np.mean(a)), 3)) for k, a in by.items()}
+    by = collections.defaultdict(list)
+    for x, r in zip(fr['survivors'], v):
+        if not np.isnan(r) and x['h'][0] == 'scalar': by[(x['shape'], x['h'][1])].append(r)
+    res['scalar_links'] = {'%s~%s' % k: round(float(np.mean(a)), 3) for k, a in by.items()}
+    return res
+
+if __name__ == '__main__' and sys.argv[1] == 'test':
+    fz = os.path.join(L.DATA, 'la80_frozen_c1.json')
+    h = hashlib.sha256(open(fz, 'rb').read()).hexdigest()
+    assert open(fz.replace('.json', '.sha256')).read().split()[0] == h
+    out = {}
+    out['all'] = test_stage(fz, os.path.join(L.CK, 'test_ids.json'), os.path.join(L.CK, 'shape_test.json'))
+    out['pub_1975_76'] = test_stage(fz, os.path.join(L.CK, 'test_ids.json'), os.path.join(L.CK, 'shape_test.json'), year_filter=lambda y: y <= 1976)
+    out['pub_after_1976'] = test_stage(fz, os.path.join(L.CK, 'test_ids.json'), os.path.join(L.CK, 'shape_test.json'), year_filter=lambda y: y > 1976)
+    out['khania_only'] = test_stage(fz, os.path.join(L.CK, 'test_ids.json'), os.path.join(L.CK, 'shape_test.json'), site_filter=lambda s: s == 'Khania')
+    out['not_khania'] = test_stage(fz, os.path.join(L.CK, 'test_ids.json'), os.path.join(L.CK, 'shape_test.json'), site_filter=lambda s: s != 'Khania')
+    json.dump(out, open(os.path.join(L.CK, 'c1_test.json'), 'w'), indent=1, default=float)
+    for k, r in out.items():
+        sh = [x[0] for x in r['shuffle_runs']]
+        print(k, 'n', r['n_test_tablets'], 'real', r['real'], 'boot', r['real_boot_95'], 'shuffle share mean %.3f max %.3f' % (np.nanmean(sh), np.nanmax(sh)),
+              'rank', int(np.sum(np.array(sh) >= r['real'][0])), '/20', 'random', r['random_ref'])
+    print(json.dumps(out['all']['by_shape'])); print(json.dumps(out['all']['scalar_links']))

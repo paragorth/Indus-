@@ -1,7 +1,7 @@
 """v94: build the 300+ candidate pool (data/v94_ckpt/pool/*.pkl) from downloads kept in the session scratchpad.
 usage: python3 v94_texts.py DL_DIR    (DL_DIR = scratchpad/v94dl with gut/, ll/, ia/, sef/, iti/txt/, and ../v31/ea/)
 Each text: paragraphs (token lists), entry starts (heading heuristics / chapters), sentence boundaries.
-OCR texts are kept only if >= 45% of their tokens are attested in the clean (Gutenberg/Latin Library) vocabulary
+OCR texts are kept only if >= 60% of their tokens are attested in the clean (Gutenberg/Latin Library) vocabulary
 of all texts (garbage OCR of incunabula is dropped)."""
 import os, sys, re, json, html, glob, unicodedata
 from collections import Counter
@@ -84,8 +84,13 @@ def main(dl):
         out['v89_' + k] = ({'lang': d['lang'], 'genre': d['genre'], 'src': 'v89 ' + d.get('src', k)}, paras, list(range(len(paras))), [], False)
     # 2. Gutenberg
     meta = {x['id']: x for x in json.load(open(os.path.join(dl, 'gut_keep.json')))}
+    seen_titles = set()
     for f in sorted(glob.glob(os.path.join(dl, 'gut', 'pg*.txt'))):
         i = re.sub(r'\D', '', os.path.basename(f))
+        if i not in meta or meta[i]['why'] == 'pre2': continue   # topical / language-selected only
+        tt = meta[i]['title'].lower()[:25]
+        if tt in seen_titles: continue
+        seen_titles.add(tt)
         try: txt = open(f, encoding='utf-8', errors='replace').read()
         except Exception: continue
         m = meta.get(i, {})
@@ -150,10 +155,11 @@ def main(dl):
     # OCR quality filter + write
     good = set(w for w, c in clean_vocab.items() if c >= 2)
     n_ok = 0; rows = []
+    import shutil; shutil.rmtree(V.POOL, ignore_errors=True)
     for k, (meta, paras, ent, sents, ocr) in sorted(out.items()):
         toks = [t for p in paras for t in p]
         q = sum(t in good for t in toks) / max(1, len(toks))
-        if ocr and q < 0.45:
+        if ocr and q < 0.6:
             rows.append('%s\tDROP-ocr q=%.2f' % (k, q)); continue
         meta = dict(meta, ocr_q=round(q, 3))
         r = V.save_text(k, meta, paras, ent if len(ent) >= 10 else None, sents)

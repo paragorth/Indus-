@@ -47,3 +47,19 @@ Pre-registration for I1 (written before any PE score was computed):
  - Survivor: discovery z >= 3.5 AND Bonferroni-free replication: confirmation z >= 2 with the same sign.
  - Kill: survivors on the stratum-shuffled corpus >= real survivors (mean of 3 shuffles), or planted recovery < 50%.
  - Also length-level UID: n-signs vs surprisal within (tablet, system).
+
+STEP 3. Run I1 (tools/pe82_common.py, pe82_c1.py, pe82_c1_an.py, pe82_c1_spec.py; checkpoints data/pe82_ckpt/c1_*.json).
+Corpus: common.load() 'rd', 1,311 PE tablets with numeric lines, 6,187 numeric lines (lacuna lines dropped); PC 2,817 tablets,
+13,633 lines. Target = system | first numeral code. 60 random reader models (of 129 feature subsets) x (150 single signs +
+2,000 random 2-3-sign sets) x 2 batch halves = ~256,000 tests per run; 11 runs (~2.8 M tests).
+Design fix logged: version 1 stratified by line length INCLUDING the marker, which compares an entry with its marker against
+other entries of the same length, not against the same entry written without it; the planted marker was invisible (46 lines,
+heavy-tailed surprisal). Version 1 output archived in data/pe82_ckpt/c1_v1_old/ and not used. Version 2 strata = (tablet,
+target, length without the marker signs); planted odds use rank-normal surprisal at a calibrated 5% line rate.
+
+| PE-82.1.1 | PLANTED uniform-information marker on the real skeleton: new sign on 5% of lines with log-odds b x (rank-normal surprisal under prev_sys+maj), b = 0, 0.5, 1, 2, 3 (b = 0 is the negative plant) | single generating model, whole corpus: z 0.7-1.1 (b 0), 1.6-1.8 (b 0.5), 1.7-2.6 (b 1); blind search: PLANT never reaches discovery z 3.5 at any b (max 3.45 at b 2, 3.07 at b 3); 3-4 of 60 models put PLANT >= 2 in both halves at b 2-3, 0 at b 0-1 | FAIL (power): within a tablet the reader's surprisal barely varies between lines of one kind, so even a marker that is 7-20x likelier per sd of surprise is invisible at PE size |
+| PE-82.1.2 | KILL CONTROL: sign strings shuffled within (tablet x target x length), 3 seeds, whole pipeline | discovery z >= 3.5: 41 / 74 / 177; survivors (disc >= 3.5, conf >= 2): 0 / 3 / 6; both halves >= 2: 115 / 87 / 74 | null spread is wide |
+| PE-82.1.3 | REAL PE, 255,960 tests | discovery z >= 3.5: 111; survivors 0 (+), 2 (-); both halves >= 2: 87 (shuffles 74-115); top single signs (mean over models, weaker half) M005 0.53, M391 0.51, M228 0.44 - all inside shuffle noise | NULL: no sign is written more where the reader would be surprised |
+| PE-82.1.4 | Length-level UID (more signs on surprising lines), 60 models x 2 halves | both halves z >= 2 in 9 of 60 models (shuffles 13-15; lengths are kept by that shuffle, so this is descriptive); mean z -0.27 / +0.55 | NULL |
+| PE-82.1.5 | CALIBRATION proto-cuneiform (same pipeline; batches Uruk IV / Uruk III / other; pre-registered PC_WORLD goods signs) | real both halves >= 2: 45 vs shuffles 70 / 13; survivors 0 vs 0 / 0; goods signs mean -0.27 vs others -0.32 (p 0.32 vs random sets) | FAIL: the known-meaning script shows no stumble-markers either; the instrument has no reading even where meanings are known |
+| PE-82.1.F | Verdict I1 'ink where the reader would stumble' | the version-1 'M288 marks surprising lines' result (5 survivors vs 0 in shuffles) was a stratification artefact; with correct strata real PE sits inside the shuffle range, the planted marker is not found blind at any strength, and PC goods signs do not behave as stumble-markers | A (method limit): a uniform-information writer cannot be detected from line-to-line predictability at PE (or PC) size; NULL for PE. Nothing frozen (no survivor) |
