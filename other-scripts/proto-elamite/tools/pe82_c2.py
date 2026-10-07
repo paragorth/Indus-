@@ -95,9 +95,9 @@ def run(corpus, mode, seed, n_h=3000):
             cnt = collections.Counter(t['left'] for t in Ht if t['left'] != '^')
             mids = [s for s, c in cnt.items() if 60 <= c <= 300]
             Q = random.Random(seed + si).choice(sorted(mids))
-            k = 0
+            k = 0; rp = random.Random(seed * 7 + si)
             for t in Ht:
-                if t['left'] == Q and t['s'] in seenD and random.Random(seed * 7 + k).random() < 0.5:
+                if t['left'] == Q and t['s'] in seenD and rp.random() < 0.5:
                     t['s'] = 'NEW%d' % k; k += 1
             plantQ = (Q, k)
         tabs = collections.defaultdict(set)

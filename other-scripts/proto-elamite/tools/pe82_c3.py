@@ -90,17 +90,6 @@ def rho(ex, ruler):
     return float(r), len(ks)
 
 
-def hyps(rng, n=3000):
-    out = []
-    grid = dict(side=['any', 'rev'], top=[False, True], skip=[0, 1], minrun=[2, 3, 4, 5], key=['first', 'last'],
-                strat=['size', 'size_arch'], sbin=[1, 2, 4], minn=[5, 10, 20])
-    allc = list(itertools.product(*grid.values()))
-    rng.shuffle(allc)
-    for c in allc[:n]:
-        out.append(dict(zip(grid.keys(), c)))
-    return out
-
-
 def load_ur3():
     T = p80.build_ur3()
     for t in T:
@@ -113,27 +102,76 @@ def load_pe_tabs():
     for t in P:
         b = pc.PE_BATCH.get(t.get('vol'), 'OTHER') if t.get('site') == 'Susa' else 'OTHER'
         t['grp'] = 'A' if b in ('MDP26', 'MDP26S', 'OTHER') else 'B'
-        for l in t['lines']:
-            l['surf'] = l['surf']
     return P
+
+
+PROT_GRID = list(itertools.product(['any', 'rev'], [False, True], [0, 1], [2, 3, 4, 5]))
+SCORE_GRID = list(itertools.product(['first', 'last'], ['size', 'size_arch'], [1, 2, 4], [5, 10, 20]))
+
+
+def line_table(T, order_shuffle=None):
+    """One record per (tablet, line): keys, size bin raw, grp, and a protected flag for each of the 32 protection rules.
+    order_shuffle: random.Random -> lines permuted within tablet first (kill control: keeps values, breaks checksums)."""
+    recs = []
+    for t in T:
+        L = list(t['lines'])
+        if order_shuffle is not None:
+            L = L[:]; order_shuffle.shuffle(L)
+        flags = []
+        for side, top, skip, minrun in PROT_GRID:
+            flags.append(protected_lines(L, dict(side=side, top=top, skip=skip, minrun=minrun)))
+        for i, l in enumerate(L):
+            if l['v'] is None or not l['tok']:
+                continue
+            pf = [(-1 if i in c else int(i in p)) for p, c in flags]   # -1 = this line is the checksum itself
+            recs.append((l['tok'][0], l['tok'][-1], len(L), t['grp'], pf))
+    return recs
+
+
+def score_tab(recs, pi, key, strat, sbin, minn, keys, groups=None):
+    sp = collections.Counter(); sn = collections.Counter(); per = []
+    for kf, kl, n, g, pf in recs:
+        if groups is not None and g not in groups:
+            continue
+        p = pf[pi]
+        if p < 0:
+            continue
+        st = (min(n, 12) // sbin, g) if strat == 'size_arch' else (min(n, 12) // sbin,)
+        sp[st] += p; sn[st] += 1
+        k = kf if key == 'first' else kl
+        if k in keys:
+            per.append((k, st, p))
+    obs = collections.Counter(); exp = collections.Counter(); nn = collections.Counter()
+    for k, st, p in per:
+        obs[k] += p; exp[k] += sp[st] / sn[st]; nn[k] += 1
+    return {k: (obs[k] - exp[k]) / nn[k] for k in nn if nn[k] >= minn}, sum(sp.values())
+
+
+def all_scores(recs, keys, ruler, groups_list):
+    out = []
+    for pi, pg in enumerate(PROT_GRID):
+        for sg in SCORE_GRID:
+            row = dict(prot=pg, score=sg)
+            for name, G in groups_list:
+                ex, npro = score_tab(recs, pi, *sg, keys, G)
+                row[name] = rho(ex, ruler) + (npro,)
+            out.append(row)
+    return out
 
 
 if __name__ == '__main__':
     mode = sys.argv[1]
-    rng = random.Random(82)
-    if mode == 'ur3':
+    seed = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    if mode in ('ur3', 'ur3kill'):
         T = load_ur3()
         mlog = {k: math.log10(v) for k, v in MASS.items()}
-        H = hyps(rng)
-        arch = ['Umma', 'Girsu', 'Puzrish-Dagan']
-        res = []
-        for h in H:
-            row = dict(h=h)
-            for a in arch:
-                ex, npro = score(T, h, set(MASS), groups={a})
-                row[a] = rho(ex, mlog) + (npro,)
-            ex, npro = score(T, h, set(MASS))
-            row['all'] = rho(ex, mlog) + (npro,)
-            res.append(row)
-        json.dump(res, open(os.path.join(pc.CK, 'c3_ur3.json'), 'w'))
-        print('ur3 hyps', len(res))
+        recs = line_table(T, random.Random(seed) if mode == 'ur3kill' else None)
+        res = all_scores(recs, set(MASS), mlog, [('Umma', {'Umma'}), ('Girsu', {'Girsu'}), ('all', None)])
+        json.dump(res, open(os.path.join(pc.CK, 'c3_%s_%d.json' % (mode, seed)), 'w'))
+        print(mode, seed, 'defs', len(res))
+    if mode in ('pe', 'pekill'):
+        T = load_pe_tabs()
+        recs = line_table(T, random.Random(seed) if mode == 'pekill' else None)
+        res = all_scores(recs, set(RULER), RULER, [('A', {'A'}), ('B', {'B'}), ('all', None)])
+        json.dump(res, open(os.path.join(pc.CK, 'c3_%s_%d.json' % (mode, seed)), 'w'))
+        print(mode, seed, 'defs', len(res))
