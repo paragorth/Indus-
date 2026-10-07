@@ -98,17 +98,17 @@ GEN_P = {
     # lexical page mood + junction draw + onset harmony + line moods (v82/v84 family)
     'G_LX': dict(base='junc', p_vert=0.0, p_cite=0.0, p_mod=0.4, k=2, M=4, mood_src='fit', mood_beta=1.2, mood_scope='line',
                  mood_rate=0.3, agr='harm', agr_src=1, agr_lam=1.0, H=4, hseed=921, bias_copies=True, mech='lx',
-                 cite_win=60, cite_scope='page', gm_beta=0.0, gm_feat='uni', gm_rho=0.0, gm_line=0.0, lx_beta=1.8,
+                 cite_win=60, cite_scope='page', gm_beta=0.0, gm_feat='uni', gm_rho=0.0, gm_line=0.0, lx_beta=0.6,
                  lx_rho=0.0, lx_line=0.0, lx_K=0, sd_n=0, sd_p=0.0, sd_mod=0.0, sd_keep=0.0, sd_alpha=0.5),
     # per-page seed vocabulary, copy-and-vary, plus junction draw and harmony
-    'G_SEED': dict(base='junc', p_vert=0.0, p_cite=0.05, p_mod=0.5, k=2, M=4, mood_src='fit', mood_beta=1.0, mood_scope='line',
+    'G_SEED': dict(base='junc', p_vert=0.0, p_cite=0.0, p_mod=0.5, k=2, M=4, mood_src='fit', mood_beta=1.0, mood_scope='line',
                    mood_rate=0.3, agr='harm', agr_src=1, agr_lam=1.0, H=4, hseed=922, bias_copies=True, mech='seed',
                    cite_win=60, cite_scope='page', gm_beta=0.0, gm_feat='uni', gm_rho=0.0, gm_line=0.0, lx_beta=0.0,
-                   lx_rho=0.0, lx_line=0.0, lx_K=0, sd_n=8, sd_p=0.12, sd_mod=0.4, sd_keep=0.5, sd_alpha=0.5),
+                   lx_rho=0.0, lx_line=0.0, lx_K=0, sd_n=8, sd_p=0.03, sd_mod=0.4, sd_keep=0.5, sd_alpha=0.5),
     # glyph page mood (spelling mood over word bodies) + stack base with vertical copies
-    'G_GM': dict(base='stack', p_vert=0.1, p_cite=0.1, p_mod=0.5, k=2, M=4, mood_src='fit', mood_beta=1.0, mood_scope='line',
+    'G_GM': dict(base='stack', p_vert=0.02, p_cite=0.02, p_mod=0.5, k=2, M=4, mood_src='fit', mood_beta=1.0, mood_scope='line',
                  mood_rate=0.3, agr='harm', agr_src=1, agr_lam=1.0, H=4, hseed=923, bias_copies=True, mech='gm',
-                 cite_win=60, cite_scope='page', gm_beta=2.0, gm_feat='bi', gm_rho=0.5, gm_line=0.1, lx_beta=0.0,
+                 cite_win=60, cite_scope='page', gm_beta=0.3, gm_feat='bi', gm_rho=0.5, gm_line=0.1, lx_beta=0.0,
                  lx_rho=0.0, lx_line=0.0, lx_K=0, sd_n=0, sd_p=0.0, sd_mod=0.0, sd_keep=0.0, sd_alpha=0.5),
 }
 
@@ -127,7 +127,7 @@ def corpus(name):
     elif name.endswith('_WLS'):
         c = within_line_shuffle(corpus(name[:-4]), 9291)
     elif name == 'G_SELF':
-        c = V.gen_selfcit(corpus('ZL3b'), seed=9293, p_copy=0.3)
+        c = V.gen_selfcit(corpus('ZL3b'), seed=9293, p_copy=0.04)
     elif name in GEN_P:
         import v84_lib as L84
         c = L84.gen_page(corpus('ZL3b'), dict(GEN_P[name]), seed=9294 + sorted(GEN_P).index(name))
