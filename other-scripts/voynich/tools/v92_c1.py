@@ -125,6 +125,33 @@ def onehot(cols, rows_fit, rows_all, minc=5):
     return sp.hstack(mats).tocsr()
 
 
+def _base_fit(E, un, fi, ei, y, base):
+    allr = np.concatenate([fi, ei]); nf = len(fi)
+    X = onehot(base, allr[:nf], allr)
+    m = LogisticRegression(C=0.05, max_iter=300)
+    m.fit(X[:nf], y[fi])
+    return m.decision_function(X[:nf]), m.decision_function(X[nf:])
+
+
+def _offsets(cols, fi, ei, y, z_f, z_e, prior=20.0, passes=3):
+    """backfitted one-step logistic offsets per context category (shrunk by prior pseudo-weight)."""
+    zf = z_f.copy(); ze = z_e.copy()
+    codes = []
+    for c in cols:
+        cf = c[fi]; ce = c[ei]
+        u, inv = np.unique(np.concatenate([cf, ce]), return_inverse=True)
+        codes.append((inv[:len(fi)], inv[len(fi):], len(u), np.zeros(len(u))))
+    yf = y[fi].astype(float)
+    for _ in range(passes):
+        for k, (a, b, K, off) in enumerate(codes):
+            p = 1 / (1 + np.exp(-zf))
+            g = np.bincount(a, weights=yf - p, minlength=K)
+            h = np.bincount(a, weights=p * (1 - p), minlength=K) + prior * 0.1
+            d = g / h
+            off += d; zf += d[a]; ze += d[b]
+    return ze
+
+
 def loglik_gain(E, un, lo, hi, ctx_cols, fit_mask, ev_mask, base_cache=None):
     U = E.units[un]
     sel = (U['cnt'] >= lo) & (U['cnt'] <= hi) & ~U['dbl']
@@ -133,25 +160,17 @@ def loglik_gain(E, un, lo, hi, ctx_cols, fit_mask, ev_mask, base_cache=None):
     y = U['y']
     cb = np.digitize(U['cnt'], [3, 5, 9, 16])
     base = [E.grp, E.f1, E.l1, E.lb, cb, E.pbin]
-    allr = np.concatenate([fi, ei])
-    nf = len(fi)
-
-    def ll(cols):
-        X = onehot(cols, allr[:nf], allr)
-        m = LogisticRegression(C=0.05, max_iter=300)
-        m.fit(X[:nf], y[fi])
-        p = np.clip(m.predict_proba(X[nf:])[:, 1], 1e-6, 1 - 1e-6)
-        ye = y[ei]
-        return (ye * np.log2(p) + (1 - ye) * np.log2(1 - p))
-    k = None
-    if base_cache is not None:
-        k = (un, lo, hi, fit_mask.tobytes().__hash__(), ev_mask.tobytes().__hash__())
-    if k is not None and k in base_cache: lb = base_cache[k]
+    k = (un, lo, hi, hash(fit_mask.tobytes()), hash(ev_mask.tobytes()))
+    if base_cache is not None and k in base_cache: z_f, z_e = base_cache[k]
     else:
-        lb = ll(base)
-        if k is not None: base_cache[k] = lb
-    lc = ll(base + ctx_cols)
-    return float((lc - lb).mean()), len(ei), float(y[ei].mean())
+        z_f, z_e = _base_fit(E, un, fi, ei, y, base)
+        if base_cache is not None: base_cache[k] = (z_f, z_e)
+    ze = _offsets(ctx_cols, fi, ei, y, z_f, z_e)
+    ye = y[ei]
+    def ll(z):
+        p = np.clip(1 / (1 + np.exp(-z)), 1e-6, 1 - 1e-6)
+        return ye * np.log2(p) + (1 - ye) * np.log2(1 - p)
+    return float((ll(ze) - ll(z_e)).mean()), len(ei), float(ye.mean())
 
 
 def ctx_cols(E, h, ev_un):
@@ -210,13 +229,14 @@ def run(name):
     twins = [Ev(L.within_page_shuffle(pages, 9400 + k)) for k in range(NTW)]
     wls = Ev(L.within_line_shuffle(pages, 9500))
     fit = E.half == 0; ev = E.half == 1
+    bE = {}; bT = [dict() for _ in twins]; bW = {}
     top = []
     for r in rows[:TOP]:
         h = r['h']
-        g = loglik_gain(E, h['unit'], h['lo'], h['hi'], ctx_cols(E, h, None), fit, ev)
-        gt = [loglik_gain(T, h['unit'], h['lo'], h['hi'], ctx_cols(T, h, None), T.half == 0, T.half == 1) for T in twins]
+        g = loglik_gain(E, h['unit'], h['lo'], h['hi'], ctx_cols(E, h, None), fit, ev, bE)
+        gt = [loglik_gain(T, h['unit'], h['lo'], h['hi'], ctx_cols(T, h, None), T.half == 0, T.half == 1, bt_) for T, bt_ in zip(twins, bT)]
         gt = np.array([x[0] for x in gt if x is not None])
-        gw = loglik_gain(wls, h['unit'], h['lo'], h['hi'], ctx_cols(wls, h, None), wls.half == 0, wls.half == 1)
+        gw = loglik_gain(wls, h['unit'], h['lo'], h['hi'], ctx_cols(wls, h, None), wls.half == 0, wls.half == 1, bW)
         z = (g[0] - gt.mean()) / max(gt.std(ddof=1), 1e-4)
         top.append(dict(r, g_te=g[0], n_te=g[1], ybar=g[2], tw_mu=float(gt.mean()), tw_sd=float(gt.std(ddof=1)), z=float(z),
                         g_wls=gw[0] if gw else None))
