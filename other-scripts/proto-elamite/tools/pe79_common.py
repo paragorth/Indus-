@@ -172,13 +172,15 @@ def known_docs():
         docs = ld()
         if k == 'KH':
             rd = []
-            for d in docs:
+            for d in docs:      # each cord = its own entry line (cord colour then its knot value)
                 occ = iter(d['occ'])
                 toks = []
                 for x in d['toks']:
                     if x[0] == 'T':
+                        if toks and toks[-1][0] != 'L':
+                            toks.append(('L',))
                         toks.append(('T', 'TOT' if next(occ) == 'TOT' else 'COM'))
-                    else:
+                    elif x[0] == 'N':
                         toks.append(x)
                 rd.append({'id': d['id'], 'toks': toks, 'types': [x[1] for x in d['toks'] if x[0] == 'T']})
         else:
@@ -254,10 +256,7 @@ def score_H(H, sk, judge):
 
 
 def random_H(n, K, rng):
-    H = np.empty((n, len(ROLES)), dtype=np.int64)
-    for i in range(n):
-        H[i] = rng.choice(K, len(ROLES), replace=False)
-    return H
+    return np.argsort(rng.random((n, K)), 1)[:, :len(ROLES)].astype(np.int64)
 
 
 def roles_present(sk):
