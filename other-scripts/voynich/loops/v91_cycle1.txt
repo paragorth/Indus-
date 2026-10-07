@@ -1,0 +1,23 @@
+# v91 cycle 1 (7 Oct 2026): THE SPARSE CHANNEL. Is the generator-like bulk cover, with the message riding on a few choices?
+# VOY_MODE=glyph. Tools: tools/v91_lib.py, v91_c1.py, v91_report1.py, v91_excess.py, v91_decode.py; checkpoints data/v91_ckpt/ (git-ignored).
+# Prior-work check: v6/v10/v79 (line-initial chain), v12 (parity/mod-k streams of whole words), v50 (2.27M sparse grid paths, letter level: closed;
+#   left open 'word-level codes' and 'channels that are not sequences'), v54 (variant choice as stemma), v81/v82 (onsets), v86 (r/l->m).
+#   None reads the CHOICE between variant spellings (ch/sh, k/t, q-, e/ee, a/o, bench, final glyph, length parity ...) as residual bits beyond a
+#   context model and chunks them into k-bit letters. Web: the Naibbe cipher (2025) uses homophone choice as the cipher, not as a hidden channel
+#   inside cover text; no residual-choice stego search found. Built only the new part.
+# Mask = carrier positions (1-3 of 41 predicates: word index, line/paragraph role, line parity in paragraph, previous word's last glyph, word
+#   length, every-3rd/5th/7th word of the paragraph, 40 random secret word lists = type hashes) x 1-2 of 13 choice features x chunk k=1..5 x
+#   frame offset. Each carrier choice is scored against a context model fitted on train folios (hand+language+section, line/paragraph
+#   position, the rest of the word = skeleton, the same choice on the previous token in the line or the previous line's first word),
+#   re-tilted to the mask's own carrier frequencies; score = held-out bits (folio half A->B plus B->A) of within-chunk structure (u) plus
+#   chunk-to-chunk bigram structure (b). 65,100 (position, feature) items, about 170,000 scored masks per corpus.
+# Corpora: ZL3b; kill nulls N1 = words shuffled within each line, N2 = lines permuted within each page, N3 = junction Markov resynthesis
+#   (line-initial word from P(w | hand, para-start), next from P(w | hand, last glyph)); plants P1 = Caesar letters in a random 5-bit code
+#   written as ch/sh choice on odd-index words of N3-like cover (1,243 letters on 6,216 carriers), P2 = Manzoni letters as q-/no-q on every
+#   qo-/o- gallows word (1,716 letters on 8,582 carriers).
+
+| V-91.1.1 | Calibration: full blind search on the two plants (same 170k masks), then a swap hill-climb substitution solver (one-to-one, bigram model from a different Latin / Italian text) on the top mask's stream; null = the same stream shuffled | P1: planted mask (wodd, ch/sh, k5, offset 0) rank 1 of 168,749, score 554 bits (null searches' maximum 150); P2: (all, q, k5, o0) rank 1 of 169,442, 737 bits. Decoding: P1 Latin model 100% of 1,243 letters correct (log-lik -2.38 vs shuffled -3.11; Italian model 25%); P2 Italian 100% of 1,716 (Latin model 90%) | A (method): a message carried by variant choices at ~1 letter per 5-25 words is found blind, with its exact carriers, chunk size and frame, and read back as plain text; the decoder also names the language |
+| V-91.1.2 | Kill nulls: the same search on N1, N2, N3 | Maxima 139 / 150 / 145 bits; top masks in every null = word-length predicates crossed with length features (len3, ao+len3, k1): a selection artefact the one-step re-tilt does not fully remove | False-positive floor 150 bits for a raw score. The artefact is identical in real and null corpora and is handled by per-mask comparison |
+| V-91.1.3 | ZL3b search, raw score | Max 143 (all+len3 / len3 / k1, the same artefact; N3 has it at 145); 99.9th percentile 52 (nulls 34-46). Masks above the floor AND above their own score in all three nulls: 0 | No mask carries a raw message signal above what shuffled-in-line, line-permuted and Markov text give |
+| V-91.1.4 | Per-mask excess: min(raw ZL score, ZL minus the best of N1/N2/N3 for the same mask); fake-real control = N3 against N1/N2 | ZL: 389 masks > 20 bits, 33 > 40, max 55; fake-real N3: 56 > 20, 0 > 40, max 40. Top ZL masks: k/t (+bench) choice on odd interior words (inner+wodd, k3 o1, 56 bits), kt+bench on odd words of non-first lines, q on secret list s05 (k4 o3, 49) | Lead, not a result: ZL has a small excess of masks that beat all three nulls. The top one scores as much at k=1 (63 bits) as at k=3 (frame-free), and N2 (lines permuted) erases it, so it looks like k/t mood carried from line to line (the known paragraph drift), not a framed message. Cycle 2: frame test, a second fake-real pair (N2b, N3b against all nulls), IT2a, real-cover plants |
+| V-91.1.V | Cycle verdict | - | Method A (plants found and read at 100%). Voynich: no raw survivor; a small per-mask excess exists (C-, likely known line-to-line mood). Not cracked |

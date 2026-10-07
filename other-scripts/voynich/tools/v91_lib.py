@@ -532,30 +532,40 @@ def bigram_model(text):
 
 
 def solve_sub(seq, model, iters=6000, restarts=6, seed=0):
-    """seq: ints (cipher symbols). Homophonic allowed (many symbols -> one letter). Hill-climb log-lik."""
+    """seq: ints (cipher symbols). One-to-one substitution onto letters (extra symbols beyond the
+    alphabet share letters). Swap hill-climb on log P(text) = unigram start + bigram chain."""
     al, M, U = model
     rng = np.random.default_rng(seed)
-    syms = np.unique(seq); K = len(al)
+    syms = np.unique(seq); K = len(al); S = len(syms)
     sx = np.searchsorted(syms, seq)
-    freq = np.bincount(sx, minlength=len(syms))
+    freq = np.bincount(sx, minlength=S)
     order_u = np.argsort(-U)
+    slots = max(S, K)
+    def ll(perm):
+        y = perm[:S][sx] % K
+        return M[y[:-1], y[1:]].sum() + U[y].sum() * 0.0
     best = (-1e18, None)
     for r in range(restarts):
-        # init: rank match
-        rk = np.argsort(-freq)
-        mp = np.zeros(len(syms), int)
-        for i, s in enumerate(rk): mp[s] = order_u[i % K] if r == 0 else rng.integers(K)
-        def ll(mp):
-            y = mp[sx]
-            return M[y[:-1], y[1:]].sum()
-        cur = ll(mp)
+        perm = np.arange(slots)
+        if r == 0:
+            rk = np.argsort(-freq)
+            letters_by_freq = list(order_u) + [i for i in range(K, slots)]
+            perm = np.zeros(slots, int); used = []
+            for i, s_ in enumerate(rk): perm[s_] = letters_by_freq[i]
+            rest = [x for x in range(slots) if x not in set(perm[:S])]
+            perm[S:] = rest[:slots - S]
+        else:
+            perm = rng.permutation(slots)
+        cur = ll(perm)
         for it in range(iters):
-            s = rng.integers(len(syms)); old = mp[s]; mp[s] = rng.integers(K)
-            v = ll(mp)
+            i, j = rng.integers(slots, size=2)
+            if i == j or (i >= S and j >= S): continue
+            perm[i], perm[j] = perm[j], perm[i]
+            v = ll(perm)
             if v >= cur: cur = v
-            else: mp[s] = old
-        if cur > best[0]: best = (cur, mp.copy())
-    y = best[1][sx]
+            else: perm[i], perm[j] = perm[j], perm[i]
+        if cur > best[0]: best = (cur, perm.copy())
+    y = best[1][:S][sx] % K
     return best[0] / max(1, len(seq) - 1), ''.join(al[i] for i in y)
 
 
@@ -625,6 +635,10 @@ def build(name, seed=0):
         msg = letters('Italian-Dante', 4000)
         L, meta = plant(zl, lambda C: C.preds['tp3b'] & C.preds['inner'], 'ao', msg, 24)
         meta['mask'] = ('inner+tp3b', 'ao', 5)
+    elif name == 'N3b':
+        L = markov_cover(zl, 113)
+    elif name == 'N2b':
+        L = permute_lines_in_page(zl, 112)
     elif name == 'ITN1':
         L = shuffle_within_line(voy_lines('IT2a'), 31)
     else:

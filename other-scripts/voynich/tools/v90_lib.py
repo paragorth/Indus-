@@ -588,3 +588,48 @@ def units(enc, toks, level):
         A = pos % 2 == 0; B = pos % 2 == 1
     idx = [np.where(unit == u)[0] for u in range(unit.max() + 1)]
     return unit, grp, A, B, idx
+
+
+# ------------------------------------------------------------------ habit-model null (max-ent page tilts)
+def habit_null(enc, R=8, seed=0, iters=12):
+    """R synthetic field arrays: each page's tokens are drawn from the global word distribution of its
+    section x hand x language stratum, tilted (IPF / max-ent) to reproduce the page's own counts in each of
+    the 7 fields. Keeps word grammar (which field values go together) and page-level spelling habit;
+    has no page-specific combinations beyond those two."""
+    rng = np.random.default_rng(seed)
+    outs = [enc.F.copy() for _ in range(R)]
+    for c in np.unique(enc.coarse):
+        mc = enc.coarse == c
+        Ft = enc.F[mc]
+        types, inv, g = np.unique(Ft, axis=0, return_inverse=True, return_counts=True)
+        inv = inv.ravel()
+        g = g.astype(float)
+        pages = np.unique(enc.page[mc])
+        for p in pages:
+            ti = np.where(mc & (enc.page == p))[0]
+            n = len(ti)
+            if n == 0:
+                continue
+            tgt = [np.bincount(enc.F[ti, j], minlength=len(enc.fvocab[j])).astype(float) for j in range(NF)]
+            lphi = [np.zeros(len(enc.fvocab[j])) for j in range(NF)]
+            for _ in range(iters):
+                for j in range(NF):
+                    s = sum(lphi[k][types[:, k]] for k in range(NF))
+                    w = g * np.exp(s - s.max())
+                    w *= n / w.sum()
+                    m = np.bincount(types[:, j], weights=w, minlength=len(enc.fvocab[j]))
+                    lphi[j] += np.log((tgt[j] + 0.01) / (m + 0.01))
+            s = sum(lphi[k][types[:, k]] for k in range(NF))
+            w = g * np.exp(s - s.max()); w /= w.sum()
+            for r in range(R):
+                pick = rng.choice(len(types), size=n, p=w)
+                outs[r][ti] = types[pick]
+    return outs
+
+
+def conj_habit(enc, cols, unit, ugroup, A, B, nulls):
+    a = recur_unit(_codes(enc.F[:, cols]), unit, ugroup, A, B)
+    sh = np.array([(lambda b: b['hits'] - b['exp'])(recur_unit(_codes(N[:, cols]), unit, ugroup, A, B)) for N in nulls])
+    sd = max(sh.std(ddof=1), math.sqrt(max(a['exp'], 1.0)) * 0.5)
+    return {'obs': a['hits'] - a['exp'], 'h_mu': float(sh.mean()), 'z': float((a['hits'] - a['exp'] - sh.mean()) / sd),
+            'lift': a['lift'], 'n': a['n']}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """PE-79 cycle 1: every grammar architecture x 100,000 random grafts, leave-one-civilisation-out.
 
-Usage: pe79_c1.py [half]   half = A (judge trained on PE half A; default) or B (cycle 3 replication).
+Usage: pe79_c1.py [half]   half = A (judge trained on PE half A; default), B (cycle 3 replication), S (half A, signs shuffled).
 Per architecture: the PE judge is trained on one half of the PE tablets.  20,000 random role->sign grafts H
 (same H for every architecture) are scored on every known administration (real role labels and 3 nulls with
 labels permuted inside the corpus) and on PLANT (the other PE half, roles planted from sign identity).
@@ -51,7 +51,9 @@ def run(args):
     if os.path.exists(fn):
         return fn
     A, B = halves()
-    train, other = (A, B) if half == 'A' else (B, A)
+    train, other = (A, B) if half in ('A', 'S') else (B, A)
+    if half == 'S':      # kill control: PE judge trained on half A with signs shuffled over all slots
+        train = C.L.shuffle_types(train, random.Random(C.seed('pe79-S1')))
     arch = ARCHS[ai]
     J = C.Judge(train, arch)
     Kn = len(J.signs)
