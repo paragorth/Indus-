@@ -83,6 +83,7 @@ def resid_from_sets(X):
     return resid(C, k)
 
 
+LOWRANK = int(os.environ.get('V89_LOWRANK', '3'))
 _LAG = {}
 def _lagmat(n):
     if n not in _LAG:
@@ -113,6 +114,10 @@ def resid(C, k=None):
         beta, *_ = np.linalg.lstsq(F, y, rcond=None)
         e = y - F @ beta
         C = np.full((n, n), np.nan); C[I, J] = e; C[J, I] = e
+    if LOWRANK:   # strip the strongest r components (book / block structure shared by any two long texts)
+        Z = np.nan_to_num(C); w, V = np.linalg.eigh(Z)
+        idx = np.argsort(-np.abs(w))[:LOWRANK]
+        C = Z - (V[:, idx] * w[idx]) @ V[:, idx].T
     np.fill_diagonal(C, np.nan)
     return C
 
