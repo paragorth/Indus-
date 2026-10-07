@@ -140,7 +140,7 @@ def eval_h(tabs, h, rels, rng, nullB=False):
     return res
 
 
-def plant(tabs, rng, n_tabs=40):
+def plant(tabs, rng, n_tabs=int(os.environ.get("PE80_NPLANT", 40))):
     pool = [s for t in tabs for l in t['lines'] for s in l['tok']]
     idx = rng.choice(len(tabs), n_tabs, replace=False)
     for i in idx:
