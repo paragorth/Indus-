@@ -12,6 +12,10 @@ G = {}
 def init(corpus, wseed):
     if corpus in ('PE', 'PC'):
         G['T'], G['maps'] = pc.load_corpus(corpus)
+    elif corpus == 'PCS':                   # proto-cuneiform subsampled to the PE tablet count
+        T, G['maps'] = pc.load_corpus('PC')
+        n = len(pc.load_corpus('PE')[0])
+        G['T'] = random.Random(wseed).sample(T, n)
     elif corpus in ('PEPN', 'PEPK'):        # PE with a planted name-magnitude tie (N: >= 2-sign keys; K: any key)
         T, G['maps'] = pc.load_corpus('PE')
         G['T'], nk = pc.plant_magstr(T, seed=wseed, names_only=(corpus == 'PEPN'))

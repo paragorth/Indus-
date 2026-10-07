@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v90_lib as L
 
 def is_content(p, zmin=3.0, gap=0.5):
-    return p.get('lift_z', 0) >= zmin and p.get('lift', 0) - p.get('clift', 1.0) >= gap and p.get('clift_z', 0) < 2.0
+    return p.get('lift_n', 0) >= 50 and p.get('lift_z', 0) >= zmin and p.get('lift', 0) - p.get('clift', 1.0) >= gap and p.get('clift_z', 0) < 2.0
 
 def summarize(pre, name):
     f = os.path.join(L.CK, '%s_%s.json' % (pre, name))
@@ -22,7 +22,7 @@ def summarize(pre, name):
                 fields['+'.join(p['cols'])] += 1
             for p in sv['prof']:
                 zs.append(p.get('lift_z', 0))
-                sp = p.get('lift', 0) - p.get('clift', 1.0)
+                sp = (p.get('lift', 0) - p.get('clift', 1.0)) if p.get('lift_n', 0) >= 50 else -9
                 if best is None or sp > best[0]:
                     best = (sp, '+'.join(p['cols']), p.get('lift', 0), p.get('lift_z', 0), p.get('clift', 0), p.get('clift_z', 0), p['r_page'] * 100, p['r_para'] * 100)
     d0 = r['schemes']['0']

@@ -335,16 +335,16 @@ def plaintext_stream(text_id, need):
     return units
 
 
-def concept_of(w, salt, A=LULL):
+def concept_of(w, salt, A=LULL, npos=2):
     h = int(hashlib.md5((salt + w).encode()).hexdigest(), 16)
     k = len(A)
-    return A[h % k], A[(h // k) % k]
+    return tuple(A[(h // k ** i) % k] for i in range(npos))
 
 
 HOMO = [chr(0x3b1 + i) for i in range(18)]   # 18 synthetic glyphs (homophone partners of LULL18)
 
 
-def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, unit='para', A=None, hstr=0.35, homo=False):
+def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, unit='para', A=None, hstr=0.35, homo=False, npos=2):
     """Carrier = Voynich words shuffled within hand+section (no page signal), lengths >= 4.
     mode 'concept': f2,l2 <- Lullian concept pair of the plaintext token; plaintext laid out entry
                     by entry, one entry starting at each paragraph start (entries continue if short).
@@ -356,9 +356,9 @@ def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, uni
     # pool of long carriers per (sec,hand)
     pool = defaultdict(list)
     for t in base:
-        if len(t['u']) >= 4:
+        if len(t['u']) >= 2 + npos:
             pool[(t['sec'], t['hand'])].append(t['u'])
-    allpool = [t['u'] for t in base if len(t['u']) >= 4]
+    allpool = [t['u'] for t in base if len(t['u']) >= 2 + npos]
     pidx = {p: i for i, p in enumerate(page_order)}
     # smooth habit drifts
     P = len(page_order)
@@ -387,7 +387,7 @@ def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, uni
     for t in base:
         tt = dict(t)
         u = list(t['u'])
-        if len(u) < 4:
+        if len(u) < 2 + npos:
             pl = pool.get((t['sec'], t['hand'])) or allpool
             u = list(pl[int(rng.integers(len(pl)))])
         p = pidx[t['page']]
@@ -400,10 +400,13 @@ def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, uni
             wi += 1
             if wi >= len(units[ui]):
                 ui = (ui + 1) % len(units); wi = 0
-            a, b = concept_of(w, salt, A or LULL) if w not in func else (u[1], u[-2])
+            cc = concept_of(w, salt, A or LULL, npos) if w not in func else (u[1], u[-2], u[2])[:npos]
+            a, b = cc[0], cc[1]
+            c3 = cc[2] if npos > 2 else None
         else:
             a = AA[int(rng.choice(len(AA), p=hab1[p]))]
             b = AA[int(rng.choice(len(AA), p=hab2[p]))]
+            c3 = AA[int(rng.choice(len(AA), p=hab1[(p + 7) % P]))] if npos > 2 else None
         if homo:
             if rng.random() < 0.5 and a in LULL18:
                 a = HOMO[LULL18.index(a)]
@@ -411,6 +414,8 @@ def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, uni
                 b = HOMO[LULL18.index(b)]
         if rng.random() < frac:
             u[1] = a; u[-2] = b
+            if npos > 2:
+                u[2] = c3
         if hdr is not None:
             u[0] = fl[int(rng.choice(len(fl), p=hdr[p]))]
         tt['u'] = u
@@ -422,7 +427,7 @@ def sha(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True).encode()).hexdigest()
 
 
-def recur_lift(enc, v, pages_set, lo=2, hi=20):
+def recur_lift(enc, v, pages_set, lo=2, hi=20, dedup=True):
     """rare wheel values (corpus count lo..hi) on even lines of pages_set: is the value present in the
     odd lines of its own page more often than in the odd lines of the other pages of the same
     section x hand x language stratum? -> lift, z, n. (vectorised)"""
@@ -446,6 +451,9 @@ def recur_lift(enc, v, pages_set, lo=2, hi=20):
     ev = np.where(inset & (enc.par == 1) & (tot[v] >= lo) & (tot[v] <= hi))[0]
     if len(ev) == 0:
         return {'lift': 0.0, 'z': 0.0, 'n': 0, 'hits': 0.0, 'exp': 0.0}
+    if dedup:   # one event per distinct (page, value): repeated tokens of one value are not independent
+        _, first = np.unique(enc.page[ev].astype(np.int64) * K + v[ev], return_index=True)
+        ev = ev[np.sort(first)]
     p = enc.page[ev]; x = v[ev]; c = pc[p]
     m = enc._npc[c] - 1
     ok = m >= 2
@@ -459,3 +467,39 @@ def recur_lift(enc, v, pages_set, lo=2, hi=20):
     H, E, Var = own.sum(), e.sum(), (e * (1 - e)).sum()
     return {'lift': float(H / max(E, 1e-9)), 'z': float((H - E) / math.sqrt(max(Var, 1e-9))), 'n': int(len(e)),
             'hits': float(H), 'exp': float(E)}
+
+
+def page_field_shuffle(enc, Fsub, rng):
+    """permute each column of Fsub independently within each page (keeps every page's field marginals,
+    breaks which values are combined in one word)."""
+    G = Fsub.copy()
+    if not hasattr(enc, '_pidx'):
+        enc._pidx = [np.where(enc.page == p)[0] for p in range(enc.npage)]
+    for idx in enc._pidx:
+        if len(idx) < 2:
+            continue
+        for j in range(G.shape[1]):
+            G[idx, j] = Fsub[idx[rng.permutation(len(idx))], j]
+    return G
+
+
+def _codes(M):
+    if M.shape[1] == 1:
+        return M[:, 0]
+    return np.unique(M, axis=0, return_inverse=True)[1].ravel()
+
+
+def conjunction(enc, Fsub, pages_set, R=8, seed=0):
+    """combination excess: own-page recurrence of rare wheel values (hits - expected) in the real text
+    minus the same in R within-page field shuffles. Habit (page-level field marginals) -> 0."""
+    a = recur_lift(enc, _codes(Fsub), pages_set)
+    obs = a['hits'] - a['exp']
+    rng = np.random.default_rng(seed)
+    sh = []
+    for _ in range(R):
+        b = recur_lift(enc, _codes(page_field_shuffle(enc, Fsub, rng)), pages_set)
+        sh.append(b['hits'] - b['exp'])
+    sh = np.array(sh)
+    sd = max(sh.std(ddof=1), math.sqrt(max(a['exp'], 1.0)) * 0.5)
+    return {'obs': obs, 'sh_mu': float(sh.mean()), 'sh_sd': float(sh.std(ddof=1)), 'z': float((obs - sh.mean()) / sd),
+            'lift': a['lift'], 'lz': a['z'], 'n': a['n']}
