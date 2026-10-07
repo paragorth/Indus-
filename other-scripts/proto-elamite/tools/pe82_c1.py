@@ -115,9 +115,12 @@ def shuffle_strings(T, rng):
 def plant(T, rows_s, b, rng, rate=0.05):
     """Insert sign PLANT into lines with odds ~ exp(b * standardized surprisal); rows_s aligned with flat lines."""
     s = np.array(rows_s)
-    z = (s - s.mean()) / s.std()
-    w = np.exp(b * z)
-    p = np.minimum(1, rate * w / w.mean())
+    from scipy.stats import norm, rankdata
+    z = norm.ppf((rankdata(s) - 0.5) / len(s))      # rank-normal surprisal (heavy tail tamed)
+    a = math.log(rate / (1 - rate))
+    for _ in range(60):                             # calibrate intercept so the mean rate is `rate`
+        p = 1 / (1 + np.exp(-(a + b * z)))
+        a += math.log(rate / p.mean()) * 0.8
     k = 0
     for t in T:
         for l in t['lines']:

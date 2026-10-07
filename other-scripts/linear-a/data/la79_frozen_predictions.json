@@ -1,0 +1,95 @@
+{
+ "P1": {
+  "current_corpus": {
+   "falling": 0.3847,
+   "n": 5308,
+   "rising": 0.2709
+  },
+  "current_non_HT": {
+   "falling": 0.225,
+   "n": 2329,
+   "rising": 0.3804
+  },
+  "falling": [
+   "KU",
+   "KA",
+   "*301",
+   "RO",
+   "RA2",
+   "SI",
+   "ZE",
+   "PA3",
+   "DI",
+   "KI",
+   "PA",
+   "QE",
+   "JU",
+   "RI",
+   "DA"
+  ],
+  "rising": [
+   "JA",
+   "I",
+   "A",
+   "WA",
+   "TA",
+   "MA",
+   "NA",
+   "PI",
+   "NU",
+   "TE",
+   "O",
+   "TO",
+   "SE",
+   "DE",
+   "*164"
+  ],
+  "rule": "on >= 200 new sign tokens from outside Hagia Triada: rising share > 0.271 and falling share < 0.385 (current corpus); support if both hold, kill if both fail",
+  "tablets_past_vs_later": {
+   "later": {
+    "falling": 0.2444,
+    "n": 990,
+    "rising": 0.3263
+   },
+   "past": {
+    "falling": 0.3435,
+    "n": 2140,
+    "rising": 0.2243
+   }
+  },
+  "what": "sign drift: share of the 15 rising vs 15 falling signs (lottery consensus) in a new find set"
+ },
+ "P2": {
+  "rule": "la79_c2 generator, 20,000 hypotheses fitted on all current documents, scored on >= 50 new clean sign-groups (prior mode): share with gain > 0 <= 0.20 supports drift-like behaviour; >= 0.30 kills it",
+  "what": "survival of random role readings"
+ },
+ "P3": {
+  "real_fb": [
+   [
+    0.102,
+    0.24733333333333332
+   ],
+   [
+    0.09133333333333334,
+    0.23533333333333334
+   ],
+   [
+    0.11266666666666666,
+    0.234
+   ]
+  ],
+  "rule": "random readings (la79_c2 generator, 1,500) taught by the non-HT documents gain on a new non-HT archive more often than those taught by the HT documents; support if share(nonHT-taught) - share(HT-taught) >= 0.05, kill if <= 0",
+  "what": "backward > forward transfer"
+ },
+ "P4": {
+  "items": [
+   "aggregate prefixing and suffixing: z >= 2 on >= 150 new types of >= 3 signs (kill: z < 0.5)",
+   "-ME suffix: z >= 1.5 on >= 150 new types (kill: z < 0)",
+   "Linear B shared 3+ sign words: >= 2x a position-preserving shuffle on >= 100 new types (kill: <= 1x)",
+   "commodity order (la20): >= 15 of the next 20 new pairs (kill: <= 10 of 20)"
+  ],
+  "what": "claims that passed the counterfactual-history test, with kill lines on new finds"
+ },
+ "date": "2026-10-07",
+ "loop": "la79"
+}
