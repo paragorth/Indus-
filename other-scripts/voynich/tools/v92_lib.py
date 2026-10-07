@@ -115,6 +115,7 @@ GEN_P = {
 
 def corpus(name):
     """named corpus, cached."""
+    if name.startswith('E_') and not name.endswith(('_WPS', '_WLS')): return corpus_e(name)
     c = pload('corp_%s.pkl' % name)
     if c is not None: return c
     if name in ('ZL3b', 'IT2a', 'GC2a'):
@@ -152,3 +153,37 @@ def recurrence_profile(pages, unit=frame):
 
 
 def sha_obj(o): return hashlib.sha256(json.dumps(o, sort_keys=True, default=str).encode()).hexdigest()
+
+
+def entry_pages(ents, prefix, maxtok=240, line_w=9):
+    """one entry = one page (long entries split into pages of <= maxtok words, continuation pages have no para start)."""
+    pages = []
+    for s, ws in ents:
+        if len(ws) < 30: continue
+        for k in range(0, len(ws), maxtok):
+            chunk = ws[k:k + maxtok]
+            if len(chunk) < 30: break
+            lines = [dict(w=chunk[i:i + line_w], ps=(k == 0 and i == 0)) for i in range(0, len(chunk), line_w)]
+            pages.append(dict(id='%s%03d' % (prefix, len(pages)), sec=s, lang='-', hand='-', quire='-', lines=lines))
+    return pages
+
+
+def surfaced_entry(tid, seed, prefix, cap=36000):
+    ents = entries(tid, cap)
+    words = [w for s, ws in ents for w in ws]
+    code = V.payload_code(words, seed=seed, mode='merge')
+    S = V.surface(V.encode_payload(entry_pages(ents, prefix), code), seed=seed + 1)
+    for p in S:
+        for l in p['lines']: l.pop('orig', None)
+    return S
+
+
+def corpus_e(name):
+    """entry-page plants (E_*), cached."""
+    c = pload('corpE_%s.pkl' % name)
+    if c is not None: return c
+    base = name[2:]
+    i = sorted(PLANTS).index('P_' + base)
+    c = surfaced_entry(PLANTS['P_' + base], 9600 + 11 * i, prefix=base[:2].lower())
+    psave('corpE_%s.pkl' % name, c)
+    return c

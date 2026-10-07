@@ -1,0 +1,44 @@
+# v93 cycle 1 (7 Oct 2026): THE PAGE TRANSLATES ITSELF? Candidate list, choice, calibration and first run. VOY_MODE=glyph.
+# Families already tried (one line each; not repeated):
+#  temporal notation / music / melody (v5, v68); page as grid, reading paths (v6, v50); numbers and counters (v7, v79); drift and writing-order
+#  clocks (v8, v41, v42); volvelles, wheels, Lullian slots (v9, v64, v90); line-initial and first-letter channels (v10, v79, v81, v82);
+#  hidden-map walks (v11); woven streams and word-level text+gloss pairs (v12); picture budget / picture-text (v13, v38; images not used);
+#  dice and evolved generators (v14, v26, v53); lengths (v15); spaces (v16); exemplar ghosts, copying, textual criticism (v17, v54);
+#  pen and ink rhythm (v18, v57, v69, v70); sorting / glossaries (v19); quotas (v20); forgery and meaningless-book comparisons (v21, v42,
+#  v84); paragraph programs, dossiers, records, tables (v22, v37, v52, v76, v80); arrow of time (v23); corrections (v24, v63); glyph
+#  features (v25, v28, v29, v35, v36); line-card shuffling, page order, gutter (v27, v65, v88); dialects A/B and A/B as parallel corpus
+#  (v30, v59); spell texture (v31); calendar and real sky (v32, v55); morphology grids (v33); abbreviation (v34); twins (v39, v40, v63);
+#  islands, residuals, rule-breakers (v43, v45, v49); speech model (v51); hypertext (v56); source by entry lengths and recurrence graph
+#  (v58, v89 running); hot/cold key (v60); sandhi (v61); verse (v62); mind map (v66); line consensus, one word per line (v67, v73);
+#  sentence-shuffle genre (v71); two-layer crack and its codes (v72, v74, v75, v78); transcription audit (v83); scribes' dictionaries (v85);
+#  pressure (v86); ABC plaintext inference (v87); sparse variant channel (v91); page-recurring frames as names (v92 running).
+# Candidates (all: thousands of random hypotheses scored on train folios, survivors re-tested on held-out folios; planted control = a real
+#  text written through the v72 verbose code + surface; kill = line/paragraph shuffles and Voynich-fitted generators):
+#  I1 THE PAGE TRANSLATES ITSELF. Each page holds its content twice: a text and its translation or gloss, interleaved by line, by paragraph,
+#     by half-paragraph, by half-page, or inside each line (first part / second part). A word-translation model (IBM-1) learned on train
+#     folios should predict a unit from its partner far better than from a same-distance non-partner (phase/offset twin); monolingual text,
+#     generators and shuffles give no phase asymmetry. Meaning payoff: a lexicon between the two layers (equivalence classes of words).
+#     Planted: Psalms Hebrew/English verse-by-verse (line interleave and in-line halves), Celsus Latin/English paragraph pairs.
+#  I2 THE MEANING IS IN WHAT EXCLUDES WHAT. Paradigmatic alternatives (hot/cold, root/leaf, a plant's one colour) never share an entry: a
+#     sparse network of page-level MUTUAL EXCLUSIONS between recurring words, beyond spelling habit, is a semantic signature (sets of
+#     alternatives = attribute values). Random word-set hypotheses scored for exclusion; generators make attraction, not exclusion.
+#  I3 IT IS A DIALOGUE. Master-pupil dialogue (common in medieval teaching texts) alternates two speakers with swapped person-deixis.
+#     Random turn segmentations (paragraph, line, run) scored for an alternating two-idiolect mixture with swapped word pairs; planted
+#     dialogue text; kills: N4 says line modes do not alternate (so line-level turns are already unlikely; paragraph turns untested).
+#  I4 THE BOOK QUOTES ITSELF. A capitula list, rubric or summary repeats later headwords in order: search all stretches for order-preserving
+#     subsequences of later paragraphs' distinctive words (not sorted glyph order, which v19 did). Planted capitula list.
+#  I5 COINAGE TREE. A writer inventing code words derives a new word from the code word of a related concept: each type's first occurrence
+#     has a nearest earlier type; parent-child pairs should share contexts more than spelling-matched random earlier types.
+#  I6 THE TEXT IS A RECORD OF ACTIONS ON OBJECTS (state-change log): recipes bind a verb to the objects it changes; objects stop recurring
+#     once consumed. Random verb-class hypotheses scored for 'consumption' (object stops after a verb class). Close to v76/v92-K6; ranked last.
+# Web check (7 Oct 2026): searches on Voynich interlinear / bilingual parallel lines, dialogue / speaker turns, page-level mutual exclusion
+#   (Ising / antonyms) found only the interlinear TRANSCRIPTION file format (Stolfi), forum talk of bilingual codices and Montemurro-Zanette
+#   co-occurrence networks (attraction, not exclusion). A one-part nomenclator idea was dropped (discussed on voynich.ninja, and a cipher-family
+#   move). v12 tested word-level text+gloss PAIRS (no pairing phase); nothing tested line-, paragraph- or half-page translation pairing.
+# Choice for cycle 1: I1. Next: I2, then I3 or I4.
+# Machinery: tools/v93_lib.py (plants, pairing rules, vectorised IBM-1, symmetric phase-asymmetry score), tools/v93_c1.py. Checkpoints
+#   data/v93_ckpt/ (scratch). Rules: ALT (line pairs (1,2),(3,4).. vs (2,3),(4,5).. inside a paragraph, first line left out, equal counts),
+#   PARA (paragraph pairs, same), HALF / PAGEH (line i -> i+h vs i+h+1 inside paragraph / page), HLINE (first part -> second part of a line
+#   vs second part -> next line's first part). Score = held-out bits/token gained over unigram under the rule minus under its twin, averaged
+#   over both translation directions. 400 random hypotheses (rule x word representation whole/core/frame/prefix/suffix x vocabulary x mixing)
+#   x 16 corpora; split = leaf parity (train) and a page hash (selection / test).

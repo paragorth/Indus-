@@ -75,28 +75,28 @@ def surprisal(rows, feats, alpha=0.5):
 
 class Scorer:
     def __init__(self, rows, s, mask):
-        """mask: rows used (a batch group).  Strata = (tab, y, ns)."""
+        """mask: rows used (a batch group).  Strata = (tab, y, length WITHOUT the marker signs), built per hypothesis,
+        so an optional marker is compared with the same entry written without it."""
         idx = np.where(mask)[0]
         key = {}
-        st = np.array([key.setdefault((rows[i]['tab'], rows[i]['y'], rows[i]['ns']), len(key)) for i in idx])
-        self.idx, self.st, self.K = idx, st, len(key)
-        n = np.bincount(st, minlength=self.K).astype(float)
-        sv = s[idx]
-        mean = np.bincount(st, sv, self.K) / np.maximum(n, 1)
-        self.r = sv - mean[st]
-        self.n = n
-        self.Srr = np.bincount(st, self.r ** 2, self.K)
+        self.base = np.array([key.setdefault((rows[i]['tab'], rows[i]['y']), len(key)) for i in idx])
+        self.L = np.array([len(rows[i]['sg']) for i in idx])
+        self.idx = idx
+        self.sv = s[idx]
 
-    def z(self, x):
+    def z(self, x, cnt=None):
         x = x[self.idx].astype(float)
-        sx = np.bincount(self.st, x, self.K)
-        mx = sx / np.maximum(self.n, 1)
-        xc = x - mx[self.st]
-        T = (xc * self.r).sum()
-        Sxx = np.bincount(self.st, xc ** 2, self.K)
-        ok = self.n > 1
-        V = (Sxx[ok] * self.Srr[ok] / (self.n[ok] - 1)).sum()
-        return T / math.sqrt(V) if V > 0 else 0.0, int(x.sum())
+        c = self.L if cnt is None else self.L - cnt[self.idx]
+        k = self.base * 8 + np.minimum(c, 7)
+        _, st = np.unique(k, return_inverse=True)
+        K = st.max() + 1
+        n = np.bincount(st, minlength=K).astype(float)
+        r = self.sv - (np.bincount(st, self.sv, K) / n)[st]
+        xc = x - (np.bincount(st, x, K) / n)[st]
+        T = (xc * r).sum()
+        ok = n > 1
+        V = (np.bincount(st, xc ** 2, K)[ok] * np.bincount(st, r ** 2, K)[ok] / (n[ok] - 1)).sum()
+        return (T / math.sqrt(V) if V > 0 else 0.0), int(x.sum())
 
 
 def shuffle_strings(T, rng):
@@ -155,6 +155,7 @@ def run(corpus, mode, seed=0, n_rand=2000, top_signs=150):
             seen.add(h); hyps.append(h)
     sgsets = [set(r['sg']) for r in rows]
     X = {h: np.array([bool(sg & set(h)) for sg in sgsets]) for h in hyps}
+    CN = {h: np.array([sum(1 for x in r['sg'] if x in set(h)) for r in rows]) for h in hyps}
     nslen = np.array([r['ns'] for r in rows], float)
     models = [m for k in (1, 2, 3) for m in itertools.combinations(FEATS, k)]
     rng.shuffle(models)
@@ -168,7 +169,7 @@ def run(corpus, mode, seed=0, n_rand=2000, top_signs=150):
             sc = Scorer(rows, s, np.isin(batch, list(C)))
             # length-level UID: n-signs vs surprisal within (tab, y) -> strata ignore ns: use separate scorer
             for h in hyps:
-                zd, nd = sd.z(X[h]); zc, nc = sc.z(X[h])
+                zd, nd = sd.z(X[h], CN[h]); zc, nc = sc.z(X[h], CN[h])
                 res.append((m, si, h, round(zd, 3), round(zc, 3), nd, nc))
         # length level
     return rows, res, models

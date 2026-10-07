@@ -52,3 +52,16 @@ Pre-registration (written before any site statistic or environmental value is co
  Susa's (|log precipitation - log precipitation at Susa|) write more like Susa. One-sided Spearman over 4 outposts, exact p over
  24 orderings (floor 0.042). Secondary (directed, Bonferroni x4): distance from Susa (farther = less Susa-like), |temperature
  difference|, |elevation difference|; descriptive: area. Undirected PC1/PC2 vs every ruler is reported as descriptive only.
+
+RESULTS (tools/pe81_engine.py, tools/pe81_cycle1.py, tools/pe81_outside.py; checkpoint data/pe81_ckpt/cycle1.json)
+Data: common.load() (rd). Tablets: Susa 1,488, Yahya 27, Malyan 22, Sialk 12, Sofalin 11. 182 tablet features (system mix, 16
+numeral codes, layout, magnitudes, damage share, 136 sign-presence flags). 20,000 random 1-3-feature statistics; 60 half-splits
+each (Susa subsampled to 12+12); 20 re-dealt corpora per null; 12 planted gradients.
+
+| PE-81.1.1 | Random statistics whose ordering of the 5 sites repeats between disjoint tablet halves (tau >= 0.8), vs 20 corpora with tablets re-dealt among sites (99th-pct stability threshold) | 609 survivors vs null 63-519 (all 20 below) | B (restates pe18/pe65): the sites differ, driven by Susa vs plateau (distinct-sign count, capacity share, signs per entry, reverse numerals) |
+| PE-81.1.2 | Same, OUTPOSTS ONLY (Malyan, Yahya, Sialk, Sofalin; tau = 1), null = tablets re-dealt among outposts | 352 survivors vs null 20-480 (4 of 20 nulls higher; p ~ 0.2) | B (negative): the text does not order the four outposts beyond chance at these sizes |
+| PE-81.1.3 | Planted power: outpost k gets 0/15/30/45% of its tablets replaced by Susa tablets in a hidden order; text-only Susa-likeness D must recover the order (12 plants) | exact order 2/12; mean Spearman 0.17 | A (method limit): a 45% Susa admixture gradient is not recoverable from 11-27 tablets per site. Kill line (planted < 50%) reached |
+| PE-81.1.4 | Frozen text-side axes (data/pe81_frozen_axes.json, sha256 ad67944ff8fc5511...), written BEFORE any environmental value was fetched. D (lower = more Susa-like): Malyan 0.34, Yahya 0.40, Sialk 0.51, Sofalin 0.57; half-split rank agreement 0.15 | frozen | unreliable by its own split check |
+| PE-81.1.5 | OUTSIDE TEST. NASA POWER climatology + Open-Meteo elevation + great-circle distance (data/pe81_environment.json, fetched after the freeze). Primary: D vs |log precipitation difference from Susa| (one-sided Spearman, exact over 24 orderings) | rho 0.20, p 0.46. Secondary: distance rho 0.0 (p 0.54); |dT| 0.8 (p 0.17); |d elevation| -1.0 (p 1.0). Undirected PC1: |rho| 0.2-0.8, none interpretable | B (negative): outposts that live in Susa-like weather do not write more like Susa. Uninformative anyway (PE-81.1.3) |
+| PE-81.1.V | Verdict K1 | The text sorts Susa from the plateau (known) but cannot order the outposts, and a planted 45% gradient is invisible, so any climate, distance or elevation link among PE outposts is untestable with 72 outpost tablets | DEAD. A (method limit): site-level outside tests need >= ~60 tablets per outpost; B (negative) on the frozen primary |
+Next: K7 is the same five-point design with the same power wall, so it is dropped. Cycle 2 moves to a test with many outside data points.

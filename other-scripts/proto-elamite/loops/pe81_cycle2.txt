@@ -1,0 +1,35 @@
+pe81 cycle 2 (7 Oct 2026): THE BLANK IS THE FORM (silhouettes as outside data).
+
+Why this: cycle 1 showed site-level outside data has five points and no power. Photographs are outside data with ~1,000 points:
+nobody interpreting Proto-Elamite produced the outline of a clay blank. pe75 used only catalogue height/width/thickness and
+pe26 only colour/texture. Here only the SHAPE of the outline counts, with size and aspect removed: corner fill, rectangularity,
+convexity, taper, side bulge, and the pillow profile of the top edge (lens vs slab). Idea (counter-intuitive): the blank was
+shaped for a kind of document before any sign was written, so the outline is a pre-printed form, and text classes should be
+predictable from outline shape on tablets the model never saw. Conventional decipherers read signs; this ignores them.
+Web check (7 Oct 2026): Dahl's 'writing phases' describe tablets as oblong / flat / rectangular (qualitative, by eye); no
+quantitative outline study and no shape-vs-content test found. (Dahl's interpretation is not used as evidence.)
+
+Design (pre-registered before any shape feature is computed):
+ - Shapes: CDLI thumbnails (pe26 cache, ~300 px fat-cross) segmented on the black background; obverse = largest blob in the
+   upper half, top edge = blob above it. 10 scale-free features. Size/aspect covariates (log area, aspect, thickness/width from
+   the catalogue, plus damage share 'frac_x') are regressed out of every shape feature and every text feature.
+ - Text: the 182 pe81 tablet features (no meaning used).
+ - Massive random guessing: 20,000 random (1-2 text features, 1-2 shape features, signs) pairs; partial Spearman on a
+   training half (tablets split by museum-number blocks of 10, so drawer neighbours stay together); survivors = |rho| above
+   the 99.9th percentile of the same statistic with text rows shuffled within size x damage strata; re-tested on the held-out half.
+ - Kill: held-out replication rate of survivors (same sign, p < 0.05) not above the shuffled-row null (95th pct over 20 nulls).
+ - Planted control: a fake text feature correlated with one shape feature at partial rho 0.15 / 0.25 must be recovered on the
+   held-out half.
+ - Outside freeze: if anything survives, its predictions for the 88 untransliterated Tehran tablets (P520211-P520300, from their
+   photos) are frozen with sha256 for checking when they are transliterated.
+
+RESULTS (tools/pe81_shapes.py, pe81_cycle2.py, pe81_cycle2b.py, pe81_cycle2c.py, pe81_cycle2d.py; data/pe81_ckpt/cycle2*.json)
+Segmentation: 1,698 photos, 1,637 outlines, 1,527 with a top edge. Check: photo aspect vs catalogue height/width, rho 0.915.
+
+| PE-81.2.1 | 20,000 random (text feature x outline feature) pairs, size/aspect/thickness/damage regressed out; train/held-out split by Sb blocks of 10 (563/582 tablets); threshold = 99.9th pct of within-stratum row shuffles | 310 survivors, 248 replicate held out; 20 shuffled-row pipelines: 1-71 survivors, 0-3 replicate | B: the outline of the blank carries text information beyond size, aspect, thickness and damage |
+| PE-81.2.2 | Planted: fake text feature tied to one outline feature at partial rho 0.15 / 0.25 | found 5/6 and 6/6 | A: the test has power at the effect sizes seen |
+| PE-81.2.3 | What carries it: features in the 248 replicated pairs | header 126, numeric-only lines 82, M157 18; outline: rectangularity, corner fill, bulges | headers dominate |
+| PE-81.2.4 | Breakage check: header vs corner fill on tablets the catalogue calls 'complete', and on tablets with an intact first line and no x | median corner fill with vs without header: all 0.48 vs 0.32 (p 3e-39); complete (n 150) 0.59 vs 0.37 (p 1e-8); intact text (n 183) 0.58 vs 0.40 (p 7e-6); complete + intact (n 44) 0.64 vs 0.47 (p 0.0009). The top-vs-bottom corner asymmetry (breakage signature) vanishes on complete tablets (p 0.44) | the corner effect is not breakage; the asymmetry part was |
+| PE-81.2.5 | Partial correlation (rank corner fill vs header | log area, log aspect, thickness/width, log lines, damage, reverse use, squares), stratified permutation (5,000) | all n 1,202 r 0.35 (p 2e-4); complete 0.37 (p 2e-4); complete and no x (n 56) 0.33 (p 0.018); Susa no-x 0.27 (p 2e-4); random fake header 0.04 (p 0.21) | B |
+| PE-81.2.6 | Photo artefact check: segmentation threshold 25 / 40 / 70 and obverse brightness as covariate (dark clay segments worse) | partial r 0.353 / 0.349 / 0.340; brightness vs header r 0.13 | not a segmentation or clay-colour artefact |
+| PE-81.2.V | Verdict | Square-cornered blanks carry a header line; rounded blanks do not, beyond size, shape ratio, thickness, line count, damage, threshold and brightness | B (new; outside data = photo outlines). Meaning still open: form chosen before writing, or a period/office habit (cycle 3) |
