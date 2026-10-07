@@ -1,0 +1,16 @@
+pe84 cycle 3 (7 Oct 2026): CALIBRATION ON PROTO-CUNEIFORM AND A FROZEN OUTSIDE PREDICTION. Written before running.
+
+ 3a Same meter, other script. 280 Uruk III/IV proto-cuneiform tablets (full CDLI photos, random draw of those with a
+    photo, a width and an inscribed reverse; text from data/pe2_pc_corpus.json). Within-tablet test as PE-84.1.3
+    (numeral share difference vs physical difference). Expectation if the meter is general: same signs as PE (depth and
+    E04 down, big-granule share up on the numeral-richer face). If PC differs, the PE meter result is script- or
+    photo-specific.
+ 3b Clay clock on PC with the numeral control (as K1b). Proto-cuneiform reverses very often carry totals; if the
+    calibrated clock shows 'later, shallower totals' in PC but not in PE, PE totals were written in one sitting with the
+    entries; if neither shows it, the method cannot see drying stages at CDLI photo resolution.
+ 3c Frozen outside prediction (Tehran): for the 87 untransliterated Tehran Susa tablets (P520211-P520300; photos in
+    the scratchpad from pe81), the meter-only classifier (logistic on the reverse-minus-obverse physical differences,
+    trained on the 815 Louvre/Tehran transliterated tablets) predicts which have a 'total-only reverse' (<= 2 numeric
+    lines) vs anything else (blank or longer reverse). Training AUC is reported with 5-fold CV and the held-out publication half; the
+    per-tablet probabilities are frozen with sha256 before anyone transliterates them. Would support (B): AUC >= 0.70 on
+    the Tehran tablets once read. Would kill: AUC < 0.60.

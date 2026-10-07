@@ -175,6 +175,8 @@ if __name__ == '__main__':
         except Exception:
             pass
     res = json.load(open(outp)) if os.path.exists(outp) else {}
+    if os.environ.get('PE84_FIXW'):
+        W = {p: float(os.environ['PE84_FIXW']) for p in ids}
     todo = [(p, os.path.join(d, p + '.jpg'), W.get(p)) for p in ids
             if p not in res and os.path.exists(os.path.join(d, p + '.jpg')) and W.get(p)]
     print('todo', len(todo), flush=True)
