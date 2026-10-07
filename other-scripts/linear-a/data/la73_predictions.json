@@ -1,0 +1,34 @@
+{
+ "abc_simulator": {
+  "new_types_q10_q50_q90": [
+   20.0,
+   41.0,
+   74.0
+  ],
+  "old_types_reappearing_q10_q50_q90": [
+   47.0,
+   66.0,
+   82.0
+  ],
+  "share_of_tokens_already_seen_q10_q50_q90": [
+   0.553,
+   0.752,
+   0.877
+  ],
+  "status": "FAILED its own validation (truth inside the 80 % interval in 0 of 3 HT splits (3 of 3 Ur III); misses in both directions); kept only as a test of the writers-in-time simulator: expected to be killed"
+ },
+ "calibrated_baseline": {
+  "assumption": "new tablets come from the same archive population; a new deposit or genre (la15 habitat novelty) is expected to push the share down",
+  "kill": "observed share outside [q10, q90] on >= 50 new HT tablets",
+  "method": "Good-Turing seen-token share at n = 158 (0.472) + error distribution of 1,000 random HT 108/50 splits",
+  "share_of_tokens_already_seen_q10_q50_q90": [
+   0.375,
+   0.46,
+   0.545
+  ]
+ },
+ "corpus": "corpus_ra.json rd; Hagia Triada tablets with >= 1 word of >= 2 signs (158 tablets, 615 tokens; bridged and erased words out)",
+ "created": "2026-10-07",
+ "loop": "la73",
+ "target": "the next >= 50 Hagia Triada tablets with words (RILA-S1 or new finds), word tokens of >= 2 signs, read + damaged"
+}
