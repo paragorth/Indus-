@@ -149,13 +149,13 @@ Data: lineara.xyz (1,721 inscriptions, 65% from Hagia Triada); Linear B from DAM
 | KU-RO = total: 9 of 30 sections add up exactly against 0.5 by chance; 8 of 29 without erased lines; 5 of 11 on cleanly read tokens (P < 0.0001). | test 2a, la71 | A |
 | KI-RO is a residual amount or a list heading. | test 2a | B |
 | The fraction signs have a strict writing order (0 of 500 random relabellings match it). | attack 1 | A |
-| Which fraction sign appears depends on the commodity (P 0.0002). | test 2b | B |
+| Which fraction sign appears depends on the commodity (P 0.0002). | test 2b, la79 | C (la79: fails digging-order time travel) |
 | Commodity logograms are written in a fixed order by commodity, not by size (held out 0.715 against 0.50). | la20 | A |
 | An ordered basket after SA-RA₂ (GRA/CYP, then NI, then VIN) is the only relation besides KU-RO that forgers cannot fake. | la46, kept by la71 | B |
 | Numbers on one tablet share a scale. | la14 | A |
 | D is a counted part (written 2-4 times); K, L2, JE, F, H are never repeated, so they act as single denominations. | la27 | B |
 | 12 words of 3+ signs shared with Linear B, against 2.0 by chance. | test 2e | A (as a statistic) |
-| Affixes are real (prefixes and suffixes z about 6); -TE, -ME and JA- belong to objects, not tablets. They do not predict new forms. | test 2f, attack 2 | B |
+| Affixes are real (prefixes and suffixes z about 6); -TE, -ME and JA- belong to objects, not tablets. They do not predict new forms. | test 2f, attack 2, la79 | A for affixing as a whole (la79 time travel); single prefixes I-, A-, KI- C- |
 | With the Linear B-derived values, Linear A obeys language-independent sound rules better than 99.996% of relabelings, as strongly as Linear B's own values at the same size. Rows supported: pure vowels, M, T (held out), R, K. | la38 | B |
 | Blind consonant rows agree with the Linear B-derived series. | la21 | B |
 | No Linear B-like doublets among the common signs; one-sign variants are weakly sound-structured and local to a site and hand. | la37, la32, la13 | B |
@@ -169,6 +169,8 @@ Data: lineara.xyz (1,721 inscriptions, 65% from Hagia Triada); Linear B from DAM
 
 **Audit (la71).** lineara.xyz has no per-sign GORILA apparatus, and our old corpus counted 15 erased tokens and 31 words joined across breaks as text. The rebuilt corpus changed no A result. Grades moved down: the la45 counted-commodity class B -> C; HT 127b running total C -> C-; NI with houses and consonant-repeat avoidance C+ -> C.
 
+**Time-travel audit (la78, la79).** Hypotheses that fit the published corpus best predicted later finds worst, and random-document cross-validation rewards overfitting; a truth planted only at Hagia Triada passes 73-80% of random splits but 0 of 31 digging orders. Re-graded on 62 digging orders and the 1950/1976/1988 cuts: affixing B -> A; commodity order A -> B; fraction-by-commodity B -> C; prefixes I-, A-, KI- and SI- -> C-; shared first sign C+ -> C-; consonant-repeat avoidance C -> C- (vowel position). Kept: -ME (B), Linear B shared words (A), fraction order (A). Frozen: data/la78_frozen_ranking.json, data/la79_frozen_predictions.json.
+
 **Crack attempts (la60, la70, la72).** The frozen reading (V2c) beats its own role shuffles by 3.3% of held-out documents (2.3% on read-only tokens). All of the gain is KU-RO arithmetic, the *308 fraction rule and commodity order. A true Linear B partial reading gains the same, and so does a copy with a third of its items replaced by random words, so this test cannot grade word readings. The ledger is parsed (B); the language is unread (69% of word tokens, every entry name).
 
 ### 2.2 Surviving C-grade leads
@@ -177,7 +179,7 @@ Data: lineara.xyz (1,721 inscriptions, 65% from Hagia Triada); Linear B from DAM
 |---|---|---|---|
 | LA and LB share a staple order: grain, olive good, figs, wine | la50, la67, la72 | C+ (its edge over la60's order was killed on read-only tokens, la72) | olive goods after VIN on 3+ new baskets |
 | QA behaves like a pure vowel | la21, la67 | C+ | QA at shuffle level in a larger run |
-| Consecutive entries share their first sign outside Hagia Triada | la14, la67 | C+ | |
+| Consecutive entries share their first sign outside Hagia Triada | la14, la67, la79 | C- (la79) | |
 | Room links: TE, A-DU, QA2 (Villa magazines / houses) C+; NI C | la51, la67, la71 | C+ / C | new finds in the other kind of room |
 | KI before a number marks a reduced amount (rests mostly on HT 118) | la66, la70, la72 | C (weaker after la72) | KI amounts >= the entry above in half of 10 new cases |
 | *308 is a fraction-bound commodity sign | la63, la67 | C | *308 with a bare integer on a new tablet |
@@ -185,8 +187,8 @@ Data: lineara.xyz (1,721 inscriptions, 65% from Hagia Triada); Linear B from DAM
 | HT 9b scales three of HT 9a's recipients by 4/5 (only works if J = 1/2) | la24 | C | a re-reading of the J signs on HT 9a |
 | PA-DE is a specially marked entry | la53 | C | PA-DE as an ordinary crowded entry on a new tablet |
 | *28B-NU-MA-RE and SI-PI-KI belong to the one Zakros wine template | la65 | C | either word on a tablet of another template or commodity |
-| SI- as an alternating prefix | la18 | C | q > 0.1 within Hagia Triada alone |
-| Consonant repeats avoided inside words (Hagia Triada only) | la10, la71 | C | |
+| SI- as an alternating prefix | la18, la79 | C- (la79) | q > 0.1 within Hagia Triada alone |
+| Consonant repeats avoided inside words (Hagia Triada only) | la10, la71, la79 | C- (la79: the effect is vowel position) | |
 | Also C: TA-I with AROM; HT 95b a grain document; no standing quotas; layout profiles; the easier sailing leg; separate site administrations; the la45 commodity class | various | C | see FINDINGS |
 | C-: final alternations SI~TI, TI~TE, RE~ME; entry words returning with their commodity; Greek-type suffixing lean; syllabic commodity words; HT 127b running total; a jar-sized wine unit | | C- | |
 
