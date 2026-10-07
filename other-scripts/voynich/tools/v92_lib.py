@@ -120,6 +120,10 @@ def corpus(name):
     if c is not None: return c
     if name in ('ZL3b', 'IT2a', 'GC2a'):
         c = V.voynich(name)
+    elif name.startswith('LE_'):
+        c = entry_pages(entries(PLANTS['P_' + name[3:]]), 'le')
+    elif name.startswith('L_'):
+        c = V._pages_from_entries(entries(PLANTS['P_' + name[2:]]), None, line_w=9, page_tok=160, cap=36000, prefix='pl')
     elif name in PLANTS:
         i = sorted(PLANTS).index(name)
         c = surfaced(entries(PLANTS[name]), 9200 + 11 * i, prefix=name[2:4].lower())

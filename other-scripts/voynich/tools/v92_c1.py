@@ -146,7 +146,7 @@ def _offsets(cols, fi, ei, y, z_f, z_e, prior=20.0, passes=3):
         for k, (a, b, K, off) in enumerate(codes):
             p = 1 / (1 + np.exp(-zf))
             g = np.bincount(a, weights=yf - p, minlength=K)
-            h = np.bincount(a, weights=p * (1 - p), minlength=K) + prior * 0.1
+            h = np.bincount(a, weights=p * (1 - p), minlength=K) + prior * 0.5
             d = g / h
             off += d; zf += d[a]; ze += d[b]
     return ze
@@ -245,7 +245,7 @@ def run(name):
     return name, res['secs']
 
 
-NAMES = ['P_KONRAD', 'ZL3b', 'P_APIC', 'G_LX', 'P_HYGIN', 'IT2a', 'G_SEED', 'P_CIRCA', 'GC2a', 'G_SELF', 'P_CULP', 'G_GM']
+NAMES = ['P_KONRAD', 'ZL3b', 'P_CIRCA', 'G_LX', 'L_CIRCA', 'IT2a', 'P_APIC', 'G_SEED', 'P_HYGIN', 'GC2a', 'L_KONRAD', 'G_SELF', 'P_CULP', 'G_GM']
 
 if __name__ == '__main__':
     from multiprocessing import Pool

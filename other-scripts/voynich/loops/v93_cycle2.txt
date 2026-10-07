@@ -1,0 +1,13 @@
+# v93 cycle 2 (7 Oct 2026): THE MEANING IS IN WHAT EXCLUDES WHAT (candidate I2). VOY_MODE=glyph.
+# Change of medium: pages are islands and word types are species. Diamond's checkerboard test from community ecology asks which species
+#   pairs share fewer islands than fixed island sizes and fixed species frequencies allow (curveball swap null, both margins kept,
+#   swaps only inside a stratum = section x Currier language). Alternatives of one attribute (perennial / annual, hot / cold, one colour
+#   per plant) should form checkerboard sets in a text that names things; copying and spelling habit make attraction.
+# Random guessing: per corpus x unit (page, paragraph) x representation (whole, core, frame): 20,000 random 2-4 word sets + 5,000 greedy
+#   sets from random seeds, scored on train units (mean pairwise exclusion z, 40 curveball samples); the 50 best disjoint sets re-scored
+#   on held-out units against the held-out pair distribution. Tools: tools/v93_ex.py, v93_c2.py, v93_c2_report.py; checkpoints data/v93_ckpt/c2_*.json.
+# Planted: Italian herbal (v21_IT, 237 entries), Latin (v21_LA, 106), Konrad's Buch der Natur plants (176), each entry a page, v72 code + surface.
+# Kills: copy-and-vary generator fitted to the Italian plant; SELFCIT, MK2, JUNC, WSHUF fitted to ZL3b.
+| V-93.c.3 | Calibration of I2: held-out exclusion of the 50 best train sets, in SE units of the held-out pair distribution (zSE), for planted herbals and kills | Plants: HERB_IT max zSE 2.2 (core), HERB_LA 0.9, HERB_KO 0.5; copy generator on HERB_IT 1.3; Voynich-fitted kills up to 1.9 (WSHUF frame), SELFCIT 0.9, MK2 0.7, JUNC 1.3. Real alternatives do appear among the Italian plant's train sets (perenne / annua, train z 2.4) but do not replicate as a group | Method failure (A, negative): at 50-240 entries of 100-200 words, page-level exclusion between words cannot be told from chance, even in a real herbal |
+| V-93.c.4 | Voynich ZL3b and IT2a, same search | Max zSE: ZL3b 1.4 (page whole / frame), IT2a 2.3 (para core) and 2.2 (para whole); the best ZL and IT2a sets share no members (e.g. ZL okedy/kaiin, IT2a Seey/dair) | B (negative, within reach): the Voynich has no more page-level checkerboard structure than a within-section word shuffle; the instrument is too weak to say more |
+| V-93.c.V | Cycle verdict I2 | - | THE MEANING IS NOT VISIBLE IN WHAT EXCLUDES WHAT, but only because nothing is at this scale: a real herbal shows no held-out checkerboards either. Dead as a method for corpora this small. Would revive: a corpus of > 1,000 entries, or exclusion measured on recurrent frames inside entries of one section with many parallel entries |

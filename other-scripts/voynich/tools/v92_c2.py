@@ -139,7 +139,7 @@ def run(name):
     return name, res['secs']
 
 
-NAMES = ['E_KONRAD', 'ZL3b', 'E_CIRCA', 'G_LX', 'E_APIC', 'IT2a', 'E_HYGIN', 'G_SEED', 'E_CULP', 'GC2a', 'G_SELF', 'G_GM',
+NAMES = ['E_KONRAD', 'ZL3b', 'LE_KONRAD', 'LE_CIRCA', 'E_CIRCA', 'G_LX', 'E_APIC', 'IT2a', 'E_HYGIN', 'G_SEED', 'E_CULP', 'GC2a', 'G_SELF', 'G_GM',
          'ZL3b_WPS', 'E_KONRAD_WPS']
 
 if __name__ == '__main__':

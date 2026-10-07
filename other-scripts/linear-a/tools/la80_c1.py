@@ -44,7 +44,7 @@ def shape_matrix(B, keep):
             M[i, j] = B['TS'][k].get(s, np.nan)
     return M
 
-def score_pool(pool, B, keep_idx, M, X, groups, min_pos=5):
+def score_pool(pool, B, keep_idx, M, X, groups, min_pos=5, TV=None):
     """partial Spearman per hypothesis; per-group signs."""
     Rs = []
     for j in range(M.shape[1]):
@@ -53,8 +53,8 @@ def score_pool(pool, B, keep_idx, M, X, groups, min_pos=5):
     out = []
     ug = [g for g in sorted(set(groups)) if g != '?']
     gidx = {g: np.array([x == g for x in groups]) for g in ug}
-    for (h, j) in pool:
-        t = TX.eval_text_feature(h, B['F'], B['S'], B['G'], B['first'])[keep_idx]
+    for ii, (h, j) in enumerate(pool):
+        t = TV[ii] if TV is not None else TX.eval_text_feature(h, B['F'], B['S'], B['G'], B['first'])[keep_idx]
         ok, rs = Rs[j]
         if rs is None: out.append(None); continue
         tt = t[ok]
@@ -98,7 +98,8 @@ def main_select():
     Fn = sorted(B['F'])
     pool = [(TX.random_text_feature(rng, Fn, sign_pool, logo_pool), int(rng.integers(len(SHAPES)))) for _ in range(NH)]
     log = {'n_tablets': len(keep), 'n_faces': len(ht_ids), 'groups': collections.Counter(groups), 'sign_pool': len(sign_pool), 'logo_pool': logo_pool}
-    sc = score_pool(pool, B, keep_idx, M, X, groups)
+    TV = [TX.eval_text_feature(h, B['F'], B['S'], B['G'], B['first'])[keep_idx] for h, j in pool]
+    sc = score_pool(pool, B, keep_idx, M, X, groups, TV=TV)
     S_real = survivors(sc)
     log['n_valid'] = sum(s is not None for s in sc); log['real_surv'] = len(S_real)
     # shuffle control: shapes permuted among tablets within line-count tertiles
@@ -108,7 +109,7 @@ def main_select():
         perm = np.arange(len(keep))
         for t in set(tert):
             ix = np.where(tert == t)[0]; perm[ix] = rng.permutation(ix)
-        sc2 = score_pool(pool, B, keep_idx, M[perm], X, groups)
+        sc2 = score_pool(pool, B, keep_idx, M[perm], X, groups, TV=TV)
         s2 = survivors(sc2); shuf.append(len(s2)); shuf_sets.append(s2)
     log['shuffle_surv'] = shuf
     # planted control: 3 links per world, effect added to the shape rank
@@ -125,7 +126,7 @@ def main_select():
             zt = (t - t.mean()) / t.std()
             Mp[ok, j] = col[ok] + 0.35 * np.nanstd(col) * zt[ok]
             links.append(i)
-        sc3 = score_pool(pool, B, keep_idx, Mp, X, groups)
+        sc3 = score_pool(pool, B, keep_idx, Mp, X, groups, TV=TV)
         s3 = set(survivors(sc3))
         planted.append(sum(l in s3 for l in links))
     log['planted_found_of_3'] = planted
@@ -143,7 +144,7 @@ if __name__ == '__main__':
                           'valid pairs (sign of their HT r). Kill: primary share <= 0.60 or not above the 95th pct of shuffled-run survivors.',
                   'survivors': [hj(i) for i in S_real],
                   'shuffle_survivors': [[hj(i) for i in s] for s in shuf_sets],
-                  'random_ref': [hj(i) for i in np.random.default_rng(81).choice([i for i, s in enumerate(sc) if s is not None], 2000, replace=False)],
+                  'random_ref': [hj(i) for i in np.random.default_rng(81).choice([i for i, s in enumerate(sc) if s is not None], min(2000, sum(s is not None for s in sc)), replace=False)],
                   'log': {k: (dict(v) if isinstance(v, collections.Counter) else v) for k, v in log.items()}}
         fn = os.path.join(L.DATA, 'la80_frozen_c1.json')
         json.dump(frozen, open(fn, 'w'), indent=0, default=float)
