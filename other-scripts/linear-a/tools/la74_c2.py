@@ -15,7 +15,10 @@ def run_site(name, st, sites, signs, V):
     with Pool(2) as P:
         out = P.map(C1.job, [(900 + w, train, test, signs, V) for w in range(2)])
     res = sorted([r for o in out for r in o], key=lambda r: -r['gtr'])
-    top = res[:len(res) // 100]
+    top0 = res[:C1.NTOP]
+    with Pool(2) as P:
+        out = P.map(C1.refine_job, [(4242 + w, top0[w::2], train, test, V, signs) for w in range(2)])
+    top = sorted([r for o in out for r in o], key=lambda r: -r['gtr'])
     summ = dict(name=name, n_train=len(train), n_test=len(test), best_gtr=top[0]['gtr'],
                 top_gte_mean=float(np.mean([r['gte'] for r in top])), top_gte_pos=int(sum(r['gte'] > 0 for r in top)),
                 ntop=len(top), frac_e1=float(np.mean([r['e'] == 1.0 for r in res])),
