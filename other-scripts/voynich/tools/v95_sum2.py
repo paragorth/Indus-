@@ -5,7 +5,7 @@ import v95_lib as L, v95_c2 as C
 
 
 def table(name, top=20):
-    d = json.load(open(os.path.join(L.CK, 'c2_%s.json' % name)))
+    d = json.load(open(os.path.join(L.CK, ('c2_%s.json' if os.environ.get('V95_TWIN', 'slot') == 'slot' else 'c2L_%s.json') % name)))
     H = C.hypotheses(d['nh']); rs = []; lg = []
     for r, h in zip(d['rows'], H):
         if 'te' not in r: continue

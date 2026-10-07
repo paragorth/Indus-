@@ -334,3 +334,20 @@ def justify(pages, seed, width=(36, 46)):
         if cur: lines.append(dict(w=cur, ps=ps))
         out.append(dict(p, lines=lines))
     return out
+
+
+def slot_swap_len(pages, seed):
+    """as slot_swap, but a word is exchanged only with a word of the same glyph length: every line keeps its exact glyph
+    length (so any fixed ink width / justification is preserved in the null)."""
+    rng = random.Random(seed); grp = defaultdict(list)
+    for pi, p in enumerate(pages):
+        for li, l in enumerate(p['lines']): grp[(p['sec'], len(l['w']))].append((pi, li))
+    new = [[l['w'][:] for l in p['lines']] for p in pages]
+    for (sec, n), locs in grp.items():
+        for j in range(n):
+            byl = defaultdict(list)
+            for pi, li in locs: byl[len(pages[pi]['lines'][li]['w'][j])].append((pi, li))
+            for ln, ll in byl.items():
+                ws = [pages[pi]['lines'][li]['w'][j] for pi, li in ll]; rng.shuffle(ws)
+                for (pi, li), w in zip(ll, ws): new[pi][li][j] = w
+    return [dict(p, lines=[dict(l, w=w) for l, w in zip(p['lines'], nw)]) for p, nw in zip(pages, new)]

@@ -76,10 +76,12 @@ def legal(Xf, ends, c):
 
 
 def run(name, nh):
-    out = os.path.join(L.CK, 'c2_%s.json' % name)
+    TW = os.environ.get('V95_TWIN', 'slot')
+    out = os.path.join(L.CK, ('c2_%s.json' if TW == 'slot' else 'c2L_%s.json') % name)
     if os.path.exists(out): return
     t0 = time.time(); C = L.corpus(name)
-    vs = [C] + [L.slot_swap(C, 9700 + s) for s in range(NT)]
+    sw = L.slot_swap if TW == 'slot' else L.slot_swap_len
+    vs = [C] + [sw(C, 9700 + s) for s in range(NT)]
     Sg = {(u, h): [totals(v, u, h) for v in vs] for u in UNITS for h in (0, 1)}
     LF = [lines_flat(v, 1) for v in vs]
     rows = []

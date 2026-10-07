@@ -1,0 +1,64 @@
+pe87 cycle 1 (7 Oct 2026): the tablet as an island, the sign as a species. Community-assembly rules on the archive.
+Plan written before any test was run.
+
+Step 1. Families already tried (STRATEGIES.md, FINDINGS.md pe1-pe86, SUMMARY.md, LITERATURE.md):
+ slot grammar / determinatives / headers / totals and arithmetic / name lists and LE values / economy ABC (pe6) /
+ name phylogenetics and breeding pools (pe7, pe45) / forms and skeletons (pe8, pe43) / clock and seasons (pe11, pe53) /
+ check digits (pe12) / scribal memory and priming (pe13) / woven and recipe tablets (pe14) / food web (pe15) / clay
+ colour, dims, outline, squareness, drying, stylus (pe10, pe17, pe26, pe75, pe81-pe86) / seriation and time depth
+ (pe19, pe76) / herd simulators and bones (pe20, pe37, pe53-pe55, pe78) / forensic number fingerprints (pe23, pe44) /
+ red ink (pe24) / hands and clerks (pe25, pe49) / bilingual numbers (pe27) / rate propagation and ration ladder (pe28,
+ pe32, pe64) / writing sessions (pe29) / what totals omit (pe30) / interchangeable name signs by frames (pe31) / seals
+ (pe33, pe35, pe70, pe71) / compounds as sums (pe34) / type inference (pe38) / numbers-only translation (pe39) /
+ duty rota (pe40) / machines reinvent writing (pe41) / mistakes (pe42) / names as serial numbers (pe46) / tablets as
+ printouts (pe47) / signs as goods in a trade network (pe48) / capture-recapture (pe50) / what the clerk would miss
+ (pe51) / sign weights and exchange rates (pe52, pe58) / forgers (pe56, pe77) / crack attempts (pe59, pe60, pe72) /
+ voting, dossiers, kill sweep (pe61, pe63, pe66) / omissions (pe62) / one state or many offices (pe65) / joins and
+ broken tablets (pe68) / outposts (pe67) / transliteration and restoration audits (pe73, pe74) / ledger grafts (pe79) /
+ label numbers and damage (pe80) / inverted reader/writer (pe82). Cross-script: x2-x4 (incl. sign-level time arrow).
+ Running in parallel: pe86 (clay squareness as header witness) - not touched here.
+
+Step 2. Candidates (would a conventional decipherer try it? -> no for all five). Web search 7 Oct 2026 ("checkerboard
+co-occurrence null model signs undeciphered script"; "Proto-Elamite nestedness / character displacement / community
+ecology"): no application of community-assembly null models to any script corpus found (only Indus positional
+allograph mining, arXiv 2608.02999-type sign-permutation nulls). Repo grep: Ewens, Hubbell, checkerboard, sympatry,
+displacement, nestedness, law of abbreviation: 0 hits.
+
+ K1 ASSEMBLY RULES / CHECKERBOARDS. Treat each tablet as an island and each sign form as a species. Ecology's
+    fixed-fixed (curveball) null keeps every tablet's richness and every sign's incidence; pairs that co-occur LESS
+    than it allows are 'checkerboards' (competitive exclusion). In a script, exclusion + identical context = the same
+    thing written two ways by different hands/offices/periods (hidden allographs, office synonyms). Massive random
+    guessing over thousands of random 2-4-form 'exclusion guilds', selected on MDP 26/26S, re-tested on all other
+    volumes. Controls: planted allographs (a frequent form renamed on a random half of its tablets), curveball-
+    randomised pipelines (survivor-count null), and calibration on PE and proto-cuneiform same-base ~variant pairs
+    (natural positives). CHOSEN for cycle 1.
+ K2 CHARACTER DISPLACEMENT. Signs that meet on the same tablet in the same slot ('sympatric') should differ more in
+    their numbers than the same signs where they occur apart, if the clerk kept near-synonyms apart; yields contrast
+    sets (semantic neighbours). Control: sympatry relabelled by curveball; planted displaced pair. Cycle 2 candidate.
+ K3 NESTEDNESS / EXTINCTION ORDER. Are small tablets nested subsets of big ones (NODF vs curveball)? The order in which
+    forms drop out as tablets shrink is the clerk's priority list (core vs optional information). Calibrate on PC and
+    planted priority. Cycle 3 candidate.
+ K4 LAW OF ABBREVIATION FOR FUSION. Pairs written both as A B and as |A+B|: does frequency (or tablet type) predict
+    fusion? Fused pairs = lexicalised phrases. Partly near pe34; held back.
+ K5 NUMERIC CROSSTALK. Does a tablet's numbers anchor its museum neighbour's numbers (clerk carry-over)? Near pe29;
+    held back.
+ K6 FRAGMENT PHYSICS. Fragment-size distribution as a trace of how the archive was destroyed (dropped vs crushed vs
+    dug). Not aimed at meaning; dropped.
+
+K1 details (frozen in data/pe87_ckpt/plan_c1.json with sha256):
+ - Unit: tablet x sign FORM incidence (variant letters kept, compounds kept whole; 'x' dropped); forms on >= 6 tablets.
+ - Null: curveball trades only between tablets of the same stratum (strata = header family {M157, M327-family, other,
+   none} x capacity numerals present {y/n} x volume group), so topic/office blocks are kept; 300 null matrices per set.
+ - seg_z(a,b) = (null mean - observed joint tablets) / null sd. ctx(a,b) = cosine of context vectors (left sign, right
+   sign, position class, numeral system of the line), computed on the same split.
+ - Calibration (natural positives): same-base ~variant pairs vs frequency-matched different-base pairs; AUC of seg_z,
+   ctx and seg_z + ctx-z. PC: same on 5,257 proto-cuneiform tablets (Uruk IV/III), strata = period x capacity.
+ - Guessing: EVERY different-base pair of forms with >= 6 train tablets (exhaustive, tens of thousands; a random
+   draw of 6,000 pairs would miss a planted pair 80% of the time) plus 6,000 random 3-4-form guilds; score =
+   mean pairwise seg_z + mean pairwise ctx z on TRAIN; top 50 of each re-tested on TEST (own curveball null); survivor =
+   test mean seg_z >= 1.64 and test ctx above the 75th percentile of random different-base pairs.
+ - Shuffled control: the whole pipeline on curveball-randomised train and test incidence (20 runs): survivor null.
+ - Planted: 6 forms with >= 20 tablets renamed to 'PLANT_k' on a random half of their tablets; must appear in
+   >= 4/6 of planted pairs among the top-50 and survive held out.
+ Kill lines: real survivors <= 95th percentile of the shuffled pipeline -> K1 killed as a reader of hidden allographs.
+ Calibration AUC (same-base variants) < 0.6 on PE AND PC -> the score cannot see allographs; any survivor is C- only.
