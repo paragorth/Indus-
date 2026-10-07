@@ -131,6 +131,11 @@ if __name__ == '__main__':
         run(jobs, job_screen, os.path.join(V.CK, 'screen_%s.jsonl' % tset))
     elif mode == 'stage2':
         K = int(sys.argv[3])
+        pf = os.path.join(V.CK, 'stage2pairs_%s.json' % tset)
+        if os.path.exists(pf):   # explicit pair list (e.g. IT2a replication of the ZL3b shortlist)
+            jobs = [tuple(x) for x in json.load(open(pf))]
+            run(jobs, job_stage2, os.path.join(V.CK, 'stage2_%s.jsonl' % tset))
+            sys.exit(0)
         rows = [json.loads(l) for l in open(os.path.join(V.CK, 'screen_%s.jsonl' % tset))]
         jobs = []
         for t in TG:
