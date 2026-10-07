@@ -1,0 +1,120 @@
+{
+"type": "object",
+"additionalProperties": false,
+"required": [
+"is_audit",
+"specialty",
+"topic",
+"setting",
+"country",
+"standard",
+"cycle1",
+"intervention",
+"cycle2",
+"loop_closed",
+"other_findings",
+"fix_type"
+],
+"properties": {
+"is_audit": {
+"type": "string",
+"enum": [
+"yes",
+"no",
+"unclear"
+],
+"description": "Is this a clinical audit or audit-based quality improvement project measured against a standard?"
+},
+"specialty": {
+"type": "string"
+},
+"topic": {
+"type": "string",
+"description": "Short reusable topic name shared by audits of the same thing, e.g. 'Operation note quality'"
+},
+"setting": {
+"type": "string",
+"description": "Hospital/unit and type, as stated"
+},
+"country": {
+"type": "string"
+},
+"standard": {
+"type": "string",
+"description": "The guideline or standard audited against, with the target if stated"
+},
+"cycle1": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"dates",
+"sample_size",
+"result"
+],
+"properties": {
+"dates": {
+"type": "string",
+"description": "Data collection period as stated, or 'not reported'"
+},
+"sample_size": {
+"type": "string",
+"description": "Number of patients/cases/notes as digits, or 'not reported'"
+},
+"result": {
+"type": "string",
+"description": "Main result against the standard WITH the numbers (percentages, counts, times), or 'not reported'"
+}
+}
+},
+"intervention": {
+"type": "string",
+"description": "What was changed between cycles"
+},
+"cycle2": {
+"type": "object",
+"additionalProperties": false,
+"required": [
+"dates",
+"sample_size",
+"result"
+],
+"properties": {
+"dates": {
+"type": "string",
+"description": "Data collection period as stated, or 'not reported'"
+},
+"sample_size": {
+"type": "string",
+"description": "Number of patients/cases/notes as digits, or 'not reported'"
+},
+"result": {
+"type": "string",
+"description": "Main result against the standard WITH the numbers (percentages, counts, times), or 'not reported'"
+}
+}
+},
+"loop_closed": {
+"type": "string",
+"enum": [
+"yes",
+"no",
+"not reported"
+],
+"description": "yes only if a second measurement after the change is reported"
+},
+"other_findings": {
+"type": "string"
+},
+"fix_type": {
+"type": "string",
+"enum": [
+"form or template",
+"system change",
+"education only",
+"mixed",
+"not reported"
+],
+"description": "form or template = proforma, sticker, checklist, electronic template; system change = new pathway, list, rota, IT workflow, staffing; education only = teaching, posters, emails, reminders; mixed = more than one of these"
+}
+}
+}

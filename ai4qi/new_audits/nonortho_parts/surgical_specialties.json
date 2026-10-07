@@ -1,0 +1,2530 @@
+[
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of adults with a CT-confirmed ureteric stone and ongoing pain, or a stone unlikely to pass, have surgical treatment (ureteroscopy or lithotripsy) within 48 hours of diagnosis?",
+  "why": "Early definitive treatment reduces stents, repeat procedures and readmissions. Renal colic audits mostly measure CT timing and analgesia; only two report time to definitive treatment [2600][2471], and emergency stenting often replaces treatment.",
+  "standard": {
+   "source": "NICE NG118 rec 1.5.4 (2019)",
+   "wording": "Offer surgical treatment (including SWL) to adults with ureteric stones and renal colic within 48 hours of diagnosis or readmission, if: pain is ongoing and not tolerated or the stone is unlikely to pass.",
+   "url": "https://www.nice.org.uk/guidance/ng118/chapter/Recommendations"
+  },
+  "pass": "Ureteroscopy or shockwave lithotripsy started within 48 hours of the diagnostic CT (or of readmission). A stent or nephrostomy alone does not count, except in obstructed infected kidneys, which are excluded.",
+  "population": "Adults (≥18) with a ureteric stone on CT KUB who meet either NG118 criterion (ongoing pain not tolerated, or stone unlikely to pass, e.g. ≥10 mm or failed trial). Exclude obstructed infected kidney needing urgent decompression, pregnancy, solitary renal stones and patients who decline surgery.",
+  "sample": "40 consecutive eligible adults over the last 3 months (extend to 6 months in low-volume units).",
+  "data_source": "Radiology system for CT date/time and stone size; urology admission list and EPR for indication; theatre and lithotripsy systems for procedure date/time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ct_diagnosis_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Time CT KUB reported"
+   },
+   {
+    "field": "readmission",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, clock starts at readmission"
+   },
+   {
+    "field": "stone_size_mm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stone_location",
+    "type": "choice",
+    "options": [
+     "proximal ureter",
+     "mid ureter",
+     "distal ureter",
+     "VUJ"
+    ],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "pain ongoing and not tolerated",
+     "stone unlikely to pass",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_procedure",
+    "type": "choice",
+    "options": [
+     "ureteroscopy",
+     "SWL",
+     "stent only",
+     "nephrostomy",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "procedure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "definitive_treatment_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "no theatre slot",
+     "no lithotripsy slot",
+     "no stone surgeon",
+     "patient factors",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Ring-fence a daily 'hot stone' slot (ureteroscopy list or lithotripsy session) that the urology registrar books directly from the morning trauma/take meeting.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 consecutive eligible adults, same template and same clock start.",
+  "close_loop": "Present at urology governance and to theatre management with the stent and readmission counts. If it works, make the hot slot permanent in the theatre template and report the 48-hour rate monthly.",
+  "evidence": [
+   "[2600] acute ureteric stones: treatment within 48 hours 35% → 53% (hot primary ureteroscopy theatre)",
+   "[2471] renal colic benchmark: surgical intervention within 48 hours 70% → 100% (renal order-set and leaflet)",
+   "[2026] ureteric colic: teaching only; clinic within 4 weeks only 26.4% after the change (teaching alone fails)"
+  ],
+  "pitfalls": [
+   "Clock start is disputed (ED arrival, CT, urology review) → fix it as CT report time and keep it the same in both cycles.",
+   "Cases miscounted when a stent is the only procedure → record the first procedure separately and count stents as fails unless infection is present.",
+   "Small numbers per month in small units → extend the look-back rather than shortening the window.",
+   "Theatre managers resist ring-fenced time → show stent change episodes and readmissions avoided, not just the percentage.",
+   "Gains fade when the rota changes → put the hot slot in the theatre template, not in a consultant's goodwill."
+  ],
+  "pearls": [
+   "Recruit the stone lead and the theatre manager before cycle 1.",
+   "Agree 'unlikely to pass' (e.g. ≥10 mm or failed 4-week trial) before collecting.",
+   "Log delay reasons; they show which resource to ask for.",
+   "Pair with the stent database to show downstream stent burden."
+  ],
+  "novelty": "under-audited",
+  "effort": "~30 min per 10 patients from radiology, EPR and theatre systems"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of men catheterised for acute urinary retention are prescribed an alpha blocker before their trial without catheter?",
+  "why": "Alpha blockers before catheter removal raise the chance of voiding successfully. One ED audit found tamsulosin started in only 36% of men with retention [2257]; no closed-loop audit of this step has been published in the library.",
+  "standard": {
+   "source": "NICE CG97 rec 1.7.2 (2010, updated 2015)",
+   "wording": "Offer an alpha blocker to men for managing acute urinary retention before removal of the catheter. [2010]",
+   "url": "https://www.nice.org.uk/guidance/cg97/chapter/Recommendations"
+  },
+  "pass": "Alpha blocker (e.g. tamsulosin 400 micrograms) prescribed from the day of catheterisation or before the trial without catheter, on the drug chart, discharge prescription or GP letter; or a contraindication documented. Men already taking an alpha blocker pass if it is continued.",
+  "population": "Men (≥18) catheterised for first-episode acute urinary retention in ED or on the urology take. Exclude clot retention, postoperative retention, known neurogenic bladder and men listed directly for prostate surgery without a trial.",
+  "sample": "40 consecutive men over the last 3 months.",
+  "data_source": "ED and urology EPR for catheterisation date; e-prescribing or drug chart and discharge letter for the alpha blocker; trial-without-catheter clinic list for the TWOC date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "catheter_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "ED",
+     "urology ward",
+     "other ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "already_on_alpha_blocker",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alpha_blocker_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "alpha_blocker_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. postural hypotension"
+   },
+   {
+    "field": "twoc_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "twoc_outcome",
+    "type": "choice",
+    "options": [
+     "voided",
+     "failed",
+     "not yet done"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build an 'acute urinary retention' order set in ED and urology e-prescribing that includes tamsulosin 400 micrograms once daily and books the trial without catheter.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive men, same template.",
+  "close_loop": "Present at the joint ED–urology meeting. If it works, keep the order set, add it to the ED retention pathway and include TWOC success rate in the urology dashboard.",
+  "evidence": [
+   "[2257] ED acute retention pathway: tamsulosin started in 36%, DRE 18% (baseline, no re-audit)",
+   "[2514] day-case surgery: pre-populated discharge order set, correct medicines 25% → 83%",
+   "[2471] renal colic: order-set raised NSAID use 54.5% → 71.9%"
+  ],
+  "pitfalls": [
+   "ED doctors discharge before prescribing → put the order set in ED, not only on the ward.",
+   "Alpha blocker recorded only in the GP letter → accept the discharge prescription as evidence and check both.",
+   "Mixing postoperative retention into the sample lowers the rate → apply the exclusions from the start.",
+   "Clinic TWOC outcomes missing → record TWOC outcome but do not make it a pass criterion.",
+   "Order set ignored after rotation → make it the default pathway item and brief new ED starters."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and the urology nurse specialist who runs the TWOC clinic.",
+   "Pull cases from the TWOC clinic list; it captures most retention episodes.",
+   "Show TWOC success by alpha blocker status; it persuades sceptics.",
+   "Agree the dose and the start day before cycle 1."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and e-prescribing"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients whose first TURBT shows high-risk non-muscle-invasive bladder cancer have a second TURBT within 6 weeks?",
+  "why": "Re-resection finds residual and upstaged tumour in high-risk disease. TURBT quality has been audited [3037][2763], but no audit in the library measures whether and when the re-resection happens.",
+  "standard": {
+   "source": "NICE NG2 rec 1.3.5 (2015)",
+   "wording": "If the first TURBT shows high-risk non-muscle-invasive bladder cancer, offer another TURBT as soon as possible and no later than 6 weeks after the first resection.",
+   "url": "https://www.nice.org.uk/guidance/ng2/chapter/Recommendations"
+  },
+  "pass": "Second TURBT performed ≤42 days after the first TURBT.",
+  "population": "Adults with a first TURBT showing high-risk NMIBC (high grade/G3 pTa or pT1, with or without CIS). Exclude muscle-invasive disease, patients going straight to radical cystectomy, and patients who decline or are unfit (record these separately).",
+  "sample": "All eligible patients over the last 12 months (expect 30–50 in a DGH).",
+  "data_source": "Urology cancer MDT database and pathology for case list and risk group; theatre system for both TURBT dates; cancer tracker for delays.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_turbt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pathology_stage_grade",
+    "type": "choice",
+    "options": [
+     "high grade pTa",
+     "pT1",
+     "CIS only",
+     "pTa/pT1 with CIS"
+    ],
+    "note": ""
+   },
+   {
+    "field": "detrusor_in_first_specimen",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mdt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_turbt_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if not done"
+   },
+   {
+    "field": "days_between_turbts",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_turbt_within_42_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "pathology delay",
+     "MDT delay",
+     "theatre capacity",
+     "patient choice",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the MDT outcome for high-risk NMIBC automatically list the re-TURBT with a 'must be done by' date (day 42) on the waiting list, tracked by the cancer tracker.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: all new high-risk NMIBC since the change (at least 3 months), same template.",
+  "close_loop": "Present at the urology cancer MDT and cancer governance. If it works, keep the MDT listing rule and add the re-TURBT interval to the bladder cancer dashboard.",
+  "evidence": [
+   "[2029] mitomycin after TURBT: theatre–pharmacy system change cut delay 7.66 → 4.24 hours",
+   "[3033] open surgeon-level reporting improved TURBT resection quality",
+   "[3037] detrusor muscle sampling 39% → 66% (separate base specimen pot and dedicated surgeons)"
+  ],
+  "pitfalls": [
+   "Pathology or MDT delay uses up most of the 6 weeks → record each step date so the bottleneck is visible.",
+   "Differences in 'high risk' definitions → use the NG2 risk table and state it in the method.",
+   "Small numbers → use a 12-month look-back and all sites of the Trust.",
+   "Surgeons object when a patient chose delay → record patient choice separately and report it.",
+   "Waiting-list validation removes the date → ask the cancer tracker to flag re-TURBTs weekly."
+  ],
+  "pearls": [
+   "Recruit the bladder cancer lead and the MDT coordinator first.",
+   "Report median days and the 42-day rate together.",
+   "Link to theatre scheduling so re-TURBTs get protected slots.",
+   "Include residual tumour and upstaging rates to show why it matters."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from MDT database and theatre system"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of men starting androgen deprivation therapy for prostate cancer are offered a supervised exercise programme?",
+  "why": "Supervised resistance and aerobic exercise reduces fatigue and improves quality of life on ADT. Bone health on ADT has been audited [1349], but no audit in the library measures the exercise offer.",
+  "standard": {
+   "source": "NICE NG131 rec 1.4.19 (2019, updated 2021; rec from 2014)",
+   "wording": "Offer people who are starting or having androgen deprivation therapy supervised resistance and aerobic exercise at least twice a week for 12 weeks to reduce fatigue and improve quality of life. [2014]",
+   "url": "https://www.nice.org.uk/guidance/ng131/chapter/Recommendations"
+  },
+  "pass": "Clinic letter or nurse specialist record documents an offer of, or referral to, a supervised exercise programme within 3 months of the first ADT dose.",
+  "population": "Men starting ADT (LHRH agonist/antagonist or orchidectomy) for prostate cancer. Exclude men on end-of-life care and men already in a supervised exercise programme.",
+  "sample": "40 consecutive men who started ADT in the last 6 months.",
+  "data_source": "Uro-oncology clinic letters and CNS records; ADT start date from the prescribing record or first-injection record; exercise service referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "adt_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "adt_intent",
+    "type": "choice",
+    "options": [
+     "with radiotherapy",
+     "metastatic disease",
+     "biochemical recurrence",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "exercise_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "supervised_programme_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "accepted",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "programme_available_locally",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'Supervised exercise programme offered: accepted / declined' line to the ADT start clinic template with a one-click referral to the local programme.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 men starting ADT, same template.",
+  "close_loop": "Present at the urology cancer MDT and the cancer alliance living-with-cancer group. If it works, keep the template line and report uptake yearly.",
+  "evidence": [
+   "[1349] ADT bone health: none referred for bone health assessment when ADT started (related topic)",
+   "[1436] fracture clinic: awareness only, referral 5/38 → 23/43 (partial gain)",
+   "[1195] bone health checklist in discharge: antiresorptive prescribing 66% → 86%"
+  ],
+  "pitfalls": [
+   "No local programme exists → map options (physiotherapy, Macmillan, leisure centre schemes) before cycle 1 and report the service gap if none.",
+   "ADT started by GPs or oncology is missed → take the case list from the injection record, not only urology clinics.",
+   "Offers made verbally are not written → the template line solves this; audit written evidence only.",
+   "Clinicians see it as optional → quote the 'Offer' wording and fatigue data."
+  ],
+  "pearls": [
+   "Recruit the prostate CNS team; they deliver most ADT starts.",
+   "Agree what counts as 'supervised' with the local service.",
+   "Give men a leaflet with the referral; uptake rises.",
+   "Record acceptance to show real demand to commissioners."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of women seen for the first time in a continence clinic with urinary incontinence or overactive bladder have a completed bladder diary of at least 3 days?",
+  "why": "A bladder diary guides diagnosis and treatment choice, and avoids repeat visits. LUTS pathway audits show large gaps after referral [2797]; no audit in the library measures bladder diary use.",
+  "standard": {
+   "source": "NICE NG123 rec 1.3.13 (2019; rec from 2006)",
+   "wording": "Use bladder diaries in the initial assessment of women with urinary incontinence or overactive bladder. Encourage women to complete a minimum of 3 days of the diary covering variations in their usual activities, such as both working and leisure days. [2006]",
+   "url": "https://www.nice.org.uk/guidance/ng123/chapter/Recommendations"
+  },
+  "pass": "A bladder diary covering ≥3 days is recorded or scanned in the notes by the end of the first specialist appointment.",
+  "population": "Women (≥18) at a first urology, urogynaecology or continence clinic appointment for urinary incontinence or OAB. Exclude catheterised women and follow-up appointments.",
+  "sample": "40 consecutive new women over the last 2 months.",
+  "data_source": "Clinic letters and scanned notes; appointment system for the case list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_type",
+    "type": "choice",
+    "options": [
+     "urology",
+     "urogynaecology",
+     "nurse continence"
+    ],
+    "note": ""
+   },
+   {
+    "field": "diary_sent_with_appointment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diary_available",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diary_days_completed",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diary_3_days_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "management_decided_at_first_visit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Have the booking system send a 3-day bladder diary with every new continence appointment letter, with instructions to bring it.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 new women, same template.",
+  "close_loop": "Present at the pelvic floor MDT. If it works, keep the automatic insert and measure repeat-visit rates.",
+  "evidence": [
+   "[2797] benign LUTS after negative cancer referral: 59% had no documented advice, pathway or follow-up",
+   "[2643] post-tonsillectomy discharge: one-click inserts raised key advice 21% → 93%",
+   "[2004] TCI form change removed listing errors (6 → 0)"
+  ],
+  "pitfalls": [
+   "Diaries brought but not scanned → count a diary summarised in the letter as present.",
+   "Booking team cannot add inserts → ask for an electronic letter template change or a text link.",
+   "Different clinics use different diaries → agree one 3-day format.",
+   "Women forget to bring it → add a reminder in the pre-appointment text."
+  ],
+  "pearls": [
+   "Recruit the continence nurse lead and outpatient booking manager.",
+   "Record whether a diary was sent; it separates system failure from patient factors.",
+   "Measure decisions made at first visit to show time saved."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of children having grommets for otitis media with effusion have a hearing test about 6 weeks after surgery?",
+  "why": "The post-operative hearing test confirms the benefit and decides discharge or follow-up. The 2023 NICE guideline made this a clear step; no audit of it has been published in the library.",
+  "standard": {
+   "source": "NICE NG233 rec 1.6.11 (2023)",
+   "wording": "Perform a postoperative hearing test 6 weeks after surgery for OME, and: If the hearing loss has resolved, discharge and: advise parents and carers to seek a reassessment by the audiology service involved in their child's care if they are concerned about a possible recurrence of OME-related hearing loss at a later date or consider a 1-year follow up with a hearing test if there are concerns a potential recurrence of hearing loss could be missed or consider an individualised follow-up plan if the child has an increased risk of unrecognised OME with hearing loss (for example, children with a learning disability or craniofacial anomalies).",
+   "url": "https://www.nice.org.uk/guidance/ng233/chapter/Recommendations"
+  },
+  "pass": "Age-appropriate hearing test (pure tone or play audiometry, or visual reinforcement audiometry) documented 4–10 weeks after grommet insertion.",
+  "population": "Children under 12 having grommets (with or without adenoidectomy) for OME. Exclude grommets for recurrent acute otitis media and children under a separate cochlear or craniofacial service.",
+  "sample": "40 consecutive children operated on 3–6 months ago.",
+  "data_source": "Theatre system for case list and date; audiology system for test date and result; ENT clinic letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure",
+    "type": "choice",
+    "options": [
+     "grommets",
+     "grommets and adenoidectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "postop_hearing_test_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "weeks_after_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_4_to_10_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hearing_loss_resolved",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not tested"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'Audiology at 6 weeks post-op' as a default item on the paediatric grommet listing form, so the audiology request is generated at listing.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 onwards: next 40 children operated after the change (allow 10 weeks after surgery), same template.",
+  "close_loop": "Present at ENT and audiology joint governance. If it works, keep the default request and add the rate to the paediatric ENT dashboard.",
+  "evidence": [
+   "[1998] vestibular schwannoma: formal audiology done in 96.4% where a pathway exists (related topic)",
+   "[2643] paediatric tonsillectomy: one-click discharge inserts raised key content 21% → 93%",
+   "[2514] pre-populated order set: correct discharge items 25% → 83%"
+  ],
+  "pitfalls": [
+   "Audiology capacity limits → agree slot numbers with audiology before the change.",
+   "Tests done in community audiology are invisible → check community records or letters.",
+   "Did-not-attend counted as failure → record DNA separately and report both rates.",
+   "Window disputes → fix 4–10 weeks before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the paediatric audiology lead early.",
+   "Book the test at listing, not at discharge.",
+   "Include follow-up plans (discharge, 1-year test) as a secondary measure."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from theatre and audiology systems"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of children listed for grommets for otitis media with effusion had hearing reassessed at least 3 months after the first test showing hearing loss?",
+  "why": "Many OME cases resolve within 3 months, so surgery before reassessment may be unnecessary. NICE updated this in 2023; no audit of grommet listing against it has been published in the library.",
+  "standard": {
+   "source": "NICE NG233 rec 1.3.1 and 1.3.2 (2023)",
+   "wording": "1.3.1 In bilateral OME (in both ears) with hearing loss, reassess hearing after 3 months. Where the OME with hearing loss is unilateral (in one ear), consider reassessment of hearing after 3 months. ... 1.3.2 In children who are experiencing hearing difficulties that significantly affect day-to-day living, consider intervening earlier than the 3‑month reassessment ...",
+   "url": "https://www.nice.org.uk/guidance/ng233/chapter/Recommendations"
+  },
+  "pass": "Two hearing assessments ≥3 months apart before listing; or a documented reason for earlier intervention (significant day-to-day impact, or a condition such as Down syndrome or cleft palate).",
+  "population": "Children under 12 listed for grommets for OME. Exclude grommets for recurrent acute otitis media.",
+  "sample": "40 consecutive children listed in the last 6 months.",
+  "data_source": "Waiting list or theatre system; audiology system for test dates; ENT clinic letters for early-intervention reasons.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "listing_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_test_with_loss_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_test_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "interval_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bilateral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "early_intervention_reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add two required fields to the grommet listing form: dates of both hearing tests, or an 'early intervention reason' box.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 children listed after the change, same template.",
+  "close_loop": "Present at ENT governance. If it works, keep the listing fields and share the rate with commissioners.",
+  "evidence": [
+   "[2004] OMFS TCI form change: incorrect listing forms 6 → 0",
+   "[2087] MRI IAM requests: 85.3% met criteria (criteria-based request audit)",
+   "[2507] flexible cystoscopy: only 37.9% met indication criteria; local criteria and pathway introduced"
+  ],
+  "pitfalls": [
+   "Clinicians dispute the rule for severe impact → the early-intervention box keeps judgement while making it visible.",
+   "Tests from community audiology missed → check referral letters for dates.",
+   "Unilateral cases counted as fails → report bilateral and unilateral separately.",
+   "Listing form changes need IT approval → start with a paper sticker if needed."
+  ],
+  "pearls": [
+   "Agree with consultants which conditions justify early surgery before cycle 1.",
+   "Show how many children resolved while waiting; it supports the rule.",
+   "Recruit the waiting-list manager to enforce the fields."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from listing and audiology records"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people who have a PET-CT after radical chemoradiotherapy for head and neck cancer have it 3 to 6 months after treatment ends?",
+  "why": "A scan too early gives false positives and unnecessary neck dissection; too late delays salvage. No audit of post-chemoradiotherapy PET-CT timing has been published in the library.",
+  "standard": {
+   "source": "NICE NG36 rec 1.4.3 (2016, updated 2018)",
+   "wording": "For people having an FDG PET-CT scan after chemoradiotherapy, perform the scan 3 to 6 months after chemoradiotherapy has finished. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "PET-CT date is 12–26 weeks after the last radiotherapy fraction.",
+  "population": "Adults who completed radical chemoradiotherapy for upper aerodigestive tract squamous cell carcinoma and had a response PET-CT. Exclude palliative treatment.",
+  "sample": "All eligible patients over the last 12 months (expect 30–50).",
+  "data_source": "Oncology record for last fraction date; PACS/radiology system for PET-CT date; MDT record for outcome.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "primary_site",
+    "type": "choice",
+    "options": [
+     "oropharynx",
+     "larynx",
+     "hypopharynx",
+     "oral cavity",
+     "nasopharynx",
+     "unknown primary"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_fraction_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pet_ct_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_after_crt",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pet_12_to_26_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pet_result",
+    "type": "choice",
+    "options": [
+     "complete response",
+     "equivocal",
+     "residual disease"
+    ],
+    "note": ""
+   },
+   {
+    "field": "neck_dissection_after_pet",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Have the oncology end-of-treatment summary generate the PET-CT request with a 'not before' date of 12 weeks and a 'not after' date of 26 weeks.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 onwards: next patients reaching 12 weeks after the change (extend if needed), same template.",
+  "close_loop": "Present at the head and neck MDT and radiology. If it works, make the timed request standard in the end-of-treatment pathway.",
+  "evidence": [
+   "[2415] OG cancer: mean wait for PET-CT 17 days (1–57), timing variation (related topic)",
+   "[1687] cauda equina: locally adapted SOP met the 4-hour scan target in all cycles",
+   "[2029] theatre–pharmacy system change halved mitomycin delay"
+  ],
+  "pitfalls": [
+   "PET capacity is regional → share the data with the PET provider early.",
+   "Scans booked early to 'catch' recurrence → quote the false-positive risk.",
+   "Small numbers → use a 12-month look-back across the network.",
+   "Last fraction date hard to find → take it from the radiotherapy system."
+  ],
+  "pearls": [
+   "Recruit a head and neck oncologist and the MDT coordinator.",
+   "Report equivocal scans by timing; early scans often cause them.",
+   "Keep the same date rule in both cycles."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from oncology and PACS"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of smokers newly diagnosed with head and neck cancer are offered referral to a stop-smoking service at diagnosis?",
+  "why": "Continued smoking worsens treatment toxicity and survival. The only head and neck audit in the library measured smoking status in inpatients, not the offer of help [2014].",
+  "standard": {
+   "source": "NICE NG36 rec 1.1.3 (2016, updated 2018)",
+   "wording": "Offer help to people to stop smoking, in line with NICE's guideline on tobacco: preventing uptake, promoting quitting and treating dependence. [2016]",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "Referral to a stop-smoking service (or opt-out referral) documented within 2 weeks of the diagnosis appointment.",
+  "population": "Adults newly diagnosed with upper aerodigestive tract cancer who currently smoke. Exclude patients on end-of-life care only.",
+  "sample": "40 consecutive new diagnoses who smoke, over the last 6 months.",
+  "data_source": "Head and neck MDT database for case list; clinic letters and CNS holistic needs assessment for smoking status and referral; stop-smoking service referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "very_brief_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_to_stop_smoking_service",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_or_varenicline_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "quit_status_at_treatment_start",
+    "type": "choice",
+    "options": [
+     "quit",
+     "still smoking",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an opt-out stop-smoking referral field to the CNS diagnosis/holistic needs template that emails the Trust stop-smoking service automatically.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new diagnoses who smoke, same template.",
+  "close_loop": "Present at the head and neck MDT and tobacco dependency group. If it works, keep the opt-out field and report quit rates at treatment start.",
+  "evidence": [
+   "[2014] head and neck inpatients: smoking status documented 27.3% → 48.7% (education and prompts)",
+   "[2347] emergency surgery: smoking status 83% → 96% and specialist involvement 31% → 64% (structured teaching)",
+   "[1336] trauma: cessation offer 45.5% → 30.0% after education only (education alone fails)"
+  ],
+  "pitfalls": [
+   "Status recorded at diagnosis but not updated → capture the status on the day of diagnosis.",
+   "Clinicians feel it adds distress at bad news → allow referral within 2 weeks via the CNS.",
+   "Stop-smoking service capacity → agree the referral route before cycle 1.",
+   "Former smokers counted as smokers → define 'current' as smoked in the last month."
+  ],
+  "pearls": [
+   "Recruit the head and neck CNS team and the Trust tobacco dependency lead.",
+   "Opt-out wording lifts uptake more than asking.",
+   "Measure quit status at treatment start as an outcome."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from MDT and CNS records"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people with newly diagnosed head and neck cancer have their need for enteral nutrition assessed and recorded before treatment starts?",
+  "why": "Weight loss during head and neck treatment is common, and late tube placement causes admissions. No audit of pre-treatment nutrition planning has been published in the library.",
+  "standard": {
+   "source": "NICE NG36 rec 1.8.1 (2016, updated 2018)",
+   "wording": "Assess people's need for enteral nutrition at diagnosis, including prophylactic tube placement. The multidisciplinary team should take into account: performance status and social factors nutritional status (weight loss, high or low BMI, ability to meet estimated nutritional needs) tumour stage tumour site pre‑existing dysphagia impact of planned treatment (such as radiation treatment volume and dose‑fractionation, concomitant chemotherapy, and extent and site of surgery). [2016]",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "MDT outcome or dietitian record documents a decision on enteral nutrition (prophylactic tube, reactive tube, or not needed) before the first treatment date.",
+  "population": "Adults newly diagnosed with upper aerodigestive tract cancer planned for curative surgery or chemoradiotherapy. Exclude best supportive care.",
+  "sample": "40 consecutive new patients over the last 4 months.",
+  "data_source": "Head and neck MDT database; dietetic records; oncology or theatre system for first treatment date; admission records for unplanned tube placement.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "mdt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_treatment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "planned_treatment",
+    "type": "choice",
+    "options": [
+     "surgery",
+     "chemoradiotherapy",
+     "radiotherapy alone",
+     "surgery then adjuvant"
+    ],
+    "note": ""
+   },
+   {
+    "field": "weight_or_bmi_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "enteral_nutrition_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "decision",
+    "type": "choice",
+    "options": [
+     "prophylactic tube",
+     "reactive tube",
+     "not needed",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "unplanned_tube_during_treatment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Nutrition and tube plan' field to the head and neck MDT outcome form, completed by the MDT dietitian.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new patients, same template.",
+  "close_loop": "Present at the head and neck MDT. If it works, keep the field and report unplanned tube insertions yearly.",
+  "evidence": [
+   "[3017] PEG audit: 7 patients had no MDT discussion before gastrostomy (related topic)",
+   "[1906] emergency laparotomy: referral proforma and electronic order raised geriatric review 40% → 100%",
+   "[2093] electronic hand trauma proforma: uptake 95–100%, 11/15 items improved"
+  ],
+  "pitfalls": [
+   "Dietitian not present at MDT → allow a dietetic clinic entry before treatment to count.",
+   "Decision recorded only as 'dietitian to see' → define that as a fail.",
+   "Mixed OMFS and ENT pathways → include both and report by team.",
+   "Unplanned tube counts are small → report them descriptively."
+  ],
+  "pearls": [
+   "Recruit the head and neck dietitian as co-lead.",
+   "Agree the three allowed decisions before cycle 1.",
+   "Record weight at diagnosis; it strengthens the case for the field."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from MDT and dietetic records"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people with early (T1–T2, N0) oral cavity cancer have sentinel lymph node biopsy rather than elective neck dissection?",
+  "why": "Sentinel node biopsy stages the neck with less morbidity than elective neck dissection. No audit of neck management in early oral cancer has been published in the library; SLNB audits exist only for melanoma [2495][2330].",
+  "standard": {
+   "source": "NICE NG36 rec 1.3.5 (2016, updated 2018)",
+   "wording": "Offer sentinel lymph node biopsy instead of elective neck dissection to people with early oral cavity cancer (grade T1 to T2, N0), unless they need cervical access at the same time (for example, free‑flap reconstruction). [2016]",
+   "url": "https://www.nice.org.uk/guidance/ng36/chapter/Recommendations"
+  },
+  "pass": "SLNB performed; or elective neck dissection with documented need for cervical access (e.g. free-flap reconstruction).",
+  "population": "Adults with new clinically T1–T2 N0 oral cavity squamous cell carcinoma treated with primary surgery. Exclude recurrent disease and patients not fit for neck surgery.",
+  "sample": "All eligible patients over the last 24 months (expect 30–40 in a head and neck centre).",
+  "data_source": "Head and neck MDT database for staging; operation notes and theatre system for procedure; pathology for nodal findings.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "mdt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_t_stage",
+    "type": "choice",
+    "options": [
+     "T1",
+     "T2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "neck_procedure",
+    "type": "choice",
+    "options": [
+     "SLNB",
+     "elective neck dissection",
+     "observation"
+    ],
+    "note": ""
+   },
+   {
+    "field": "free_flap_or_cervical_access",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "sentinel_node_positive",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a default 'SLNB' option to the MDT outcome form for cT1–2N0 oral cancer, with a required reason if elective neck dissection is chosen.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14 onwards: all new eligible cases since the change (extend to 6 months), plus any retrospective catch-up, same template.",
+  "close_loop": "Present at the head and neck MDT and network governance. If it works, keep the default and report SLNB rate and positive rate annually.",
+  "evidence": [
+   "[2495] melanoma SLNB: compliance with NICE indications 91.4% → 92.6% (presentation only)",
+   "[2330] melanoma SLNB referrals: standard referral letters cut non-compliant cases 6.5% → 3%",
+   "[2004] listing form change removed errors (form fix works)"
+  ],
+  "pitfalls": [
+   "No nuclear medicine or sentinel node pathway locally → treat this as a service gap and escalate.",
+   "Small numbers → use 24 months and all network sites.",
+   "Surgeons prefer neck dissection → the reason box keeps choice visible and discussable.",
+   "Staging changes on pathology → classify by clinical stage at MDT."
+  ],
+  "pearls": [
+   "Recruit the OMFS head and neck lead and nuclear medicine.",
+   "Report morbidity (shoulder, length of stay) alongside the rate.",
+   "Agree the cervical access exception wording first."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from MDT, op notes and pathology"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients having surgical removal of impacted wisdom teeth have a NICE-listed indication documented before surgery?",
+  "why": "Prophylactic removal of disease-free wisdom teeth adds risk without benefit. OMFS audits in the library cover antibiotics [2090] and wrong-tooth errors [2004], not the indication itself.",
+  "standard": {
+   "source": "NICE TA1 recs 1.1, 1.3 and 1.4 (2000)",
+   "wording": "1.1 The practice of prophylactic removal of pathology-free impacted third molars should be discontinued in the NHS. ... 1.3 Surgical removal of impacted third molars should be limited to patients with evidence of pathology. Such pathology includes unrestorable caries, non-treatable pulpal and/or periapical pathology, cellulitis, abscess and osteomyelitis, internal/external resorption of the tooth or adjacent teeth, fracture of tooth, disease of follicle including cyst/tumour, tooth/teeth impeding surgery or reconstructive jaw surgery, and when a tooth is involved in or within the field of tumour resection. 1.4 ... Second or subsequent episodes should be considered the appropriate indication for surgery.",
+   "url": "https://www.nice.org.uk/guidance/ta1/chapter/1-Guidance"
+  },
+  "pass": "Clinic letter, listing form or consent names a TA1 indication (listed pathology, or two or more episodes of pericoronitis, or one particularly severe episode).",
+  "population": "Adults having surgical removal of one or more impacted third molars (day case or local anaesthetic). Exclude removal as part of tumour or trauma surgery.",
+  "sample": "40 consecutive patients over the last 2 months.",
+  "data_source": "Theatre or clinic procedure list; clinic letters, TCI forms and consent forms; radiograph reports.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "teeth_removed",
+    "type": "text",
+    "options": [],
+    "note": "e.g. LL8, LR8"
+   },
+   {
+    "field": "indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "caries",
+     "pericoronitis ≥2 episodes",
+     "severe single pericoronitis",
+     "pulpal/periapical",
+     "resorption",
+     "cyst/follicle disease",
+     "orthognathic/reconstruction",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_ta1",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "radiograph_before_listing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free text on the wisdom tooth listing (TCI) form with a mandatory tick-box list of TA1 indications plus 'other (specify)'.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 patients, same template.",
+  "close_loop": "Present at OMFS governance. If it works, keep the form and audit 'other' reasons yearly.",
+  "evidence": [
+   "[2004] OMFS: TCI form change after RCA, incorrect forms 6 → 0 and no wrong-tooth extractions",
+   "[2090] third molar surgery: only 9% had clear justification for antibiotics (documentation gap)",
+   "[2507] flexible cystoscopy: 37.9% met indications; local criteria introduced"
+  ],
+  "pitfalls": [
+   "Surgeons cite reasons outside TA1 (e.g. distal caries risk in the second molar) → record these as 'other' and discuss them rather than failing silently.",
+   "Indication in the referral but not the letter → accept any pre-operative OMFS document.",
+   "Mixed operators (dental core trainees, staff grades) → report by grade to target teaching.",
+   "The form becomes a tick-box habit → spot-check 10 notes against radiographs."
+  ],
+  "pearls": [
+   "Recruit the OMFS clinical lead and the day-surgery booking team.",
+   "Agree how to classify 'other' reasons before cycle 1.",
+   "Include pericoronitis episode counts; they are the most common grey area."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from letters and TCI forms"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people newly diagnosed with melanoma have vitamin D measured at diagnosis in secondary care?",
+  "why": "Low vitamin D is linked with worse melanoma outcomes, and sun-protection advice can lower it further. No audit of vitamin D testing in melanoma has been published in the library.",
+  "standard": {
+   "source": "NICE NG14 rec 1.2.1 (2015, updated 2022)",
+   "wording": "Measure vitamin D levels at diagnosis in secondary care in all people with melanoma. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng14/chapter/Recommendations"
+  },
+  "pass": "Serum 25-hydroxyvitamin D result dated within 3 months of the histological diagnosis.",
+  "population": "Adults with a new diagnosis of invasive cutaneous melanoma (any stage). Exclude melanoma in situ and recurrent disease.",
+  "sample": "40 consecutive new melanomas over the last 4 months.",
+  "data_source": "Skin cancer MDT database or pathology for case list and diagnosis date; pathology system for vitamin D result; clinic letters for supplementation advice.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "histology_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stage",
+    "type": "choice",
+    "options": [
+     "IA",
+     "IB",
+     "II",
+     "III",
+     "IV"
+    ],
+    "note": ""
+   },
+   {
+    "field": "team",
+    "type": "choice",
+    "options": [
+     "plastic surgery",
+     "dermatology",
+     "oncology"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vitamin_d_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vitamin_d_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "measured_within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "result_nmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "supplementation_advice_if_low",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add vitamin D to the 'new melanoma' results-clinic order set used by the skin cancer CNS.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new melanomas, same template.",
+  "close_loop": "Present at the skin cancer MDT. If it works, keep the order set and report supplementation advice as a second measure.",
+  "evidence": [
+   "[1195] bone health: checklist, vitamin D measured in 93% and antiresorptive prescribing 66% → 86%",
+   "[1679] hip fracture: vitamin D screening only 27% without a prompt (related topic)",
+   "[2471] renal colic: order-set raised calcium testing 77.9% → 94.7%"
+  ],
+  "pitfalls": [
+   "Tests ordered by GPs are invisible → check the shared pathology system.",
+   "Split care between dermatology and plastics → include both and report by team.",
+   "Low results not acted on → add supplementation advice as a secondary field.",
+   "Laboratory rejects 'non-standard' requests → confirm the test code first."
+  ],
+  "pearls": [
+   "Recruit the skin cancer CNS; they run results clinics.",
+   "Use the diagnosis date from histology to avoid disputes.",
+   "Share the result template with GPs for follow-up."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pathology system"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients attending the emergency department with a burn that meets national referral thresholds are referred to a specialised burn service?",
+  "why": "Under-referral delays specialist care and grafting; burn size is often not estimated. Burns audits in the library cover admission proforma quality in a burn unit [2009], not referral from the front door.",
+  "standard": {
+   "source": "National Network for Burn Care, National Burn Care Referral Guidance, section 3 (2012; hosted by the British Burn Association)",
+   "wording": "The suggested minimum threshold for referral into specialised burn care services can be summarised as: All burns ≥2% TBSA in children or ≥3% in adults All full thickness burns All circumferential burns Any burn not healed in 2 weeks Any burn with suspicion of non-accidental injury should be referred to a Burn Unit/Centre for expert assessment within 24 hours",
+   "url": "https://www.britishburnassociation.org/national-burn-care-referral-guidance/"
+  },
+  "pass": "Referral to, or documented discussion with, a specialised burn service (facility, unit or centre) for a burn meeting any threshold, during the ED attendance or within 24 hours.",
+  "population": "All ED attendances with a burn injury (thermal, scald, chemical, electrical) that meet at least one referral threshold. Include children (<16) and adults. Exclude sunburn.",
+  "sample": "40 consecutive qualifying attendances over the last 3 months.",
+  "data_source": "ED EPR (diagnosis codes and free-text search) for case list and TBSA; burns network referral portal or telephone log for referral.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_group",
+    "type": "choice",
+    "options": [
+     "child <16",
+     "adult"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tbsa_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tbsa_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "threshold_met",
+    "type": "choice",
+    "options": [
+     "TBSA",
+     "full thickness",
+     "circumferential",
+     "not healed 2 weeks",
+     "suspected NAI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referred_to_burn_service",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lund_browder_chart_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce an ED burns proforma with a Lund and Browder chart and a 'refer if' box that links to the burns network referral portal.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 qualifying attendances, same template.",
+  "close_loop": "Present at ED governance and the regional burns network meeting. If it works, keep the proforma in the ED system and audit yearly.",
+  "evidence": [
+   "[2009] burns admission proforma: TBSA documented 83% → 93% (redesigned flowchart proforma)",
+   "[2060] facial lacerations: checklist sticker introduced after 58% had no tetanus assessment",
+   "[2340] lacerations: tetanus managed 59%, wound size 49% (free-text documentation gaps)"
+  ],
+  "pitfalls": [
+   "TBSA not recorded, so eligibility unclear → report 'TBSA missing' separately and count as unassessable.",
+   "Coding misses burns → add a free-text search for 'burn' and 'scald'.",
+   "Paediatric burns go to a different ED → include both or state the scope.",
+   "Referrals by phone leave no record → ask the burns service for its referral log."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and the burns network outreach nurse.",
+   "Use the network's own referral portal data for cross-checking.",
+   "Measure Lund and Browder use; it drives correct TBSA."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from ED EPR"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients with a hand injury or burn seen by plastic surgery have tetanus prophylaxis managed in line with UKHSA guidance?",
+  "why": "Tetanus-prone wounds need vaccine or immunoglobulin based on immunisation status. Laceration and open fracture audits show tetanus assessment missing in about half of cases [2340][2060][1274]; no plastic surgery audit exists in the library.",
+  "standard": {
+   "source": "UKHSA, Guidance on the management of suspected tetanus cases and the assessment and management of tetanus-prone wounds, sections 7.2–7.3 and Table 4 (updated July 2026)",
+   "wording": "If the wound, burn or injury fulfils the criteria for a high-risk tetanus-prone wound, intramuscular tetanus immunoglobulin (IM-TIG ) should be considered (see Table 4 and section 6). ... A reinforcing dose of tetanus-containing vaccine is recommended (see Table 4).",
+   "url": "https://www.gov.uk/government/publications/tetanus-advice-for-health-professionals/guidance-on-the-management-of-suspected-tetanus-cases-and-the-assessment-and-management-of-tetanus-prone-wounds"
+  },
+  "pass": "Immunisation status and wound category (clean, tetanus-prone, high-risk tetanus-prone) documented, and vaccine and/or immunoglobulin given when Table 4 requires it.",
+  "population": "Patients of any age seen by plastic surgery (hand trauma clinic, burns clinic or admission) with an open hand injury or a burn. Exclude closed injuries.",
+  "sample": "40 consecutive patients over the last 4 weeks.",
+  "data_source": "Hand trauma and burns clerking proformas; ED record; drug chart or ED administration record for vaccine or immunoglobulin; GP summary care record for status where needed.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "injury_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injury_type",
+    "type": "choice",
+    "options": [
+     "open hand wound",
+     "bite",
+     "burn",
+     "other open wound"
+    ],
+    "note": ""
+   },
+   {
+    "field": "immunisation_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wound_category",
+    "type": "choice",
+    "options": [
+     "clean",
+     "tetanus-prone",
+     "high-risk tetanus-prone",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vaccine_required_by_table4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vaccine_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunoglobulin_required_by_table4",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunoglobulin_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "managed_per_ukhsa",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Embed a three-step tetanus box (status → wound category → action from Table 4) in the hand trauma and burns clerking proformas.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 patients, same template.",
+  "close_loop": "Present at plastics and ED joint governance. If it works, keep the proforma box and share it with the ED minor injuries team.",
+  "evidence": [
+   "[2340] lacerations: tetanus appropriately managed 59%; clerking template planned",
+   "[1274] open fractures: documented tetanus assessment 4.87%",
+   "[2093] electronic hand trauma proforma: uptake 95–100%, 11/15 items improved"
+  ],
+  "pitfalls": [
+   "ED already gave vaccine but did not record status → check ED administration records.",
+   "Status unknown in adults → Table 4 treats uncertain status as not adequately primed; teach that rule.",
+   "Immunoglobulin supply → confirm the local HNIG/IM-TIG product and route first.",
+   "Guidance updates between cycles → use the same version for both cycles and note the date."
+  ],
+  "pearls": [
+   "Recruit the hand trauma nurse lead and ED pharmacist.",
+   "Print Table 4 on the back of the proforma.",
+   "Use the GP summary care record to confirm status quickly."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from proformas and drug charts"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients admitted with a human or animal bite on intravenous antibiotics are reviewed for a switch to oral antibiotics within 48 hours?",
+  "why": "Prolonged IV antibiotics extend stay and line risks. The bite audit in the library covers time to surgery [2430]; IV-to-oral review in bite injuries has not been audited.",
+  "standard": {
+   "source": "NICE NG184 rec 1.2.3 (2020)",
+   "wording": "If intravenous antibiotics are given, review within 48 hours and consider switching to oral antibiotics if possible.",
+   "url": "https://www.nice.org.uk/guidance/ng184/chapter/Recommendations"
+  },
+  "pass": "Documented antibiotic review (continue IV with reason, or switch to oral) within 48 hours of the first IV dose.",
+  "population": "Patients of any age admitted under plastic or hand surgery with a human or animal bite who receive IV antibiotics. Exclude patients with sepsis requiring critical care.",
+  "sample": "40 consecutive admissions over the last 6 months.",
+  "data_source": "Admission list and EPR; e-prescribing or drug chart for first IV dose and switch time; ward round notes for review.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_iv_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bite_type",
+    "type": "choice",
+    "options": [
+     "dog",
+     "cat",
+     "human",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_documented_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "switched_to_oral",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "switch_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "length_of_stay_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set IV antibiotics on the bite admission order set to a 48-hour review stop date in e-prescribing.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 admissions (or all in 3 months), same template.",
+  "close_loop": "Present at plastics governance with antimicrobial stewardship. If it works, keep the stop date and add bites to the stewardship dashboard.",
+  "evidence": [
+   "[2430] upper limb bites: guideline update, 86% operated within 24 hours (no antibiotic review measured)",
+   "[3030] surgical patients: 81.4% on IV metronidazole without a reason to avoid oral",
+   "[2756] acute urology stewardship: composite compliance 43% at baseline (posters and teaching)"
+  ],
+  "pitfalls": [
+   "Theatre washout delays the review → a documented 'continue IV until washout' counts as review.",
+   "Paper charts hide times → take times from the administration record.",
+   "Small numbers in summer-heavy seasonality → use 6 months.",
+   "Stop dates overridden → audit overrides in cycle 2."
+  ],
+  "pearls": [
+   "Recruit the antimicrobial pharmacist.",
+   "Report length of stay and IV days as balancing measures.",
+   "Agree first dose time as the clock start."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients having uncomplicated cataract surgery avoid an in-person review on the day after surgery?",
+  "why": "Routine first-day visits add clinic load without benefit after uncomplicated surgery. No ophthalmology audit in the library measures post-operative review pathways.",
+  "standard": {
+   "source": "NICE NG77 rec 1.9.3 (2017)",
+   "wording": "Do not offer in‑person, first-day review to people after uncomplicated cataract surgery.",
+   "url": "https://www.nice.org.uk/guidance/ng77/chapter/Recommendations"
+  },
+  "pass": "No face-to-face appointment on the first post-operative day (telephone contact is allowed).",
+  "population": "Adults having phacoemulsification without intraoperative complications. Exclude posterior capsule rupture, combined procedures, only-eye surgery and patients with raised pressure risk flagged by the surgeon.",
+  "sample": "50 consecutive uncomplicated cataract operations over the last month.",
+  "data_source": "Cataract electronic record or theatre system for complications; outpatient booking system for first-day appointments.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "complication_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "first_day_in_person_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "telephone_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_given_for_review",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "unplanned_attendance_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Balancing measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the cataract post-operative booking template to default 'no day-1 visit; nurse phone call; 4-week review', with a surgeon override box for complicated cases.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 50 uncomplicated operations, same template.",
+  "close_loop": "Present at ophthalmology governance and the outpatient transformation group. If it works, keep the default and report clinic slots released.",
+  "evidence": [
+   "[2732] nasal fractures: pathway change from telemedicine-first to face-to-face-first cut consultations 1.23 → 1.04 per patient",
+   "[2514] default order set: correct discharge items 25% → 83%",
+   "[243] eye surgery site marking: fed back to theatre group (no re-audit figures)"
+  ],
+  "pitfalls": [
+   "Surgeons keep day-1 reviews for reassurance → show unplanned attendance rates as a safety measure.",
+   "Complications coded late → use the operation record, not coding.",
+   "Some day-1 visits are for trainee cases → decide before cycle 1 if these are allowed.",
+   "Telephone calls not recorded → add a phone-call field to the nurse template."
+  ],
+  "pearls": [
+   "Recruit the cataract lead and the outpatient booking manager.",
+   "Report clinic slots freed; managers support it.",
+   "Track unplanned attendance to reassure consultants."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the cataract record and booking system"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of adults newly diagnosed with non-advanced chronic open angle glaucoma are offered 360° selective laser trabeculoplasty as first treatment?",
+  "why": "NICE made SLT first-line in 2022; it can delay or avoid lifelong drops. Glaucoma audits in the library cover follow-up intervals only [245].",
+  "standard": {
+   "source": "NICE NG81 rec 1.4.17 (2017, updated 2022)",
+   "wording": "Offer 360° SLT to people with newly diagnosed COAG that is not advanced (excluding cases associated with pigment dispersion syndrome). For people with advanced COAG see the section on treatment for people with advanced COAG and recommendation 1.4.27. To help inform their decision, tell people: that having 360° SLT can delay the need for eye drops and can reduce but does not remove the chance they will be needed at all how long it may take for their IOP to improve after the procedure about 360° SLT‑specific side effects and complications and how long they are likely to last that a second 360° SLT procedure may be needed at a later date. [2022]",
+   "url": "https://www.nice.org.uk/guidance/ng81/chapter/Recommendations"
+  },
+  "pass": "Clinic letter documents that 360° SLT was offered as first treatment (accepted or declined).",
+  "population": "Adults with newly diagnosed COAG that is not advanced. Exclude pigment dispersion, advanced COAG, angle closure and secondary glaucoma.",
+  "sample": "40 consecutive new COAG diagnoses over the last 6 months.",
+  "data_source": "Glaucoma clinic letters and electronic record; laser list for SLT dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severity",
+    "type": "choice",
+    "options": [
+     "mild",
+     "moderate"
+    ],
+    "note": ""
+   },
+   {
+    "field": "slt_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_decision",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_treatment_given",
+    "type": "choice",
+    "options": [
+     "SLT",
+     "drops",
+     "none yet"
+    ],
+    "note": ""
+   },
+   {
+    "field": "slt_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "information_on_repeat_slt_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'First-line SLT offered: accepted / declined / not suitable (reason)' field to the glaucoma new-patient letter template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new COAG diagnoses, same template.",
+  "close_loop": "Present at the glaucoma service meeting. If it works, keep the field and match laser capacity to demand.",
+  "evidence": [
+   "[245] glaucoma follow-up intervals: guidance not met (action plan, no figures)",
+   "[2643] one-click inserts raised key content 21% → 93%",
+   "[2507] cystoscopy criteria: 37.9% compliant at baseline; pathway introduced"
+  ],
+  "pitfalls": [
+   "Laser capacity limits offers → record capacity delays separately.",
+   "Severity grading varies → use the Hodapp or local staging agreed in advance.",
+   "Offers made verbally are unrecorded → template field fixes this.",
+   "Optometrist-led clinics use different letters → update all templates."
+  ],
+  "pearls": [
+   "Recruit the glaucoma lead and laser nurse.",
+   "Report acceptance rates to plan laser sessions.",
+   "Include both consultant and optometrist clinics."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of eyes with newly confirmed wet age-related macular degeneration receive their first anti-VEGF injection within 14 days of referral to the macular service?",
+  "why": "Vision lost while waiting for treatment is often not recovered. The retinal audits in the library cover injection protocol and consent [249][252], not time to first injection.",
+  "standard": {
+   "source": "NICE NG82 rec 1.4.10 (2018)",
+   "wording": "For eyes with confirmed late AMD (wet active) for which antiangiogenic treatment is recommended (see the section on pharmacological management of AMD), offer treatment as soon as possible (within 14 days of referral to the macular service).",
+   "url": "https://www.nice.org.uk/guidance/ng82/chapter/Recommendations"
+  },
+  "pass": "First anti-VEGF injection ≤14 days after the referral is received by the macular service.",
+  "population": "Eyes with newly diagnosed late AMD (wet active) where anti-VEGF is recommended. Exclude second eyes already under treatment and patients who chose to delay.",
+  "sample": "40 consecutive new treated eyes over the last 3 months.",
+  "data_source": "Referral management system for receipt date; macular clinic record for diagnosis; injection log for first injection date.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "referral_received_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_source",
+    "type": "choice",
+    "options": [
+     "optometrist",
+     "GP",
+     "eye casualty",
+     "internal"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_injection_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_referral_to_injection",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "same_day_injection",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce ring-fenced 'assess and inject same day' new-patient slots booked directly at referral triage.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 new treated eyes, same template.",
+  "close_loop": "Present at the medical retina meeting and to outpatient management. If it works, make the one-stop slots permanent and report the 14-day rate monthly.",
+  "evidence": [
+   "[246] submacular haemorrhage: time to treatment met five of nine criteria (action plan)",
+   "[1629] cauda equina: reserved MRI slots booked by ED cut request time from 14 to 6 hours",
+   "[2732] nasal fracture pathway redesign: MUA within 14 days 38.9% → 57.1%"
+  ],
+  "pitfalls": [
+   "Referral receipt date not recorded → use the e-referral timestamp.",
+   "Injector capacity (nurse injectors) → plan staffing before the change.",
+   "Patient-choice delays counted as fails → record them separately.",
+   "Second-eye conversions dilute the sample → exclude them."
+  ],
+  "pearls": [
+   "Recruit the medical retina lead and nurse injector lead.",
+   "Report median days as well as the 14-day rate.",
+   "Triage referrals daily, including Fridays."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from referral and injection records"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of adults admitted for head injury observation have neurological observations recorded at the NICE minimum frequency for the first 6 hours?",
+  "why": "Missed observations delay detection of deterioration. Head injury audits in the library focus on imaging and time to neurosurgical advice [2101]; observation frequency has not been audited.",
+  "standard": {
+   "source": "NICE NG232 rec 1.9.11 (2023; rec from 2003)",
+   "wording": "Carry out and record observations on a half-hourly basis until there is a GCS score of 15. Observations for people with a GCS score of 15 should start after the initial assessment in the emergency department and the minimum frequency should be: half-hourly for 2 hours, then 1 hourly for 4 hours, then 2 hourly. [2003]",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "All scheduled neurological observations in the first 6 hours recorded within 15 minutes of their due time (half-hourly for 2 hours then hourly for 4 hours if GCS 15; half-hourly until GCS 15 otherwise).",
+  "population": "Adults (≥16) admitted to a ward or ED observation unit for head injury observation. Exclude patients intubated or transferred within 6 hours.",
+  "sample": "40 consecutive admissions over the last 2 months.",
+  "data_source": "Electronic observations system (timestamps of GCS and pupil entries); ED record for start time; admission list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "observation_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_gcs",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_type",
+    "type": "choice",
+    "options": [
+     "ED observation unit",
+     "surgical ward",
+     "medical ward",
+     "trauma ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "scheduled_obs_first_6h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "obs_recorded_on_time",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_obs_on_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "full_minimum_dataset_each_time",
+    "type": "yes/no",
+    "options": [],
+    "note": "GCS, pupils, limbs, RR, HR, BP, temp, SpO2"
+   },
+   {
+    "field": "deterioration_detected",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a head injury observation schedule into the electronic observations system that sets due times automatically and alerts when overdue.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 admissions, same template.",
+  "close_loop": "Present at trauma and nursing governance. If it works, keep the automated schedule and add compliance to the ward quality dashboard.",
+  "evidence": [
+   "[2101] head injury proforma: median time to neurosurgical advice 229 → 80 minutes",
+   "[1510] spinal trauma in non-specialist centres: no criterion met the standard (documentation gaps)",
+   "[2730] electronic proforma: heart rate and BP recording 35–38% → 96%"
+  ],
+  "pitfalls": [
+   "Paper charts hide exact times → use e-obs timestamps or accept charted times.",
+   "Patients spread over many wards → take the case list from the head injury admission code.",
+   "Nursing staff feel blamed → present with nursing leads and focus on the system.",
+   "Frequency resets after deterioration are complex → record deterioration and schedule reset as notes."
+  ],
+  "pearls": [
+   "Co-lead with a ward nurse manager.",
+   "Agree the 15-minute tolerance before cycle 1.",
+   "Show missed deterioration cases (anonymised) to motivate."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 patients from e-obs"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people with suspected metastatic spinal cord compression have an MRI of the spine within 24 hours of suspicion?",
+  "why": "Delay to MRI delays steroids, surgery or radiotherapy and worsens paralysis. One cancer-centre audit found 50% scanned within 24 hours [1464]; no closed-loop audit against the 2023 guideline exists in the library.",
+  "standard": {
+   "source": "NICE NG234 rec 1.5.2 (2023)",
+   "wording": "Offer an MRI scan to people with suspected MSCC (see recommendation 1.3.2), to be done: as soon as possible (and always within 24 hours) at the local hospital or appropriate centre with direct access to imaging facilities. Transfer to a tertiary centre for MRI should only be done if local MRI is not possible. [2023]",
+   "url": "https://www.nice.org.uk/guidance/ng234/chapter/Recommendations"
+  },
+  "pass": "MRI spine completed ≤24 hours after the first documented clinical suspicion of MSCC (or MSCC coordinator contact, whichever is earlier).",
+  "population": "Adults with known or suspected cancer referred to the MSCC coordinator or on-call team with suspected MSCC. Exclude patients already imaged before referral.",
+  "sample": "40 consecutive referrals over the last 4 months.",
+  "data_source": "MSCC coordinator log or acute oncology referral record; ED and ward notes for suspicion time; radiology system for MRI completion time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "suspicion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mscc_coordinator_contact_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "inpatient",
+     "outpatient/home"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mri_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_completed_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "whole_spine_imaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dexamethasone_16mg_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a protected MSCC MRI pathway: coordinator-requested scans go straight to the urgent slot with automatic radiographer alert, including out of hours.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 referrals, same template.",
+  "close_loop": "Present at acute oncology, spinal and radiology governance. If it works, keep the pathway and report the 24-hour rate quarterly.",
+  "evidence": [
+   "[1464] MSCC at a cancer centre: MRI within 24 hours 50%, full spine 60%",
+   "[1629] cauda equina: reserved slots booked directly by ED, arrival to action plan cut by 43%",
+   "[1976] MSCC dexamethasone: correct 16 mg loading dose in 1/33"
+  ],
+  "pitfalls": [
+   "Suspicion time is vague → use the first note mentioning cord compression.",
+   "Out-of-hours radiography staffing → agree cover with radiology before the change.",
+   "Referrals come from many teams → use the coordinator log as the single source.",
+   "Scans at other sites → include transfer times."
+  ],
+  "pearls": [
+   "Recruit the acute oncology lead and MSCC coordinator.",
+   "Record dexamethasone as a secondary measure; it is often missed.",
+   "Report by hour of referral; night referrals show the gap."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients from coordinator log and radiology"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of people discharged after aneurysmal subarachnoid haemorrhage have a follow-up care plan with specialist contact details in their discharge letter?",
+  "why": "After SAH, patients face headaches, cognitive change and imaging follow-up, and need a clear contact. Neurosurgical discharge audits in the library measure general quality [2177][2123], not the SAH follow-up plan.",
+  "standard": {
+   "source": "NICE NG228 recs 1.4.1 and 1.4.2 (2022)",
+   "wording": "1.4.1 Agree and document a plan for follow-up care with the person after their aneurysmal subarachnoid haemorrhage. Give a paper copy of the plan to the person (and their family or carers if appropriate) and include details of who to contact at the specialist centre for ongoing advice and support. 1.4.2 Include the follow-up care plan in the person's medical record and discharge correspondence.",
+   "url": "https://www.nice.org.uk/guidance/ng228/chapter/Recommendations"
+  },
+  "pass": "Discharge letter contains a follow-up plan (clinic and/or imaging) and a named contact route at the specialist centre (e.g. SAH nurse phone number).",
+  "population": "Adults discharged home or to a local hospital after treatment for aneurysmal SAH at the neurosurgical centre. Exclude inpatient deaths.",
+  "sample": "40 consecutive discharges over the last 6 months.",
+  "data_source": "Neurosurgical admissions list; electronic discharge letters; SAH nurse records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_destination",
+    "type": "choice",
+    "options": [
+     "home",
+     "local hospital",
+     "rehabilitation"
+    ],
+    "note": ""
+   },
+   {
+    "field": "follow_up_plan_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imaging_follow_up_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_contact_details_in_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "paper_copy_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'SAH follow-up plan and contact' section to the neurosurgical electronic discharge template, prefilled with the SAH nurse contact.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 discharges (or all in 3 months), same template.",
+  "close_loop": "Present at neurosurgery governance with the SAH nurse team. If it works, keep the template section and ask patients about contact use.",
+  "evidence": [
+   "[2177] neurosurgical discharge documents: adequate 22% → 43% (copy-paste template and poster)",
+   "[1729] trauma discharge summaries: follow-up plan fully detailed 15.6% → 90.0%",
+   "[2123] neurosurgical discharge summaries: visual aid then teaching improved quality (no figures)"
+  ],
+  "pitfalls": [
+   "Repatriated patients get letters from the local hospital → audit the neurosurgical transfer letter.",
+   "Plan decided later at MDT → allow 'to be confirmed by letter by date X' with a contact.",
+   "Template fields ignored → make them mandatory in the e-discharge system.",
+   "Small numbers → use 6 months."
+  ],
+  "pearls": [
+   "Recruit the SAH or vascular nurse specialist.",
+   "Prefill the contact to save junior time.",
+   "Include paper copy given as a secondary measure."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge letters"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients discharged after coronary artery bypass grafting are prescribed atorvastatin 80 mg?",
+  "why": "High-intensity statin is the NICE default for established cardiovascular disease since 2023. Post-CABG audits in the library measure any lipid-lowering drug [1980], not the dose.",
+  "standard": {
+   "source": "NICE NG238 recs 1.7.2 and 1.7.3 (2023)",
+   "wording": "1.7.2 Offer atorvastatin 80 mg to people with CVD, whatever their cholesterol level, unless the person meets the criteria in recommendation 1.7.3. ... 1.7.3 Offer a lower dose of atorvastatin if any of the following apply: it could react with other drugs there is a high risk of adverse effects the person would prefer to take a lower dose.",
+   "url": "https://www.nice.org.uk/guidance/ng238/chapter/Recommendations"
+  },
+  "pass": "Atorvastatin 80 mg on the discharge prescription; or a lower dose or other lipid therapy with a documented 1.7.3 reason.",
+  "population": "Adults discharged after isolated or combined CABG. Exclude in-hospital deaths and transfers to other hospitals.",
+  "sample": "50 consecutive discharges over the last 2 months.",
+  "data_source": "Cardiac surgery database for case list; discharge prescription (TTO) and discharge letter.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_op_statin",
+    "type": "choice",
+    "options": [
+     "none",
+     "atorvastatin 80 mg",
+     "atorvastatin lower dose",
+     "other statin",
+     "other lipid therapy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_statin",
+    "type": "choice",
+    "options": [
+     "atorvastatin 80 mg",
+     "atorvastatin lower dose",
+     "other statin",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_documented_if_not_80mg",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason",
+    "type": "choice",
+    "options": [
+     "interaction",
+     "adverse effects risk",
+     "patient preference",
+     "CKD",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make atorvastatin 80 mg the default line in the post-CABG discharge order set, with an 'alternative dose because' box.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 50 discharges, same template.",
+  "close_loop": "Present at cardiac surgery governance with the cardiac pharmacist. If it works, keep the default and share the rate with cardiac rehabilitation.",
+  "evidence": [
+   "[1980] post-CABG secondary prevention: 96% on lipid-lowering agents (dose not measured)",
+   "[2176] PAD: admission document prompt raised high-dose statin 28% → 80%",
+   "[2509] PAD/AAA: education raised atorvastatin 80 mg at discharge 29% → 64%"
+  ],
+  "pitfalls": [
+   "Pre-operative statin simply continued → count continuation of a lower dose without reason as a fail.",
+   "Interactions (e.g. with some antiarrhythmics) → accept documented pharmacist advice.",
+   "Surgeons defer to cardiologists → agree the default with both before cycle 1.",
+   "Reason boxes filled with 'n/a' → spot-check reasons."
+  ],
+  "pearls": [
+   "Recruit the cardiac surgical pharmacist.",
+   "Pull prescriptions from the e-discharge system in bulk.",
+   "Feed back to the cardiac rehab team to reinforce."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from e-discharge"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients already taking a beta-blocker before cardiac surgery have it restarted by the end of the first postoperative day?",
+  "why": "Stopping beta-blockers raises the risk of postoperative atrial fibrillation. Cardiothoracic audits in the library cover beta-blockers at discharge [2062] and ACE inhibitors [2479], not early restart.",
+  "standard": {
+   "source": "NICE NG196 rec 1.10.2 (2021; rec from 2006, amended 2014)",
+   "wording": "In people having cardiothoracic surgery who are already on beta‑blocker therapy, continue this treatment unless contraindications develop (such as postoperative bradycardia or hypotension). [2006, amended 2014]",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "Beta-blocker administered by the end of postoperative day 1 (drug chart administration record), or a contraindication documented (bradycardia, hypotension, pacing dependence, inotropes).",
+  "population": "Adults having cardiac surgery (CABG, valve or combined) who were taking a beta-blocker before admission. Exclude patients still ventilated on day 1 and in-hospital deaths within 48 hours.",
+  "sample": "40 consecutive eligible patients over the last 6 weeks.",
+  "data_source": "Cardiac surgery database; pre-admission medicines reconciliation; ICU and ward e-prescribing administration records; ICU notes for contraindications.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_op_beta_blocker",
+    "type": "text",
+    "options": [],
+    "note": "Drug and dose"
+   },
+   {
+    "field": "first_postop_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_by_end_of_pod1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "new_postop_af",
+    "type": "yes/no",
+    "options": [],
+    "note": "Outcome measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'restart home beta-blocker on POD1 unless HR <60, SBP <100, paced or on inotropes' as a default line in the post-cardiac surgery ICU order set.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at cardiac surgery and ICU governance. If it works, keep the order-set line and track postoperative AF rates.",
+  "evidence": [
+   "[2062] post-CABG: 89% discharged on beta-blocker (discharge only)",
+   "[2479] perioperative ACE inhibitors: team reminders only, stopping rate 96% → 92%",
+   "[2514] pre-populated order set: correct medicines 25% → 83%"
+  ],
+  "pitfalls": [
+   "Epicardial pacing or inotropes make many ineligible → record contraindications and report the eligible denominator.",
+   "Medicines reconciliation incomplete → confirm pre-operative use from the GP summary care record.",
+   "ICU and ward teams hand over poorly → put the default in the ICU order set so it travels.",
+   "Postoperative AF numbers are small → treat as descriptive."
+  ],
+  "pearls": [
+   "Recruit a cardiac intensivist and the ICU pharmacist.",
+   "Agree the haemodynamic thresholds before cycle 1.",
+   "Show AF rates by restart status."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from e-prescribing"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of patients having coronary artery bypass grafting after a myocardial infarction are referred to cardiac rehabilitation before discharge?",
+  "why": "Cardiac rehabilitation lowers readmission and mortality, yet surgical patients are often missed. No audit of cardiac rehabilitation referral has been published in the library.",
+  "standard": {
+   "source": "NICE NG185 rec 1.8.1 (2020; rec from 2007)",
+   "wording": "All people (regardless of their age) should be given advice about and offered a cardiac rehabilitation programme with an exercise component. [2007]",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "pass": "Referral to a cardiac rehabilitation programme sent before discharge (referral record or discharge letter).",
+  "population": "Adults having CABG during the same admission as, or within 3 months of, a myocardial infarction. Exclude in-hospital deaths.",
+  "sample": "40 consecutive eligible patients over the last 3 months.",
+  "data_source": "Cardiac surgery database for case list and indication; discharge letter; cardiac rehabilitation referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "mi_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_sent_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rehab_service",
+    "type": "choice",
+    "options": [
+     "local to surgical centre",
+     "local to home",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Generate the cardiac rehabilitation referral automatically from the cardiac surgery discharge summary (opt-out), sent to the service closest to the patient's home.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 eligible patients, same template.",
+  "close_loop": "Present at cardiac surgery governance with the rehabilitation team. If it works, keep the automatic referral and extend it to all cardiac surgery patients.",
+  "evidence": [
+   "[1906] emergency laparotomy: electronic referral order raised geriatric review 40% → 100%",
+   "[2801] phantom limb pain: education only, pain team referral 52% → 67% but assessment fell 44% → 33%",
+   "[1436] fracture clinic: awareness only, referral 5/38 → 23/43"
+  ],
+  "pitfalls": [
+   "Patients from other regions need referral to distant services → keep a regional service list in the template.",
+   "Rehabilitation teams refer later from clinic → record any later referral separately.",
+   "Opt-out referrals rejected for incomplete data → include minimum dataset fields.",
+   "Extending to all CABG changes the denominator → keep the MI group for the re-audit."
+  ],
+  "pearls": [
+   "Recruit the cardiac rehabilitation lead nurse.",
+   "Check the NACR submission for the same patients.",
+   "Measure uptake (first session attended) later as an outcome."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge letters and referral log"
+ },
+ {
+  "area": "Surgical specialties",
+  "question": "What proportion of curative lung cancer resections include sampling of both hilar and mediastinal lymph nodes?",
+  "why": "Incomplete nodal staging understages disease and denies adjuvant treatment. One UK audit found only 16.3% met full ESTS staging, with no gain after teaching [2767].",
+  "standard": {
+   "source": "NICE NG122 rec 1.5.3 (2019, updated 2024; rec from 2011)",
+   "wording": "Perform hilar and mediastinal lymph node sampling or en bloc resection for all people having surgery with curative intent. [2011]",
+   "url": "https://www.nice.org.uk/guidance/ng122/chapter/Management"
+  },
+  "pass": "Pathology report shows at least one hilar (N1) station and at least one mediastinal (N2) station sampled.",
+  "population": "Adults having anatomical or wedge resection with curative intent for primary lung cancer. Exclude diagnostic wedge biopsies and resections for metastases.",
+  "sample": "40 consecutive curative resections over the last 3 months.",
+  "data_source": "Thoracic surgery database; pathology reports for nodal stations; operation notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "surgery_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "approach",
+    "type": "choice",
+    "options": [
+     "VATS",
+     "RATS",
+     "open"
+    ],
+    "note": ""
+   },
+   {
+    "field": "resection_type",
+    "type": "choice",
+    "options": [
+     "lobectomy",
+     "segmentectomy",
+     "wedge",
+     "pneumonectomy",
+     "bilobectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hilar_station_sampled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mediastinal_stations_count",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "station_7_sampled",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hilar_and_mediastinal_sampled",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pathological_n_stage",
+    "type": "choice",
+    "options": [
+     "N0",
+     "N1",
+     "N2"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a nodal station checklist to the thoracic operation note template and supply pre-labelled specimen pots for each station.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 curative resections, same template.",
+  "close_loop": "Present at the thoracic surgery and lung cancer MDT. If it works, keep the checklist and pots, and report station counts to the National Lung Cancer Audit validation.",
+  "evidence": [
+   "[2767] NSCLC surgery: full ESTS nodal staging 16.3% → 17.1% (presentation only, no gain)",
+   "[3037] TURBT: separate base specimen pot raised detrusor sampling 39% → 66%",
+   "[2093] electronic proforma: 11/15 documentation items improved"
+  ],
+  "pitfalls": [
+   "Nodes sent together as one pot cannot be mapped → the labelled pots fix this.",
+   "Wedge resections in frail patients → report by resection type.",
+   "Pathology reports use different station labels → agree IASLC station names with pathology.",
+   "Surgeons see the pass bar as low → add station 7 and ≥3 N2 stations as secondary measures."
+  ],
+  "pearls": [
+   "Recruit a thoracic pathologist as co-lead.",
+   "Keep the pass criterion simple in cycle 1; add ESTS detail later.",
+   "Report upstaging (N1/N2 found) to show benefit."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from pathology reports"
+ }
+]

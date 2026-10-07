@@ -1,0 +1,3260 @@
+[
+ {
+  "question": "What proportion of adults have a corrected serum calcium checked within 12 hours of thyroidectomy or parathyroidectomy?",
+  "why": "Post-operative hypocalcaemia is a common, preventable cause of delayed discharge and re-admission after thyroid and parathyroid surgery, and no closed-loop audit of the timing of the first postoperative calcium check has been published in the library.",
+  "standard": {
+   "source": "BAETS Post-operative Hypocalcaemia Guidance",
+   "wording": "POST THYROIDECTOMY / PARATHYROIDECTOMY CORRECTED CALCIUM LEVELS: Check within 12h postoperatively",
+   "url": "https://baets.org.uk/wp-content/uploads/2024/07/BAETS-Post-op-Hypocalcaemia-Guidance.pdf"
+  },
+  "pass": "Corrected serum calcium result is filed and actioned within 12 hours of the end of surgery",
+  "population": "Inclusion: all adults undergoing total or completion thyroidectomy, or parathyroidectomy. Exclusion: hemithyroidectomy or thyroid lobectomy only",
+  "sample": "40 consecutive adult thyroid or parathyroid operations over the last 4 months",
+  "data_source": "Theatre system for operation type and time, laboratory system for calcium sample time, EPR for the documented action",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operation",
+    "type": "choice",
+    "options": [
+     "total thyroidectomy",
+     "completion thyroidectomy",
+     "parathyroidectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_surgery_ended",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_calcium_sample_taken",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calcium_checked_within_12h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "corrected_calcium_result_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_per_algorithm_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a 'post-thyroid/parathyroid surgery' order set that auto-requests a corrected calcium for 12 hours post-op and displays the BAETS treatment algorithm next to the result",
+  "target": "≥95%",
+  "reaudit": "At 14 weeks, same template and sample size, on the next 40 consecutive operations",
+  "close_loop": "Present at the endocrine surgery/ENT MDT and departmental audit meeting; embed the order set as the default post-op set if the target is met",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library] related: NNA-069 (post-thyroidectomy observation schedule) shows the same order-set approach improving compliance with a post-thyroid surgery bundle"
+  ],
+  "pitfalls": [
+   "Sample drawn but result not checked out of hours → build the check into the nursing handover, not just the request",
+   "Small numbers at units doing few parathyroidectomies → combine thyroid and parathyroid cases for the denominator",
+   "Definition of 'checked' drifts between cycles (requested vs resulted) → fix the definition as 'result available in EPR' before cycle 1",
+   "New starters unaware of the algorithm → laminate the algorithm in recovery and on the ward"
+  ],
+  "pearls": [
+   "Recruit the endocrine surgery clinical nurse specialist to check for missed 12-hour bloods each morning",
+   "Agree the exact cut-off time (12h from skin closure, not from admission) before cycle 1 starts",
+   "Link the order set to the procedure code so it fires automatically",
+   "Keep the same nurse-led calcium round after the surgical trainees rotate"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from theatre system and EPR",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults undergoing thyroidectomy or parathyroidectomy have a documented post-operative laryngoscopy to assess vocal cord movement?",
+  "why": "Vocal cord palsy is a leading cause of litigation after thyroid and parathyroid surgery, yet the true incidence is only known where laryngoscopy is performed routinely; no audit of compliance with mandatory post-operative laryngoscopy has been published in the library.",
+  "standard": {
+   "source": "BAETS Consensus, Pre and Post Operative Laryngoscopy in Thyroid and Parathyroid Surgery (FF Palazzo for BAETS, June 2010)",
+   "wording": "Post-operative laryngoscopy is required as a key quality control measure and should become mandatory.",
+   "url": "https://baets.org.uk/wp-content/uploads/2024/07/Vocal-cord-check-consenus-document-2010.pdf"
+  },
+  "pass": "A fibreoptic or transcutaneous laryngoscopy assessment of vocal cord movement is documented at any point after surgery, up to and including the first outpatient follow-up",
+  "population": "Inclusion: all adults undergoing thyroid or parathyroid surgery. Exclusion: patients refusing the examination (documented separately)",
+  "sample": "40 consecutive adult thyroid/parathyroid operations over the last 4 months",
+  "data_source": "Operation note, ENT/voice clinic letters, EPR results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operation_type",
+    "type": "choice",
+    "options": [
+     "thyroidectomy",
+     "parathyroidectomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "laryngoscopy_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_laryngoscopy",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vocal_cord_movement_normal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_declined_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make a laryngoscopy booking (by the surgical team or ENT) a mandatory step on the electronic discharge checklist for every thyroid/parathyroid operation",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the endocrine surgery MDT and joint ENT/endocrine surgery governance meeting; embed the discharge checklist step if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "No ENT or voice clinic slots available → negotiate a ring-fenced weekly slot before cycle 1",
+   "Refusals not distinguished from omissions → add a separate 'declined' field so the denominator is fair",
+   "Surgeons doing their own transcutaneous ultrasound assessment not counted → agree what counts as 'laryngoscopy' before starting",
+   "Result not filed back into the surgical record → ask ENT to copy the surgical team into every report"
+  ],
+  "pearls": [
+   "Agree with ENT a same-day or next-day slot before starting the first cycle",
+   "Use a transcutaneous laryngeal ultrasound pathway where trained staff exist, to reduce reliance on ENT capacity",
+   "Put the laryngoscopy step on the WHO-style discharge checklist so it cannot be missed",
+   "Feed back cord palsy rates to the department each year so the mandatory step is not seen as a paperwork exercise"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR and clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults with a voice change or suspected/confirmed thyroid malignancy have a documented pre-operative laryngoscopy before thyroid or parathyroid surgery?",
+  "why": "Pre-operative vocal cord assessment changes intraoperative and consent decisions when malignancy or voice change is present; no audit targeting this selective indication (rather than routine laryngoscopy in all patients) has been published in the library.",
+  "standard": {
+   "source": "BAETS Consensus, Pre and Post Operative Laryngoscopy in Thyroid and Parathyroid Surgery (FF Palazzo for BAETS, June 2010)",
+   "wording": "Pre-operative laryngoscopy in non-cancer patients with no history of voice change has a low rate of abnormal findings.",
+   "url": "https://baets.org.uk/wp-content/uploads/2024/07/Vocal-cord-check-consenus-document-2010.pdf"
+  },
+  "pass": "A pre-operative laryngoscopy result is documented in the notes before surgery for any patient with a voice change or a cytological/clinical suspicion of malignancy",
+  "population": "Inclusion: adults listed for thyroid or parathyroid surgery with documented voice change or suspected/confirmed malignancy. Exclusion: benign disease with a normal voice",
+  "sample": "All patients with voice change or suspected malignancy listed for thyroid/parathyroid surgery over the last 6 months (expect 30-40)",
+  "data_source": "Pre-assessment clinic letters, MDT proforma, ENT clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_listed_for_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "voice_change_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspected_or_confirmed_malignancy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "preop_laryngoscopy_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_preop_laryngoscopy",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_normal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'voice change / suspected malignancy → pre-op laryngoscopy booked' field to the thyroid MDT outcome proforma",
+  "target": "100%",
+  "reaudit": "At 14 weeks, same template and sample",
+  "close_loop": "Present at the thyroid cancer MDT; embed the proforma field if it improves compliance",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Voice change not systematically asked about at clinic → add a standard voice question to the pre-assessment template",
+   "Small numbers if malignancy is rare locally → run over 6 months rather than 3",
+   "Laryngoscopy done but not documented in the surgical notes → require the ENT report to be filed in the same record",
+   "MDT proforma completed retrospectively → complete it in real time at the MDT"
+  ],
+  "pearls": [
+   "Add the voice question to every thyroid nodule clinic template, not just cancer clinics",
+   "Use the MDT coordinator to check the field is complete before the case is listed",
+   "Share abnormal pre-op findings with the operating surgeon before consent",
+   "Keep a log of pre-op abnormal cords to compare with post-op findings"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MDT proforma",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults with structural persistent thyroid cancer after total or completion thyroidectomy and radioactive iodine are discussed at the thyroid cancer multidisciplinary team meeting?",
+  "why": "Persistent structural disease after primary treatment changes management (further surgery, radiotherapy or systemic treatment) and should not be managed outside the MDT; no audit of MDT discussion for this specific group has been published in the library.",
+  "standard": {
+   "source": "NICE NG230 Thyroid cancer: assessment and management, rec 1.6.4 (2022)",
+   "wording": "Discuss at the multidisciplinary team meeting any person who has had a total or completion thyroidectomy and RAI and has evidence of structural persistent disease.",
+   "url": "https://www.nice.org.uk/guidance/ng230/chapter/Recommendations"
+  },
+  "pass": "Documented discussion and outcome at the thyroid cancer MDT within 4 weeks of imaging or biochemistry showing structural persistent disease",
+  "population": "Inclusion: adults with thyroid cancer who have had total or completion thyroidectomy and radioactive iodine and subsequent evidence of structural persistent disease. Exclusion: biochemical-only persistence with no structural correlate",
+  "sample": "All such patients identified over the last 12 months (expect 20-30 in a regional cancer centre)",
+  "data_source": "MDT database, oncology and endocrine clinic letters, imaging reports",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_structural_disease_identified",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imaging_modality",
+    "type": "choice",
+    "options": [
+     "ultrasound",
+     "CT",
+     "MRI",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mdt_discussion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_within_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mdt_outcome_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'structural persistent disease' MDT-list trigger from the radiology reporting system when a report contains that phrase for a coded thyroid cancer patient",
+  "target": "100%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the thyroid cancer MDT and cancer services governance meeting; embed the radiology trigger if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Structural persistence identified in a non-cancer clinic and not flagged → educate all clinicians reviewing thyroid cancer follow-up scans",
+   "MDT list overloaded, cases delayed → create a fast-track 'persistent disease' slot",
+   "Ambiguity over what counts as 'structural' vs biochemical → agree the definition with radiology and oncology before cycle 1",
+   "Retrospective identification bias if reliant on memory → use a coded database search"
+  ],
+  "pearls": [
+   "Ask radiology to use a standard phrase ('structural persistent disease') in reports to enable searching",
+   "Give the MDT coordinator a standing search of the radiology system each week",
+   "Keep a register of persistent disease cases for continuity when staff rotate",
+   "Feed outcomes back to the referring endocrinologist so follow-up plans are updated"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per month from MDT database and radiology search",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of fine needle aspiration cytology (FNAC) samples for a thyroid nodule are reported as Thy1 (non-diagnostic/inadequate)?",
+  "why": "A high non-diagnostic rate delays diagnosis and increases repeat procedures; no audit of local Thy1 rates against the NICE quality trigger has been published in the library.",
+  "standard": {
+   "source": "NICE NG230 Thyroid cancer: assessment and management, rec 1.2.10 (2022)",
+   "wording": "Consider rapid on-site evaluation of FNAC adequacy rates to improve the diagnostic yield of samples if the Thy1 (inadequate) rate for the centre or individual healthcare professionals is higher than 15% (when Thy1c is excluded).",
+   "url": "https://www.nice.org.uk/guidance/ng230/chapter/Recommendations"
+  },
+  "pass": "Thy1 (excluding Thy1c) rate for the service is 15% or lower over the audit period",
+  "population": "Inclusion: all thyroid nodule FNAC samples taken over the audit period. Exclusion: repeat FNAC on the same nodule within 4 weeks",
+  "sample": "All thyroid FNAC samples over the last 6 months (expect 40-60)",
+  "data_source": "Cytology reporting system, radiology (ultrasound-guided FNAC) records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_fnac",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_guided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operator",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "thy_category",
+    "type": "choice",
+    "options": [
+     "Thy1",
+     "Thy1c",
+     "Thy2",
+     "Thy3a",
+     "Thy3f",
+     "Thy4",
+     "Thy5"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repeat_fnac_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce rapid on-site evaluation (ROSE) of FNAC adequacy for ultrasound-guided thyroid biopsies",
+  "target": "Thy1 rate ≤15% (excluding Thy1c)",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the joint cytology/radiology/endocrine surgery governance meeting; embed ROSE if the target is met",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "ROSE requires a cytotechnologist or pathologist present at every list → negotiate cover before starting the change",
+   "Operator-level data seen as punitive → present anonymised operator codes first, agree feedback approach with the team",
+   "Thy1c cases wrongly counted as inadequate → use the coded cytology categories, not free text",
+   "Small numbers per individual operator → report at service level first, individual level only with consent"
+  ],
+  "pearls": [
+   "Agree with cytology in advance which category counts as 'inadequate' for the audit",
+   "Use a dedicated ultrasound-guided FNAC list run by trained operators to improve consistency",
+   "Share Thy1 rates quarterly at the endocrine surgery/radiology joint meeting",
+   "Track repeat-biopsy rate as a secondary outcome"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per month from cytology reporting system",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with T1a/T1b or greater differentiated thyroid cancer who have had a hemithyroidectomy or total thyroidectomy without radioactive iodine receive the recommended surveillance ultrasound and annual clinical follow-up?",
+  "why": "Under-surveillance risks missed recurrence in low-risk thyroid cancer managed without RAI; no audit of adherence to the NICE surveillance schedule has been published in the library.",
+  "standard": {
+   "source": "NICE NG230 Thyroid cancer: assessment and management, rec 1.6.2 (2022)",
+   "wording": "Consider an ultrasound at 6 to 12 months initially then annual clinical follow-up for up to 5 years for people with T1a (m) or T1b stage or greater thyroid cancer, who have had a hemithyroidectomy or total thyroidectomy without RAI.",
+   "url": "https://www.nice.org.uk/guidance/ng230/chapter/Recommendations"
+  },
+  "pass": "An ultrasound is booked or performed 6-12 months after surgery and an annual clinical follow-up appointment is booked for each year up to 5 years",
+  "population": "Inclusion: adults with T1a(m)/T1b or greater differentiated thyroid cancer treated by hemithyroidectomy or total thyroidectomy without RAI. Exclusion: patients who received RAI",
+  "sample": "All such patients treated in the last 18 months (expect 20-30)",
+  "data_source": "Cancer MDT database, radiology booking system, clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tumour_stage",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rai_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surveillance_us_booked_6_12m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "annual_followup_booked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'low-risk thyroid cancer surveillance' pathway on the cancer follow-up system that books the 6-12 month ultrasound and annual reviews at the point of MDT outcome",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the thyroid cancer MDT; embed the automated pathway if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Patients lost to follow-up after discharge from surgical clinic → use a single named follow-up pathway owner",
+   "Ultrasound slots not protected for surveillance → agree a standing allocation with radiology",
+   "Definition of T1a(m) vs T1a ambiguous to non-specialists → confirm staging with the MDT coordinator for each case",
+   "Surveillance stopped early without documented reason → require a reason field if follow-up is curtailed before 5 years"
+  ],
+  "pearls": [
+   "Use the MDT outcome form to auto-generate the follow-up schedule",
+   "Give patients a printed follow-up plan at their post-op clinic visit",
+   "Audit alongside the cancer MDT's annual outcomes review",
+   "Nominate a CNS to track the pathway centrally"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from MDT database",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults having cardiac surgery who are not already taking a beta-blocker are offered pharmacological prophylaxis (amiodarone, a standard beta-blocker or a rate-limiting calcium-channel blocker) to reduce the risk of postoperative atrial fibrillation?",
+  "why": "Postoperative atrial fibrillation after cardiac surgery prolongs stay and increases stroke risk; while restarting a pre-existing beta-blocker is already tracked in the library [NNA-047], no audit has measured whether patients who are not already on a beta-blocker are offered any of the recommended prophylactic options.",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.10.1 (2021)",
+   "wording": "In people having cardiothoracic surgery: reduce the risk of postoperative atrial fibrillation by offering 1 of the following: amiodarone a standard beta‑blocker (that is, a beta-blocker other than sotalol) a rate‑limiting calcium‑channel blocker (diltiazem or verapamil) do not offer digoxin.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "One of amiodarone, a standard beta-blocker or a rate-limiting calcium-channel blocker is prescribed for AF prophylaxis by the end of the first postoperative day, and digoxin is not used for this purpose",
+  "population": "Inclusion: adults having elective cardiac surgery who were not on a beta-blocker before admission. Exclusion: patients on a pre-existing beta-blocker (covered by the restart pathway)",
+  "sample": "40 consecutive beta-blocker-naive adult cardiac surgery patients over the last 4 months",
+  "data_source": "Anaesthetic chart, ICU drug chart, EPMA",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "beta_blocker_naive_preop",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "af_prophylaxis_agent",
+    "type": "choice",
+    "options": [
+     "amiodarone",
+     "beta-blocker",
+     "calcium-channel blocker",
+     "digoxin",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prophylaxis_started_by_pod1",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_af_occurred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a default 'AF prophylaxis: amiodarone / beta-blocker / calcium-channel blocker (tick one) or contraindicated (reason)' line to the post-cardiac surgery ICU order set",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the cardiothoracic surgery/anaesthesia governance meeting; embed the order set default if effective",
+  "evidence": [
+   "[NNA-047] restarting a pre-existing beta-blocker by POD1 improved with a default ICU order-set line; the same approach is proposed here for beta-blocker-naive patients"
+  ],
+  "pitfalls": [
+   "Digoxin still used from habit → remove it as an option from the order set",
+   "Bradycardia or hypotension used as a blanket reason to omit prophylaxis without considering alternatives → require the alternative agent to be considered first",
+   "AF occurring after ICU discharge missed by the audit → extend data collection to hospital discharge",
+   "Anaesthetists and surgeons prescribing inconsistently → agree a single default order set for both teams"
+  ],
+  "pearls": [
+   "Build the three options into a single tick-box so an active choice is required",
+   "Involve pharmacy in checking interactions before amiodarone loading",
+   "Review the order set uptake weekly during the first cycle",
+   "Keep the postoperative AF rate as a linked outcome measure"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ICU drug chart",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients started on a rhythm-control strategy for new-onset postoperative atrial fibrillation after cardiac surgery have their need for continued antiarrhythmic treatment reassessed at around 6 weeks?",
+  "why": "Postoperative AF often resolves once the precipitant settles, but antiarrhythmic drugs are frequently continued by default; no audit of the 6-week reassessment has been published in the library.",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.10.6 (2021)",
+   "wording": "If a rhythm‑control strategy is chosen, reassess the need for antiarrhythmic drug treatment at a suitable time point (usually at around 6 weeks).",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "A documented reassessment of the need for continued antiarrhythmic treatment occurs between 4 and 8 weeks after starting rhythm control",
+  "population": "Inclusion: adults started on a rhythm-control strategy for new postoperative AF after cardiac surgery. Exclusion: rate-control strategy chosen",
+  "sample": "All patients started on rhythm control for postoperative AF in the last 6 months (expect 20-30)",
+  "data_source": "Discharge summary, cardiology/cardiac surgery follow-up clinic letters, GP correspondence",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_af_diagnosed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antiarrhythmic_started",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_appointment_booked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reassessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reassessed_4_8_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antiarrhythmic_stopped_or_continued",
+    "type": "choice",
+    "options": [
+     "stopped",
+     "continued",
+     "not documented"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 6-week antiarrhythmic review task to the discharge summary for any patient discharged on antiarrhythmic treatment for postoperative AF",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample",
+  "close_loop": "Present at the cardiothoracic surgery follow-up governance meeting; embed the discharge task if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Patients discharged to GP follow-up only, with no cardiology review booked → give GPs a clear stop/review date on the discharge letter",
+   "Reassessment done but not documented in a retrievable place → use a coded discharge summary field",
+   "Loss to follow-up if patients move between services → name a single team responsible for the review",
+   "Antiarrhythmics continued indefinitely 'to be safe' → present the evidence for time-limited use at teaching sessions"
+  ],
+  "pearls": [
+   "Give a clear stop/review date on every antiarrhythmic prescription at discharge",
+   "Use the cardiac surgery nurse specialist to track outstanding reviews",
+   "Feed reassessment outcomes back to the prescribing team",
+   "Align the review with an existing 6-week post-cardiac-surgery follow-up appointment where possible"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from discharge summaries",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults having cardiac surgery who are already taking a statin have it continued after surgery?",
+  "why": "Unintentional omission of a pre-existing statin at the time of surgery is a recognised, avoidable medicines-reconciliation failure; no audit of statin continuation after cardiac surgery has been published in the library.",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.10.4 (2021)",
+   "wording": "In people having cardiothoracic surgery who are already on statins, continue this treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "A pre-existing statin is represented on the post-operative drug chart by the end of the first postoperative day, or a documented reason for stopping it is recorded",
+  "population": "Inclusion: adults on a statin before elective cardiac surgery. Exclusion: statin started for the first time postoperatively",
+  "sample": "40 consecutive adult cardiac surgery patients known to be on a statin pre-operatively, over the last 4 months",
+  "data_source": "Medicines reconciliation record, ICU/ward drug chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "statin_preop",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "statin_on_pod1_chart",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_omission_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add pre-existing statins to the medicines reconciliation prompt that appears automatically when writing the post-cardiac-surgery drug chart",
+  "target": "≥95%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the cardiothoracic surgery/pharmacy medicines safety meeting; embed the reconciliation prompt if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Statin omitted because the patient is nil by mouth and not represented once feeding resumes → add a re-check step once oral intake restarts",
+   "Reconciliation done by a junior doctor without pharmacy cross-check → involve pharmacy in every post-op reconciliation",
+   "Statin stopped for a genuine reason (e.g. rhabdomyolysis risk) but not documented → require a reason field",
+   "Discharge summary omits the statin even though it was continued in hospital → check the discharge letter as well as the inpatient chart"
+  ],
+  "pearls": [
+   "Use the electronic medicines reconciliation list as the single source of truth for pre-op medicines",
+   "Ask pharmacy to review post-cardiac-surgery drug charts within 24 hours",
+   "Flag any statin omission for consultant sign-off",
+   "Repeat the check at discharge as well as on the ward"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from drug charts",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults having cardiac surgery receive mechanical VTE prophylaxis from admission and, where indicated, pharmacological prophylaxis for a minimum of 7 days?",
+  "why": "Cardiac surgery patients are at increased VTE risk from immobility and central access, but VTE prophylaxis is often deprioritised around anticoagulation for bypass; no audit of compliance with the NICE cardiac-surgery-specific VTE recommendations has been published in the library.",
+  "standard": {
+   "source": "NICE NG89 Venous thromboembolism in over 16s, recs 1.15.1 and 1.15.2 (2018)",
+   "wording": "1.15.1 Consider mechanical VTE prophylaxis on admission for people who are undergoing cardiac surgery who are at increased risk of VTE. 1.15.2 Consider adding pharmacological VTE prophylaxis for a minimum of 7 days for people who are undergoing cardiac surgery and are not having other anticoagulation therapy: Use LMWH as first-line treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "Mechanical VTE prophylaxis is documented from admission, and pharmacological prophylaxis with LMWH is prescribed for at least 7 days in patients not otherwise anticoagulated",
+  "population": "Inclusion: adults undergoing cardiac surgery at increased VTE risk. Exclusion: patients already anticoagulated for another indication",
+  "sample": "40 consecutive adult cardiac surgery patients over the last 4 months",
+  "data_source": "VTE risk assessment form, drug chart, nursing records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_assessed_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanical_prophylaxis_from_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "already_anticoagulated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lmwh_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lmwh_duration_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a cardiac-surgery-specific VTE prophylaxis bundle (mechanical from admission plus a 7-day LMWH course) to the admission and post-op order sets",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the cardiothoracic surgery governance meeting; embed the bundle if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Mechanical prophylaxis omitted because of leg swelling or drains → give clear guidance on device choice around chest drains and vein harvest sites",
+   "LMWH delayed because of concern about bleeding after cardiopulmonary bypass → agree a standard start day with the surgical team before cycle 1",
+   "7-day course not completed because of early discharge → include a discharge prescription for the remaining days",
+   "VTE risk assessment completed but not linked to a prescribing action → link the assessment directly to the order set"
+  ],
+  "pearls": [
+   "Build both mechanical and pharmacological prophylaxis into a single order-set bundle",
+   "Agree the LMWH start time with cardiac surgery and anaesthesia in advance",
+   "Audit alongside existing VTE risk-assessment compliance data",
+   "Keep a discharge checklist item for completing the 7-day course"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from drug chart and VTE assessment",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults with an undiagnosed or symptomatic pleural effusion who need a pleural procedure have it within 5 days of the decision being made?",
+  "why": "Delays to pleural drainage prolong breathlessness and hospital stay; no audit of time from decision to pleural procedure against the national access standard has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standard for Pleural Disease, quality statement on access to pleural services",
+   "wording": "For symptomatic or undiagnosed pleural effusion, where a pleural procedure is clinically indicated, it should be offered within five days of the decision being made, unless the patient's symptoms or evidence of infection makes a more urgent procedure necessary.",
+   "url": "https://www.brit-thoracic.org.uk/media/r15gl1kk/bts-quality-standard-for-pleural-disease-for-consultation.pdf"
+  },
+  "pass": "The pleural procedure is performed within 5 calendar days of the documented decision to proceed, or sooner if urgent",
+  "population": "Inclusion: adults with a symptomatic or undiagnosed pleural effusion referred to the cardiothoracic/pleural service for a procedure. Exclusion: emergency drainage for tension physiology or empyema requiring immediate intervention",
+  "sample": "40 consecutive referrals for pleural procedures over the last 3 months",
+  "data_source": "Referral log, procedure booking system, clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_decision_made",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_procedure_performed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_from_decision_to_procedure",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_5_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urgent_indication_for_earlier_procedure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up a weekly protected pleural procedure list with direct electronic referral from the point of decision",
+  "target": "≥90% within 5 days",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the pleural service/cardiothoracic MDT; embed the protected list if effective",
+  "evidence": [
+   "[NNA-398], [NNA-399], [NNA-400], [NNA-401] audit thoracic ultrasound use, the pleural safety checklist, effusion sampling in pneumonia and referral for recurrent pneumothorax; this audit adds the time from decision to procedure, which none of those measure"
+  ],
+  "pitfalls": [
+   "'Decision made' not consistently documented, making the start point unclear → agree a single documentation point (referral form date) before cycle 1",
+   "Procedure delayed by lack of ultrasound-trained operators → identify capacity gaps early",
+   "Urgent cases wrongly counted against the 5-day target → add an explicit urgent-indication field",
+   "Referrals lost between teams → use a single electronic referral pathway"
+  ],
+  "pearls": [
+   "Use a single electronic referral form that timestamps the decision",
+   "Protect a weekly list specifically for non-urgent pleural procedures",
+   "Involve the pleural nurse specialist in tracking waiting referrals",
+   "Review the waiting list weekly at the pleural MDT"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from referral log",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients are given information and advice about how to recognise a surgical site infection and who to contact, documented before discharge after cardiac surgery?",
+  "why": "Sternal wound infection after cardiac surgery is a high-harm complication, and early patient recognition and re-presentation depend on clear safety-netting advice; no audit of documented SSI safety-netting specifically after cardiac surgery has been published in the library.",
+  "standard": {
+   "source": "NICE NG125 Surgical site infections: prevention and treatment, rec 1.1.3 (2019)",
+   "wording": "Offer patients and carers information and advice about how to recognise a surgical site infection and who to contact if they are concerned.",
+   "url": "https://www.nice.org.uk/guidance/ng125/chapter/Recommendations"
+  },
+  "pass": "The discharge summary or a discrete leaflet documents that wound infection safety-netting advice (signs to watch for and a contact number) was given",
+  "population": "Inclusion: all adults discharged after cardiac surgery via median sternotomy. Exclusion: patients who die before discharge",
+  "sample": "40 consecutive cardiac surgery discharges over the last 3 months",
+  "data_source": "Discharge summary, nursing discharge checklist",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ssi_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_number_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'sternal wound infection advice and contact number given' tick box to the cardiac surgery discharge summary template, linked to a standard leaflet",
+  "target": "100%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the cardiothoracic surgery governance and infection prevention meeting; embed the discharge tick box if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Advice given verbally but not documented → make documentation itself, not just the conversation, the pass criterion",
+   "Leaflet given but generic (not sternal-wound specific) → develop a cardiac-surgery-specific leaflet",
+   "Patients discharged out of hours without the usual checklist → audit weekend/evening discharges separately",
+   "Field ticked as a default without the conversation happening → spot-check with post-discharge phone calls"
+  ],
+  "pearls": [
+   "Make the leaflet part of the standard cardiac surgery discharge pack",
+   "Give the same information to family/carers where the patient has reduced capacity",
+   "Include the sternal wound infection bundle as an agenda item at governance meetings",
+   "Track re-presentation rates for wound infection as a linked outcome"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from discharge summaries",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of children undergoing scrotal exploration for suspected testicular torsion reach theatre within 3 hours of the decision to operate?",
+  "why": "Testicular salvage falls sharply with delay to surgery; no closed-loop audit of time from decision to operate to incision for suspected torsion has been published in the library.",
+  "standard": {
+   "source": "NHS England (Midlands) Commissioning Guide for the Management of Paediatric Testicular Torsion",
+   "wording": "Timely intervention: Percentage of explorations within 3 hours of decision to operate (NCEPOD 2) (excluding those with co-morbidities) 100%",
+   "url": "https://www.england.nhs.uk/mids-east/wp-content/uploads/sites/7/2018/03/torsion-commissioning-guide.pdf"
+  },
+  "pass": "Time from documented decision to operate to skin incision is 3 hours or less",
+  "population": "Inclusion: all children undergoing scrotal exploration for suspected testicular torsion. Exclusion: children with significant co-morbidities delaying anaesthesia",
+  "sample": "All scrotal explorations for suspected torsion over the last 12 months (expect 20-40)",
+  "data_source": "Theatre system, emergency department and surgical clerking notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_decision_to_operate",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_incision",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_theatre_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "testis_salvaged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a 'suspected testicular torsion' theatre booking category that bypasses the routine emergency list queue and alerts theatre coordination directly",
+  "target": "100%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the paediatric surgery/emergency theatre governance meeting; embed the booking category if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Decision-to-operate time not documented consistently → agree a single trigger point (consultant/registrar decision documented in notes) before cycle 1",
+   "Theatre unavailable out of hours → confirm the emergency theatre escalation pathway covers torsion explicitly",
+   "Low case numbers per quarter → collect over 12 months to get a meaningful sample",
+   "Fasting status used to justify delay despite clinical urgency → reiterate that assessment should not be delayed by fasting status"
+  ],
+  "pearls": [
+   "Agree the torsion pathway with emergency medicine, theatres and anaesthesia before starting",
+   "Use a single-page torsion pathway sheet that timestamps each step",
+   "Review every case with a time over 3 hours at the morbidity and mortality meeting",
+   "Track testicular salvage rate as the outcome that matters to families"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from theatre and ED records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of children presenting to a secondary care hospital with suspected testicular torsion are explored locally rather than transferred to a tertiary paediatric surgery centre?",
+  "why": "Transfer delays testicular salvage and should be exceptional; no audit of unnecessary inter-hospital transfer for suspected torsion has been published in the library.",
+  "standard": {
+   "source": "NHS England (Midlands) Commissioning Guide for the Management of Paediatric Testicular Torsion",
+   "wording": "Transfer of a boy with a suspicion of torsion from a Secondary Care Institution to a Tertiary Care Centre should therefore be an exceptional occurrence (e.g. medical comorbidities).",
+   "url": "https://www.england.nhs.uk/mids-east/wp-content/uploads/sites/7/2018/03/torsion-commissioning-guide.pdf"
+  },
+  "pass": "The child is explored at the presenting secondary care hospital unless a documented medical co-morbidity or other exceptional reason requires transfer",
+  "population": "Inclusion: children presenting to a secondary care hospital with suspected testicular torsion. Exclusion: children presenting directly to a tertiary centre",
+  "sample": "All secondary care presentations with suspected torsion over the last 12 months (expect 15-30)",
+  "data_source": "Emergency department notes, transfer records, theatre system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_hospital_type",
+    "type": "choice",
+    "options": [
+     "secondary care",
+     "tertiary"
+    ],
+    "note": ""
+   },
+   {
+    "field": "transferred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_transfer_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_added_by_transfer_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree and circulate a local on-call rota and skills sign-off so that a competent surgeon and anaesthetist are always available locally for suspected torsion, with transfer requiring consultant-to-consultant agreement",
+  "target": "≥90% explored locally (excluding documented exceptions)",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the paediatric surgery network governance meeting; embed the local competency rota if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Transfer driven by lack of confidence rather than genuine need → provide simulation training for on-call teams",
+   "Reasons for transfer not documented → make a reason field mandatory in the transfer request",
+   "Network guidance not known to on-call staff → include the pathway in induction",
+   "Transfer perceived as 'safer' despite adding delay → present time-to-theatre and salvage outcome data alongside transfer rates"
+  ],
+  "pearls": [
+   "Use network-level data sharing so all sites can benchmark",
+   "Keep an up-to-date on-call competency list for out-of-hours cover",
+   "Debrief every transferred case at the regional network meeting",
+   "Track testicular salvage rate for transferred versus locally-managed cases"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ED and transfer records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of boys referred with physiological phimosis are managed with reassurance, education and (where appropriate) a trial of topical steroid rather than referral for circumcision?",
+  "why": "Referrals for physiological phimosis account for avoidable surgical workload and expose children to the small but real risks of circumcision; no audit of adherence to the non-operative-first pathway has been published in the library.",
+  "standard": {
+   "source": "RCS/BAPU/BAPS Commissioning guide: Foreskin conditions (2016)",
+   "wording": "When physiological phimosis is diagnosed in a primary care assessment of foreskin condition, consultation should focus on reassurance and education of parents and child.",
+   "url": "https://www.rcseng.ac.uk/-/media/files/rcs/standards-and-research/commissioning/revised-foreskin-conditions-commissioning-guide-republished.pdf"
+  },
+  "pass": "Boys with physiological (non-scarred) phimosis and no pathological features have a documented plan of reassurance/education, with or without a topical steroid trial, before any referral for circumcision",
+  "population": "Inclusion: boys under 18 referred to paediatric surgery/urology for a foreskin problem. Exclusion: pathological phimosis with scarring, recurrent balanitis or paraphimosis",
+  "sample": "40 consecutive new foreskin condition referrals over the last 6 months",
+  "data_source": "Outpatient clinic letters, GP referral letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_clinic_appointment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "physiological phimosis",
+     "pathological phimosis",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reassurance_education_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topical_steroid_trial_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "listed_for_circumcision_at_first_visit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Send GPs a standard foreskin-conditions leaflet and referral proforma that documents whether physiological phimosis has already had reassurance/education and a steroid trial before referral is accepted",
+  "target": "≥90% managed conservatively first",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the paediatric surgery outpatient governance meeting; embed the referral proforma if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Parental expectation of surgery at first visit → provide written information explaining the conservative-first approach",
+   "GP referrals arriving without a trial of conservative management → use the proforma to triage these back with advice",
+   "Diagnosis of 'physiological' vs 'pathological' inconsistent between clinicians → agree diagnostic criteria before cycle 1",
+   "Steroid trial started but not followed up to assess response → build in a documented review"
+  ],
+  "pearls": [
+   "Give GPs a simple traffic-light referral form so conservative options are tried first",
+   "Use a patient information leaflet to manage parental expectations before the clinic visit",
+   "Audit alongside circumcision rates for physiological phimosis as an outcome measure",
+   "Keep the pathway visible in the electronic referral system"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of boys with pathological phimosis have a documented trial of a topical steroid before being listed for circumcision?",
+  "why": "A trial of topical steroid is a safe, less invasive alternative to surgery, but is inconsistently offered before listing for circumcision; no audit of this step has been published in the library.",
+  "standard": {
+   "source": "RCS/BAPU/BAPS Commissioning guide: Foreskin conditions (2016)",
+   "wording": "Topical steroids may be considered and appear to be a safe, less invasive treatment option and a prescription of this would not normally exceed three months... A topical steroid such as Betamethasone (0.05%) is commonly prescribed for approximately 4 weeks.",
+   "url": "https://www.rcseng.ac.uk/-/media/files/rcs/standards-and-research/commissioning/revised-foreskin-conditions-commissioning-guide-republished.pdf"
+  },
+  "pass": "A topical steroid trial of up to 4-12 weeks is documented and completed (or a documented contraindication is recorded) before circumcision is listed",
+  "population": "Inclusion: boys diagnosed with pathological phimosis listed for circumcision. Exclusion: emergency circumcision for paraphimosis or acute infection",
+  "sample": "All boys listed for circumcision for pathological phimosis over the last 6 months (expect 25-40)",
+  "data_source": "Outpatient clinic letters, theatre listing forms",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_diagnosis_made",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "topical_steroid_trial_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_used",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trial_duration_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_listed_for_circumcision",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'topical steroid trial: dates and response, or contraindication' field to the outpatient clinic template before circumcision can be listed electronically",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the paediatric surgery outpatient governance meeting; embed the mandatory field if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Steroid prescribed by GP but response not fed back to secondary care → ask GPs to document response on the referral back to clinic",
+   "Trial too short to assess benefit → specify the recommended 4-week minimum course in the template",
+   "Steroid cream not available or not prescribed correctly (wrong strength) → provide a standard prescription card",
+   "Circumcision listed 'just in case' before the steroid trial completes → make the field a hard stop on the listing form"
+  ],
+  "pearls": [
+   "Give parents written instructions on how to apply the steroid and for how long",
+   "Ask the GP to review response after 4 weeks rather than waiting for the next hospital appointment",
+   "Track circumcision avoidance rate as a secondary outcome",
+   "Review any listing without a documented trial at the departmental meeting"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of children having elective day-case surgery are permitted clear fluids up to 1 hour before anaesthesia, rather than being fasted for longer?",
+  "why": "Unnecessarily long clear-fluid fasting causes distress, dehydration and cancelled theatre slots in children; no audit of compliance with the reduced 1-hour clear-fluid fasting standard has been published in the library.",
+  "standard": {
+   "source": "APAGBI/ESPA/ADARPEF Consensus statement on clear fluids fasting for elective paediatric general anaesthesia (Thomas et al., Pediatric Anesthesia 2018)",
+   "wording": "based on the current evidence base, unless there is a clear contraindication, it is safe and recommended for all children able to take clear fluids, to be allowed and encouraged to have them up to 1 hour before elective general anesthesia.",
+   "url": "https://e-lactancia.org/media/papers/AyunasPreoperatorioBF-PedAnaest2018.pdf"
+  },
+  "pass": "The documented last clear fluid intake is within 1-2 hours of anaesthetic induction, with no unexplained longer fast",
+  "population": "Inclusion: children undergoing elective day-case surgery under general anaesthesia. Exclusion: emergency surgery, documented contraindication to reduced fasting",
+  "sample": "40 consecutive elective paediatric day cases over the last 4 weeks",
+  "data_source": "Pre-operative fasting instructions, anaesthetic chart, ward nursing record of last oral intake",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scheduled_induction_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_last_clear_fluid",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_fasting_time_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fasting_advice_given_matched_1h_standard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Reissue pre-admission fasting instructions and ward whiteboards to state '1 hour for clear fluids' explicitly, with clear fluids actively offered on the morning of surgery",
+  "target": "≥90% within the 1-2 hour standard",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the paediatric anaesthesia/day surgery governance meeting; embed the updated instructions if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "List order changes on the day, leaving children over-fasted despite correct initial instructions → actively offer fluids to children further down the list",
+   "Ward staff defaulting to traditional 'nil by mouth from midnight' habits → retrain ward and pre-admission staff",
+   "Parents fasting children for longer than instructed out of caution → explain the rationale clearly in pre-admission information",
+   "Fluid type not actually 'clear' (e.g. milk given) → define clear fluids explicitly in patient information"
+  ],
+  "pearls": [
+   "Actively offer clear fluids on the ward rather than relying on parents to remember",
+   "Update pre-admission letters and phone calls to state the 1-hour rule clearly",
+   "Reorder theatre lists to minimise fasting time for younger children",
+   "Audit fasting times alongside cancellation rates for over-fasted children"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from ward and anaesthetic records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of children having elective day-case surgery are fasted from solid food and formula milk for no more than 6 hours, and from breast milk for no more than 4 hours?",
+  "why": "Excessive fasting from solids and milk feeds, not just clear fluids, remains common in children's day surgery and is distressing and clinically unnecessary; no audit of adherence to the recommended maximum solid/milk fasting times has been published in the library.",
+  "standard": {
+   "source": "APAGBI/ESPA/ADARPEF Consensus statement on clear fluids fasting for elective paediatric general anaesthesia (Thomas et al., Pediatric Anesthesia 2018), Table 1",
+   "wording": "Preoperative fasting for elective procedures in children, Age (y) 0-16: Solid food, Formula milk 6h; Breast milk 4h; Clear fluids 1h.",
+   "url": "https://e-lactancia.org/media/papers/AyunasPreoperatorioBF-PedAnaest2018.pdf"
+  },
+  "pass": "Documented fasting time for solids/formula is no more than 6 hours and for breast milk no more than 4 hours before induction, without unexplained excess",
+  "population": "Inclusion: children aged 0-16 having elective day-case surgery under general anaesthesia. Exclusion: emergency surgery or documented contraindication",
+  "sample": "40 consecutive elective paediatric day cases over the last 4 weeks",
+  "data_source": "Pre-operative fasting instructions, ward nursing record of last feed, anaesthetic chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "feed_type",
+    "type": "choice",
+    "options": [
+     "solid food",
+     "formula milk",
+     "breast milk"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_of_last_feed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_induction",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_fasting_time_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_recommended_maximum",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add feed-type-specific maximum fasting times (6h solids/formula, 4h breast milk, 1h clear fluids) to the pre-admission fasting letter and the ward fasting whiteboard",
+  "target": "≥90% within recommended maximum times",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the paediatric anaesthesia/day surgery governance meeting; embed the updated fasting letter if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Breastfeeding mothers given the same 6-hour instruction as formula feeders → make the distinction explicit in written information",
+   "List order changes causing unplanned prolonged fasting → build a fallback offer of a snack/feed if delay is expected",
+   "Fasting times recorded inconsistently (last 'meal' vs last 'snack') → define clearly what counts as a solid feed",
+   "Ward staff unaware of the different breast milk time → include in induction training"
+  ],
+  "pearls": [
+   "Print the age-specific fasting table on ward information boards",
+   "Give parents a written personalised fasting time on the day-before phone call",
+   "Prioritise younger children and breastfed infants earlier on the list",
+   "Review any case with fasting over 8 hours as an outlier"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from ward records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adult kidney transplant recipients have a clinic blood pressure below 140/90 mmHg (or 130/80 mmHg if significant proteinuria) recorded at their most recent follow-up visit?",
+  "why": "Blood pressure control after kidney transplantation reduces graft loss and cardiovascular events, but is not universally achieved; no audit of blood pressure target attainment in transplant follow-up has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017)",
+   "wording": "Clinic blood pressure should be <140/90 mmHg in clinic (130/80 mmHg if PCR >50 or ACR >35) (2C)",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "The most recent recorded clinic blood pressure meets the applicable target (<140/90, or <130/80 with significant proteinuria)",
+  "population": "Inclusion: adult kidney transplant recipients attending routine transplant follow-up. Exclusion: patients within 6 weeks of transplantation",
+  "sample": "40 consecutive transplant follow-up clinic attendances over the last 2 months",
+  "data_source": "Transplant clinic letters, EPR vital signs, urine protein:creatinine ratio results",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_clinic_visit",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "months_post_transplant",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_blood_pressure",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "proteinuria_pcr_or_acr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_applicable_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a blood pressure target flag to the transplant clinic template that highlights the applicable target based on the patient's most recent proteinuria result",
+  "target": "≥70% at target",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the transplant surgery/nephrology governance meeting; embed the target flag if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Home blood pressure readings not considered when clinic readings are borderline → offer home/ambulatory monitoring where available",
+   "Proteinuria result out of date, leading to the wrong target being applied → require an annual protein:creatinine ratio",
+   "Single reading used rather than an average → standardise to the documented clinic reading process",
+   "Target-focused prescribing without checking calcineurin inhibitor levels → review nephrotoxic drug levels alongside blood pressure"
+  ],
+  "pearls": [
+   "Display the applicable target automatically in the clinic template based on the latest proteinuria result",
+   "Offer home blood pressure monitoring kits to patients with white-coat effect",
+   "Review antihypertensive regimens at every visit, not only when out of target",
+   "Feed results back to referring GPs so shared care is aligned"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adult kidney transplant recipients due an annual review are assessed in an annual review clinic within the expected time frame?",
+  "why": "Late morbidity after kidney transplantation (skin, sexual, psychological and metabolic problems) is unlikely to be identified in routine outpatient follow-up alone; no audit of attendance at a structured annual review has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017)",
+   "wording": "Audit Measure: Percentage of total patients assessed in an annual review clinic",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "The patient has a documented annual review clinic assessment within 13 months of their previous one",
+  "population": "Inclusion: adult kidney transplant recipients more than 1 year post-transplant. Exclusion: recipients within their first post-transplant year",
+  "sample": "40 consecutive transplant recipients due an annual review over the last 3 months",
+  "data_source": "Transplant follow-up database, clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transplant",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_previous_annual_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_due",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_annual_review_completed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_within_13_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create an automated recall list from the transplant database that flags patients due an annual review 6 weeks in advance",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the transplant follow-up governance meeting; embed the automated recall if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Patients lost to follow-up after moving GP or address → confirm contact details are updated at every clinic visit",
+   "Annual review conflated with a routine transplant clinic visit without the full review content → define what the annual review must include",
+   "DNA rates not tracked → record and follow up non-attenders",
+   "Recall list not maintained centrally → assign a named administrator"
+  ],
+  "pearls": [
+   "Use a single database to track annual review due dates across the service",
+   "Combine the annual review with existing blood test visits to reduce patient burden",
+   "Record DNA reasons to target support at high-risk patients",
+   "Feed annual review outcomes to GPs for shared-care patients"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from transplant database",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adult kidney transplant recipients have a documented skin surveillance review at the recommended frequency (at least twice yearly up to 5 years post-transplant, then annually)?",
+  "why": "Kidney transplant recipients have a markedly increased risk of skin cancer from long-term immunosuppression, but skin surveillance is easily overlooked amid other follow-up priorities; no audit of adherence to the recommended surveillance frequency has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017)",
+   "wording": "We suggest that self-examination should be encouraged with guidance provided. This should be supplemented by at least biannual review by a trained healthcare professional up to 5 years post-transplant and annual review from 5 years (2C)",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "A documented skin review by a trained healthcare professional has occurred within the last 6 months (if ≤5 years post-transplant) or 12 months (if >5 years post-transplant)",
+  "population": "Inclusion: adult kidney transplant recipients attending follow-up. Exclusion: recipients within the first 3 months post-transplant",
+  "sample": "40 consecutive transplant follow-up attendances over the last 3 months",
+  "data_source": "Transplant clinic letters, dermatology referral records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transplant",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "years_post_transplant",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_last_skin_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "self_examination_advice_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_recommended_frequency",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a skin surveillance due-date field to the transplant follow-up database that flags overdue reviews and prompts referral to a dermatology or transplant skin clinic",
+  "target": "≥80%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the transplant follow-up governance meeting; embed the due-date flag if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "No dedicated skin surveillance clinic, relying on ad hoc opportunistic checks → set up a named transplant skin surveillance clinic or pathway",
+   "Self-examination advice given once at transplant and not reinforced → repeat advice at each annual review",
+   "Patients living far from the transplant centre missing reviews → arrange shared care with local dermatology where possible",
+   "Frequency requirement not distinguished by years post-transplant → build the changing frequency into the recall system"
+  ],
+  "pearls": [
+   "Combine skin checks with the annual review visit to improve attendance",
+   "Give patients a self-examination guide and photograph diary",
+   "Refer early for any suspicious lesion rather than waiting for the next scheduled review",
+   "Audit alongside skin cancer incidence in the transplant cohort"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of kidney transplant recipients treated for a presumed acute rejection episode have a transplant biopsy carried out before treatment is started?",
+  "why": "Treating rejection without histological confirmation risks over-treatment with immunosuppression and masks alternative diagnoses; no audit of biopsy-before-treatment compliance has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017)",
+   "wording": "We recommend that a transplant renal biopsy should be carried out before treating an acute rejection episode unless this will substantially delay treatment or pose a significant risk to the patient (1C)",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "A transplant biopsy result is available before treatment for rejection is started, or a documented reason (delay risk/patient risk) is recorded when treatment precedes biopsy",
+  "population": "Inclusion: adult kidney transplant recipients treated for presumed acute rejection. Exclusion: hyperacute rejection requiring immediate treatment",
+  "sample": "All rejection episodes treated over the last 12 months (expect 15-30)",
+  "data_source": "Transplant MDT records, histopathology reports, drug chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_rejection_suspected",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biopsy_performed_before_treatment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "biopsy_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_start_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_treatment_before_biopsy_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'biopsy result before treatment, or documented reason for treating first' field to the rejection treatment order in EPMA",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the transplant surgery/nephrology MDT; embed the EPMA field if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Biopsy delayed by radiology or histopathology capacity, forcing empirical treatment → agree a rapid-access biopsy slot for suspected rejection",
+   "Reason for treating before biopsy not documented → make the reason field mandatory",
+   "Coagulopathy or single-kidney risk used inconsistently to justify treating first → agree criteria in advance with the MDT",
+   "Biopsy performed but result not available before treatment starts → track turnaround time separately"
+  ],
+  "pearls": [
+   "Negotiate a same-day or next-day biopsy slot with interventional radiology for suspected rejection",
+   "Fast-track histopathology reporting for transplant biopsies",
+   "Review every case where treatment preceded biopsy at the transplant MDT",
+   "Track biopsy turnaround time as a linked process measure"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from MDT records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adult kidney transplant recipients receive an annual influenza vaccination unless contraindicated?",
+  "why": "Kidney transplant recipients are at increased risk of severe infection, and influenza vaccination is a simple, high-value preventive measure that is easily missed in surgical follow-up; no audit of annual influenza vaccination uptake in this population has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017), Guideline 8.1.1",
+   "wording": "Should receive annual influenza vaccination unless contraindicated (1C)",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "Documented receipt of influenza vaccination in the current influenza season, or a documented contraindication",
+  "population": "Inclusion: adult kidney transplant recipients under active follow-up. Exclusion: recipients transplanted within the last 6 weeks",
+  "sample": "40 consecutive transplant follow-up attendances during influenza season",
+  "data_source": "GP vaccination record, transplant clinic letters, national immunisation record where accessible",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_clinic_visit",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "influenza_vaccination_status_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vaccinated_this_season",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an influenza vaccination status field to the transplant clinic template, checked and acted on at every autumn clinic visit, with on-site vaccination offered if not yet done",
+  "target": "≥85%",
+  "reaudit": "At the following influenza season, same template and sample size",
+  "close_loop": "Present at the transplant follow-up governance meeting; embed the clinic template field and on-site vaccination offer if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Vaccination assumed to be the GP's responsibility and not checked in clinic → make status-checking part of every autumn transplant clinic visit",
+   "No record-sharing between GP and transplant centre → ask patients to bring or confirm vaccination status",
+   "Live vaccines incorrectly given to immunosuppressed patients → ensure only inactivated influenza vaccine is used",
+   "Vaccination status not re-checked each season → build an annual reminder into the recall system"
+  ],
+  "pearls": [
+   "Offer on-site vaccination during the autumn transplant clinic to remove the barrier of a separate GP visit",
+   "Give patients written confirmation of vaccination for their records",
+   "Coordinate with GP practices to avoid duplicate or missed vaccination",
+   "Audit alongside pneumococcal vaccination and booster status"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from clinic letters",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adult kidney transplant recipients have their hepatitis B surface antibody (HBsAb) level rechecked annually, with revaccination given if titres fall below 10 mIU/mL?",
+  "why": "Waning hepatitis B immunity in immunosuppressed transplant recipients is a preventable infection risk that requires active annual surveillance; no audit of adherence to annual HBsAb rechecking has been published in the library.",
+  "standard": {
+   "source": "Renal Association Clinical Practice Guideline, Post-Operative Care in the Kidney Transplant Recipient (February 2017), Guideline 8.1.2",
+   "wording": "Should have hepatitis B surface antibody (HBsAb) levels rechecked annually and be revaccinated if antibody titres fall below 10 mIU/mL (2D)",
+   "url": "https://www.ukkidney.org/sites/renal.org/files/FINAL-Post-Operative-Care-Guideline-1.pdf"
+  },
+  "pass": "An HBsAb level is checked within the last 12 months, with revaccination given if the result is below 10 mIU/mL",
+  "population": "Inclusion: adult kidney transplant recipients previously immunised against hepatitis B under annual follow-up. Exclusion: recipients within their first post-transplant year",
+  "sample": "40 consecutive transplant follow-up attendances over the last 3 months",
+  "data_source": "Laboratory results, transplant clinic letters, immunisation record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_clinic_visit",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_last_hbsab_checked",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "checked_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hbsab_result_miu_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "revaccination_given_if_low",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an annual HBsAb check to the standard transplant follow-up blood test panel, with an automatic flag to prompt revaccination when the result is below 10 mIU/mL",
+  "target": "≥85%",
+  "reaudit": "At 12 months, same template and sample size",
+  "close_loop": "Present at the transplant follow-up governance meeting; embed the automated blood panel and flag if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "HBsAb not included in the routine annual blood panel → add it as a standing annual test",
+   "Low result identified but revaccination not actioned → build an automatic alert into the results system",
+   "Patients revaccinated elsewhere (e.g. by GP) without the result being shared → ask patients to confirm at each visit",
+   "Turnaround time for the result delays action → track result-to-action time"
+  ],
+  "pearls": [
+   "Bundle the HBsAb check with the existing annual review blood tests",
+   "Use an automated laboratory flag for results below 10 mIU/mL",
+   "Keep a vaccination record accessible to both transplant and primary care teams",
+   "Review results alongside other post-transplant infection surveillance data"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from laboratory results",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with a new, surgically significant abnormality on head injury imaging have their care discussed with a neurosurgeon?",
+  "why": "Timely neurosurgical input changes management of significant traumatic brain injury findings; no audit of documented neurosurgical discussion for new significant imaging abnormalities has been published in the library.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.4.15 (2023)",
+   "wording": "Discuss with a neurosurgeon the care of anyone with new and surgically significant abnormalities on imaging.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "A documented discussion with a neurosurgeon occurs within 1 hour of the imaging report identifying a new, surgically significant abnormality",
+  "population": "Inclusion: adults and children with a head injury and a new surgically significant abnormality on CT/MRI. Exclusion: known chronic stable abnormalities",
+  "sample": "40 consecutive head injury CT scans reported as showing a new significant abnormality over the last 4 months",
+  "data_source": "Radiology reports, ED/ward notes, neurosurgical referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_scan",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_report_issued",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_neurosurgical_discussion",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_of_discussion",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a direct electronic 'significant finding' alert from radiology to the referring team and neurosurgical registrar as soon as the report is authorised",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the trauma/neurosurgery network governance meeting; embed the electronic alert if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "'Surgically significant' not defined locally, causing inconsistent referral → agree a local definition with the neuroscience unit before cycle 1",
+   "Discussion happens but is not documented in a retrievable place → require a coded referral log entry",
+   "Out-of-hours reporting delays discussion → audit day and night separately",
+   "Referring team unaware imaging has been reported → use an automated alert rather than relying on staff checking results"
+  ],
+  "pearls": [
+   "Agree the local definition of 'surgically significant' with the neuroscience unit in advance",
+   "Use a single logged referral pathway (phone plus electronic record) for every discussion",
+   "Review any delay over 1 hour at the trauma governance meeting",
+   "Keep the audit simple by using the radiology report timestamp as the start point"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from radiology and referral records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with a severe head injury (GCS 8 or less) requiring transfer to a neuroscience unit are transferred in line with local, agreed transfer guidelines?",
+  "why": "Delayed or poorly organised transfer of severely head-injured patients worsens outcome; no audit of adherence to agreed local transfer guidelines has been published in the library.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.8.1 (2023)",
+   "wording": "Ensure local guidelines on the transfer of people with a severe traumatic brain injury are drawn up between the referring hospital trusts, the neuroscience unit and the local ambulance service, and recognise that: transfer would benefit anyone with serious head injuries (a GCS score of 8 or less), irrespective of the need for neurosurgery.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "pass": "Transfer of a patient with GCS 8 or less follows the documented local transfer guideline (designated referring/receiving consultants, escort standards and communication during transfer)",
+  "population": "Inclusion: adults with GCS 8 or less transferred to a neuroscience unit for a head injury. Exclusion: patients managed entirely within the neuroscience unit's own catchment without transfer",
+  "sample": "All such transfers over the last 12 months (expect 15-30)",
+  "data_source": "Transfer documentation, ambulance records, receiving unit notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transfer",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gcs_at_referral",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "designated_referring_consultant_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "appropriately_trained_escort",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "resuscitation_completed_before_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "local_guideline_followed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Refresh and redistribute the network head injury transfer guideline, with a transfer checklist built into the ambulance handover documentation",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample definition",
+  "close_loop": "Present at the trauma network governance meeting; embed the transfer checklist if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Local guideline out of date or not known to junior staff → include the transfer pathway in trauma induction",
+   "Escort training not verified before transfer → use a standard escort competency checklist",
+   "Unstable patients transferred without adequate resuscitation → reinforce the requirement to stabilise before transfer",
+   "Transfer delayed by bed availability, not process → record reasons for any delay separately"
+  ],
+  "pearls": [
+   "Review the transfer guideline jointly with the ambulance service and neuroscience unit annually",
+   "Use a standard transfer checklist that mirrors the NICE recommendations",
+   "Debrief any transfer that deviates from the guideline",
+   "Track transfer times alongside guideline adherence"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from transfer records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults undergoing cranial surgery receive mechanical VTE prophylaxis from the time of admission?",
+  "why": "Cranial surgery patients are at high VTE risk but pharmacological prophylaxis is often delayed because of bleeding concerns, making early mechanical prophylaxis important; no audit of mechanical VTE prophylaxis timing for cranial surgery has been published in the library.",
+  "standard": {
+   "source": "NICE NG89 Venous thromboembolism in over 16s, rec 1.12.5 (2018)",
+   "wording": "Consider mechanical VTE prophylaxis for people undergoing cranial surgery, start it on admission. Choose either: anti-embolism stockings or intermittent pneumatic compression.",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "Anti-embolism stockings or intermittent pneumatic compression are documented as started on the day of admission",
+  "population": "Inclusion: adults admitted for elective or emergency cranial surgery. Exclusion: patients with a documented contraindication to mechanical prophylaxis",
+  "sample": "40 consecutive cranial surgery admissions over the last 3 months",
+  "data_source": "VTE risk assessment form, nursing admission record, drug/device chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanical_prophylaxis_type",
+    "type": "choice",
+    "options": [
+     "anti-embolism stockings",
+     "intermittent pneumatic compression",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "started_on_day_of_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add mechanical VTE prophylaxis as a default nursing admission task for every cranial surgery admission, triggered by the admission diagnosis code",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the neurosurgery governance meeting; embed the default admission task if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Emergency admissions bypassing the standard admission checklist → build the prompt into the emergency neurosurgical admission proforma as well",
+   "Correct stocking size not available → stock a full range of sizes on the ward",
+   "Device removed for imaging/theatre and not restarted → include a restart check in the post-procedure checklist",
+   "Documentation of 'prophylaxis given' without specifying which device or when → require the specific device and start time"
+  ],
+  "pearls": [
+   "Make mechanical prophylaxis a same-day nursing task linked to the admission diagnosis",
+   "Audit alongside VTE risk assessment completion rates",
+   "Keep spare stockings and compression sleeves readily available on the ward",
+   "Review any gaps at the weekly ward safety huddle"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from admission records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults undergoing cranial surgery whose VTE risk outweighs their bleeding risk are started on pharmacological VTE prophylaxis with LMWH 24 to 48 hours after surgery?",
+  "why": "Delaying pharmacological VTE prophylaxis too long, or omitting it altogether, exposes high-risk neurosurgical patients to avoidable VTE; no audit of adherence to the recommended 24-48 hour start window has been published in the library.",
+  "standard": {
+   "source": "NICE NG89 Venous thromboembolism in over 16s, rec 1.12.8 (2018)",
+   "wording": "Consider adding pharmacological VTE prophylaxis with LMWH, starting 24 to 48 hours after surgery for people undergoing cranial surgery whose risk of VTE outweighs their risk of bleeding.",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "LMWH is started between 24 and 48 hours postoperatively in patients assessed as having VTE risk outweighing bleeding risk, or a documented reason is given for a different timing",
+  "population": "Inclusion: adults having cranial surgery assessed as VTE risk outweighing bleeding risk. Exclusion: patients where bleeding risk is assessed as outweighing VTE risk throughout admission",
+  "sample": "40 consecutive cranial surgery patients meeting this risk profile over the last 4 months",
+  "data_source": "VTE/bleeding risk assessment, drug chart, post-operative ward round notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_outweighs_bleeding_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lmwh_start_time_hours_postop",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_24_to_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_different_timing_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 48-hour post-cranial-surgery VTE prophylaxis decision to the ward round checklist, with a prompt to start LMWH if not already documented",
+  "target": "≥85%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the neurosurgery governance meeting; embed the ward round checklist prompt if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Decision deferred repeatedly without documentation → require an explicit decision at each ward round after 24 hours",
+   "Post-operative CT not repeated to confirm no bleeding before starting LMWH → agree a standard imaging check where required locally",
+   "Different consultants applying different thresholds → agree a single departmental risk-assessment tool",
+   "LMWH started but not documented as being for VTE prophylaxis specifically → use a coded prescription indication"
+  ],
+  "pearls": [
+   "Build the 24-48 hour decision point into the standard post-operative ward round proforma",
+   "Agree a single risk-assessment tool across the department before cycle 1",
+   "Review any prolonged delay at the morbidity and mortality meeting",
+   "Track post-operative VTE and bleeding events as balancing measures"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from drug chart",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults on anticoagulant or antiplatelet therapy who present with a chronic subdural haematoma have a documented multidisciplinary decision on when to stop and, if appropriate, restart the drug?",
+  "why": "Anticoagulation and antiplatelet management is a recognised area of unwarranted variation in chronic subdural haematoma care that increases both rebleeding and thromboembolic risk; no audit of documented multidisciplinary anticoagulation decision-making for this group has been published in the library.",
+  "standard": {
+   "source": "Protocol for the development of a multidisciplinary clinical practice guideline for the care of patients with chronic subdural haematoma (British Journal of Neurosurgery guideline programme)",
+   "wording": "Perioperative care pathway • Management of anticoagulation/antiplatelet agents • Optimal anaesthetic technique • Location and timing of optimization • Acute post-operative medical management",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10905132/"
+  },
+  "pass": "A documented decision on stopping and restarting anticoagulant/antiplatelet therapy, made with input from neurosurgery and the prescribing specialty (e.g. cardiology, stroke, haematology), is present in the notes",
+  "population": "Inclusion: adults on anticoagulant or antiplatelet therapy diagnosed with chronic subdural haematoma. Exclusion: patients not on any anticoagulant/antiplatelet drug",
+  "sample": "All such patients presenting over the last 6 months (expect 20-30)",
+  "data_source": "Neurosurgical admission and discharge notes, MDT/ward round records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_or_antiplatelet_agent",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "agent_stopped_on_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "multidisciplinary_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "restart_plan_documented_at_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'anticoagulation/antiplatelet plan' field to the chronic subdural haematoma admission and discharge proforma, requiring a documented joint decision",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the neurosurgery governance meeting; embed the proforma field if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Restart decision left to the GP without a clear plan from secondary care → give an explicit restart date or review trigger on the discharge letter",
+   "No clear ownership between neurosurgery and the prescribing specialty → name the responsible team on the proforma",
+   "Decision documented but rationale not recorded → require a brief rationale field",
+   "Practice varies between consultants → agree a departmental default pathway while awaiting the full national guideline"
+  ],
+  "pearls": [
+   "Involve stroke medicine, cardiology or haematology early for complex anticoagulation decisions",
+   "Give a clear restart date (or review trigger) on every discharge summary",
+   "Review outcomes (rebleeding vs thromboembolism) at the morbidity and mortality meeting",
+   "Update local practice once the full multidisciplinary national guideline is published"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from admission and discharge notes",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "Is the external ventricular drain (EVD) infection rate reported as infections per 1000 EVD-days rather than as a simple percentage of patients with an EVD?",
+  "why": "Reporting EVD infection as a crude percentage does not account for duration of drainage and makes units with longer average EVD duration look artificially worse or better; no audit of the denominator used for local EVD infection surveillance has been published in the library.",
+  "standard": {
+   "source": "Humphreys H et al., Surveillance of infection associated with external ventricular drains: proposed methodology and results from a multicentre study, Journal of Hospital Infection (Healthcare Infection Society), 2017",
+   "wording": "The use of denominators that account for the duration of the device are preferable (e.g. per 1000 EVD-days) as the risk of infection increases the longer the EVD is in situ.",
+   "url": "https://www.his.org.uk/media/1068/z-download2.pdf"
+  },
+  "pass": "The unit's EVD infection surveillance report expresses the infection rate per 1000 EVD-days, alongside the total number of EVD-days and number of infections",
+  "population": "Inclusion: all patients with an EVD inserted on the neurosurgical unit over the audit period. Exclusion: none",
+  "sample": "All EVDs inserted over the last 6 months (expect 30-60)",
+  "data_source": "Infection prevention and control surveillance records, EVD insertion and removal dates",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_evd_inserted",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_evd_removed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "evd_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "evd_associated_infection",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "current_reporting_method",
+    "type": "choice",
+    "options": [
+     "percentage of patients",
+     "per 1000 EVD-days",
+     "not reported"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Change the unit's EVD infection prevention dashboard to calculate and display the rate per 1000 EVD-days as the primary metric",
+  "target": "100% of surveillance reports expressed per 1000 EVD-days",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the infection prevention and control/neurosurgery governance meeting; embed the dashboard change if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "EVD removal dates not consistently recorded → make removal date a mandatory nursing record field",
+   "Multiple EVDs in one patient counted inconsistently → agree that a replaced EVD counts as a new device, per the published methodology",
+   "Case definitions for infection vary between reviewers → adopt a single published case definition",
+   "Denominator data collected but not fed into a usable dashboard → assign a named person to update the dashboard monthly"
+  ],
+  "pearls": [
+   "Use a single infection prevention and control dashboard updated monthly",
+   "Adopt a standard published case definition for EVD-associated ventriculitis",
+   "Present rates per 1000 EVD-days alongside duration and manipulation frequency data",
+   "Compare rates over time to check the effect of any care bundle changes"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per month from infection surveillance records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with a flexor tendon laceration of the hand are seen at the next available soft tissue hand clinic within 24 hours of referral?",
+  "why": "Delay to specialist assessment of flexor tendon injuries risks a worse functional outcome and more complex later surgery; no audit of time from referral to soft tissue hand clinic assessment has been published in the library.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Lacerations with flexor tendon involvement",
+   "wording": "Referral category green – The patient should be seen at the next available soft tissue hand clinic (ideally within 24 hours).",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/3%20Flexor%20tendon%20final.pdf"
+  },
+  "pass": "The patient is seen in the soft tissue hand clinic within 24 hours of the referral being made",
+  "population": "Inclusion: patients referred with a suspected flexor tendon laceration graded as 'green' category. Exclusion: injuries requiring immediate theatre (e.g. associated vascular injury)",
+  "sample": "40 consecutive flexor tendon referrals over the last 3 months",
+  "data_source": "Emergency department referral log, hand clinic booking system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_referral",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_seen_in_hand_clinic",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_from_referral_to_clinic",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up a daily protected soft tissue hand clinic slot with direct electronic referral from the emergency department hand injury pathway",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the plastic surgery/hand trauma governance meeting; embed the daily clinic slot if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "No hand clinic capacity at weekends → agree a weekend cover arrangement or extend the 24-hour window definition consistently",
+   "Referrals miscategorised as a lower priority → use the BSSH hand injury triage app or equivalent local tool for grading",
+   "Clinic booking delays because of incomplete referral information → use a structured referral proforma",
+   "Referral time not recorded accurately → timestamp referrals electronically"
+  ],
+  "pearls": [
+   "Use the BSSH Hand Injury Triage guidelines/app for consistent categorisation",
+   "Protect a daily hand clinic slot specifically for green-category referrals",
+   "Review any breach of 24 hours at the weekly hand trauma meeting",
+   "Keep referral and booking data in one system to make audit straightforward"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from referral log",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients undergoing operative repair of a flexor tendon injury of the hand have surgery within 4 days of injury?",
+  "why": "Delay beyond the recommended window is associated with more difficult repair and worse outcomes; no audit of time from injury to operative flexor tendon repair has been published in the library.",
+  "standard": {
+   "source": "BSSH Standards of Care in Hand Trauma: Lacerations with flexor tendon involvement",
+   "wording": "Operative management requirements Timing • Within 4 days.",
+   "url": "https://www.bssh.ac.uk/_userfiles/pages/files/professionals/Trauma%20standards/3%20Flexor%20tendon%20final.pdf"
+  },
+  "pass": "Operative flexor tendon repair is performed within 4 days (96 hours) of the injury",
+  "population": "Inclusion: patients undergoing operative repair of a flexor tendon injury of the hand. Exclusion: delayed/staged reconstruction planned electively for a missed or chronic injury",
+  "sample": "40 consecutive flexor tendon repairs over the last 4 months",
+  "data_source": "Theatre system, hand clinic records, operation notes",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_injury",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_from_injury_to_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_4_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a ring-fenced weekly hand trauma theatre list with flexor tendon repairs given priority booking within the 4-day window",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the plastic surgery/hand trauma governance meeting; embed the ring-fenced list if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Hand trauma list regularly cancelled or reduced by emergency general theatre demand → secure formal protection of the list with theatre management",
+   "Delay caused by late referral from the emergency department, not theatre capacity → audit referral-to-listing time separately",
+   "Reasons for delay not recorded → make a delay-reason field mandatory",
+   "Patients unfit for surgery (e.g. intoxication, other injuries) skewing results → record and exclude these with a documented reason"
+  ],
+  "pearls": [
+   "Protect a specific weekly hand trauma list with agreed access rules",
+   "Track referral-to-theatre time in stages (referral to clinic, clinic to theatre) to find the real bottleneck",
+   "Review breaches monthly at the hand trauma governance meeting",
+   "Feed outcomes back to the emergency department to reinforce early referral"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from theatre system",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with a burn covering more than 20% total body surface area (TBSA) are nursed in a single-bedded, thermally controlled cubicle?",
+  "why": "Patients with major burns are at high risk of hypothermia and cross-infection, and appropriate facilities are a recognised patient safety standard; no audit of compliance with the single-room thermally controlled cubicle standard has been published in the library.",
+  "standard": {
+   "source": "British Burn Association National Standards for burn care services (2023-24)",
+   "wording": "Compliance: All burns over 20%TBSA have access to a single-bedded thermally controlled cubicle",
+   "url": "https://www.uhnm.nhs.uk/media/vtnhswke/20240708-burn-care-standards-foi-ref-182-2425-2-of-2.pdf"
+  },
+  "pass": "The patient is nursed in a single-bedded, thermally controlled cubicle from admission (or as soon as a bed becomes available, with any delay documented)",
+  "population": "Inclusion: all patients admitted with a burn of more than 20% TBSA. Exclusion: patients who die before a bed can be allocated",
+  "sample": "All such admissions over the last 12 months (expect 10-20 in a regional burn service)",
+  "data_source": "Bed management records, burn care service admission log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tbsa_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_thermally_controlled_cubicle_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_allocation_if_delayed_hours",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Reserve a designated single-bedded thermally controlled cubicle for major burns within the bed management escalation policy, so it cannot be allocated to another patient without director-of-nursing sign-off",
+  "target": "100%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the burn care network governance/self-assessment meeting; embed the bed reservation policy if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Low case numbers make month-to-month interpretation unreliable → audit over 12 months",
+   "Cubicle used for another patient at the time of a major burn admission → build an explicit escalation and de-escalation policy",
+   "Delay not recorded when the standard is not met → make the delay-reason field mandatory",
+   "Facility exists but is not thermally controlled to specification → verify against network self-assessment criteria (BBA Standards F.06.A/B)"
+  ],
+  "pearls": [
+   "Include the single-room requirement explicitly in the bed management escalation policy",
+   "Use the twice-daily bed utilisation data already submitted to the national Directory of Services as a data source",
+   "Review any breach at the next Burn Care Network board meeting",
+   "Align this audit with the service's biennial self-assessment against national Burn Care standards"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from bed management records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of burns inpatients have a documented multidisciplinary plan of care that includes psychological therapy needs?",
+  "why": "Burns cause significant psychological morbidity, but psychological care can be overlooked while physical treatment dominates the inpatient plan; no audit of documented psychological input within the MDT plan of care has been published in the library.",
+  "standard": {
+   "source": "British Burn Association National Standards for burn care services (2023-24)",
+   "wording": "Plans for therapeutic interventions and rehabilitation, including physical, nutritional and psychological therapies",
+   "url": "https://www.uhnm.nhs.uk/media/vtnhswke/20240708-burn-care-standards-foi-ref-182-2425-2-of-2.pdf"
+  },
+  "pass": "The documented MDT plan of care explicitly addresses psychological therapy needs (input given, planned, or assessed as not currently required)",
+  "population": "Inclusion: all burns inpatients under the burn care service for more than 48 hours. Exclusion: patients discharged within 48 hours of admission",
+  "sample": "40 consecutive burns inpatient admissions over the last 4 months",
+  "data_source": "MDT plan of care documentation, psychology team referral records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mdt_plan_of_care_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "psychological_needs_addressed_in_plan",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "psychology_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'psychological needs' field to the burns MDT plan of care template that must be completed (input given/planned/not currently required) before the plan can be saved",
+  "target": "≥90%",
+  "reaudit": "At 12 weeks, same template and sample size",
+  "close_loop": "Present at the burn care service MDT/governance meeting; embed the mandatory field if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Psychological input assumed to be 'not needed' by default without assessment → require an active choice rather than a blank field",
+   "Psychology team capacity insufficient to see all patients → use a tiered psychological care model with staff training for lower-tier support",
+   "Plan completed once on admission but not updated as needs change → review the psychological needs field at each MDT update",
+   "Field completed as a tick-box without genuine assessment → spot-check with patient and family feedback"
+  ],
+  "pearls": [
+   "Use a tiered psychological care model so ward staff can provide first-line support while specialist psychology sees the highest-need patients",
+   "Make the psychological needs field a required part of every MDT plan review, not just at admission",
+   "Involve psychology in burns MDT meetings routinely, not only on request",
+   "Track psychology referral-to-review time as a linked process measure"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from MDT documentation",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients whose wide local excision for stage 0 (in situ) melanoma does not achieve an adequate histological margin have their further management discussed with the specialist skin cancer multidisciplinary team?",
+  "why": "Incomplete excision of melanoma in situ requires a further management decision that should not be made unilaterally; no audit of MDT discussion for this specific incomplete-excision scenario has been published in the library.",
+  "standard": {
+   "source": "NICE NG14 Melanoma: assessment and management, rec 1.5.2 (2022)",
+   "wording": "If excision for stage 0 melanoma does not achieve an adequate histological margin, discuss further management with the specialist skin cancer multidisciplinary team.",
+   "url": "https://www.nice.org.uk/guidance/ng14/chapter/Recommendations"
+  },
+  "pass": "A documented discussion at the specialist skin cancer MDT occurs within 4 weeks of the histology report confirming an inadequate margin",
+  "population": "Inclusion: patients with stage 0 (in situ) melanoma whose excision histology shows an inadequate margin. Exclusion: adequate margins achieved at first excision",
+  "sample": "All such cases identified over the last 12 months (expect 10-20)",
+  "data_source": "Histopathology reports, specialist skin cancer MDT records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_histology_report",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "margin_status",
+    "type": "choice",
+    "options": [
+     "adequate",
+     "inadequate"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mdt_discussion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discussed_within_4_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_management_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic MDT-list trigger from the histopathology reporting system whenever a melanoma excision margin is coded as inadequate",
+  "target": "100%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the specialist skin cancer MDT; embed the automatic trigger if effective",
+  "evidence": [
+   "[NNA-346] audits use of the correct clinical excision margin for stage I/II melanoma; this audit covers the separate, unaddressed question of what happens when a margin from a stage 0 excision turns out to be inadequate"
+  ],
+  "pitfalls": [
+   "Inadequate margin identified by a non-specialist pathologist without automatic MDT flagging → use a coded histology field to trigger listing",
+   "Re-excision performed before MDT discussion out of habit → require discussion first unless there is a clinical urgency",
+   "Low case numbers → audit over 12 months",
+   "Patient not informed of the plan promptly → require a documented patient communication step"
+  ],
+  "pearls": [
+   "Use a coded histology margin field to enable automatic MDT list triggering",
+   "Keep a register of incomplete excisions for continuity across staff rotations",
+   "Feed outcomes back to referring dermatology/GP services",
+   "Review turnaround time from histology to MDT discussion"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from histopathology and MDT records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with melanoma of Breslow thickness greater than 1.0 mm have sentinel lymph node biopsy (SLNB) considered and documented?",
+  "why": "SLNB provides important staging information for melanoma over 1.0 mm Breslow thickness and should be actively considered and discussed with the patient; no audit of documented SLNB consideration at this specific threshold has been published in the library.",
+  "standard": {
+   "source": "NICE NG14 Melanoma: assessment and management, rec 1.4.4 (2022)",
+   "wording": "Consider SLNB for people who have melanoma with a Breslow thickness greater than 1.0 mm.",
+   "url": "https://www.nice.org.uk/guidance/ng14/chapter/Recommendations"
+  },
+  "pass": "A documented discussion of SLNB (offered, declined, or not suitable with reason) is recorded in the MDT outcome or clinic letter for melanoma with Breslow thickness over 1.0 mm",
+  "population": "Inclusion: adults with primary cutaneous melanoma of Breslow thickness greater than 1.0 mm. Exclusion: melanoma with known nodal or distant metastases at diagnosis",
+  "sample": "All such patients diagnosed over the last 12 months (expect 20-30)",
+  "data_source": "Skin cancer MDT database, histopathology reports, clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "breslow_thickness_mm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "slnb_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "slnb_outcome",
+    "type": "choice",
+    "options": [
+     "performed",
+     "declined by patient",
+     "not suitable",
+     "not documented"
+    ],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'SLNB considered: yes/no and outcome' field to the melanoma MDT outcome proforma for every case with Breslow thickness over 1.0 mm",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the specialist skin cancer MDT; embed the proforma field if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Breslow thickness not clearly stated in the histology report used for triage → require a coded thickness field from pathology",
+   "SLNB capacity/waiting times limit ability to offer it promptly → identify capacity constraints early",
+   "Patient preference not documented when SLNB is declined → require a reason field",
+   "Cases discussed at MDT before full histology is available, causing the step to be missed → build a re-check step once full histology is back"
+  ],
+  "pearls": [
+   "Use a coded Breslow thickness field from pathology to auto-populate the MDT list with an SLNB prompt",
+   "Give patients written information on SLNB to support shared decision-making",
+   "Audit SLNB uptake alongside re-excision rates as a package of melanoma care measures",
+   "Review any case where SLNB was omitted without documented reason at the MDT"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from MDT database",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults under surveillance for an asymptomatic abdominal aortic aneurysm (AAA) are rescanned at the same frequency as the NHS AAA screening programme?",
+  "why": "Inconsistent surveillance intervals for incidentally detected or clinic-diagnosed AAA risk missed rupture warning signs; no audit of adherence to the standard surveillance frequency has been published in the library.",
+  "standard": {
+   "source": "NICE NG156 Abdominal aortic aneurysm: diagnosis and management, rec 1.2.3 (2020)",
+   "wording": "Offer surveillance with aortic ultrasound to people with an asymptomatic AAA. Use the same surveillance frequency as the NHS AAA screening programme.",
+   "url": "https://www.nice.org.uk/guidance/ng156/chapter/Recommendations"
+  },
+  "pass": "The next surveillance ultrasound is booked/performed at the interval used by the NHS AAA screening programme for the patient's aortic diameter band (annual for 3.0-4.4cm, 3-monthly for 4.5-5.4cm)",
+  "population": "Inclusion: adults with an asymptomatic AAA under vascular surveillance, not yet meeting referral threshold for repair. Exclusion: AAA ≥5.5cm already referred for intervention",
+  "sample": "40 consecutive patients under AAA surveillance over the last 3 months",
+  "data_source": "Vascular surveillance database, ultrasound booking system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_scan",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aortic_diameter_cm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "expected_interval_per_screening_programme",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_next_scan_booked",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interval_matches_screening_programme",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Move all non-screening-detected AAA surveillance patients onto the same recall system used by the NHS AAA screening programme so intervals are applied automatically",
+  "target": "≥95%",
+  "reaudit": "At 6 months, same template and sample size",
+  "close_loop": "Present at the vascular surgery governance meeting; embed the shared recall system if effective",
+  "evidence": [
+   "[NNA-013] and [NNA-014] audit referral of incidental AAA ≥3cm and reporting of the correct aortic diameter measurement; this audit covers the separate question of whether ongoing surveillance then follows the correct interval"
+  ],
+  "pitfalls": [
+   "Clinic-diagnosed AAA surveillance run on a separate, less robust system than the screening programme → merge onto a single recall database",
+   "Surveillance interval changed inconsistently as the aneurysm grows → automate the interval based on the latest measurement",
+   "Patients lost to follow-up after discharge from vascular clinic → use an opt-out recall system rather than relying on re-referral",
+   "Ultrasound capacity insufficient to meet 3-monthly recalls for medium AAA → identify capacity gaps before committing to the target"
+  ],
+  "pearls": [
+   "Use the same IT recall system as the national screening programme wherever possible",
+   "Automate interval calculation from the latest scan result",
+   "Audit alongside the screening programme's own quality assurance data",
+   "Review any patient overdue by more than 4 weeks at a monthly recall meeting"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from surveillance database",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults with a diabetic foot problem referred to the vascular/diabetic foot service are seen and triaged within the recommended timeframe (immediately if limb- or life-threatening, otherwise referred within 1 working day and triaged within a further working day)?",
+  "why": "Delay in specialist diabetic foot assessment increases the risk of limb loss; no audit of adherence to the specific NICE referral and triage timeframes for the diabetic foot MDT service has been published in the library.",
+  "standard": {
+   "source": "NICE NG19 Diabetic foot problems: prevention and management, recs 1.4.1 and 1.4.2 (2015, updated 2019)",
+   "wording": "1.4.1 If a person has a limb-threatening or life-threatening diabetic foot problem, refer them immediately to acute services and inform the multidisciplinary foot care service... 1.4.2 For all other active diabetic foot problems, refer the person within 1 working day to the multidisciplinary foot care service or foot protection service... for triage within 1 further working day.",
+   "url": "https://www.nice.org.uk/guidance/ng19/chapter/Recommendations"
+  },
+  "pass": "Limb/life-threatening problems are referred immediately; all other active diabetic foot problems are referred within 1 working day and triaged within a further working day",
+  "population": "Inclusion: adults with an active diabetic foot problem referred to the vascular/diabetic foot MDT service. Exclusion: routine diabetic foot screening with no active problem",
+  "sample": "40 consecutive diabetic foot referrals over the last 3 months",
+  "data_source": "Referral log, MDT triage records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_problem_identified",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severity",
+    "type": "choice",
+    "options": [
+     "limb/life-threatening",
+     "other active problem"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_referred",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_triaged",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "met_referral_timeframe",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "met_triage_timeframe",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Create a single electronic 'diabetic foot problem' referral form with built-in severity triage that routes limb/life-threatening cases directly to same-day assessment and all others to a 1-working-day queue with automatic triage reminders",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the diabetic foot MDT/vascular governance meeting; embed the electronic referral form if effective",
+  "evidence": [
+   "[NNA-114] and [ONA-161] and [ONA-078]/[ONA-079]/[ONA-080] audit foot risk assessment on admission and IV antibiotic review for inpatients; this audit adds the separate referral-to-triage timeframe for the MDT service itself, which none of those measure"
+  ],
+  "pitfalls": [
+   "Referrals sent by fax or letter with no timestamp → move to a timestamped electronic referral",
+   "Severity misclassified at the point of referral → provide clear referral criteria and examples",
+   "Weekend/bank holiday referrals miscounted against working-day targets → define 'working day' clearly in the template",
+   "Triage capacity insufficient for a 1-day turnaround → identify staffing gaps before committing to the change"
+  ],
+  "pearls": [
+   "Use a single, mandatory electronic referral form with built-in severity flagging",
+   "Set up an automatic reminder if a referral is untriaged after 1 working day",
+   "Audit alongside the National Diabetes Foot Care Audit dataset where the unit participates",
+   "Review any breach at the weekly diabetic foot MDT"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from referral log",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults with recent stable non-disabling stroke or TIA and 50-99% (NASCET) or 70-99% (ECST) symptomatic carotid stenosis are assessed and referred urgently for carotid endarterectomy?",
+  "why": "The benefit of carotid endarterectomy for symptomatic stenosis is highly time-dependent, but urgent referral pathways are inconsistently followed; no audit of documented urgent referral for this specific stenosis threshold has been published in the library.",
+  "standard": {
+   "source": "NICE NG128 Stroke and transient ischaemic attack in over 16s, rec 1.2.4 (2008, amended 2019)",
+   "wording": "Ensure that people with stable neurological symptoms from acute non-disabling stroke or TIA who have symptomatic carotid stenosis of 50% to 99% according to the NASCET... criteria, or 70% to 99% according to the ECST... criteria: are assessed and referred urgently for carotid endarterectomy to a service following current national standards.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/recommendations"
+  },
+  "pass": "Urgent referral to vascular surgery for carotid endarterectomy is documented on the same day as the carotid imaging result confirming qualifying stenosis, with surgery performed in line with the National Stroke Service Model",
+  "population": "Inclusion: adults with stable non-disabling stroke or TIA and carotid stenosis meeting the NASCET/ECST threshold. Exclusion: disabling stroke, occluded carotid artery, or stenosis below threshold",
+  "sample": "All qualifying patients identified over the last 12 months (expect 15-25)",
+  "data_source": "TIA/stroke clinic records, carotid imaging reports, vascular surgery referral and theatre records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_qualifying_imaging_result",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stenosis_percent_and_criteria",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_referred_to_vascular_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_from_symptom_onset_to_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set up a direct, same-day electronic referral pathway from the TIA/stroke clinic and carotid imaging report straight to the vascular surgery urgent carotid list",
+  "target": "≥90%",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the joint stroke/vascular surgery governance meeting; embed the direct referral pathway if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Referral delayed pending a formal MDT slot rather than being sent immediately → allow direct urgent referral outside the routine MDT cycle",
+   "Carotid imaging reported out of hours with no same-day action → agree an out-of-hours escalation route",
+   "Low case numbers per unit → audit over 12 months",
+   "Best medical therapy delayed while awaiting surgery → audit medical therapy start date as a secondary measure"
+  ],
+  "pearls": [
+   "Agree a direct, single-phone-call referral route between stroke medicine and vascular surgery",
+   "Track total time from symptom onset to surgery, not just referral to surgery",
+   "Review every case exceeding the target pathway time at the joint governance meeting",
+   "Feed outcomes into the national Sentinel Stroke National Audit Programme (SSNAP) submission"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from clinic and theatre records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients with Rutherford IIb acute limb ischaemia are treated by specialist staff within six hours of their symptoms appearing?",
+  "why": "Rutherford IIb acute limb ischaemia is immediately but potentially reversibly limb-threatening, and delay beyond six hours risks irreversible tissue loss; a national confidential enquiry found this target was not consistently met, and no closed-loop audit of local performance against it has been published in the library.",
+  "standard": {
+   "source": "NCEPOD, Risking Life and Limb: acute limb ischaemia national report",
+   "wording": "In severe cases (Rutherford IIb), patients need to be treated by specialist staff within six hours of their symptoms appearing.",
+   "url": "https://www.ncepod.org.uk/2025ali/Risking%20Life%20and%20Limb_Extended%20report.pdf"
+  },
+  "pass": "Revascularisation (surgical or endovascular) by specialist staff is achieved within six hours of documented symptom onset for Rutherford IIb limb ischaemia",
+  "population": "Inclusion: adults presenting with Rutherford IIb acute limb ischaemia. Exclusion: Rutherford I, IIa or III (irreversible) ischaemia",
+  "sample": "All Rutherford IIb presentations over the last 12 months (expect 15-25 in a vascular hub)",
+  "data_source": "Emergency department and vascular admission notes, theatre/interventional radiology records",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_symptoms_began",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rutherford_category_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_arrived_at_vascular_hub",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_revascularisation_started",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_symptom_onset_to_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_6_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a standard acute limb ischaemia pathway with mandatory Rutherford classification at triage and direct ambulance conveyance/transfer to the vascular hub, bypassing local emergency departments where already agreed in the network",
+  "target": "≥70% within 6 hours (with continuous improvement)",
+  "reaudit": "At 12 months, same template and sample definition",
+  "close_loop": "Present at the vascular network governance meeting; embed the direct-to-hub pathway if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Rutherford classification rarely used outside vascular hubs → train spoke hospital emergency teams to classify and flag IIb cases",
+   "Patients directed to a spoke hospital first, adding avoidable transfer time → agree direct ambulance conveyance to the hub for suspected IIb ischaemia",
+   "Symptom onset time poorly documented → standardise how this is elicited and recorded",
+   "No national/local data collection system in place → set up a simple local log as an interim measure"
+  ],
+  "pearls": [
+   "Train ambulance and ED staff to recognise and flag suspected Rutherford IIb limb ischaemia for direct hub conveyance",
+   "Use the '6Ps' assessment consistently and document each element",
+   "Review every case exceeding six hours at the vascular morbidity and mortality meeting",
+   "Share pathway performance data across the network to drive improvement"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ED and vascular records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of patients undergoing major lower limb amputation have a documented discussion of their treatment options with the lower limb multidisciplinary team before the decision to amputate?",
+  "why": "Major lower limb amputation is a life-changing decision that should follow shared, multidisciplinary review of revascularisation and non-operative options; no audit of documented MDT discussion before amputation has been published in the library.",
+  "standard": {
+   "source": "VSGBI Best Practice Clinical Care Pathway for Peripheral Arterial Disease, Quality Improvement Framework (2022)",
+   "wording": "Patients should have adequate opportunities to discuss treatment with members of the lower limb MDT.",
+   "url": "https://jvsgbi.com/wp-content/uploads/2022/04/PAD-QIF-2022-update-1.1.pdf"
+  },
+  "pass": "A documented lower limb MDT discussion, including the patient's views, occurs before the decision to proceed to major amputation (except in a genuine emergency, e.g. overwhelming sepsis)",
+  "population": "Inclusion: adults undergoing major (above- or below-knee) lower limb amputation for vascular or diabetic foot disease. Exclusion: traumatic amputation, emergency amputation for overwhelming sepsis",
+  "sample": "40 consecutive major lower limb amputations over the last 4 months",
+  "data_source": "Vascular MDT records, operation notes, clinic letters",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_amputation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mdt_discussion_before_decision",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_views_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "emergency_indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auditor_initials_and_date",
+    "type": "text",
+    "options": [],
+    "note": "Initials of person collecting the data and date collected"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make lower limb MDT discussion a mandatory pre-requisite field on the electronic theatre booking form for elective/urgent major amputation, with an emergency override that requires consultant sign-off",
+  "target": "≥90% (excluding documented emergencies)",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the vascular surgery MDT/governance meeting; embed the theatre booking pre-requisite if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Amputation booked directly by the on-call team without MDT input → build the pre-requisite field into the booking form itself",
+   "MDT discussion documented in generic terms without evidence of shared decision-making → require a specific 'patient views' field",
+   "Genuine emergencies wrongly used to bypass MDT discussion → require consultant sign-off for any emergency override",
+   "Frail or end-of-life patients not offered a broader discussion including palliative options → include amputation counsellor/palliative care input where relevant"
+  ],
+  "pearls": [
+   "Include the amputation counsellor and rehabilitation team in the MDT discussion, not only surgeons",
+   "Use a structured MDT proforma capturing revascularisation options considered and patient preference",
+   "Review every emergency-override case at the vascular governance meeting",
+   "Track amputation counselling and rehabilitation referral rates as linked outcomes"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MDT and theatre records",
+  "area": "Surgical specialties"
+ },
+ {
+  "question": "What proportion of adults undergoing major lower limb amputation whose risk of VTE outweighs their risk of bleeding receive pharmacological VTE prophylaxis with LMWH for a minimum of 7 days?",
+  "why": "Patients undergoing amputation are often frail, immobile and at high VTE risk, but pharmacological prophylaxis is not always continued for the recommended duration; no audit of compliance with the amputation-specific VTE recommendation has been published in the library.",
+  "standard": {
+   "source": "NICE NG89 Venous thromboembolism in over 16s, rec 1.15.5 (2018)",
+   "wording": "Consider pharmacological VTE prophylaxis with LMWH for a minimum of 7 days for people who are undergoing lower limb amputation whose risk of VTE outweighs their risk of bleeding.",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "LMWH is prescribed and given for at least 7 days postoperatively in patients whose VTE risk outweighs bleeding risk, with mechanical prophylaxis to the contralateral leg where pharmacological prophylaxis is contraindicated",
+  "population": "Inclusion: adults undergoing major lower limb amputation assessed as VTE risk outweighing bleeding risk. Exclusion: patients already fully anticoagulated for another indication",
+  "sample": "40 consecutive major lower limb amputations over the last 4 months",
+  "data_source": "VTE risk assessment, drug chart, discharge prescription",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vte_risk_outweighs_bleeding_risk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lmwh_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lmwh_duration_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "duration_7_days_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanical_prophylaxis_contralateral_leg",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 7-day minimum LMWH course as the default in the post-amputation order set, with a discharge prescription for any remaining days and a mechanical prophylaxis option built in for contraindicated cases",
+  "target": "≥90%",
+  "reaudit": "At 14 weeks, same template and sample size",
+  "close_loop": "Present at the vascular surgery governance meeting; embed the order set default if effective",
+  "evidence": [
+   "[no directly comparable closed-loop audit in the library]"
+  ],
+  "pitfalls": [
+   "Course stopped early at discharge because the discharge prescription is overlooked → build the remaining LMWH days into the discharge prescription automatically",
+   "Bleeding risk assessment not documented, making it unclear whether the recommendation applies → make risk assessment a mandatory pre-op step",
+   "Mechanical prophylaxis omitted on the amputated/residual limb without considering the contralateral leg → clarify in the order set that intermittent pneumatic compression is used on the remaining leg",
+   "Early discharge to rehabilitation interrupting the course → communicate the remaining course clearly in the transfer letter"
+  ],
+  "pearls": [
+   "Build the full 7-day course, including any discharge supply, into a single order set",
+   "Communicate VTE prophylaxis plans clearly in transfer letters to rehabilitation units",
+   "Audit alongside post-amputation VTE and bleeding event rates as balancing measures",
+   "Review any early discontinuation at the vascular governance meeting"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from drug chart",
+  "area": "Surgical specialties"
+ }
+]

@@ -1,0 +1,179 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../app/vendor/fonts/fonts.css">
+<style>
+:root { --navy:#0b1f3a; --gold:#c9a45c; --ivory:#f3efe6; --mist:#a9b2c3; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:1080px; height:1920px; overflow:hidden; }
+body { font-family:"Source Sans 3",system-ui,sans-serif; color:var(--ivory);
+  background: radial-gradient(120% 70% at 80% 8%, #1c3a66 0%, var(--navy) 55%, #071528 100%); position:relative; }
+.grain { position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.018) 0 2px, transparent 2px 7px); }
+.frame { position:absolute; inset:32px; border:1.5px solid rgba(201,164,92,.3); border-radius:6px; }
+.scene { position:absolute; inset:0; opacity:0; }
+.kicker { font-weight:600; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); font-size:26px; display:flex; align-items:center; gap:22px; }
+.kicker::before { content:""; width:64px; height:2px; background:var(--gold); }
+.serif { font-family:"Newsreader",Georgia,serif; font-weight:500; letter-spacing:-.015em; line-height:1.04; }
+em { font-style:italic; color:var(--gold); font-weight:400; }
+.cap { position:absolute; left:96px; right:96px; top:190px; }
+.cap h2 { font-size:92px; margin-top:26px; }
+.phone { position:absolute; left:50%; top:620px; width:600px; height:1230px; margin-left:-300px; border-radius:84px; background:#05101f; padding:21px;
+  box-shadow:0 50px 100px rgba(0,0,0,.55), 0 0 0 2px #2a3a55; }
+.scr { width:100%; height:100%; border-radius:66px; overflow:hidden; background:#fff; position:relative; }
+.scr img { width:100%; display:block; position:absolute; left:0; top:0; }
+.notch { position:absolute; top:40px; left:50%; transform:translateX(-50%); width:170px; height:42px; background:#05101f; border-radius:99px; z-index:3; }
+.statusbar { position:absolute; top:0; left:0; right:0; height:78px; background:#fff; z-index:2; }
+.fadebot { position:absolute; left:0; right:0; bottom:0; height:330px; background:linear-gradient(rgba(7,21,40,0), #071528 70%); z-index:4; }
+.brandrow { position:absolute; left:96px; right:96px; bottom:110px; display:flex; align-items:center; justify-content:space-between; z-index:5; }
+.brand { display:flex; align-items:center; gap:22px; font-family:"Newsreader",serif; font-weight:600; font-size:52px; color:#fff; }
+.brand img { width:78px; height:78px; border-radius:17px; box-shadow:0 0 0 2px rgba(255,255,255,.18); }
+.url { color:var(--gold); font-weight:600; font-size:36px; letter-spacing:.04em; }
+.big { position:absolute; left:96px; right:96px; }
+.num { font-family:"Newsreader",serif; font-weight:500; font-size:230px; line-height:1; color:#fff; font-variant-numeric:lining-nums tabular-nums; }
+.lbl { font-size:30px; letter-spacing:.18em; text-transform:uppercase; color:var(--mist); font-weight:600; margin-top:18px; }
+.rule { height:2px; background:rgba(201,164,92,.35); margin:70px 0; }
+.slide { position:absolute; left:70px; width:940px; aspect-ratio:1467/825; border-radius:14px; overflow:hidden; box-shadow:0 40px 90px rgba(0,0,0,.55), 0 0 0 2px rgba(255,255,255,.1); background:#fff; }
+.slide img { width:100%; display:block; }
+.ticks { list-style:none; display:grid; gap:44px; font-size:50px; line-height:1.25; }
+.ticks li { position:relative; padding-left:86px; }
+.ticks li::before { content:""; position:absolute; left:12px; top:6px; width:26px; height:46px; border:solid var(--gold); border-width:0 8px 8px 0; transform:rotate(45deg); }
+.ticks b { color:#fff; }
+.pill { display:inline-block; padding:22px 40px; border:2px solid var(--gold); border-radius:999px; color:var(--gold); font-weight:600; font-size:40px; }
+.shield { width:220px; height:250px; }
+</style></head>
+<body>
+<div class="grain"></div><div class="frame"></div>
+
+<!-- 1 title -->
+<div class="scene" id="s1">
+  <div class="big" style="top:560px">
+    <div class="kicker">High-quality clinical audit</div>
+    <div class="serif" style="font-size:168px;margin-top:40px">Audit due?</div>
+    <div class="serif" id="s1b" style="font-size:168px"><em>Done in minutes.</em></div>
+  </div>
+</div>
+
+<!-- 2 library -->
+<div class="scene" id="s2">
+  <div class="big" style="top:330px">
+    <div class="kicker">Built on real evidence</div>
+    <div class="num" id="n1" style="margin-top:60px">0</div>
+    <div class="lbl">Published UK &amp; Irish audits</div>
+    <div class="rule"></div>
+    <div class="num" id="n2" style="font-size:170px">0</div>
+    <div class="lbl">Closed the loop</div>
+    <div class="serif" style="font-size:64px;margin-top:90px;color:#dfe3ea">Every suggestion is backed by audits that <em>actually worked.</em></div>
+  </div>
+</div>
+
+<!-- 3 typing -->
+<div class="scene" id="s3">
+  <div class="cap"><div class="kicker">Step 1</div><h2 class="serif">Type <em>any topic</em></h2></div>
+  <div class="phone"><div class="notch"></div><div class="scr" id="typescr"><div class="statusbar"></div></div></div>
+</div>
+
+<!-- 4 list -->
+<div class="scene" id="s4">
+  <div class="cap"><div class="kicker">Or skip the thinking</div><h2 class="serif"><em>1,000+</em> ready-made audits</h2></div>
+  <div class="phone"><div class="notch"></div><div class="scr"><div class="statusbar"></div><img id="i4" src="img/list.jpg"></div></div>
+</div>
+
+<!-- 5 standard -->
+<div class="scene" id="s5">
+  <div class="cap"><div class="kicker">Step 2</div><h2 class="serif">The exact standard, <em>word for word</em></h2></div>
+  <div class="phone"><div class="notch"></div><div class="scr"><div class="statusbar"></div><img id="i5" src="img/audit-full.jpg"></div></div>
+</div>
+
+<!-- 6 data -->
+<div class="scene" id="s6">
+  <div class="cap"><div class="kicker">Step 3</div><h2 class="serif">Data sheet ready. <em>Add your results.</em></h2></div>
+  <div class="phone"><div class="notch"></div><div class="scr"><div class="statusbar"></div><img id="i6" src="img/run-c1.jpg"></div></div>
+</div>
+
+<!-- 7 results -->
+<div class="scene" id="s7">
+  <div class="cap"><div class="kicker">Step 4</div><h2 class="serif">Charts and statistics, <em>done for you</em></h2></div>
+  <div class="phone"><div class="notch"></div><div class="scr"><div class="statusbar"></div><img id="i7" src="img/run-done.jpg"></div></div>
+</div>
+
+<!-- 8 slides -->
+<div class="scene" id="s8">
+  <div class="cap"><div class="kicker">Step 5</div><h2 class="serif">Your presentation, <em>ready to download</em></h2></div>
+  <div id="slides"></div>
+</div>
+
+<!-- 9 safety -->
+<div class="scene" id="s9">
+  <div class="big" style="top:380px">
+    <svg class="shield" viewBox="0 0 100 114"><path d="M50 4 L92 20 V54 C92 82 74 100 50 110 C26 100 8 82 8 54 V20 Z" fill="none" stroke="#c9a45c" stroke-width="5"/><path d="M32 57 L45 70 L70 42" fill="none" stroke="#f3efe6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="serif" style="font-size:120px;margin-top:60px">Your data <em>stays safe.</em></div>
+    <ul class="ticks" style="margin-top:80px">
+      <li><b>No patient details</b>, ever</li>
+      <li>Sign in with your <b>work email</b></li>
+      <li>For NHS, HSE &amp; university staff</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 10 end -->
+<div class="scene" id="s10">
+  <div class="big" style="top:470px; text-align:center">
+    <img src="../../app/icons/logo.svg" style="width:220px;height:220px;border-radius:48px;box-shadow:0 0 0 3px rgba(255,255,255,.18)">
+    <div class="serif" style="font-size:150px;margin-top:50px">Ai4Qi</div>
+    <div class="serif" style="font-size:96px;margin-top:40px"><em>Completely free.</em></div>
+    <div style="font-size:44px;color:#dfe3ea;margin-top:24px">No adverts. No catch.</div>
+    <div class="url" style="font-size:84px;margin-top:110px">ai4qi.com</div>
+    <div class="pill" style="margin-top:60px">Free for NHS, HSE &amp; university staff</div>
+  </div>
+</div>
+
+<div class="fadebot" id="fade"></div>
+<div class="brandrow" id="brandrow"><div class="brand"><img src="../../app/icons/logo.svg">Ai4Qi</div><div class="url">ai4qi.com</div></div>
+
+<script>
+const S = [ // id, start, end
+  ['s1',0,3.6],['s2',3.6,8.4],['s3',8.4,13.2],['s4',13.2,17.6],['s5',17.6,22.4],
+  ['s6',22.4,27.2],['s7',27.2,32.4],['s8',32.4,38.4],['s9',38.4,43],['s10',43,48]];
+const DUR = 48;
+const ease = x => x<0?0:x>1?1:(x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2);
+const clamp = x => x<0?0:x>1?1:x;
+// typing frames
+const tscr = document.getElementById('typescr'); const NT = 32; const timgs=[];
+for (let i=0;i<=NT;i++){ const im=document.createElement('img'); im.src='img/type-'+String(i).padStart(2,'0')+'.jpg'; im.style.visibility='hidden'; tscr.appendChild(im); timgs.push(im); }
+// slides
+const SL=['01','03','05','07','08','12']; const sb=document.getElementById('slides'); const sEls=[];
+SL.forEach((n,k)=>{ const d=document.createElement('div'); d.className='slide'; d.innerHTML='<img src="img/slide-'+n+'.jpg">'; sb.appendChild(d); sEls.push(d); });
+const k = 558/780; // phone screen width / image width
+function scroll(id, t, a, b, y0, y1){ document.getElementById(id).style.transform = `translateY(${-(y0+(y1-y0)*ease((t-a)/(b-a)))*k + 78}px)`; }
+const fmt = n => Math.round(n).toLocaleString('en-GB');
+window.render = function(t){
+  for (const [id,a,b] of S){ const e=document.getElementById(id);
+    const fi = id==='s1'?1:clamp((t-a)/0.45), fo = id==='s10'?1:clamp((b-t)/0.45);
+    const o = Math.min(fi,fo); e.style.opacity = (t>=a-0.01 && t<=b+0.01)?o:0;
+    const lift = (1-ease(fi))*40; e.style.transform=`translateY(${lift}px)`; }
+  // s1: second line reveal
+  document.getElementById('s1b').style.opacity = clamp((t-1.0)/0.6);
+  // s2 counters
+  document.getElementById('n1').textContent = fmt(20009*ease((t-3.9)/2.2));
+  document.getElementById('n2').textContent = fmt(7477*ease((t-4.5)/2.2));
+  // s3 typing
+  const ti = Math.max(0,Math.min(NT, Math.floor((t-9.2)/3.0*NT)));
+  timgs.forEach((im,i)=> im.style.visibility = i===ti?'visible':'hidden');
+  scroll('i4', t, 14.0, 17.4, 0, 2100);
+  scroll('i5', t, 18.4, 22.0, 2150, 2950);
+  scroll('i6', t, 23.2, 26.8, 6250, 7000);
+  scroll('i7', t, 28.0, 32.0, 8750, 11000);
+  // slides: stacked deal
+  const per = 0.85, s0 = 33.0;
+  sEls.forEach((d,i)=>{ const st=s0+i*per; const p=ease((t-st)/0.5);
+    const top = 700 + i*0;
+    const x = (1-p)*1100; const rot=(1-p)*8 + (i%2? -2:2)*p*.5;
+    d.style.top=(top + i*28)+'px'; d.style.transform=`translateX(${x}px) rotate(${rot}deg)`; d.style.opacity = t<st?0:1; d.style.zIndex=i; });
+  // brand row hidden on title/end
+  const showBrand = t>3.6 && t<43;
+  document.getElementById('brandrow').style.opacity = showBrand?1:0;
+  document.getElementById('fade').style.opacity = (t>8.4 && t<32.4)?1:0;
+};
+window.DUR = DUR;
+render(0);
+</script>
+</body></html>

@@ -1,0 +1,2111 @@
+[
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of women and girls of childbearing potential on repeat valproate have a signed Annual Risk Acknowledgement Form from the last 12 months in their GP record?",
+  "why": "Valproate in pregnancy causes birth defects in about 1 in 10 babies and developmental problems in 3 to 4 in 10 children. In UK primary care only 42% of women on valproate had an annual review [7806], and ARAF completion in a mental health service started at 3% [3196]. No closed-loop general practice audit of ARAF filing has been published in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, April 2019 (valproate materials updated June 2025)",
+   "wording": "It is the prescriber’s responsibility to ensure women and girls of childbearing potential (from menarche to menopause) who are taking a valproate medicine, irrespective of indication, fulfil all the requirements of the Pregnancy Prevention Programme. These responsibilities include that the patient (or responsible person) and their specialist must complete the Annual Risk Acknowledgement Form at each year’s annual review.",
+   "url": "https://www.gov.uk/drug-safety-update/valproate-medicines-and-serious-harms-in-pregnancy-new-annual-risk-acknowledgement-form-and-clinical-guidance-from-professional-bodies-to-support-compliance-with-the-pregnancy-prevention-programme"
+  },
+  "pass": "A signed Annual Risk Acknowledgement Form (ARAF) dated within the 12 months before the audit date is filed or coded in the GP record. A specialist-signed ARAF section stating the patient is not at risk of pregnancy, countersigned by the patient, also counts.",
+  "population": "Female patients aged 12 to 55 with a valproate prescription (sodium valproate, valproic acid or valproate semisodium) issued by the practice in the last 3 months, for any indication. Exclude patients who registered in the last 3 months.",
+  "sample": "All eligible patients in the practice; if fewer than 30, include every practice in the primary care network (PCN).",
+  "data_source": "Clinical system search (EMIS Web or SystmOne) for valproate issues; scanned documents and clinic letters for the ARAF; coded entries for Pregnancy Prevention Programme status and contraception.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "epilepsy",
+     "bipolar disorder",
+     "other",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_valproate_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "araf_on_file",
+    "type": "yes/no",
+    "options": [],
+    "note": "Signed form or scanned copy, not a letter that mentions it"
+   },
+   {
+    "field": "araf_date",
+    "type": "date",
+    "options": [],
+    "note": "Blank if none"
+   },
+   {
+    "field": "araf_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "araf_requested_from_specialist",
+    "type": "yes/no",
+    "options": [],
+    "note": "If missing, was a copy requested"
+   },
+   {
+    "field": "specialist_letter_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_template_alert_present",
+    "type": "yes/no",
+    "options": [],
+    "note": "Records whether the change is in place"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a valproate alert to every repeat template that shows the date of the last ARAF at re-authorisation, backed by a practice register that triggers a letter to the specialist when a form is more than 11 months old.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: rerun the same search on the same population, same template.",
+  "close_loop": "Present at the practice clinical meeting and to the PCN medicines optimisation group. If it works, keep the alert and have the practice pharmacist rerun the register every month.",
+  "evidence": [
+   "[3196] UK adult psychiatry: ARAF completed 3% → 54% (teams contacted by telephone and email)",
+   "[7806] UK primary care, epilepsy on valproate: annual review 42% of women and 31% of men (single cycle)",
+   "[7485] UK general practice: unsafe citalopram prescribing 47 → 9 (teaching plus an EMIS safety prompt)"
+  ],
+  "pitfalls": [
+   "The ARAF is signed in clinic but never reaches the practice → request a copy before counting a fail, and record 'requested' separately.",
+   "Small numbers in one practice → pool across the PCN and report counts as well as percentages.",
+   "A clinic letter that mentions the programme is counted as the form → count a pass only for the signed form or its scanned copy.",
+   "Specialists object that the ARAF is their job → frame the audit as the practice checking the safety net, not doing the specialist's review."
+  ],
+  "pearls": [
+   "Recruit the PCN clinical pharmacist; valproate is already on their high-risk drug list.",
+   "Agree with the local neurology and mental health teams before cycle 1 that every ARAF is copied to the GP.",
+   "Code each form on receipt so the search finds it next time.",
+   "Hand the monthly register to the practice medicines lead so it survives the audit team's rotation."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the clinical system and scanned documents"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of women of childbearing potential on repeat topiramate have highly effective contraception recorded in their GP record?",
+  "why": "Since June 2024 topiramate carries a Pregnancy Prevention Programme because of birth defects, low birth weight and neurodevelopmental harm. Most topiramate is repeated in general practice for migraine prevention and epilepsy. No audit of the topiramate programme has been published in the library, and valproate audits show very low baselines [3196] [7806].",
+  "standard": {
+   "source": "MHRA Drug Safety Update, June 2024: Topiramate (Topamax): introduction of new safety measures, including a Pregnancy Prevention Programme",
+   "wording": "topiramate should not be used in women of childbearing potential unless the conditions of the Pregnancy Prevention Programme are fulfilled. This aims to ensure that all women of childbearing potential: are using highly effective contraception; have a pregnancy test to exclude pregnancy before starting topiramate; are aware of the risks from use of topiramate",
+   "url": "https://www.gov.uk/drug-safety-update/topiramate-topamax-introduction-of-new-safety-measures-including-a-pregnancy-prevention-programme"
+  },
+  "pass": "A highly effective method (contraceptive implant, copper intrauterine device, levonorgestrel intrauterine system, or sterilisation) is recorded as current at the audit date, or a documented reason that the patient is not at risk of pregnancy.",
+  "population": "Female patients aged 12 to 55 with topiramate issued by the practice in the last 3 months, any indication. Exclude patients who registered in the last 3 months.",
+  "sample": "All eligible patients in the practice; if fewer than 30, include every practice in the PCN.",
+  "data_source": "Clinical system search for topiramate issues; contraception codes, procedure records and sexual health letters for the method; scanned documents for the Risk Awareness Form.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "migraine prevention",
+     "epilepsy",
+     "other",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_topiramate_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraception_method_recorded",
+    "type": "choice",
+    "options": [
+     "implant",
+     "copper IUD",
+     "LNG-IUS",
+     "sterilisation",
+     "combined or progestogen-only pill",
+     "injection",
+     "condoms only",
+     "none recorded"
+    ],
+    "note": "Current at the audit date"
+   },
+   {
+    "field": "highly_effective_method",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (implant, copper IUD, LNG-IUS or sterilisation)"
+   },
+   {
+    "field": "not_at_risk_reason_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Also a pass"
+   },
+   {
+    "field": "risk_awareness_form_on_file",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "started_after_june_2024",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_test_before_start",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": "Only if started after June 2024"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a topiramate Pregnancy Prevention Programme alert to the repeat template, and send each woman without a recorded highly effective method a recall letter for a contraception review.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: rerun the same search on the same population, same template.",
+  "close_loop": "Present at the practice clinical meeting and the PCN medicines optimisation group. If it works, add topiramate to the practice's monthly high-risk drug searches.",
+  "evidence": [
+   "[3196] UK adult psychiatry, valproate: ARAF completed 3% → 54% (teams contacted by telephone and email)",
+   "[7806] UK primary care, valproate: 68% of women engaged with the Pregnancy Prevention Programme (single cycle)",
+   "[7485] UK general practice: unsafe citalopram prescribing 47 → 9 (teaching plus an EMIS safety prompt)"
+  ],
+  "pitfalls": [
+   "Contraception fitted elsewhere (sexual health clinic) is not coded → check letters and ask the patient at recall before counting a fail.",
+   "Oral contraceptives are counted as highly effective → agree the list of highly effective methods before cycle 1 and keep it the same for the re-audit.",
+   "Topiramate is an enzyme inducer and can reduce hormonal contraceptive effect → flag this in the recall letter so the review covers method choice.",
+   "Patients feel accused by a letter about pregnancy → use neutral wording and the MHRA Patient Guide."
+  ],
+  "pearls": [
+   "Recruit the practice's contraception lead nurse to run the recall clinic.",
+   "Use the MHRA Patient Guide and Risk Awareness Form so every review follows the same script.",
+   "Run the same search for valproate at the same time; the work is shared.",
+   "Put topiramate on the PCN high-risk drug list so the check survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of patients on stable repeat methotrexate had their full monitoring blood set (blood count, liver tests, renal function) in the 12 weeks before their latest prescription?",
+  "why": "Methotrexate toxicity from missed blood monitoring is a recurring cause of serious harm, and most stable patients are monitored under shared care in general practice. The library's methotrexate monitoring audits come from specialist clinics, where only 35% were monitored on time even after a blood clerk was added [2942]. No closed-loop general practice audit has been published in the library.",
+  "standard": {
+   "source": "Specialist Pharmacy Service (SPS), Methotrexate monitoring (last updated January 2026)",
+   "wording": "Ongoing once stable. Required. Every 2 -3 months: Full blood count; Liver function tests; Serum creatinine (for creatinine clearance) or Estimated glomerular filtration rate. Rheumatology patients: At least every 12 weeks.",
+   "url": "https://www.sps.nhs.uk/monitorings/methotrexate-monitoring/"
+  },
+  "pass": "A full blood count, liver function tests and a creatinine or eGFR, all dated within 84 days before the most recent methotrexate issue.",
+  "population": "Adults on oral or subcutaneous methotrexate prescribed by the practice under shared care, on a stable dose for at least 3 months. Exclude patients in the first 3 months of treatment or after a dose change, and those whose methotrexate is supplied by the hospital.",
+  "sample": "40 consecutive patients (or all, if fewer) with a methotrexate issue in the last 4 weeks.",
+  "data_source": "Clinical system search for methotrexate issues; pathology results for test dates; shared care documents for the start date and specialty.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "specialty",
+    "type": "choice",
+    "options": [
+     "rheumatology",
+     "dermatology",
+     "gastroenterology",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "latest_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_date",
+    "type": "date",
+    "options": [],
+    "note": "Most recent before the issue"
+   },
+   {
+    "field": "lft_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_or_egfr_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_within_84_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "abnormal_result_acted_on",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "no abnormal result"
+    ],
+    "note": ""
+   },
+   {
+    "field": "issue_duration_weeks",
+    "type": "number",
+    "options": [],
+    "note": "Supply length of the latest issue"
+   },
+   {
+    "field": "monitoring_alert_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Limit methotrexate repeats to 12 weeks' supply and add a re-authorisation alert that shows the dates of the last FBC, LFT and eGFR.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: 40 consecutive patients with a methotrexate issue in the last 4 weeks, same template.",
+  "close_loop": "Present at the practice clinical meeting with the PCN pharmacist. If it works, keep the alert and add methotrexate to the monthly high-risk drug monitoring search.",
+  "evidence": [
+   "[2942] UK paediatric rheumatology: appropriately monitored stayed at about 35% after a blood clerk chased results",
+   "[3889] Irish general practice, ACE inhibitors: electrolytes within 3 months of starting 37.1% (practice recall system proposed)",
+   "[7357] UK general practice, vitamin B12: compliance 17% → 83% (patients recalled and switched)"
+  ],
+  "pitfalls": [
+   "Bloods taken in hospital clinics are not visible in the GP record → check the shared results viewer before counting a fail.",
+   "Dermatology and gastroenterology intervals differ → record the specialty and use the SPS interval for each; keep the definition fixed for the re-audit.",
+   "Staff issue 'one more month' without bloods → the alert must show dates, not just a reminder.",
+   "The SPS entry is being updated to the 2025 BSR guideline → check the page before cycle 2 and keep the cycle 1 definition if it changes."
+  ],
+  "pearls": [
+   "Recruit the practice's repeat prescribing clerks; they see every request first.",
+   "Agree with rheumatology which blood results they will copy to the practice.",
+   "Report the median days since the last FBC as well as the pass rate.",
+   "Hand the monthly search to the PCN pharmacist so it continues after the audit."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from the clinical system and pathology results"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults aged 75 and over on a DOAC for atrial fibrillation are on the licensed dose for their Cockcroft-Gault creatinine clearance?",
+  "why": "eGFR overestimates kidney function in older people, so DOAC doses are often too high and bleeding follows. A UK general practice audit could calculate an accurate creatinine clearance in only 46% of patients, and 81% of rivaroxaban doses were correct [3022]; no re-audit was reported.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, October 2019: Prescribing medicines in renal impairment",
+   "wording": "In particular, CrCl should always be used to guide dose adjustment for direct-acting oral anticoagulants (DOACs; apixaban, dabigatran etexilate, edoxaban▼, and rivaroxaban▼). Use of eGFR for dosing of DOACs is known to increase risk of bleeding events as a consequence of overestimating renal function.",
+   "url": "https://www.gov.uk/drug-safety-update/prescribing-medicines-in-renal-impairment-using-the-appropriate-estimate-of-renal-function-to-avoid-the-risk-of-adverse-drug-reactions"
+  },
+  "pass": "The prescribed dose matches the Summary of Product Characteristics dose for atrial fibrillation, using creatinine clearance calculated by Cockcroft-Gault from a weight and a creatinine both from the last 12 months (and, for apixaban, the age, weight and creatinine criteria).",
+  "population": "Adults aged 75 and over with atrial fibrillation and an apixaban, edoxaban, rivaroxaban or dabigatran issue in the last 3 months. Exclude patients on a DOAC for venous thromboembolism only, and those under active hospital dose review.",
+  "sample": "40 consecutive eligible patients (alphabetical from the search), or all if fewer.",
+  "data_source": "Clinical system search for DOAC issues and atrial fibrillation code; latest weight and creatinine from the record; SmPC dosing tables.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sex",
+    "type": "choice",
+    "options": [
+     "female",
+     "male"
+    ],
+    "note": ""
+   },
+   {
+    "field": "doac_and_dose",
+    "type": "text",
+    "options": [],
+    "note": "e.g. apixaban 5 mg twice daily"
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_umol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crcl_ml_min",
+    "type": "number",
+    "options": [],
+    "note": "Cockcroft-Gault, actual body weight unless local policy differs"
+   },
+   {
+    "field": "dose_correct_for_crcl",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "error_type",
+    "type": "choice",
+    "options": [
+     "none",
+     "dose too high",
+     "dose too low",
+     "cannot calculate (no weight)"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a DOAC review template that calculates Cockcroft-Gault creatinine clearance from the latest weight and creatinine and shows the licensed dose, triggered at each annual re-authorisation.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at the practice clinical meeting and to the PCN pharmacist team. If it works, make the template the only route to re-authorise a DOAC and add a weight check to the annual AF review.",
+  "evidence": [
+   "[3022] UK general practice: accurate CrCl calculable in 46%; rivaroxaban dose correct in 81% (single cycle)",
+   "[9678] UK acute medicine: multiple DOAC prescribing errors → no major dosing errors (DOAC initiation form plus training)",
+   "[7875] UK renal transplant: Cockcroft-Gault added to prescribing software; CMV infection 22.5% → 5.8% with better dosing accuracy"
+  ],
+  "pitfalls": [
+   "No recent weight, so creatinine clearance cannot be calculated → count 'cannot calculate' as a fail and fix it by adding weight to the AF review.",
+   "Auditors disagree on which body weight to use → agree actual body weight (or the local policy) before cycle 1 and keep it for cycle 2.",
+   "Deliberate off-label dosing by cardiology → record it as a documented exception, not a fail.",
+   "Clinicians change doses on one creatinine during an acute illness → use a stable result, not one taken during an admission."
+  ],
+  "pearls": [
+   "Recruit the PCN pharmacist; DOAC reviews are a standard pharmacist task.",
+   "Use one online Cockcroft-Gault calculator for all auditors.",
+   "Report the number of patients on too high a dose; it is the figure that moves partners.",
+   "Link the template to the annual AF review so it runs without the audit team."
+  ],
+  "novelty": "under-audited",
+  "effort": "~25 min per 10 patients (calculation by hand)"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults on long-term oral prednisolone 5 mg a day or more have a Steroid Emergency Card issue recorded in their GP record?",
+  "why": "Omitting steroids in adrenal insufficiency can cause fatal adrenal crisis; the national alert found four deaths and about 320 incidents in two years. In a UK giant cell arteritis cohort no patient was given a card at the first visit [2892]. No general practice audit of card issue has been published in the library.",
+  "standard": {
+   "source": "National Patient Safety Alert NatPSA/2020/005/NHSPS, Steroid Emergency Card (13 August 2020), action 2",
+   "wording": "Prescribers undertaking standard/scheduled reviews (eg in clinics or when authorising repeat prescriptions) should review their processes/policies and their digital systems/software and prompts to ensure all eligible patients prescribed steroids have been assessed, and where necessary issue a Steroid Emergency Card.",
+   "url": "https://www.england.nhs.uk/2020/08/steroid-emergency-card-to-support-early-recognition-and-treatment-of-adrenal-crisis-in-adults/"
+  },
+  "pass": "A coded or free-text record that a Steroid Emergency Card was issued (by the practice, hospital or pharmacy) at any time during the current course.",
+  "population": "Adults with oral prednisolone 5 mg a day or more (or an equivalent dose of another glucocorticoid) issued continuously for 4 weeks or more in the last 6 months. Exclude patients who stopped steroids more than 12 months ago.",
+  "sample": "40 consecutive eligible patients from the search, or all if fewer.",
+  "data_source": "Clinical system search for oral glucocorticoid issues with dose and duration; codes and letters for card issue; hospital letters for the indication.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "glucocorticoid_and_daily_dose",
+    "type": "text",
+    "options": [],
+    "note": "Prednisolone equivalent"
+   },
+   {
+    "field": "start_date_current_course",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_on_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "polymyalgia or GCA",
+     "COPD or asthma",
+     "inflammatory arthritis",
+     "adrenal insufficiency",
+     "inflammatory bowel disease",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "card_issue_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "card_issued_by",
+    "type": "choice",
+    "options": [
+     "practice",
+     "hospital",
+     "pharmacy",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sick_day_rules_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_template_prompt_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a prompt to every oral glucocorticoid repeat template: 'Steroid Emergency Card issued? Code it', with cards stocked at reception and the dispensary.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at the practice clinical meeting and the PCN medicines safety group. If it works, keep the prompt and add card issue to the annual long-term steroid review.",
+  "evidence": [
+   "[2892] UK rheumatology, GCA: no steroid emergency cards at the first visit; 4 of 90 given during follow-up (single cycle)",
+   "[7897] UK general practice, testosterone: all prescribing standards met at 100% (structured EMIS template and protocol)",
+   "[7485] UK general practice: unsafe citalopram prescribing 47 → 9 (teaching plus an EMIS safety prompt)"
+  ],
+  "pitfalls": [
+   "Cards given in hospital are never coded → check hospital letters and ask at the next contact before counting a fail.",
+   "Dose equivalents confuse the search → agree a conversion table (e.g. dexamethasone, hydrocortisone) before cycle 1.",
+   "The prompt is clicked through → count only coded issues, and show the override rate at the practice meeting.",
+   "Inhaled and topical steroid users are also eligible in some cases → keep this audit to oral steroids so the cycles stay comparable."
+  ],
+  "pearls": [
+   "Recruit the dispensary or community pharmacy team; they can hand out cards when they supply prednisolone.",
+   "Order a stock of cards from NHS Forms before cycle 1.",
+   "Add card issue to the polymyalgia and COPD review templates, which cover most long-term users.",
+   "Name a medicines safety lead to own the prompt after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of denosumab 60 mg injections given in general practice are given within 6 months and 4 weeks of the previous dose?",
+  "why": "Delaying or stopping denosumab causes rebound multiple vertebral fractures within 18 months. In a UK audit 21% of patients did not receive denosumab on time and 8 of 166 fractured [1351]; after stopping, 60% had no alternative bone protection [1343]. No closed-loop audit of injection timing has been published in the library.",
+  "standard": {
+   "source": "MHRA Drug Safety Update, August 2020: Denosumab 60mg (Prolia): increased risk of multiple vertebral fractures after stopping or delaying ongoing treatment (6-month-and-4-week window is a local standard)",
+   "wording": "an increased risk of multiple vertebral fractures has been reported in patients within 18 months of stopping or delaying ongoing denosumab 60mg treatment for osteoporosis; cases have been reported in patients in the UK. patients should not stop denosumab without specialist review. if you miss a prescribed dose of denosumab, the missed injection should be administered as soon as possible. After this, your next injection will be scheduled 6 months from the date of your last injection",
+   "url": "https://www.gov.uk/drug-safety-update/denosumab-60mg-prolia-increased-risk-of-multiple-vertebral-fractures-after-stopping-or-delaying-ongoing-treatment"
+  },
+  "pass": "The injection is given no more than 6 months and 4 weeks (211 days) after the previous injection.",
+  "population": "Adults on denosumab 60 mg for osteoporosis whose injections are given by the practice. Exclude first doses and patients whose treatment was stopped after specialist review.",
+  "sample": "The last 40 consecutive denosumab injections given by the practice (or PCN).",
+  "data_source": "Clinical system administration records for injection dates; issue records; letters for specialist decisions to stop.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "previous_injection_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "current_injection_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_between_doses",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_211_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "next_dose_booked_at_injection",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "choice",
+    "options": [
+     "none",
+     "not recalled",
+     "patient unavailable",
+     "supply problem",
+     "awaiting bloods",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "calcium_checked_before_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Book the next injection at the time of each dose, and run a monthly recall search for anyone more than 6 months since their last injection, owned by a named practice nurse.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: the next 40 consecutive injections, same template.",
+  "close_loop": "Present at the practice clinical meeting and to the local fracture liaison service. If it works, keep the monthly recall search and the booking-at-injection rule.",
+  "evidence": [
+   "[1351] UK rheumatology: 21% did not receive denosumab on time; 8 of 166 fractured, 6 after a delayed or missed dose (single cycle)",
+   "[1343] UK rheumatology: of 15 no longer on denosumab, 60% had no alternative bone protection",
+   "[7357] UK general practice, vitamin B12: compliance 17% → 83% (patients recalled)"
+  ],
+  "pitfalls": [
+   "Injections given elsewhere (hospital or community nurses) are missing → check letters and ask the patient before counting a delay.",
+   "Small numbers in one practice → pool injections across the PCN.",
+   "The recall list is run once and then forgotten → put it on the nurse lead's monthly task list.",
+   "Blood tests delay the injection → agree that calcium is checked in the month before the due date, not on the day."
+  ],
+  "pearls": [
+   "Recruit the practice nurse who gives most injections; she knows who is overdue.",
+   "Give every patient a card with their next due date.",
+   "Report the number of patients more than 7 months since their last dose; it shows the fracture risk plainly.",
+   "Share the results with the fracture liaison service, which may help fund recall."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 injections from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "In adults with chronic kidney disease newly started on an ACE inhibitor or ARB in general practice, what proportion have potassium and eGFR checked 1 to 2 weeks after starting?",
+  "why": "Hyperkalaemia and acute kidney injury after starting ACE inhibitors or ARBs are common causes of avoidable admission. In a UK practice renal function was checked after starting in only 29%, and ACE inhibitors were implicated in 7% of uraemia admissions [9246]; an Irish practice checked electrolytes within 3 months in 37.1% [3889]. Neither was re-audited.",
+  "standard": {
+   "source": "NICE NG203 rec 1.6.15 (2021)",
+   "wording": "Measure serum potassium concentrations and estimate the GFR before starting renin–angiotensin system antagonists in adults with CKD. Repeat these measurements between 1 and 2 weeks after starting renin–angiotensin system antagonists and after each dose increase. [2008]",
+   "url": "https://www.nice.org.uk/guidance/ng203/chapter/Recommendations"
+  },
+  "pass": "A serum potassium and an eGFR from the same sample, taken 7 to 14 days after the first prescription.",
+  "population": "Adults with a CKD code (stage 3 to 5, or ACR 3 mg/mmol or more) given a first-ever ACE inhibitor or ARB prescription by the practice in the last 6 months. Exclude patients started in hospital.",
+  "sample": "40 consecutive new starters from the search, or all in 6 months if fewer.",
+  "data_source": "Clinical system search for first ACE inhibitor or ARB issue with a CKD code; pathology results for potassium and eGFR dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "drug_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "baseline_potassium_and_egfr_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 3 months before starting"
+   },
+   {
+    "field": "follow_up_blood_date",
+    "type": "date",
+    "options": [],
+    "note": "First potassium and eGFR after starting"
+   },
+   {
+    "field": "days_after_start",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "checked_7_to_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "potassium_above_6",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr_fall_25_percent_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_test_booked_at_prescribing",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an initiation protocol to the ACE inhibitor and ARB templates that creates a blood request and a reception task to book it 10 days ahead at the time of prescribing.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: the next 40 new starters (or all in the period), same template.",
+  "close_loop": "Present at the practice clinical meeting. If it works, extend the protocol to every dose increase and to all new starters, not only those with CKD.",
+  "evidence": [
+   "[9246] UK general practice: renal function checked after starting an ACE inhibitor in 29% (single cycle)",
+   "[3889] Irish general practice: electrolytes within 3 months of starting 37.1% (practice recall system proposed)",
+   "[7357] UK general practice, vitamin B12: compliance 17% → 83% (patients recalled)"
+  ],
+  "pitfalls": [
+   "A 7–14 day window is strict and patients test late → record the actual days and report 15–28 days separately.",
+   "Bloods taken by hospital clinics are not visible → check the shared results viewer.",
+   "Small numbers of new starters with CKD → widen to 6 months or pool across the PCN.",
+   "The booking task is created but ignored → give reception a weekly list of outstanding tasks."
+  ],
+  "pearls": [
+   "Recruit the phlebotomy lead and reception manager; the fix is a booking step.",
+   "Agree with prescribers that the 'bloods in 10 days' task is part of the template, not optional.",
+   "Report any potassium above 6 found at follow-up; it makes the case.",
+   "Keep the protocol in the practice's prescribing policy so it survives staff changes."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults with diabetes and chronic kidney disease with a urine ACR of 3 mg/mmol or more are prescribed an ACE inhibitor or ARB?",
+  "why": "ACE inhibitors and ARBs slow kidney decline in diabetic kidney disease, and albuminuria is common and often untreated. A UK practice prescribed them for nephropathy in 76% [9266], and a renal referral audit found them missing in 48% without a contraindication [4002]. No closed-loop general practice audit has been published in the library.",
+  "standard": {
+   "source": "NICE NG203 rec 1.6.6 (2021)",
+   "wording": "For adults with CKD and diabetes (type 1 or type 2) offer an ARB or an ACE inhibitor (titrated to the highest licensed dose that the person can tolerate) if ACR is 3 mg/mmol or more. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng203/chapter/Recommendations"
+  },
+  "pass": "An ACE inhibitor or ARB issued in the last 3 months, or a documented contraindication, intolerance or informed decline.",
+  "population": "Adults with type 1 or type 2 diabetes and a most recent urine ACR of 3 mg/mmol or more (confirmed on a repeat sample, or 70 mg/mmol or more once). Exclude patients on dialysis, pregnant women and people on end-of-life care.",
+  "sample": "40 consecutive eligible patients from the search, or all if fewer.",
+  "data_source": "Clinical system search for diabetes and ACR results; medication issues; consultation notes and letters for contraindications.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "diabetes_type",
+    "type": "choice",
+    "options": [
+     "type 1",
+     "type 2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "latest_acr_mg_mmol",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acr_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "latest_egfr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acei_or_arb_issued_last_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_not_prescribed",
+    "type": "choice",
+    "options": [
+     "none",
+     "hyperkalaemia",
+     "AKI or intolerance",
+     "declined",
+     "pregnancy planning",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass_prescribed_or_documented_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "at_highest_tolerated_dose",
+    "type": "yes/no",
+    "options": [],
+    "note": "Recorded for interest"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a prompt to the diabetes annual review template that fires when ACR is 3 mg/mmol or more and no ACE inhibitor or ARB is prescribed, plus a monthly search for the diabetes nurse.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: rerun the search, 40 consecutive eligible patients, same template.",
+  "close_loop": "Present at the practice diabetes meeting and the PCN long-term conditions group. If it works, keep the prompt and add the search to the diabetes recall schedule.",
+  "evidence": [
+   "[9266] UK general practice: ACE inhibitor or ARB for nephropathy 76% (19/25) (single cycle)",
+   "[4002] UK renal referrals, diabetic nephropathy: ACE inhibitors not prescribed in 48% without a contraindication; referral timing improved after feedback",
+   "[6858] UK primary care CKD: coding improved in three CCGs (practice facilitation with shared data and targets)"
+  ],
+  "pitfalls": [
+   "One raised ACR during illness is counted → require a confirmed result as in NICE, and keep the rule for cycle 2.",
+   "Patients stopped the drug for good reasons that were never written down → count a documented reason as a pass and ask prescribers to record it.",
+   "Clinicians fear hyperkalaemia → pair the change with the 1–2 week blood check protocol.",
+   "Numbers are small in one practice → pool across the PCN."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist nurse and the practice's diabetes GP lead.",
+   "Agree the ACR confirmation rule before cycle 1.",
+   "Show the list of untreated patients by name to the diabetes clinic team; it turns into action quickly.",
+   "Add the search to the existing diabetes recall so it runs after the audit."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of patients treated in an emergency care setting for an asthma attack are reviewed by their GP practice within 2 working days of discharge?",
+  "why": "People are at high risk of another attack in the days after emergency care, and many asthma deaths follow a recent attack. A UK audit of children and young people found only 10% of attacks followed up within 2 days [6636]. No closed-loop audit of practice follow-up has been published in the library.",
+  "standard": {
+   "source": "NICE QS25 statement 4 (2013, updated 2018)",
+   "wording": "People who receive treatment in an emergency care setting for an asthma attack are followed up by their general practice within 2 working days of discharge. [2013, updated 2018]",
+   "url": "https://www.nice.org.uk/guidance/qs25/chapter/Quality-statement-4-Follow-up-by-general-practice-after-emergency-care"
+  },
+  "pass": "A documented clinical review (face to face, video or telephone) by a GP, nurse or pharmacist within 2 working days of discharge, or of the practice receiving notification if later.",
+  "population": "Patients of any age treated for an asthma attack in an emergency department, urgent treatment centre, out-of-hours service or hospital admission. Exclude patients still in hospital, those who died and those admitted to another hospital.",
+  "sample": "30–40 consecutive notifications over the last 3–6 months (pool across the PCN if needed).",
+  "data_source": "Discharge letters and ED notifications in the document workflow; consultation records for review date and content.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_group",
+    "type": "choice",
+    "options": [
+     "under 12",
+     "12 to 17",
+     "18 and over"
+    ],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "emergency department",
+     "admission",
+     "urgent treatment centre",
+     "out of hours",
+     "ambulance only"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "notification_received_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_2_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_type",
+    "type": "choice",
+    "options": [
+     "face to face",
+     "video",
+     "telephone",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "inhaled_corticosteroid_prescribed_after_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_plan_updated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a workflow rule so any discharge or ED letter mentioning asthma goes the same day to a named nurse task: 'Book asthma review within 2 working days'.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: the next 30–40 consecutive notifications, same template.",
+  "close_loop": "Present at the practice clinical meeting and the PCN respiratory group. If it works, write the rule into the practice's document workflow policy.",
+  "evidence": [
+   "[6636] UK children and young people with asthma: 10% of attacks followed up within 2 days (single cycle)",
+   "[9264] UK general practice, SABA overuse: asthma review 16/41 → 29/41 (patients contacted and referred to pharmacist or asthma nurse)",
+   "[8164] UK general practice: SABA overusers 37 → 18 (asthma reviews and AIR or MART started)"
+  ],
+  "pitfalls": [
+   "Letters arrive days late → measure from the date the practice receives the letter as well as the discharge date.",
+   "Workflow staff miss asthma in long letters → include 'wheeze' and 'salbutamol' in the search terms and train the workflow team.",
+   "Parents do not answer calls → count two documented attempts as a separate category, not a pass.",
+   "Out-of-hours notifications are missed → include the out-of-hours system report in the case search."
+  ],
+  "pearls": [
+   "Recruit the document workflow team; the fix happens at their desk.",
+   "Offer a telephone review; it is enough for the standard and easier to fit in.",
+   "Check inhaler technique and preventer adherence in the same call.",
+   "Share results with the local ED; faster letters help both sides."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from letters and consultations"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of people aged 12 and over on the asthma register who were issued a reliever inhaler in the last 12 months were also issued an inhaled corticosteroid?",
+  "why": "Reliever-only treatment is the pattern most linked to asthma deaths, and the 2024 guideline moved everyone off SABA-only treatment. General practice projects in the library targeted SABA overuse [8164] [9264]; no audit of SABA-only prescribing against the 2024 guideline has been published in the library.",
+  "standard": {
+   "source": "NICE NG245 (BTS/NICE/SIGN) rec 1.7.7 (2024)",
+   "wording": "Change treatment for people with confirmed asthma who are currently using a short-acting beta2 agonist (SABA) only to a low-dose ICS/formoterol combination inhaler used as needed (as-needed AIR therapy). [BTS/NICE/SIGN 2024]",
+   "url": "https://www.nice.org.uk/guidance/ng245/chapter/Recommendations"
+  },
+  "pass": "At least one inhaler containing an inhaled corticosteroid (including ICS/formoterol as AIR or MART) issued in the same 12 months.",
+  "population": "People aged 12 and over on the asthma register with a salbutamol or terbutaline inhaler issued in the last 12 months. Exclude people with COPD as their main diagnosis and those under specialist severe-asthma care.",
+  "sample": "The whole eligible list from the search (usually hundreds); audit notes for a random 40 of those who fail.",
+  "data_source": "Clinical system search for asthma register and inhaler issues; notes of the 40 sampled failures for the reason.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "saba_inhalers_issued_12_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ics_containing_inhaler_issued_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "on_air_or_mart",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_asthma_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "asthma_diagnosis_confirmed_objectively",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_saba_only",
+    "type": "choice",
+    "options": [
+     "not reviewed",
+     "declined ICS",
+     "diagnosis doubtful",
+     "other"
+    ],
+    "note": "For sampled failures"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Stop adding SABA as a stand-alone repeat for asthma: switch the practice asthma formulary and template default to as-needed ICS/formoterol, and invite everyone on SABA only for a review.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: rerun the same search, same template.",
+  "close_loop": "Present at the practice clinical meeting and PCN respiratory group. If it works, keep the formulary change and run the search every quarter.",
+  "evidence": [
+   "[8164] UK general practice: SABA overusers 37 → 18 (asthma reviews and AIR or MART started)",
+   "[9264] UK general practice, SABA overuse: asthma review 16/41 → 29/41 (patients contacted and referred)",
+   "[8163] UK general practice, adolescents: 43% on MART after structured consultations; the 50% target was not reached"
+  ],
+  "pitfalls": [
+   "Old, inactive registrants inflate the list → exclude patients with no asthma contact or issue in 2 years, and keep the rule for cycle 2.",
+   "Some people on the register do not have asthma → record diagnosis doubt as a reason rather than switching them.",
+   "Patients decline steroids → record informed decline, and report it separately.",
+   "Community pharmacy continues to supply old SABA repeats → update the repeat template, not just the formulary."
+  ],
+  "pearls": [
+   "Recruit the practice asthma nurse and the PCN pharmacist.",
+   "Use the NICE/BTS/SIGN pathway diagram in every review so the message is the same.",
+   "Target people with 3 or more SABA inhalers first; they carry the most risk.",
+   "Add the search to the quarterly respiratory dashboard."
+  ],
+  "novelty": "new",
+  "effort": "~10 min for the search; ~20 min per 10 sampled notes"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults added to the COPD register in the last 2 years have post-bronchodilator spirometry with an FEV1/FVC below 0.7 recorded?",
+  "why": "A COPD label without spirometry leads to wrong treatment and missed asthma, heart failure or lung cancer. In one UK practice 36% of the COPD register had an FEV1/FVC of 0.7 or more [7108], and a Devon study confirmed COPD in only 73% of those tested [4918]. Neither was re-audited.",
+  "standard": {
+   "source": "NICE NG115 rec 1.1.5 (2018, updated 2019)",
+   "wording": "Measure post-bronchodilator spirometry to confirm the diagnosis of COPD. [2010]",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "A post-bronchodilator FEV1/FVC below 0.7 recorded in the GP record, from a test done before or within 3 months after the diagnosis code was added.",
+  "population": "Adults with a COPD diagnosis code first added in the last 2 years. Exclude patients diagnosed by a respiratory specialist with a letter that reports spirometry (count these as a pass if the result is recorded).",
+  "sample": "40 consecutive new COPD diagnoses, or all if fewer.",
+  "data_source": "Clinical system search for new COPD codes; spirometry results and reports; respiratory letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "date_copd_code_added",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "spirometry_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "spirometry_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_bronchodilator",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not stated"
+    ],
+    "note": ""
+   },
+   {
+    "field": "fev1_fvc_ratio",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "confirmed_below_0_7",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "coded_by",
+    "type": "choice",
+    "options": [
+     "GP",
+     "nurse",
+     "hospital letter",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "inhaled_therapy_started_before_spirometry",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the COPD diagnosis code available only through a diagnostic template that asks for the post-bronchodilator FEV1/FVC, or creates a spirometry referral task if none is recorded.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: the next 40 new COPD codes (or rerun the 2-year search), same template.",
+  "close_loop": "Present at the practice clinical meeting and PCN respiratory group. If it works, keep the template and review the existing register for unconfirmed diagnoses.",
+  "evidence": [
+   "[7108] UK general practice: 36% of the COPD register had FEV1/FVC 0.7 or more (single cycle)",
+   "[4918] Devon general practice: COPD confirmed in 73% of those who had spirometry (single cycle)",
+   "[7608] UK general practice, red eye: red-flag questions 14% → 74% (EMIS template plus teaching)"
+  ],
+  "pitfalls": [
+   "Spirometry access in the area is limited → record 'referred, awaiting test' separately so the audit shows the service gap.",
+   "Pre-bronchodilator results are counted → check the report and keep the definition for cycle 2.",
+   "Older adults with FEV1/FVC just above 0.7 are argued over → follow the NICE threshold and note borderline results.",
+   "Hospital diagnoses lack results in the record → request the report before counting a fail."
+  ],
+  "pearls": [
+   "Recruit the practice's respiratory nurse and the local community spirometry hub.",
+   "Agree a 'suspected COPD' code for use while waiting for spirometry.",
+   "Report the number of patients on inhalers without a confirmed diagnosis.",
+   "Put the template in the practice coding policy so new staff use it."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults aged 26 and over newly started on an antidepressant in general practice have a documented review within 2 weeks?",
+  "why": "The first weeks on an antidepressant bring side effects, early stopping and, for some, increased suicidal thoughts. Most antidepressants are started in general practice, yet no audit of first review timing after a GP start has been published in the library; related hospital work found follow-up bloods within 2–4 weeks in only 50% [3589].",
+  "standard": {
+   "source": "NICE NG222 rec 1.4.11 (2022)",
+   "wording": "When prescribing antidepressant medication, ensure people have information about: ... when their first review will be; this will usually be within 2 weeks to check their symptoms are improving and for side effects, or 1 week after starting antidepressant medication if a new prescription is for a person aged 18 to 25 years or if there is a particular concern for risk of suicide",
+   "url": "https://www.nice.org.uk/guidance/ng222/chapter/Recommendations"
+  },
+  "pass": "A documented clinical review (face to face, video or telephone) of symptoms or side effects within 14 days of the first prescription.",
+  "population": "Adults aged 26 and over given a first antidepressant prescription for depression by the practice in the last 3 months (no antidepressant in the previous 12 months). Exclude patients under mental health team care and those at particular risk of suicide (audit the 1-week review for them separately).",
+  "sample": "40 consecutive new starters.",
+  "data_source": "Clinical system search for first antidepressant issue; consultation records for the review date and content.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antidepressant",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_issue_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_booked_at_start",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_type",
+    "type": "choice",
+    "options": [
+     "face to face",
+     "video",
+     "telephone",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_issue_supply_days",
+    "type": "number",
+    "options": [],
+    "note": "Short first supply makes review more likely"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'first review booked' step to the antidepressant initiation template that creates a telephone review task at day 10–14, and set the first issue to 14 days' supply.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: the next 40 new starters, same template.",
+  "close_loop": "Present at the practice clinical meeting. If it works, keep the template and extend the audit to 18–25 year olds with a 1-week review.",
+  "evidence": [
+   "[3589] Irish old age psychiatry inpatients: sodium check within 2–4 weeks of starting an antidepressant 50% (reminder stickers and MDT discussion)",
+   "[7485] UK general practice: unsafe citalopram prescribing 47 → 9 (teaching plus an EMIS safety prompt)",
+   "[7608] UK general practice, red eye: red-flag questions 14% → 74% (EMIS template plus teaching)"
+  ],
+  "pitfalls": [
+   "Reviews by practice pharmacists or talking therapy workers are not coded as reviews → agree what counts before cycle 1 and search all staff groups.",
+   "Restarts are counted as new starters → require no antidepressant issue in the previous 12 months.",
+   "Patients do not answer the review call → record two documented attempts separately.",
+   "'Usually within 2 weeks' is read as optional → set the local target at 80%, not 100%."
+  ],
+  "pearls": [
+   "Recruit the practice's mental health practitioner or care coordinator to run the calls.",
+   "Book the review before the patient leaves the first consultation.",
+   "A 14-day first supply builds the review in.",
+   "Hand the template to the practice mental health lead after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults with suspected heart failure and an NT-proBNP above 2,000 ng/L from a GP request have specialist assessment with echocardiography within 2 weeks of the result?",
+  "why": "Very high NT-proBNP carries a poor prognosis, and delays to diagnosis lead to emergency admission. Heart failure is under-recorded in general practice: searches raised recorded prevalence from 0.63% to 1.12% [6744]. No audit of the 2-week pathway from primary care has been published in the library.",
+  "standard": {
+   "source": "NICE NG106 rec 1.2.3 (2018, updated 2025)",
+   "wording": "Because very high levels of NT-proBNP carry a poor prognosis, refer people with suspected heart failure and an NT-proBNP level more than 2,000 nanogram per litre (236 picomole per litre) urgently, to have specialist assessment and transthoracic echocardiography within 2 weeks. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng106/chapter/Recommendations"
+  },
+  "pass": "Specialist heart failure assessment with transthoracic echocardiography completed within 14 days of the NT-proBNP result date.",
+  "population": "Adults with an NT-proBNP above 2,000 ng/L requested by the practice (or PCN) for suspected heart failure in the last 6–12 months. Exclude people with known heart failure, those admitted as an emergency before referral, and those on end-of-life care.",
+  "sample": "30–40 consecutive results (pool across the PCN or use the laboratory list for all local practices).",
+  "data_source": "Laboratory list of NT-proBNP results above 2,000 ng/L from primary care; e-Referral records; cardiology letters and echo reports.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "ntprobnp_result_ng_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_marked_urgent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_assessment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "echo_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_within_14_days_of_result",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "admitted_before_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "HFrEF",
+     "HFmrEF",
+     "HFpEF",
+     "not heart failure",
+     "not yet known"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Agree with the laboratory an automatic comment on every NT-proBNP above 2,000 ng/L ('Refer urgently: specialist assessment and echo within 2 weeks') and a direct e-referral form to the heart failure one-stop clinic.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: the next 30–40 consecutive results, same template.",
+  "close_loop": "Present at the PCN clinical meeting and to the community heart failure service. If it works, keep the lab comment and track the pathway on the heart failure service dashboard.",
+  "evidence": [
+   "[6744] UK general practice: recorded heart failure prevalence 0.63% → 1.12% (audit software searches with specialist nurse review)",
+   "[7014] UK general practice, suspected heart failure: HbA1c measured 31.6% → 59.3% (presentation and illustrated guide)",
+   "[7574] UK hospital heart failure bundle: specialist input 51.6% → 90.4% (admission care bundle)"
+  ],
+  "pitfalls": [
+   "The clinic's capacity, not the practice, causes delay → record referral date so practice delay and service delay are shown separately.",
+   "Tests requested for other reasons (e.g. known heart failure) are counted → exclude known heart failure at the search stage.",
+   "Small numbers per practice → use the laboratory list for the whole PCN or locality.",
+   "The lab comment is ignored in busy result workflows → pair it with a pop-up in the results workflow."
+  ],
+  "pearls": [
+   "Recruit the community heart failure nurse; they often run the one-stop clinic.",
+   "Ask the laboratory for the monthly list of results above 2,000 ng/L; it makes case finding easy.",
+   "Report the number admitted as an emergency before assessment; it makes the case for capacity.",
+   "Agree the pathway in writing with cardiology so it survives staff changes."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from results, referrals and letters"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of women aged 55 and over presenting to general practice with unexplained post-menopausal bleeding are referred on a suspected cancer pathway?",
+  "why": "Post-menopausal bleeding is the main early sign of endometrial cancer, one of the commonest cancers in women. A UK audit found the NICE endometrial cancer steps followed in 1 of 17 (5.8%) women aged 55 and over with visible haematuria [2720]. No general practice audit of post-menopausal bleeding referral has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.5.12 (2015, amended 2026)",
+   "wording": "Refer women, and trans men and non-binary people with female reproductive organs using a suspected cancer pathway referral for endometrial cancer if they are aged 55 and over with unexplained post-menopausal bleeding that cannot be attributed to hormone replacement therapy (HRT). [2015, amended 2026]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "A suspected cancer pathway referral for endometrial cancer (or the local direct-to-test equivalent) sent within 2 working days of the consultation.",
+  "population": "Women, trans men and non-binary people with female reproductive organs aged 55 and over with a post-menopausal bleeding code or free-text entry in the last 12 months. Exclude bleeding attributed to HRT, people already under gynaecology for the same episode, and those who declined referral (record separately).",
+  "sample": "30–40 consecutive presentations (pool across the PCN if needed).",
+  "data_source": "Clinical system search for post-menopausal bleeding codes; consultation notes; e-Referral Service records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "on_hrt",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_type",
+    "type": "choice",
+    "options": [
+     "suspected cancer pathway",
+     "direct access ultrasound",
+     "routine gynaecology",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_suspected_cancer_within_2_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "declined_referral_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safety_netting_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "cancer",
+     "hyperplasia",
+     "benign",
+     "not yet known"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Link the post-menopausal bleeding code to a pop-up that opens the gynaecology suspected cancer referral form with the NICE criteria.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: the next 30–40 consecutive presentations (or rerun for the last 3 months), same template.",
+  "close_loop": "Present at the practice significant-event or cancer meeting and the PCN cancer lead. If it works, keep the pop-up and review every non-referred case at the practice cancer meeting.",
+  "evidence": [
+   "[2720] UK: NICE endometrial cancer steps followed in 1 of 17 (5.8%) women aged 55 and over with visible haematuria (single cycle)",
+   "[5086] Scotland, cancer diagnosis in primary care: urgent referral 46% → 58% in year 2",
+   "[7507] England National Cancer Diagnosis Audit: same-day referral 37.7% → 42.7% after the 2015 NICE guideline"
+  ],
+  "pitfalls": [
+   "Uncoded presentations are missed → also search free text for 'PMB' and 'post-menopausal bleed'.",
+   "Bleeding on HRT is counted → record HRT use and exclude it, as NICE does.",
+   "Local pathways send patients straight to ultrasound → agree before cycle 1 which routes count as the suspected cancer pathway.",
+   "Patients who decline are counted as fails → record informed decline separately."
+  ],
+  "pearls": [
+   "Recruit the practice cancer lead and the PCN cancer care coordinator.",
+   "Use the national referral form so criteria appear on screen.",
+   "Review every non-referred case at the practice cancer meeting; it is quick and educational.",
+   "Keep the pop-up in the practice's clinical system policy."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of adults aged 45 and over with unexplained visible haematuria in general practice are referred on a suspected cancer pathway?",
+  "why": "Visible haematuria is the commonest presenting sign of bladder and kidney cancer. Referral audits in the library come from hospital clinics: only 82 of 234 GP haematuria referrals met criteria and none were seen within 2 weeks [4324]. No general practice audit of referral after visible haematuria has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.6.4 (2015)",
+   "wording": "Refer people using a suspected cancer pathway referral for bladder cancer if they are: aged 45 and over and have: unexplained visible haematuria without urinary tract infection, or visible haematuria that persists or recurs after successful treatment of urinary tract infection, or aged 60 and over and have unexplained non-visible haematuria and either dysuria or a raised white cell count on a blood test. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "A urology suspected cancer pathway referral sent within 2 working days of the consultation (or of a negative urine culture, if one was sent).",
+  "population": "Adults aged 45 and over with a visible haematuria code or free-text entry in the last 12 months, without a proven urinary tract infection, or with haematuria that persisted after treated infection. Exclude people already under urology for the same problem and those who declined referral (record separately).",
+  "sample": "30–40 consecutive presentations (pool across the PCN if needed).",
+  "data_source": "Clinical system search for haematuria codes and free text; urine culture results; e-Referral Service records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urine_culture_result",
+    "type": "choice",
+    "options": [
+     "not sent",
+     "negative",
+     "positive, treated, haematuria persisted",
+     "positive, resolved"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_type",
+    "type": "choice",
+    "options": [
+     "suspected cancer pathway",
+     "routine urology",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referred_suspected_cancer_within_2_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "declined_referral_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulated",
+    "type": "yes/no",
+    "options": [],
+    "note": "Anticoagulation does not explain haematuria"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "cancer",
+     "stones",
+     "benign prostate",
+     "no cause",
+     "not yet known"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a haematuria template that asks about age, infection and anticoagulation and opens the urology suspected cancer referral form when the NICE criteria are met.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: the next 30–40 consecutive presentations (or rerun for the last 3 months), same template.",
+  "close_loop": "Present at the practice cancer meeting and the PCN cancer lead. If it works, keep the template and review every non-referred case at the practice cancer meeting.",
+  "evidence": [
+   "[4324] UK urology: 82/234 GP haematuria referrals met criteria; none seen within 2 weeks (single cycle)",
+   "[2045] UK urology: urinary tract cancer in 20% of NICE-criteria visible haematuria referrals vs 4.4% under older criteria",
+   "[5086] Scotland, cancer diagnosis in primary care: urgent referral 46% → 58% in year 2"
+  ],
+  "pitfalls": [
+   "Haematuria is put down to anticoagulants → state in the template that anticoagulation does not explain it.",
+   "Presumed UTI without culture delays referral → record whether a culture was sent and the date.",
+   "Uncoded presentations are missed → search free text for 'blood in urine' and 'haematuria'.",
+   "Declined referrals are counted as fails → record them separately."
+  ],
+  "pearls": [
+   "Recruit the practice cancer lead and a urology consultant to agree the template wording.",
+   "Report the median days from consultation to referral.",
+   "Discuss each non-referral at the cancer meeting; it teaches without blame.",
+   "Share the template across the PCN once it works."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of men with possible prostate cancer symptoms and a PSA above the NICE age-specific threshold have a suspected cancer referral or a documented reason not to refer?",
+  "why": "Raised PSA results that are repeated or filed without action delay prostate cancer diagnosis. A UK primary care audit found nearly half of abnormal PSA tests were repeated [3031], and older data showed a mean 104-day wait to clinic when PSA was below 10 [3970]. No closed-loop audit of acting on raised PSA has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.6.3 and table 2 (2021)",
+   "wording": "Consider referring men, and trans women and non-binary people with male reproductive organs who have possible symptoms of prostate cancer, as specified in recommendation 1.6.2, using a suspected cancer pathway referral for prostate cancer if their PSA levels are above the threshold for their age in table 2. Take into account their preferences and any comorbidities when making the decision. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "A urology suspected cancer referral sent within 2 weeks of the result, or a documented decision not to refer that names the reason (patient preference or comorbidity). NICE table 2 thresholds (micrograms/litre): 40–49 more than 2.5; 50–59 more than 3.5; 60–69 more than 4.5; 70–79 more than 6.5.",
+  "population": "Men, trans women and non-binary people with male reproductive organs aged 40 to 79 with lower urinary tract symptoms, erectile dysfunction or visible haematuria, and a PSA above the age threshold in the last 12 months. Exclude people already under urology for prostate disease.",
+  "sample": "40 consecutive raised results, or all in 12 months if fewer.",
+  "data_source": "Pathology search for PSA results above the age thresholds; consultation notes for symptoms and decisions; e-Referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "psa_ug_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_recorded",
+    "type": "choice",
+    "options": [
+     "LUTS",
+     "erectile dysfunction",
+     "visible haematuria",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "action",
+    "type": "choice",
+    "options": [
+     "suspected cancer referral",
+     "repeat PSA",
+     "routine referral",
+     "no action",
+     "documented decision not to refer"
+    ],
+    "note": ""
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_referred_within_2_weeks_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "result_filed_by",
+    "type": "choice",
+    "options": [
+     "requesting clinician",
+     "other GP",
+     "admin"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a laboratory comment to every PSA above the age threshold ('Above NICE threshold: consider suspected cancer referral') and a results-workflow rule that sends it back to the requesting clinician.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: the next 40 consecutive raised results (or rerun for the last 3 months), same template.",
+  "close_loop": "Present at the practice cancer meeting and the PCN cancer lead. If it works, keep the lab comment and review unactioned results monthly.",
+  "evidence": [
+   "[3031] UK primary care: nearly half of abnormal PSA tests were repeated (single cycle)",
+   "[3970] UK urology: mean referral-to-clinic interval 104 days when GP PSA was below 10 (single cycle)",
+   "[5010] UK urology: cancer found in 41% of two-week-wait referrals for raised PSA"
+  ],
+  "pitfalls": [
+   "Tests done for screening without symptoms are included → record symptoms and report asymptomatic tests separately.",
+   "Repeat PSA before referral is common local practice → agree before cycle 1 whether a repeat within 2 weeks counts, and keep it fixed.",
+   "Men over 79 inflate the list → NICE leaves them to clinical judgement; exclude them.",
+   "Filing by a clinician who did not request the test → record who filed it."
+  ],
+  "pearls": [
+   "Recruit the practice cancer lead and the laboratory's duty biochemist.",
+   "Put the age thresholds on a card beside every screen.",
+   "Review every unactioned result at the monthly cancer meeting.",
+   "Make the results-workflow rule part of the practice's results protocol."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from pathology and notes"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of GP-requested chest X-rays reported as suggesting lung cancer lead to a suspected lung cancer referral or direct CT within 7 days of the report?",
+  "why": "An abnormal chest X-ray that is filed without action is a classic missed cancer. Safety netting was recorded for only 44% of patients later diagnosed with cancer in the national audit [6546]. No closed-loop general practice audit of acting on suspicious chest X-rays has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.1.1 (2015); 7-day timeframe is a local standard",
+   "wording": "Refer people using a suspected cancer pathway referral for lung cancer if they: have chest X-ray findings that suggest lung cancer, or are aged 40 and over with unexplained haemoptysis. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer"
+  },
+  "pass": "A suspected lung cancer referral sent, or a CT chest booked through a direct-to-CT pathway, within 7 days of the report date.",
+  "population": "Adults with a chest X-ray requested by the practice (or PCN) and reported as suggesting lung cancer (e.g. mass, suspicious lesion, 'CT recommended to exclude malignancy') in the last 12 months. Exclude patients already under the lung cancer team.",
+  "sample": "All eligible reports in 12 months across the PCN (typically 20–50).",
+  "data_source": "Radiology report search (keywords: mass, malignancy, neoplasm, 'CT recommended') for GP requests; e-Referral and CT booking records; consultation notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "xray_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_wording",
+    "type": "text",
+    "options": [],
+    "note": "Key phrase only"
+   },
+   {
+    "field": "radiology_direct_to_ct",
+    "type": "yes/no",
+    "options": [],
+    "note": "CT arranged by radiology without GP action"
+   },
+   {
+    "field": "action_date",
+    "type": "date",
+    "options": [],
+    "note": "Referral or CT booking date"
+   },
+   {
+    "field": "action_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "patient_informed_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "lung cancer",
+     "other cancer",
+     "benign",
+     "not yet known"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Agree with radiology a 'suspicious for cancer' alert code that routes the report to the practice's urgent results workflow the same day, and keep a failsafe register until each patient is seen.",
+  "target": "100%",
+  "reaudit": "Wk 13–14: rerun the search for the months since the change, same template.",
+  "close_loop": "Present at the PCN cancer meeting with the radiology lead. If it works, keep the alert code and the failsafe register, and report it in the practice's annual cancer review.",
+  "evidence": [
+   "[6546] English National Cancer Diagnosis Audit: safety netting recorded for 44% (single cycle)",
+   "[9431] UK respiratory: repeat imaging after pneumonia 22/42 → 37/50 (emails, posters and banners)",
+   "[7507] England National Cancer Diagnosis Audit: same-day referral 37.7% → 42.7% after the 2015 NICE guideline"
+  ],
+  "pitfalls": [
+   "Radiology already books CT directly → record this and count it as a pass, but still check the patient was told.",
+   "Keyword searches miss unusual wording → agree the phrase list with a radiologist before cycle 1.",
+   "Small numbers → use a full year and the whole PCN.",
+   "Reports are filed by a locum who then leaves → the failsafe register must name the practice, not a person."
+  ],
+  "pearls": [
+   "Recruit the radiology lead for GP reporting; they can add the alert code.",
+   "Treat any fail as a significant event and review it at the practice meeting.",
+   "Put the failsafe register on the shared practice drive with a named administrator.",
+   "Combine with the practice's other cancer failsafe checks to save time."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 reports from radiology and notes"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of patients referred on a suspected cancer pathway from general practice have it documented that they were told the referral is to a cancer service?",
+  "why": "Patients who do not know why they are being referred miss appointments and are unprepared for tests, which delays diagnosis. Safety netting was recorded for only 44% of patients later diagnosed with cancer [6546]. No audit of what patients are told at suspected cancer referral has been published in the library.",
+  "standard": {
+   "source": "NICE NG12 rec 1.14.1 (2015)",
+   "wording": "Explain to people who are being referred with suspected cancer that they are being referred to a cancer service. Reassure them, as appropriate, that most people referred will not have a diagnosis of cancer, and discuss alternative diagnoses with them. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-on-patient-support-safety-netting-and-the-diagnostic-process"
+  },
+  "pass": "The consultation or referral records that the patient was told the referral is to a cancer (suspected cancer) service.",
+  "population": "Adults referred by the practice on any suspected cancer pathway in the last 3 months. Exclude referrals where the patient lacked capacity and no carer was present (record separately).",
+  "sample": "40 consecutive suspected cancer referrals.",
+  "data_source": "e-Referral Service worklist or practice referral log; consultation notes; the referral form's patient information section.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pathway",
+    "type": "choice",
+    "options": [
+     "lower GI",
+     "upper GI",
+     "breast",
+     "gynaecology",
+     "urology",
+     "lung",
+     "skin",
+     "head and neck",
+     "haematology",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "told_cancer_service_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reassurance_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "leaflet_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "availability_next_2_weeks_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_appointment_missed",
+    "type": "yes/no",
+    "options": [],
+    "note": "From the hospital letter or e-RS"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory tick-box to the practice's suspected cancer referral template: 'Told this is a referral to a cancer service; leaflet given', with the national patient leaflet linked.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: the next 40 consecutive referrals, same template.",
+  "close_loop": "Present at the practice cancer meeting and the PCN cancer care coordinator. If it works, keep the tick-box and track missed first appointments.",
+  "evidence": [
+   "[6546] English National Cancer Diagnosis Audit: safety netting recorded for 44% (single cycle)",
+   "[2860] UK colorectal surgery discharge summaries: safety-netting advice 14% → 32% (proforma based on national standards)",
+   "[7608] UK general practice, red eye: red-flag questions 14% → 74% (EMIS template plus teaching)"
+  ],
+  "pitfalls": [
+   "Clinicians say they explained but did not write it → the fix is a template field, not more teaching.",
+   "The tick-box is ticked by default → make it blank and mandatory.",
+   "Missed appointments have other causes → record them for interest, not as the pass criterion.",
+   "Clinicians worry about frightening patients → the NICE wording includes reassurance; build it into the template."
+  ],
+  "pearls": [
+   "Recruit the PCN cancer care coordinator; they can phone patients after referral.",
+   "Link the national patient leaflet in the template.",
+   "Check availability for the next 2 weeks in the same step.",
+   "Keep the template in the practice's referral policy."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 referrals from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of patients aged 65 and over coded with severe frailty have had a medication review in the last 12 months?",
+  "why": "People with severe frailty take many medicines and are most at risk of falls, delirium and admission from them. The GP contract has required an annual medication review for this group since 2017. No closed-loop general practice audit of frailty medication reviews has been published in the library; inpatient work shows medication review can rise from 26% to 80% with a checklist [8269].",
+  "standard": {
+   "source": "NHS (General Medical Services Contracts) Regulations 2015, Schedule 3 paragraph 7A, inserted by SI 2017/908",
+   "wording": "(3) Where the contractor identifies a patient aged 65 years or over who is living with severe frailty, the contractor must— (a) undertake a clinical review in respect of the patient which includes— (i) an annual review of the patient’s medication, and (ii) where appropriate, a discussion with the patient about whether the patient has fallen in the last 12 months;",
+   "url": "https://www.legislation.gov.uk/uksi/2017/908/regulation/3/made"
+  },
+  "pass": "A documented medication review (coded, with a note of medicines considered and any changes or a statement that none were needed) dated within 12 months of the audit date. Re-authorisation of repeats alone does not count.",
+  "population": "Patients aged 65 and over coded with severe frailty (electronic Frailty Index or clinical assessment). Exclude patients who registered in the last 3 months and those in the last weeks of life.",
+  "sample": "40 randomly selected patients from the severe frailty list.",
+  "data_source": "Clinical system frailty search; medication review codes and consultation notes; care home records where relevant.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "frailty_source",
+    "type": "choice",
+    "options": [
+     "eFI",
+     "clinical frailty scale",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "care_home_resident",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_repeat_medicines",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medication_review_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_type",
+    "type": "choice",
+    "options": [
+     "structured medication review",
+     "GP review",
+     "re-authorisation only",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "medicine_stopped_or_changed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_question_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "A frailty review template (medication review plus falls question) and a monthly search of severe frailty patients without a review in 12 months, assigned to the PCN pharmacist.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: a new random 40 from the severe frailty list, same template.",
+  "close_loop": "Present at the PCN clinical meeting and the frailty or care home team. If it works, keep the monthly search in the pharmacist's work plan.",
+  "evidence": [
+   "[8269] UK older inpatients: constipating medication review 26% → 80% (teaching and a six-point checklist)",
+   "[7357] UK general practice, vitamin B12: compliance 17% → 83% (patients recalled)",
+   "[7485] UK general practice: unsafe citalopram prescribing 47 → 9 (teaching plus an EMIS safety prompt)"
+  ],
+  "pitfalls": [
+   "Re-authorisation is coded as a medication review → count a pass only when the note shows medicines were considered.",
+   "The eFI over-labels frailty → accept the coded list but record the frailty source.",
+   "Care home reviews by another team are not in the record → check care home pharmacist letters.",
+   "Pharmacist capacity runs out → prioritise those on 10 or more medicines."
+  ],
+  "pearls": [
+   "Recruit the PCN clinical pharmacist; structured medication reviews are part of their role.",
+   "Agree what counts as a medication review before cycle 1.",
+   "Report the number of medicines stopped; it shows value.",
+   "Tie the search to the care home and frailty ward rounds so it continues."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the clinical system"
+ },
+ {
+  "area": "General practice and community care",
+  "question": "What proportion of practice patients whose cervical screening result needs colposcopy have colposcopy attendance recorded in their GP record within 12 weeks of the result?",
+  "why": "Women lost to follow-up after an abnormal screen make up about 1 in 10 invasive cervical cancers in a UK review [5171]. A UK failsafe study found laboratories alone held complete follow-up for only 78.4% of cases [8281]. No closed-loop general practice audit of colposcopy failsafe has been published in the library.",
+  "standard": {
+   "source": "NHS Cervical Screening Programme, Good practice guidance for sample takers, section 14.4 (updated August 2026); 12-week timeframe is a local standard",
+   "wording": "GPs that provide cervical screening services in accordance with the GMS contract are responsible for making sure that the test result is known and followed up appropriately and refer a person for further investigation and treatment where necessary (for example, a person needing colposcopy who has moved from another area, or a person who has been discharged following a previous non-attendance at colposcopy). All laboratories operate a direct referral system for colposcopy in conjunction with their local colposcopy clinics. The GP still has a responsibility to make sure that colposcopy has taken place",
+   "url": "https://www.gov.uk/government/publications/nhs-cervical-screening-programme-good-practice-guidance-for-sample-takers/nhs-cervical-screening-programme-good-practice-guidance-for-sample-takers"
+  },
+  "pass": "A colposcopy clinic letter, attendance code or outcome filed in the GP record within 12 weeks of the screening result date.",
+  "population": "Practice patients with a cervical screening result needing colposcopy (HPV positive with abnormal cytology, or HPV positive at the repeat interval, or test of cure positive) in the last 12 months. Exclude those who moved away with the new practice informed.",
+  "sample": "All eligible results in 12 months across the practice or PCN (typically 20–60).",
+  "data_source": "Laboratory screening results in the clinical system; colposcopy letters; practice failsafe log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Practice record or NHS number replaced by a local audit code; key kept on the practice drive"
+   },
+   {
+    "field": "screening_result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_category",
+    "type": "choice",
+    "options": [
+     "HPV positive, abnormal cytology",
+     "HPV positive, persistent",
+     "test of cure positive",
+     "other referral result"
+    ],
+    "note": ""
+   },
+   {
+    "field": "colposcopy_attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "attendance_recorded_within_12_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "did_not_attend_colposcopy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "practice_contacted_patient_after_dna",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "on_failsafe_register",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Keep a colposcopy failsafe register: every result needing colposcopy is added on receipt and checked monthly by a named administrator until a colposcopy letter is filed.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: all results needing colposcopy since the change, plus a recheck of cycle 1 fails, same template.",
+  "close_loop": "Present at the practice meeting and the PCN screening lead. If it works, write the register into the practice's cervical screening policy.",
+  "evidence": [
+   "[8281] UK failsafe study: laboratories held complete follow-up in 78.4%; adding FHSA records raised it to 96.4%",
+   "[5171] UK invasive cervical cancer audit: 10% of cancers were in women lost to follow-up (single cycle)",
+   "[7357] UK general practice, vitamin B12: compliance 17% → 83% (patients recalled)"
+  ],
+  "pitfalls": [
+   "Colposcopy letters are slow → wait 12 weeks before counting a fail, and check the hospital system.",
+   "Patients treated privately or elsewhere → record them and ask for letters.",
+   "The register is started and then dropped → name the administrator and a deputy.",
+   "Numbers are small → include the whole PCN and 12 months."
+  ],
+  "pearls": [
+   "Recruit the practice's cervical screening administrator; they already receive results.",
+   "Agree with the colposcopy clinic that DNA letters are copied to the practice.",
+   "Treat any patient lost to follow-up as a significant event.",
+   "Combine with the sample-taker's 'every sample has a result' register for one failsafe routine."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 results from the clinical system"
+ }
+]

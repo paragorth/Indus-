@@ -1,0 +1,2755 @@
+[
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of pregnant women with at least one high-risk factor for pre-eclampsia, what proportion were advised to take aspirin 75–150 mg daily, with a prescription issued, by 16+0 weeks?",
+  "why": "Aspirin for high-risk women is a Saving Babies' Lives v3 intervention, and prescriptions are easily lost between hospital and GP. The library holds booking risk-assessment audits [142] [518] and bundle checks [311], but no closed-loop audit of aspirin advice and prescribing for high-risk women.",
+  "standard": {
+   "source": "NICE NG133 rec 1.1.2 (2019, updated 2023)",
+   "wording": "Advise pregnant women at high risk of pre-eclampsia to take 75 mg to 150 mg of aspirin daily from 12 weeks until the birth of the baby. Women at high risk are those with any of the following: hypertensive disease during a previous pregnancy; chronic kidney disease; autoimmune disease such as systemic lupus erythematosus or antiphospholipid syndrome; type 1 or type 2 diabetes; chronic hypertension.",
+   "url": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+  },
+  "pass": "High-risk factor recorded, aspirin advice documented and a prescription (hospital or GP) for 75–150 mg daily issued by 16+0 weeks, or a documented contraindication or decline.",
+  "population": "Include: women booked for antenatal care with at least one NICE high-risk factor. Exclude: miscarriage or transfer of care before 16 weeks; booking after 16 weeks.",
+  "sample": "40 consecutive eligible women who reached 20 weeks in the last 6 months",
+  "data_source": "Maternity EPR booking risk assessment; antenatal notes; hospital prescribing record; GP prescribing via shared care record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "booking_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_booking_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_factor",
+    "type": "choice",
+    "options": [
+     "previous hypertensive disease",
+     "chronic kidney disease",
+     "autoimmune disease",
+     "type 1 or 2 diabetes",
+     "chronic hypertension",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "aspirin_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_prescription_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_or_decline_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the aspirin decision a mandatory field in the electronic booking risk assessment, which triggers a prescription task when a high-risk factor is ticked.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 40 eligible women",
+  "close_loop": "Present at the maternity governance meeting and to the Local Maternity and Neonatal System. If it works, keep the mandatory field and add aspirin rates to the maternity dashboard.",
+  "evidence": [
+   "[142] Obstetrics: risk assessment strong at booking, gaps in updating → new system for updating the lead professional",
+   "[311] Obstetrics: Saving Babies' Lives bundle training gaps → training, then 100% on local targets",
+   "[1887] Care of the elderly: aspirin for primary prevention 9 (47.5%) → 3 patients after an education session (closed loop)"
+  ],
+  "pitfalls": [
+   "Aspirin issued by the GP is invisible in hospital notes → agree access to the shared care record or GP summary before cycle 1.",
+   "Moderate-risk women muddy the denominator → audit high-risk women only; run moderate risk as a second cycle.",
+   "Staff tick the field but no prescription follows → count a prescription, not a tick, as a pass.",
+   "Some units prescribe 150 mg, others 75 mg → accept 75–150 mg; record the dose to show variation."
+  ],
+  "pearls": [
+   "Recruit the digital midwife early; the EPR change is the fix.",
+   "Agree the 16-week cut-off with the lead obstetrician before cycle 1 and keep it for cycle 2.",
+   "Ask community pharmacy leads to confirm aspirin cannot be bought over the counter for this use, and put this in the leaflet.",
+   "Hand over the dashboard metric to the antenatal clinic matron before rotation."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 women from EPR and shared care record"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women who took methyldopa in pregnancy, what proportion had it stopped within 2 days after the birth?",
+  "why": "Methyldopa is linked with postnatal depression, and NICE advises switching after birth. No audit of postnatal methyldopa has been published in the library.",
+  "standard": {
+   "source": "NICE NG133 rec 1.4.12 (2019, updated 2023)",
+   "wording": "If a woman has taken methyldopa to treat gestational hypertension, stop within 2 days after the birth and change to an alternative treatment if necessary (for choice of antihypertensive during the postnatal period, see the section on antihypertensive treatment during the postnatal period, including during breastfeeding).",
+   "url": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+  },
+  "pass": "Last methyldopa dose given no later than 48 hours after the time of birth (recs 1.3.19 and 1.5.18 give the same advice for chronic hypertension and pre-eclampsia).",
+  "population": "Include: women on methyldopa at the time of birth, any hypertensive diagnosis. Exclude: death or transfer to another trust before 48 hours.",
+  "sample": "30–40 consecutive women over the last 6–12 months",
+  "data_source": "Electronic prescribing (administration record); birth record for time of birth; discharge letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypertension_type",
+    "type": "choice",
+    "options": [
+     "chronic",
+     "gestational",
+     "pre-eclampsia"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_methyldopa_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_birth_to_last_dose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_antihypertensive_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_drug",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "methyldopa_on_discharge_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a postnatal hypertension order set to e-prescribing that ends methyldopa at 48 hours and offers enalapril or nifedipine.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 30 women on methyldopa",
+  "close_loop": "Present at the maternity medicines and governance meetings. If it works, keep the order set and add a line to the postnatal ward round checklist.",
+  "evidence": [
+   "[318] Obstetrics: medication errors on the maternity ward improved since 2018 → maintained",
+   "[479] Obstetrics: prescription errors on maternity wards re-audit (registered, result not published)",
+   "[2343] Urology: analgesia pathway compliance 60% → 83% after posters of the pathway (closed loop)"
+  ],
+  "pitfalls": [
+   "Numbers fall as fewer units start methyldopa → extend the look-back to 12 months if needed.",
+   "Methyldopa still on the discharge letter even when stopped on the ward → record both; the letter drives GP repeats.",
+   "Physicians object to switching when blood pressure is stable → the order set allows a documented reason to override.",
+   "Paper charts in some areas → check both systems during the pilot week."
+  ],
+  "pearls": [
+   "Ask the maternity pharmacist to run the list of methyldopa administrations; it saves hours.",
+   "Measure hours from birth, not calendar days, and fix the definition before cycle 1.",
+   "Link the change to the postnatal depression screen so midwives see the point.",
+   "Give the order set a named owner in pharmacy so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from e-prescribing"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women who reached 36 weeks, what proportion had a carbon monoxide reading and smoking status recorded at the 36-week appointment?",
+  "why": "Booking carbon monoxide testing is audited [517], but the 36-week reading is the one that shows whether smokers have quit and catches relapse. No audit of the 36-week reading has been published in the library.",
+  "standard": {
+   "source": "Saving Babies' Lives care bundle v3, element 1, intervention 1.1 and 1.3 (NHS England, 2023)",
+   "wording": "1.1 CO testing offered to all pregnant women at the antenatal booking and 36-week antenatal appointment. 1.3 Whenever CO testing is offered, it should be followed up with an enquiry about smoking status with the CO result and smoking status recorded.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "CO reading in ppm and smoking status both recorded at the 36-week contact (35+0 to 37+6 weeks), or a documented decline.",
+  "population": "Include: women seen for antenatal care at 35+0 to 37+6 weeks. Exclude: birth before 35+0 weeks.",
+  "sample": "50 consecutive women with a 36-week appointment in the last 2 months",
+  "data_source": "Maternity EPR antenatal contact record (community and hospital); tobacco dependence service referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "appointment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "setting",
+    "type": "choice",
+    "options": [
+     "community",
+     "hospital clinic",
+     "home"
+    ],
+    "note": ""
+   },
+   {
+    "field": "co_reading_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "co_ppm",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_status_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decline_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_if_co_4ppm_or_more",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make CO reading and smoking status mandatory fields on the 36-week contact template in the EPR, with an auto-referral when CO is 4 ppm or more.",
+  "target": "≥95% (bundle ambition 1.14b)",
+  "reaudit": "Wk 13–14; same template; next 50 women",
+  "close_loop": "Present to the community midwifery team and Saving Babies' Lives lead. If it works, keep the mandatory fields and report monthly on the maternity dashboard.",
+  "evidence": [
+   "[517] Obstetrics: CO testing and smoking cessation at booking → significant assurance",
+   "[478] Obstetrics: smoke-free pregnancy support (registered, result not published)",
+   "[40] Sexual health: missed offers of hepatitis screening → prompts on the risk assessment panel"
+  ],
+  "pitfalls": [
+   "CO monitors missing in community bags → check monitor stock and calibration with the team lead before cycle 1.",
+   "36-week contacts done by phone → record setting; exclude remote contacts from the denominator only if the template allows no CO.",
+   "Mandatory field filled with '0' to get past it → spot-check 10 records against the monitor log.",
+   "Gains fade after the audit → put the rate on the monthly dashboard."
+  ],
+  "pearls": [
+   "Recruit a community midwife champion; most 36-week contacts are in the community.",
+   "Agree the 35+0 to 37+6 window before cycle 1.",
+   "Pair the audit with the tobacco dependence adviser so positive readings reach treatment.",
+   "Use the same EPR report for both cycles."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 women from an EPR report"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of babies born at 22+0 to 33+6 weeks, what proportion had a full course of antenatal corticosteroids completed within the 7 days before birth?",
+  "why": "Steroids given too early lose benefit, and given too late are incomplete. The library holds preterm prevention audits [136] [518] but no audit of steroid-to-birth timing.",
+  "standard": {
+   "source": "Saving Babies' Lives care bundle v3, element 5, intervention 5.19 (NHS England, 2023)",
+   "wording": "Antenatal corticosteroids should be offered to women who birth a baby between 22 and 33 weeks' (22+0 to 33+6) gestation within 1 week prior to delivery. A steroid-to-birth interval of >7 days should be avoided if possible and repeat courses of steroids should be avoided where possible.",
+   "url": "https://www.england.nhs.uk/long-read/saving-babies-lives-version-3/"
+  },
+  "pass": "Second steroid dose given 0 to 7 days before birth. Record a partial course and >7 days separately.",
+  "population": "Include: live births at 22+0 to 33+6 weeks. Exclude: births before arrival; in-utero transfers in (audit at the referring unit).",
+  "sample": "All eligible births over the last 12 months (typically 30–50 in a district general hospital)",
+  "data_source": "Birth register; e-prescribing administration record; BadgerNet or neonatal admission record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth",
+    "type": "text",
+    "options": [],
+    "note": "weeks+days"
+   },
+   {
+    "field": "first_steroid_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "second_steroid_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "course_status",
+    "type": "choice",
+    "options": [
+     "complete",
+     "partial",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "days_last_dose_to_birth",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_course_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_within_7_days",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a preterm birth risk tool (for example, QUiPP) to the triage pathway so steroids are given when birth within 7 days is likely.",
+  "target": "≥80% (set with the Local Maternity and Neonatal System)",
+  "reaudit": "Wk 13–14 and again at 6 months; same template; all eligible births in the period",
+  "close_loop": "Present at the perinatal (obstetric and neonatal) meeting. If it works, keep the tool in triage and report quarterly with the magnesium and cord clamping measures.",
+  "evidence": [
+   "[136] Obstetrics: preterm birth prevention service met two of three standards → specialist midwife role",
+   "[518] Obstetrics: preterm birth risk assessment at booking (registered, result not published)",
+   "[143] Obstetrics: computerised CTG for reduced fetal movements improving over cycles → maintained"
+  ],
+  "pitfalls": [
+   "Numbers are small → use 12 months per cycle and report counts, not only percentages.",
+   "Steroids given at another unit before transfer → check transfer letters.",
+   "Clinicians object that some births cannot be predicted → report 'no opportunity' cases separately.",
+   "Definitions drift between cycles → fix 'full course' as two doses 24 hours apart."
+  ],
+  "pearls": [
+   "Pull the list from the neonatal dataset, which already records steroid status.",
+   "Recruit a neonatal registrar; steroid timing matters to them too.",
+   "Present each case as a short timeline; it drives change better than a rate.",
+   "Combine with the magnesium audit to share one data pull."
+  ],
+  "novelty": "new",
+  "effort": "~30 min per 10 births from notes and prescribing"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of babies born before 30+0 weeks, what proportion had magnesium sulfate given to the mother in the 24 hours before birth?",
+  "why": "Magnesium sulfate cuts cerebral palsy after very preterm birth, yet uptake varies between units. No audit of magnesium for neuroprotection has been published in the library.",
+  "standard": {
+   "source": "NICE NG25 rec 1.10.2 (2015, updated 2022)",
+   "wording": "Offer intravenous magnesium sulfate for neuroprotection of the baby to women between 24+0 and 29+6 weeks of pregnancy who are: in established preterm labour, or having a planned preterm birth within 24 hours.",
+   "url": "https://www.nice.org.uk/guidance/ng25/chapter/Recommendations"
+  },
+  "pass": "Intravenous magnesium sulfate started within the 24 hours before birth, or a documented reason (for example, birth too rapid, maternal contraindication).",
+  "population": "Include: live births at 24+0 to 29+6 weeks. Exclude: births before arrival at hospital.",
+  "sample": "All eligible births over the last 12–24 months",
+  "data_source": "Birth register; e-prescribing or infusion chart; neonatal dataset (BadgerNet)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth",
+    "type": "text",
+    "options": [],
+    "note": "weeks+days"
+   },
+   {
+    "field": "labour_type",
+    "type": "choice",
+    "options": [
+     "established preterm labour",
+     "planned preterm birth"
+    ],
+    "note": ""
+   },
+   {
+    "field": "magnesium_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_start_to_birth",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "loading_dose_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put a pre-made magnesium sulfate neuroprotection pack and prescription in the labour ward preterm box, triggered by a triage prompt for gestation under 30 weeks.",
+  "target": "≥85% (local target; reported as Saving Babies' Lives v3 process indicator 5c)",
+  "reaudit": "Every 6 months; same template; all eligible births",
+  "close_loop": "Present at the perinatal meeting. If it works, keep the preterm box and triage prompt, and report the rate with steroid timing.",
+  "evidence": [
+   "[136] Obstetrics: preterm birth prevention service met two of three standards → specialist midwife role",
+   "[475] Obstetrics: second checker of IV fluids (registered, result not published)",
+   "[311] Obstetrics: Saving Babies' Lives bundle training gaps → training, then 100% on local targets"
+  ],
+  "pitfalls": [
+   "Very small numbers → audit 12–24 months and present each missed case.",
+   "Infusion started but not charted → check the infusion chart and anaesthetic record.",
+   "Precipitate births skew the rate → record 'no opportunity' cases separately.",
+   "Toxicity worries → include the monitoring chart in the pack."
+  ],
+  "pearls": [
+   "Neonatal data already hold this field; ask the neonatal data clerk.",
+   "Recruit a labour ward coordinator to own the preterm box.",
+   "Agree how to count births within 1 hour of arrival before cycle 1.",
+   "Use a simulation drill to launch the box."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 births from notes and neonatal data"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of babies born before 37+0 weeks, what proportion had cord clamping delayed for at least 60 seconds?",
+  "why": "Deferred cord clamping lowers death in preterm babies, but timing is often not recorded. No audit of cord clamping has been published in the library.",
+  "standard": {
+   "source": "NICE NG25 rec 1.14.1 (2015, amended 2022)",
+   "wording": "Wait at least 60 seconds before clamping the cord of preterm babies unless there are specific maternal or fetal conditions that need earlier clamping.",
+   "url": "https://www.nice.org.uk/guidance/ng25/chapter/Recommendations"
+  },
+  "pass": "Time of cord clamping recorded and at least 60 seconds after birth, or a documented reason for earlier clamping.",
+  "population": "Include: live births at 23+0 to 36+6 weeks, vaginal or caesarean. Exclude: births before arrival.",
+  "sample": "40 consecutive preterm births over the last 3–4 months",
+  "data_source": "Birth record in maternity EPR; theatre record for caesarean births; neonatal resuscitation record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_birth",
+    "type": "text",
+    "options": [],
+    "note": "weeks+days"
+   },
+   {
+    "field": "mode_of_birth",
+    "type": "choice",
+    "options": [
+     "vaginal",
+     "instrumental",
+     "caesarean"
+    ],
+    "note": ""
+   },
+   {
+    "field": "clamping_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seconds_to_clamping",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_early_clamping",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'time of cord clamping (seconds)' field to the birth record and the caesarean theatre record, with a timer prompt.",
+  "target": "≥80% of eligible births (local target)",
+  "reaudit": "Wk 13–14; same template; next 40 preterm births",
+  "close_loop": "Present at the perinatal and theatre meetings. If it works, keep the field and add cord clamping to the neonatal team brief.",
+  "evidence": [
+   "[224] Obstetric anaesthesia: record keeping excellent → improved obstetric anaesthetic chart",
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form",
+   "[1379] Obstetrics: shoulder dystocia documentation fell from 100% to 65% at re-audit without a form (closed loop)"
+  ],
+  "pitfalls": [
+   "Timing not recorded → count missing time as a fail and fix the form first.",
+   "Neonatal team worry about delaying resuscitation → include clamping with the cord intact or resuscitation at the bedside as passes where available.",
+   "Late preterm births outnumber very preterm → report by gestation band.",
+   "Caesarean births recorded in a separate system → check both."
+  ],
+  "pearls": [
+   "Recruit a neonatal consultant and an anaesthetist; clamping happens between teams.",
+   "Agree what counts as 'documented reason' before cycle 1.",
+   "Use the theatre team brief to say 'deferred clamping planned' out loud.",
+   "Report monthly to keep the gain."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 births from birth records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women with preterm prelabour rupture of membranes, what proportion were prescribed oral erythromycin 250 mg four times a day for no more than 10 days?",
+  "why": "Antibiotic choice and duration after preterm prelabour rupture of membranes vary, and co-amoxiclav is still used. No audit of this has been published in the library.",
+  "standard": {
+   "source": "NICE NG25 rec 1.4.1 (2015, amended 2022)",
+   "wording": "As prophylaxis for intrauterine infection, offer women with P-PROM oral erythromycin 250 mg 4 times a day for a maximum of 10 days or until the woman is in established labour (whichever is sooner).",
+   "url": "https://www.nice.org.uk/guidance/ng25/chapter/Recommendations"
+  },
+  "pass": "Erythromycin 250 mg four times a day (or an oral penicillin if erythromycin is not tolerated) started, and stopped by day 10 or established labour; no co-amoxiclav.",
+  "population": "Include: women diagnosed with rupture of membranes before 37+0 weeks and before labour. Exclude: in established labour at diagnosis; chorioamnionitis at diagnosis.",
+  "sample": "30–40 consecutive women over the last 6–12 months",
+  "data_source": "Maternity triage and admission notes; e-prescribing record; birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "diagnosis_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_at_diagnosis",
+    "type": "text",
+    "options": [],
+    "note": "weeks+days"
+   },
+   {
+    "field": "antibiotic_prescribed",
+    "type": "choice",
+    "options": [
+     "erythromycin",
+     "oral penicillin",
+     "co-amoxiclav",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_and_frequency_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_stop_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_of_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stopped_by_day_10_or_labour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a preterm prelabour rupture of membranes order set to e-prescribing with erythromycin preset at 250 mg four times a day and an automatic 10-day stop date.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 30 women",
+  "close_loop": "Present at the maternity guideline and antimicrobial stewardship groups. If it works, keep the order set and add it to the triage guideline.",
+  "evidence": [
+   "[38] Sexual health: variable empirical antibiotic prescribing → electronic proforma changed",
+   "[2421] General surgery: correct prophylactic agent 43.5% → 65.3% after an edited sign-in sheet and duration sticker (closed loop)",
+   "[144] Obstetrics: single-dose antibiotics after instrumental birth mostly good → maintained"
+  ],
+  "pitfalls": [
+   "Diagnosis uncertain (no pooling, test used) → include only women managed as preterm rupture of membranes by the team.",
+   "Antibiotics continued at home without a stop date → check the discharge prescription.",
+   "Stewardship team may prefer another agent locally → agree the standard with them before cycle 1.",
+   "Small numbers → extend to 12 months."
+  ],
+  "pearls": [
+   "Recruit the maternity pharmacist and microbiologist early.",
+   "Use a 10-day auto-stop, not a reminder.",
+   "Count co-amoxiclav separately; it is the headline safety issue.",
+   "Give the order set to the triage lead to own."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 women from EPR and prescribing"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women with group B streptococcus found in the current pregnancy who laboured, what proportion received intravenous antibiotics during labour?",
+  "why": "Group B streptococcus is a leading cause of early-onset infection in newborns. No audit of intrapartum antibiotics for known carriers has been published in the library.",
+  "standard": {
+   "source": "NICE NG195 rec 1.6.1 (2021, updated 2026)",
+   "wording": "Offer antibiotics during labour to women, trans men and non-binary people who: are in pre-term labour or have group B streptococcal colonisation, bacteriuria or infection during the current pregnancy or have had group B streptococcal colonisation, bacteriuria or infection in a previous pregnancy, and have not had a negative test for group B streptococcus by enrichment culture or polymerase chain reaction (PCR) on a rectovaginal swab samples collected between 35 and 37 weeks' gestation or 3 to 5 weeks before the anticipated delivery date in the current pregnancy or have had a previous baby with an invasive group B streptococcal infection or have a clinical diagnosis of chorioamnionitis.",
+   "url": "https://www.nice.org.uk/guidance/ng195/chapter/Prevention-and-risk-reduction"
+  },
+  "pass": "First dose of intravenous benzylpenicillin (or the allergy alternative in NG195 table 1) given in labour. Record whether it was 4 hours or more before birth.",
+  "population": "Include: women with group B streptococcus on any swab or urine in this pregnancy who laboured. Exclude: planned caesarean without labour.",
+  "sample": "40 consecutive eligible women over the last 6 months",
+  "data_source": "Microbiology results; maternity EPR alerts; e-prescribing administration record; birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "gbs_result_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gbs_source",
+    "type": "choice",
+    "options": [
+     "vaginal/rectal swab",
+     "urine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gbs_alert_on_record",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "labour_onset_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "choice",
+    "options": [
+     "benzylpenicillin",
+     "cephalosporin",
+     "vancomycin",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_first_dose_to_birth",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Link positive group B streptococcus results to an automatic alert on the maternity EPR front sheet and a pre-written intrapartum antibiotic prescription.",
+  "target": "≥95% given; report the ≥4-hour rate",
+  "reaudit": "Wk 13–14; same template; next 40 eligible women",
+  "close_loop": "Present at the maternity governance and neonatal meetings. If it works, keep the alert and add the rate to the dashboard.",
+  "evidence": [
+   "[40] Sexual health: missed hepatitis offers → prompts on the risk assessment panel",
+   "[137] Obstetrics: at-risk newborn identification good compliance → maintained",
+   "[2863] General surgery: correct prophylaxis timing 58.5% → improved after a checklist prompt (closed loop)"
+  ],
+  "pitfalls": [
+   "Results reported after booking never reach the notes → check the lab system against the EPR alert for every case.",
+   "Rapid births give no chance → report 'birth within 1 hour of arrival' separately.",
+   "Penicillin allergy labels vary → record the agent used.",
+   "Home-birth women with GBS → include only if they laboured in hospital."
+  ],
+  "pearls": [
+   "Ask microbiology for a list of positive antenatal results; it is the easiest denominator.",
+   "Agree the alert wording with the digital midwife.",
+   "Show neonatal colleagues the babies who needed 36 hours of observation because antibiotics were missed.",
+   "Hand the monthly report to the labour ward manager."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 women from lab and prescribing records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women having a caesarean birth, what proportion received prophylactic antibiotics before skin incision?",
+  "why": "Surgical site infection after caesarean is common, and antibiotics given after incision protect less. Timing audits exist in surgery [2421] [2863], but none in caesarean birth in the library.",
+  "standard": {
+   "source": "NICE NG192 rec 1.4.43 (2021, updated 2025)",
+   "wording": "Offer women prophylactic antibiotics before skin incision for caesarean birth, choosing antibiotics that are effective against endometritis, urinary tract and wound infections.",
+   "url": "https://www.nice.org.uk/guidance/ng192/chapter/Recommendations"
+  },
+  "pass": "Antibiotic administration time recorded and before the skin incision time; not co-amoxiclav (rec 1.4.45).",
+  "population": "Include: all caesarean births, categories 1–4. Exclude: none; report category 1 separately.",
+  "sample": "50 consecutive caesarean births over the last 1 month",
+  "data_source": "Anaesthetic chart; theatre system (knife-to-skin time); e-prescribing administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "caesarean_category",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "antibiotic_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "skin_incision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_antibiotic_before_incision",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "co_amoxiclav_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'antibiotic given before incision? time' to the obstetric WHO safety checklist time-out.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 50 caesarean births",
+  "close_loop": "Present at the obstetric anaesthesia and theatre meetings. If it works, keep the checklist line and link it to wound infection surveillance.",
+  "evidence": [
+   "[2421] General surgery: antibiotics given after incision 18.9% → 10.8% after an edited sign-in/time-out sheet (closed loop)",
+   "[2863] General surgery: correct timing 58.5% → improved after 'antibiotic dose and timing confirmed?' added to the checklist (closed loop)",
+   "[224] Obstetric anaesthesia: record keeping excellent → improved obstetric anaesthetic chart"
+  ],
+  "pitfalls": [
+   "Antibiotic time and incision time on different clocks → use the theatre system time for both where possible.",
+   "Category 1 births make timing hard → report them apart; still count them.",
+   "Antibiotic given but not charted → check the anaesthetic chart and drug record.",
+   "Anaesthetists see this as their domain → run the audit jointly with the obstetric anaesthesia lead."
+  ],
+  "pearls": [
+   "Recruit an obstetric anaesthetist as co-lead.",
+   "Agree the data source for incision time before cycle 1.",
+   "Keep the checklist line short so it gets said aloud.",
+   "Feed results into the surgical site infection surveillance programme."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 cases from theatre and anaesthetic records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of category 1 caesarean births, what proportion had the baby born within 30 minutes of the decision?",
+  "why": "Delay in category 1 birth is a known source of harm and is often reviewed as a maternity incident. No audit of decision-to-birth interval has been published in the library.",
+  "standard": {
+   "source": "NICE NG192 rec 1.4.3 (2021, updated 2025)",
+   "wording": "Perform category 1 caesarean birth as soon as possible, and in most situations within 30 minutes of making the decision.",
+   "url": "https://www.nice.org.uk/guidance/ng192/chapter/Recommendations"
+  },
+  "pass": "Decision time and birth time both recorded, and birth within 30 minutes of the decision.",
+  "population": "Include: all category 1 caesarean births. Exclude: none; record where the decision was made (labour room, theatre after trial of instrumental birth, antenatal ward).",
+  "sample": "All category 1 caesarean births over the last 6 months (typically 30–50)",
+  "data_source": "Maternity EPR decision record; theatre system; birth record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "decision_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_in_theatre_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaesthesia_type",
+    "type": "choice",
+    "options": [
+     "general",
+     "spinal",
+     "epidural top-up",
+     "combined"
+    ],
+    "note": ""
+   },
+   {
+    "field": "birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_to_birth_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decision_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a category 1 caesarean call sheet that records the decision time at the moment of the call, held by the coordinator.",
+  "target": "≥90% within 30 minutes; 100% with decision time recorded",
+  "reaudit": "Wk 13–14 and every 6 months; same template; all category 1 births",
+  "close_loop": "Present at the labour ward forum. If it works, keep the call sheet and review every case over 30 minutes at the weekly incident meeting.",
+  "evidence": [
+   "[515] Obstetrics: consultant-led ward rounds on labour ward → significant assurance",
+   "[1379] Obstetrics: shoulder dystocia timing documentation fell to 65% at re-audit (closed loop)",
+   "[481] Obstetrics: communication between ED and delivery suite (registered, result not published)"
+  ],
+  "pitfalls": [
+   "Decision time written from memory later → take it from the call sheet or emergency bleep time.",
+   "Staff feel blamed → present delays as system causes (theatre busy, anaesthetist elsewhere).",
+   "Category misclassified (category 2 labelled 1) → record the indication and check against the NICE definition.",
+   "Small numbers → pool 6 months."
+  ],
+  "pearls": [
+   "Recruit the labour ward coordinator; they hold the times.",
+   "Agree 'decision time' is the time the obstetrician states the category aloud.",
+   "Report the median and the longest times, not only the pass rate.",
+   "Link cases to neonatal outcome for context."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from theatre and EPR records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women having a caesarean birth, what proportion received carbetocin by slow intravenous injection to prevent postpartum haemorrhage?",
+  "why": "NICE changed the uterotonic for caesarean birth to carbetocin in 2023, and practice is still changing. No audit of uterotonic choice at caesarean has been published in the library.",
+  "standard": {
+   "source": "NICE NG235 rec 1.10.13 (2023, updated 2026)",
+   "wording": "For women who have had a caesarean birth, offer carbetocin by slow intravenous injection for the prevention of postpartum haemorrhage.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "Carbetocin given by slow intravenous injection at birth, or a documented reason for another uterotonic.",
+  "population": "Include: all caesarean births. Exclude: none.",
+  "sample": "50 consecutive caesarean births over the last 1 month",
+  "data_source": "Anaesthetic chart; e-prescribing administration record; theatre record; blood loss record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "caesarean_category",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "note": ""
+   },
+   {
+    "field": "uterotonic_given",
+    "type": "choice",
+    "options": [
+     "carbetocin",
+     "oxytocin bolus",
+     "oxytocin bolus and infusion",
+     "ergometrine-containing",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "route_slow_iv",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_alternative",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "measured_blood_loss_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace oxytocin with carbetocin in the caesarean drug tray and the anaesthetic chart pre-print.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 50 caesarean births",
+  "close_loop": "Present at the obstetric anaesthesia meeting and drugs and therapeutics committee. If it works, keep the tray change and track blood loss over 1,000 ml.",
+  "evidence": [
+   "[224] Obstetric anaesthesia: record keeping excellent → improved obstetric anaesthetic chart",
+   "[1430] Obstetrics (India): postpartum haemorrhage 12% → fell after retraining in active third stage with intramuscular Syntometrine",
+   "[2421] General surgery: correct agent 43.5% → 65.3% after a checklist change (closed loop)"
+  ],
+  "pitfalls": [
+   "Carbetocin not on formulary or in stock → confirm with pharmacy before cycle 1.",
+   "Cost objection → show NICE's cost-effectiveness rationale and the extra oxytocin infusions avoided.",
+   "Pre-eclampsia or cardiac disease need care → accept a documented reason as a pass.",
+   "Uterotonic recorded only as 'given' → count missing drug name as a fail."
+  ],
+  "pearls": [
+   "Recruit the lead obstetric anaesthetist and the theatre pharmacist.",
+   "Change the tray, not only the guideline.",
+   "Record blood loss to show safety.",
+   "Keep the pre-printed chart line after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 cases from anaesthetic charts"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women who had regional analgesia or anaesthesia for birth, what proportion had a straight leg raise checked and recorded by 4 hours after the last dose?",
+  "why": "Late recognition of spinal haematoma or abscess after neuraxial block causes permanent harm. No audit of post-block motor checks has been published in the library.",
+  "standard": {
+   "source": "NICE NG235 rec 1.12.2 (2023, updated 2026)",
+   "wording": "Check that women who have had regional analgesia or anaesthesia can perform a straight leg raise by 4 hours after the last anaesthetic dose. If not, contact the obstetric anaesthetist for urgent review.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "Straight leg raise result recorded at or before 4 hours after the last epidural or spinal dose; if absent, anaesthetist contacted.",
+  "population": "Include: women with epidural or spinal for labour or birth. Exclude: general anaesthesia only.",
+  "sample": "40 consecutive women over the last 1 month",
+  "data_source": "Anaesthetic chart (last dose time); postnatal observation chart; maternity EPR",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "block_type",
+    "type": "choice",
+    "options": [
+     "labour epidural",
+     "spinal",
+     "combined spinal-epidural",
+     "epidural top-up for theatre"
+    ],
+    "note": ""
+   },
+   {
+    "field": "last_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "slr_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "slr_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_last_dose_to_slr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "slr_result",
+    "type": "choice",
+    "options": [
+     "able",
+     "unable",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anaesthetist_contacted_if_unable",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a timed 'straight leg raise at 4 hours' box to the postnatal observation chart, prefilled with the due time at handover from theatre or labour ward.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 40 women",
+  "close_loop": "Present at the obstetric anaesthesia and midwifery meetings. If it works, keep the chart box and include it in the postnatal handover.",
+  "evidence": [
+   "[224] Obstetric anaesthesia: record keeping excellent → improved obstetric anaesthetic chart",
+   "[141] Obstetrics: action on yellow and red maternal observations full compliance → maintained",
+   "[474] Obstetrics: maternal observations in induction of labour (registered, result not published)"
+  ],
+  "pitfalls": [
+   "Last dose time unclear with continuous epidurals → use the time the infusion or top-up stopped.",
+   "Checked but not written → the chart box fixes this; spot-check.",
+   "Women transferred to the ward before 4 hours → the due time must move with the handover.",
+   "Night shifts miss checks → report results by time of day."
+  ],
+  "pearls": [
+   "Recruit a postnatal ward midwife champion and the obstetric anaesthesia lead.",
+   "Agree 'last dose' definition before cycle 1.",
+   "Put the due time on the handover sheet, not only the chart.",
+   "Audit a small monthly sample to keep the gain."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from charts"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women who had a first- or second-degree tear repaired, what proportion were offered a rectal NSAID after the repair?",
+  "why": "Perineal pain is a leading postnatal complaint. No audit of analgesia after perineal repair has been published in the library.",
+  "standard": {
+   "source": "NICE NG235 rec 1.12.22 (2023, updated 2026; recommendation dated 2007)",
+   "wording": "Offer rectal non-steroidal anti-inflammatory drugs routinely after perineal repair of first- and second-degree trauma provided these drugs are not contraindicated.",
+   "url": "https://www.nice.org.uk/guidance/ng235/chapter/Recommendations"
+  },
+  "pass": "Rectal NSAID (for example, diclofenac 100 mg) given or offered and declined after repair, or a documented contraindication.",
+  "population": "Include: vaginal births with a sutured first- or second-degree tear or episiotomy. Exclude: third- or fourth-degree tears (separate pathway).",
+  "sample": "40 consecutive women over the last 1 month",
+  "data_source": "Birth and perineal repair record; e-prescribing administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "trauma_type",
+    "type": "choice",
+    "options": [
+     "first degree",
+     "second degree",
+     "episiotomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "repair_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rectal_nsaid_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "offered_and_declined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "for example, asthma with NSAID sensitivity, pre-eclampsia, renal impairment, postpartum haemorrhage"
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'rectal NSAID offered/given/contraindicated' as a required line in the perineal repair record, linked to a PGD for midwives.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 40 women",
+  "close_loop": "Present at the labour ward forum. If it works, keep the required line and the PGD.",
+  "evidence": [
+   "[472] Obstetrics: oral morphine in latent labour (registered, result not published)",
+   "[2343] Urology: analgesia pathway compliance 60% → 83% after posters of the pathway (closed loop)",
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form"
+  ],
+  "pitfalls": [
+   "No PGD, so midwives wait for a doctor → set up the PGD before cycle 2.",
+   "Contraindications not recorded → the required line includes a 'contraindicated' option.",
+   "Pre-eclampsia and haemorrhage cases → count as passes only if documented.",
+   "Birth-centre births recorded on paper → include them."
+  ],
+  "pearls": [
+   "Recruit a senior midwife from the birth centre and labour ward.",
+   "Ask pharmacy to prepare the PGD early; it takes weeks.",
+   "Ask women about pain at the first postnatal check to show impact.",
+   "Keep the required line after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 women from EPR"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women who had a third- or fourth-degree tear repaired, what proportion were prescribed a laxative after the repair?",
+  "why": "Hard stools after anal sphincter repair risk breakdown. Laxative co-prescribing is audited in surgery [2463] [1341], but not after obstetric anal sphincter injury in the library.",
+  "standard": {
+   "source": "RCOG Green-top Guideline No. 29, section 10.1 (2015)",
+   "wording": "The use of postoperative laxatives is recommended to reduce the risk of wound dehiscence.",
+   "url": "https://www.rcog.org.uk/media/5jeb5hzu/gtg-29.pdf"
+  },
+  "pass": "Laxative (for example, lactulose) prescribed after the repair and included on the discharge prescription; no bulking agent alone.",
+  "population": "Include: all women with a repaired third- or fourth-degree tear. Exclude: none.",
+  "sample": "All cases over the last 12 months (typically 30–50)",
+  "data_source": "Theatre or perineal repair record; e-prescribing; discharge prescription",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tear_grade",
+    "type": "choice",
+    "options": [
+     "3a",
+     "3b",
+     "3c",
+     "4"
+    ],
+    "note": ""
+   },
+   {
+    "field": "laxative_prescribed_inpatient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "laxative_name",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "laxative_on_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bulking_agent_alone",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_booked_6_to_12_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an obstetric anal sphincter injury order set with antibiotics and lactulose preset, including a 10-day discharge supply.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 and at 6 months; same template; all new cases",
+  "close_loop": "Present at the perineal and pelvic floor meeting. If it works, keep the order set and add it to the perineal injury guideline.",
+  "evidence": [
+   "[2463] General surgery: laxatives co-prescribed with opioids in 34% (only 17% stimulant and softener)",
+   "[1341] General surgery: laxative prescribing improved progressively after education and weekly reminders (closed loop)",
+   "[144] Obstetrics: single-dose antibiotics after instrumental birth mostly good → maintained"
+  ],
+  "pitfalls": [
+   "Small numbers → take 12 months.",
+   "Laxative on the ward chart but not on discharge → check both.",
+   "Grade recorded differently in theatre and birth records → use the operation note.",
+   "Local protocol differs on agent → accept any laxative; record which."
+  ],
+  "pearls": [
+   "Recruit the perineal specialist midwife; they hold a case list.",
+   "Build the order set with the maternity pharmacist.",
+   "Add the follow-up clinic booking to the same order set.",
+   "Report with the antibiotic rate for a fuller picture."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from prescribing records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women transferred home after birth, what proportion had a face-to-face midwife visit within 36 hours of transfer?",
+  "why": "Early postnatal problems (sepsis, hypertension, feeding failure) present in the first days at home. No audit of first postnatal visit timing has been published in the library.",
+  "standard": {
+   "source": "NICE NG194 rec 1.1.14 (2021, updated 2026)",
+   "wording": "Ensure that the first postnatal visit by a midwife takes place within 36 hours after transfer of care from the place of birth or after a home birth. The visit should be face-to-face and usually at the woman's home, depending on her circumstances and preferences.",
+   "url": "https://www.nice.org.uk/guidance/ng194/chapter/Recommendations"
+  },
+  "pass": "First face-to-face midwife contact recorded within 36 hours of discharge time (or of a home birth).",
+  "population": "Include: women discharged home after birth or with a home birth. Exclude: transfer to another trust's community team; readmission before 36 hours.",
+  "sample": "50 consecutive women over the last 1 month",
+  "data_source": "Maternity EPR discharge time; community midwifery contact record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "discharge_or_home_birth_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_contact_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contact_type",
+    "type": "choice",
+    "options": [
+     "home visit",
+     "clinic",
+     "telephone",
+     "video"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hours_to_first_contact",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postcode_area",
+    "type": "text",
+    "options": [],
+    "note": "to check variation by locality"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Send an automatic electronic referral to the community team at discharge, with the '36-hour due' time shown on their daily worklist.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 50 women",
+  "close_loop": "Present to the community midwifery leads. If it works, keep the worklist and report monthly by locality.",
+  "evidence": [
+   "[142] Obstetrics: antenatal risk assessment strong at booking → new system for updating the lead professional",
+   "[185] Sexual health: remote consulting standards achieved → tailored plans for lower performers",
+   "[187] Sexual health: low results for GP communication across partners → electronic record changes"
+  ],
+  "pitfalls": [
+   "Telephone contacts counted as visits → count face-to-face only.",
+   "Weekend discharges drive delay → report by discharge day.",
+   "Discharge time not recorded → use the EPR discharge timestamp.",
+   "Staffing pressure blamed → show the delay pattern to support a rota change."
+  ],
+  "pearls": [
+   "Recruit the community matron.",
+   "Agree the clock start (discharge timestamp) before cycle 1.",
+   "Break results down by locality and day of week.",
+   "Keep the worklist field after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 women from EPR"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women with gestational diabetes whose glucose returned to normal after birth, what proportion had a fasting plasma glucose or HbA1c test 6 to 13 weeks after the birth?",
+  "why": "Women with gestational diabetes have a high lifetime risk of type 2 diabetes, and postnatal testing is easily missed. No audit of postnatal glucose testing after gestational diabetes has been published in the library.",
+  "standard": {
+   "source": "NICE NG3 rec 1.6.11 (2015, updated 2020)",
+   "wording": "For women who were diagnosed with gestational diabetes and whose blood glucose levels returned to normal after the birth: offer lifestyle advice (including weight control, diet and exercise); offer a fasting plasma glucose test 6 to 13 weeks after the birth to exclude diabetes (for practical reasons this might take place at the 6‑week postnatal check); after 13 weeks offer a fasting plasma glucose test if this has not been done earlier, or an HbA1c test if a fasting plasma glucose test is not possible; do not routinely offer a 75-g 2‑hour OGTT.",
+   "url": "https://www.nice.org.uk/guidance/ng3/chapter/Recommendations"
+  },
+  "pass": "Fasting plasma glucose done 6–13 weeks after birth (or HbA1c after 13 weeks if fasting test not possible, within 6 months); no routine OGTT.",
+  "population": "Include: women with gestational diabetes who gave birth. Exclude: diabetes persisting after birth; pre-existing diabetes.",
+  "sample": "40 consecutive women who gave birth 4–9 months ago",
+  "data_source": "Diabetes antenatal clinic list; discharge letter; pathology results system (includes GP requests)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "birth_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_letter_asks_gp_to_test",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_type",
+    "type": "choice",
+    "options": [
+     "fasting plasma glucose",
+     "HbA1c",
+     "OGTT",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "test_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_after_birth",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "annual_hba1c_advised",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit letters; Wk 26–28 re-audit test rates",
+  "change": "Add a standard paragraph to the maternity discharge letter asking the GP to arrange a fasting glucose at 6–13 weeks, with the due date filled in automatically.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14 for letters; test rates at 6 months; same template; next 40 women",
+  "close_loop": "Present at the joint diabetes antenatal meeting and to primary care leads. If it works, keep the letter paragraph and share rates with the ICB.",
+  "evidence": [
+   "[187] Sexual health: low GP communication results across partners → electronic record changes",
+   "[3270] Psychiatry: HbA1c or glucose on admission in 57.5%; only 15% plasma glucose",
+   "[76] Obstetric anaesthesia: no antenatal iron pathway → standardised pathway"
+  ],
+  "pitfalls": [
+   "Tests done in primary care not visible → confirm the pathology system shows GP requests before cycle 1.",
+   "Letters change but tests do not follow → measure both the letter and the test.",
+   "Re-audit too soon to see tests → re-audit letters at week 13, tests at 6 months.",
+   "OGTT still used by some practices → record it; it is a fail against the standard."
+  ],
+  "pearls": [
+   "Recruit the diabetes specialist midwife and a GP lead.",
+   "Pull the cohort from the diabetes clinic list.",
+   "Put the due date in the letter, not only 'at 6 weeks'.",
+   "Link to the NHS Diabetes Prevention Programme referral."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 women from letters and pathology"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women treated medically for missed miscarriage, what proportion received 200 mg oral mifepristone followed 48 hours later by 800 micrograms misoprostol?",
+  "why": "NICE added mifepristone for missed miscarriage in 2023 because it reduces the need for surgery. No audit of medical management of miscarriage has been published in the library.",
+  "standard": {
+   "source": "NICE NG126 rec 1.11.1 (2019, updated 2026)",
+   "wording": "For the medical management of missed miscarriage offer: 200 mg oral mifepristone and 48 hours later, 800 micrograms misoprostol (vaginal, oral or sublingual) unless the gestational sac has already been passed.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Management-of-miscarriage"
+  },
+  "pass": "Mifepristone 200 mg given, then misoprostol 800 micrograms about 48 hours later (unless the sac passed first); no mifepristone for incomplete miscarriage.",
+  "population": "Include: women with missed miscarriage choosing medical management. Exclude: incomplete miscarriage; molar pregnancy; pregnancy of unknown location.",
+  "sample": "40 consecutive women over the last 3–4 months",
+  "data_source": "Early pregnancy unit records; e-prescribing or outpatient prescription; scan report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_by_scan_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mifepristone_200mg_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mifepristone_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "misoprostol_800mcg_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "misoprostol_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_between_doses",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sac_passed_before_misoprostol",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pregnancy_test_supplied_for_3_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace the early pregnancy unit's medical management prescription with a pre-printed mifepristone-then-misoprostol pack and a take-home pregnancy test.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 40 women",
+  "close_loop": "Present at the gynaecology governance meeting. If it works, keep the pack and audit surgical evacuation rates after medical management.",
+  "evidence": [
+   "[129] Gynaecology: early pregnancy clinic monitoring gaps → dashboard and database",
+   "[134] Gynaecology: ectopic pregnancy management good practice, information gaps → leaflets",
+   "[38] Sexual health: variable prescribing → electronic proforma changed"
+  ],
+  "pitfalls": [
+   "Mifepristone not stocked in the unit → confirm supply with pharmacy before cycle 1.",
+   "Two visits needed → offer home misoprostol where local policy allows.",
+   "Incomplete and missed miscarriage mixed → use the scan report to classify.",
+   "Surgical rates are the real outcome → record them for context."
+  ],
+  "pearls": [
+   "Recruit the early pregnancy unit lead nurse.",
+   "Ask pharmacy for a monthly issue list of mifepristone.",
+   "Include the 3-week pregnancy test in the pack (rec 1.11.7).",
+   "Keep the pack after rotation by naming an owner."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from EPU records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of RhD-negative women managed for miscarriage or ectopic pregnancy at up to 11+6 weeks, what proportion were correctly not given anti-D immunoglobulin?",
+  "why": "NICE changed anti-D advice for early pregnancy loss in 2026, so older habits may lead to unnecessary blood product use. No audit of anti-D in early pregnancy has been published in the library.",
+  "standard": {
+   "source": "NICE NG126 rec 1.18.1 (2019, updated 2026)",
+   "wording": "Do not offer anti-D immunoglobulin prophylaxis as a treatment for ectopic pregnancy or miscarriage to women, trans men and non-binary people for an ectopic pregnancy, miscarriage or threatened miscarriage up to and including 11+6 weeks' gestation. If there is a discrepancy between length of gestation as measured from ultrasound and that calculated from last menstrual period, use the findings from ultrasound to guide management.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Anti-D-immunoglobulin-prophylaxis"
+  },
+  "pass": "No anti-D given at up to 11+6 weeks by scan. For a comparison group at 12+0 to 12+6 weeks having medical or surgical management, anti-D at least 250 IU given (rec 1.18.2).",
+  "population": "Include: RhD-negative women with miscarriage, threatened miscarriage or ectopic pregnancy at up to 12+6 weeks by scan. Exclude: gestation 13+0 weeks or more; RhD-positive.",
+  "sample": "40 consecutive RhD-negative women over the last 6 months (after the 2026 update)",
+  "data_source": "Early pregnancy unit records; blood bank issue log; scan report",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "presentation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_by_scan",
+    "type": "text",
+    "options": [],
+    "note": "weeks+days"
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "threatened miscarriage",
+     "miscarriage",
+     "ectopic pregnancy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "management",
+    "type": "choice",
+    "options": [
+     "expectant",
+     "medical",
+     "surgical"
+    ],
+    "note": ""
+   },
+   {
+    "field": "anti_d_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anti_d_dose_iu",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_band",
+    "type": "choice",
+    "options": [
+     "up to 11+6",
+     "12+0 to 12+6"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Update the early pregnancy unit anti-D flowchart and blood bank request form with the 11+6 week cut-off.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 40 RhD-negative women",
+  "close_loop": "Present at gynaecology governance and the hospital transfusion committee. If it works, keep the new form and share the saving in anti-D issues.",
+  "evidence": [
+   "[129] Gynaecology: early pregnancy clinic monitoring gaps → dashboard and database",
+   "[134] Gynaecology: ectopic pregnancy management good practice, information gaps → leaflets",
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form"
+  ],
+  "pitfalls": [
+   "Gestation by dates used instead of scan → take gestation from the scan report.",
+   "Older guideline copies in circulation → remove them from the unit and intranet.",
+   "Blood bank issues anti-D on request without checking → involve the transfusion practitioner.",
+   "Small numbers of RhD-negative women → take 6 months."
+  ],
+  "pearls": [
+   "Recruit the transfusion practitioner; the blood bank log is the fastest data source.",
+   "Audit only cases after the 2026 update date.",
+   "Show the number of unnecessary doses avoided.",
+   "Update the patient leaflet at the same time."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 women from EPU records and blood bank log"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women with bleeding in early pregnancy, a scan-confirmed intrauterine pregnancy and a previous miscarriage, what proportion were offered vaginal micronised progesterone 400 mg twice daily?",
+  "why": "Progesterone for this group increases live births, yet uptake varies between units. No audit of progesterone for threatened miscarriage has been published in the library.",
+  "standard": {
+   "source": "NICE NG126 rec 1.9.2 (2021, updated 2026)",
+   "wording": "Offer vaginal micronised progesterone 400 mg twice daily to women with an intrauterine pregnancy confirmed by a scan, if they have vaginal bleeding and have previously had a miscarriage.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Management-of-miscarriage"
+  },
+  "pass": "Progesterone 400 mg vaginal twice daily prescribed or offered and declined, with a plan to continue to 16 weeks if a heartbeat is seen (rec 1.9.3).",
+  "population": "Include: women seen in the early pregnancy unit with vaginal bleeding, a scan-confirmed intrauterine pregnancy and at least one previous miscarriage. Exclude: pregnancy of unknown location; ectopic pregnancy; non-viable pregnancy at first scan.",
+  "sample": "40 consecutive eligible women over the last 3 months",
+  "data_source": "Early pregnancy unit records; scan report; prescription record; GP letter",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_by_scan_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_miscarriages",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "progesterone_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_correct_400mg_bd_vaginal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "declined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_to_16_weeks_in_gp_letter",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'previous miscarriage? → offer progesterone' prompt to the early pregnancy unit assessment template, with a standard GP letter for continuation to 16 weeks.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 40 eligible women",
+  "close_loop": "Present at gynaecology governance and to primary care prescribing leads. If it works, keep the prompt and the shared-care letter.",
+  "evidence": [
+   "[129] Gynaecology: early pregnancy clinic monitoring gaps → dashboard and database",
+   "[40] Sexual health: missed offers → prompts on the risk assessment panel",
+   "[187] Sexual health: low GP communication → electronic record changes"
+  ],
+  "pitfalls": [
+   "Previous miscarriage history not asked → the template prompt makes it a required question.",
+   "GPs decline to continue prescribing → agree shared care with the ICB before cycle 2.",
+   "Wrong preparation or dose → record the product used.",
+   "Started before intrauterine location confirmed → count as a fail."
+  ],
+  "pearls": [
+   "Recruit the early pregnancy unit lead and the ICB pharmacist.",
+   "Agree the 'eligible' definition with the scan report wording.",
+   "Include the continuation plan in every GP letter.",
+   "Keep the prompt in the template after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 women from EPU records"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women referred to gynaecology with heavy menstrual bleeding, what proportion had a full blood count done?",
+  "why": "Iron deficiency anaemia from heavy periods is under-recognised and under-treated. No audit of blood testing in heavy menstrual bleeding has been published in the library.",
+  "standard": {
+   "source": "NICE NG88 rec 1.2.6 (2018, updated 2026)",
+   "wording": "Carry out a full blood count test for all women with HMB, in parallel with any HMB treatment offered.",
+   "url": "https://www.nice.org.uk/guidance/ng88/chapter/Recommendations"
+  },
+  "pass": "Full blood count result available within 3 months before or at the first gynaecology appointment; if anaemic, iron treatment documented.",
+  "population": "Include: new outpatient referrals with heavy menstrual bleeding as the main problem. Exclude: postmenopausal bleeding; pregnancy.",
+  "sample": "40 consecutive new referrals over the last 2 months",
+  "data_source": "Referral letter; clinic letter; pathology results system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haemoglobin_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anaemia_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iron_treatment_documented_if_anaemic",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not applicable"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hormone_or_thyroid_test_without_indication",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG88 recs 1.2.9–1.2.10"
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'FBC done? Hb? iron started?' fields to the heavy menstrual bleeding clinic template, with a pre-clinic blood test order for referrals without a recent result.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 40 referrals",
+  "close_loop": "Present at gynaecology governance and to primary care referral leads. If it works, keep the template and add FBC to the referral guidance.",
+  "evidence": [
+   "[76] Obstetric anaesthesia: no antenatal iron pathway → standardised antenatal iron pathway",
+   "[3553] Psychiatry: menstrual health on inpatient psychiatric wards (quality improvement project)",
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form"
+  ],
+  "pitfalls": [
+   "Results from primary care not visible → confirm the pathology system shows GP requests.",
+   "Test done but anaemia not treated → the template asks about iron too.",
+   "Advice-and-guidance referrals missed → include them if seen in clinic.",
+   "Unneeded hormone tests continue → record them as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit the gynaecology outpatient lead and a GP referral lead.",
+   "Agree the 3-month window before cycle 1.",
+   "Offer iron at the first visit to show benefit to patients.",
+   "Keep the template field after rotation."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 women from letters and pathology"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women under 40 diagnosed with premature ovarian insufficiency, what proportion had a raised FSH on 2 blood samples taken 4 to 6 weeks apart?",
+  "why": "A diagnosis from one test risks a lifelong wrong label and wrong advice on fertility. No audit of premature ovarian insufficiency diagnosis has been published in the library.",
+  "standard": {
+   "source": "NICE NG23 recs 1.7.2–1.7.3 (2015, updated 2026)",
+   "wording": "Diagnose premature ovarian insufficiency in women, trans men and non-binary people registered female at birth who are under 40 based on: menopause-associated symptoms, including no or infrequent periods (taking into account whether the person has had a hysterectomy) and elevated follicle stimulating hormone (FSH) levels on 2 blood samples taken 4 to 6 weeks apart. Do not diagnose premature ovarian insufficiency on the basis of a single blood test.",
+   "url": "https://www.nice.org.uk/guidance/ng23/chapter/Recommendations"
+  },
+  "pass": "Two raised FSH results 4–6 weeks apart before the diagnosis, and hormone treatment (HRT or combined hormonal contraception) offered unless contraindicated (rec 1.7.6).",
+  "population": "Include: women under 40 with a new diagnosis of premature ovarian insufficiency in gynaecology, menopause or fertility clinics. Exclude: iatrogenic ovarian failure after bilateral oophorectomy.",
+  "sample": "All new diagnoses over the last 24 months (typically 30–40)",
+  "data_source": "Clinic coding and letters; pathology results system",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "age_at_diagnosis",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fsh_1_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fsh_2_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_between_tests",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_fsh_raised",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "amh_used_to_diagnose",
+    "type": "yes/no",
+    "options": [],
+    "note": "NG23 rec 1.7.4"
+   },
+   {
+    "field": "hormone_treatment_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–24 embed; Wk 25–26 re-audit; repeat at 12 months",
+  "change": "Add a premature ovarian insufficiency diagnosis checklist to the clinic letter template (2 FSH dates, gap in weeks, treatment offered).",
+  "target": "≥90%",
+  "reaudit": "At 6 months and 12 months (small numbers); same template; all new diagnoses",
+  "close_loop": "Present at gynaecology and reproductive medicine meetings. If it works, keep the checklist and share with primary care.",
+  "evidence": [
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form",
+   "[131] Gynaecology: endometrial hyperplasia reporting inconsistent → laboratory guideline",
+   "[43] Sexual health: over-monitoring in PrEP users → monitoring process changed and record alert"
+  ],
+  "pitfalls": [
+   "Few cases → search 24 months of coding and letters.",
+   "Coding is poor → also search letters for 'premature ovarian insufficiency' and 'premature menopause'.",
+   "Second FSH done by the GP → check the pathology system for GP requests.",
+   "AMH used as a shortcut → record it as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit the menopause or reproductive medicine lead.",
+   "Ask the lab for a list of patients under 40 with raised FSH to cross-check.",
+   "Put the checklist in the letter template, not a separate form.",
+   "Pair with a bone health check as a later cycle."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 women from letters and pathology"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of women referred to gynaecology with suspected endometriosis, what proportion had a transvaginal ultrasound scan offered before or at the first appointment?",
+  "why": "Delayed diagnosis of endometriosis is a national concern. No audit of first-line imaging for suspected endometriosis has been published in the library.",
+  "standard": {
+   "source": "NICE NG73 rec 1.5.2 (2017, updated 2024)",
+   "wording": "Offer a transvaginal ultrasound scan to all women or people with suspected endometriosis, even if pelvic or abdominal examination is normal, to: identify ovarian endometriomas and deep endometriosis, including that involving the bowel, bladder or ureter; identify or rule out other pathology which may be causing symptoms; guide management options and enable referral to an appropriate service, depending on the ultrasound findings.",
+   "url": "https://www.nice.org.uk/guidance/ng73/chapter/Recommendations"
+  },
+  "pass": "Transvaginal scan done or requested by the first gynaecology appointment, or offered and declined with a transabdominal scan considered (rec 1.5.3).",
+  "population": "Include: new referrals with suspected endometriosis (pelvic pain, painful periods, deep dyspareunia). Exclude: under 18 (separate pathway); known endometriosis on follow-up.",
+  "sample": "40 consecutive new referrals over the last 3 months",
+  "data_source": "Referral letter; clinic letter; radiology information system (PACS/RIS)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tvus_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tvus_requested_by",
+    "type": "choice",
+    "options": [
+     "GP",
+     "gynaecology",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "tvus_declined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "transabdominal_used_instead",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "endometrioma_or_deep_disease_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'transvaginal ultrasound' to the endometriosis referral form so it is requested at triage, before the first clinic.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14; same template; next 40 referrals",
+  "close_loop": "Present at gynaecology governance and to primary care. If it works, keep scan-at-triage and track time to diagnosis.",
+  "evidence": [
+   "[130] Gynaecology: HFEA documentation mostly met → missing field added to form",
+   "[129] Gynaecology: early pregnancy clinic monitoring gaps → dashboard and database",
+   "[195] Sexual assault referral centre: referral communication low → referral communication plan"
+  ],
+  "pitfalls": [
+   "Scan waiting lists are long → report time to scan as well as whether it was done.",
+   "Women who have never had sex may decline transvaginal scan → accept an offered-and-declined record.",
+   "Radiology capacity objection → agree the extra demand with radiology before cycle 2.",
+   "Mixed referral reasons → define 'suspected endometriosis' by referral wording."
+  ],
+  "pearls": [
+   "Recruit a sonographer and the gynaecology triage consultant.",
+   "Agree the referral form change with primary care leads.",
+   "Show the number of endometriomas found to justify capacity.",
+   "Keep the triage rule written in the referral guidance."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 women from letters and RIS"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of people attending for emergency contraception, what proportion were offered a copper intrauterine device?",
+  "why": "The copper IUD is the most effective emergency contraception, yet many people receive oral methods without being offered it. No audit of emergency contraception choice has been published in the library.",
+  "standard": {
+   "source": "FSRH Clinical Guideline: Emergency Contraception (March 2017, amended July 2023)",
+   "wording": "All women requiring EC should be offered a Cu-IUD if appropriate as it is the most effective method of EC.",
+   "url": "https://www.cosrh.org/Common/Uploaded%20files/documents/fsrh-guideline-emergency-contraception03dec2020-amendedjuly2023-11jul.pdf"
+  },
+  "pass": "Documented offer of a copper IUD (fitted, declined or referred), or a documented reason it was not appropriate.",
+  "population": "Include: attendances for emergency contraception at the sexual health service. Exclude: attendances where the person was already pregnant.",
+  "sample": "50 consecutive emergency contraception attendances over the last 1 month",
+  "data_source": "Sexual health EPR consultation record; prescribing record; coil fitting log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "attendance_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_since_upsi",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cu_iud_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "Cu-IUD fitted",
+     "Cu-IUD referred",
+     "declined",
+     "oral EC only"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_not_appropriate",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oral_ec_given",
+    "type": "choice",
+    "options": [
+     "ulipristal",
+     "levonorgestrel",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ongoing_contraception_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Cu-IUD offered? outcome' field to the emergency contraception template in the sexual health EPR.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14; same template; next 50 attendances",
+  "close_loop": "Present at the sexual health clinical governance meeting. If it works, keep the mandatory field and track fitting rates.",
+  "evidence": [
+   "[188] Sexual health: contraception advice after abortion good adherence → proforma changes, re-audit",
+   "[189] Sexual health: implant safety criterion low across partners → proforma update and reminders",
+   "[312] Obstetrics: postnatal contraception not offered to all → new guideline and long-acting methods"
+  ],
+  "pitfalls": [
+   "No same-day fitter → record referrals and time to fitting; fix access alongside.",
+   "'Offered' ticked without discussion → spot-check free-text notes.",
+   "Pharmacy and online EC outside the audit → state the setting clearly.",
+   "Fitting rates stay low even when offered → report offer and uptake separately."
+  ],
+  "pearls": [
+   "Recruit a senior nurse fitter to hold emergency coil slots.",
+   "Agree what counts as 'not appropriate' before cycle 1.",
+   "Offer a leaflet comparing EC methods.",
+   "Keep the field after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 attendances from EPR"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of people diagnosed with gonorrhoea, what proportion had a culture taken for antibiotic susceptibility before treatment?",
+  "why": "Ceftriaxone-resistant gonorrhoea has been reported in England, and the 2025 guideline drops routine test of cure only when susceptibility is known. Gonorrhoea management has been re-audited [41], but not culture before treatment.",
+  "standard": {
+   "source": "BASHH UK national guideline for the management of infection with Neisseria gonorrhoeae (2025), auditable outcome measures",
+   "wording": "All individuals with gonorrhoea should have cultures taken for susceptibility testing prior to treatment (performance standard 97%).",
+   "url": "https://www.bashh.org/_userfiles/pages/files/fiferetal2025britishassociationofsexualhealthandhivuknationalguidelineforthemanagementofinfection_1.pdf"
+  },
+  "pass": "Culture swab from each positive site taken before the first antibiotic dose.",
+  "population": "Include: new diagnoses of gonorrhoea (NAAT or microscopy positive). Exclude: treated elsewhere before attending.",
+  "sample": "50 consecutive new diagnoses over the last 1–2 months",
+  "data_source": "Sexual health EPR; laboratory results; prescribing record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "diagnosis_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "positive_sites",
+    "type": "choice",
+    "options": [
+     "genital",
+     "rectal",
+     "pharyngeal",
+     "more than one"
+    ],
+    "note": ""
+   },
+   {
+    "field": "culture_taken",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "culture_before_treatment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "susceptibility_result_available",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_of_cure_offered_if_required",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not required"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'culture taken from all positive sites?' hard stop to the gonorrhoea treatment template before ceftriaxone can be recorded.",
+  "target": "≥97%",
+  "reaudit": "Wk 13–14; same template; next 50 diagnoses",
+  "close_loop": "Present at the sexual health clinical governance meeting and to the laboratory. If it works, keep the hard stop.",
+  "evidence": [
+   "[41] Sexual health: gonorrhoea re-audit, education offer undocumented → electronic record changes",
+   "[2321] Urology: urine culture sent in 91%, 83% of these before antibiotics",
+   "[374] Sexual health: rectal chlamydia and LGV management (registered, result not published)"
+  ],
+  "pitfalls": [
+   "Recall visits after NAAT results often skip culture → the hard stop is at the treatment step.",
+   "Transport delays make cultures fail → record lab failures separately.",
+   "Pharyngeal sites missed → count each positive site.",
+   "Nurses and doctors use different templates → change both."
+  ],
+  "pearls": [
+   "Recruit the lead health adviser and the microbiologist.",
+   "Check culture positivity rates too; a taken swab that never grows is a lab issue.",
+   "Agree the site-by-site pass rule before cycle 1.",
+   "Link to test-of-cure decisions under the 2025 guideline."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 diagnoses from EPR and lab"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of people treated for confirmed syphilis, what proportion had an RPR titre recorded 6 months after treatment?",
+  "why": "Follow-up serology is the only way to confirm cure or detect reinfection, and it is often missed. No syphilis audit has been published in the library.",
+  "standard": {
+   "source": "BASHH UK national guidelines on the management of syphilis (2024), auditable outcomes",
+   "wording": "The percentage of confirmed syphilis cases having a record of an RPR titre obtained 6 months post-treatment (standard 65% confirmed syphilis cases).",
+   "url": "https://www.bashh.org/_userfiles/pages/files/syphilis_2024.pdf"
+  },
+  "pass": "RPR titre recorded at treatment and again 5 to 7 months after treatment.",
+  "population": "Include: confirmed syphilis treated 7–12 months ago. Exclude: transferred care before 6 months (record separately).",
+  "sample": "40 consecutive cases treated 7–12 months ago",
+  "data_source": "Sexual health EPR; laboratory results; recall log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "treatment_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stage",
+    "type": "choice",
+    "options": [
+     "primary",
+     "secondary",
+     "early latent",
+     "late latent",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "rpr_at_treatment_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rpr_at_treatment_titre",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rpr_6_month_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "months_after_treatment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "recall_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fourfold_fall_by_12_months",
+    "type": "choice",
+    "options": [
+     "yes",
+     "no",
+     "not yet"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–26 embed; Wk 27–28 re-audit",
+  "change": "Set automatic recall text messages at 3, 6 and 12 months when syphilis treatment is recorded in the EPR.",
+  "target": "≥65% (BASHH standard); local stretch ≥80%",
+  "reaudit": "6 months after the change (to allow follow-up to fall due); same template; next 40 cases",
+  "close_loop": "Present at sexual health clinical governance and to the health adviser team. If it works, keep the automatic recalls.",
+  "evidence": [
+   "[43] Sexual health: over-monitoring in PrEP users → monitoring process changed and record alert",
+   "[186] Sexual health: many not offered an HIV test → record changes and reminders",
+   "[132] Gynaecology: did-not-attend policy for 16 and 17 year olds not flagged → highlighting measures"
+  ],
+  "pitfalls": [
+   "Follow-up takes 6 months, so re-audit must wait → plan the re-audit date at the start.",
+   "People tested elsewhere → check shared lab results.",
+   "Recall numbers out of date → confirm contact details at treatment.",
+   "People living with HIV followed in HIV clinic → include HIV clinic results."
+  ],
+  "pearls": [
+   "Recruit the lead health adviser; they run recalls.",
+   "Record the treatment titre too; without it the 6-month result means little.",
+   "Use the same look-back window in both cycles.",
+   "Keep the automatic recall owned by the EPR administrator."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from EPR and lab"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of people prescribed doxycycline post-exposure prophylaxis, what proportion had their eligibility for HIV PrEP assessed and documented?",
+  "why": "Doxycycline post-exposure prophylaxis is new in UK clinics (BASHH 2025), and each prescription is a chance to offer HIV prevention. No audit of doxycycline prophylaxis has been published in the library.",
+  "standard": {
+   "source": "BASHH UK national guideline for the use of doxycycline post-exposure prophylaxis (2025), auditable outcome measures",
+   "wording": "All people prescribed doxyPEP should be assessed for eligibility for HIV PrEP (performance standard 97%)",
+   "url": "https://www.bashh.org/_userfiles/pages/files/saundersetal2025britishassociationforsexualhealthandhivbashhuknationalguidelinefortheuseof.pdf"
+  },
+  "pass": "HIV PrEP eligibility recorded (already on PrEP, living with HIV, eligible and offered, or not eligible) at the doxycycline prescribing visit.",
+  "population": "Include: all new doxycycline prophylaxis prescriptions. Exclude: none.",
+  "sample": "50 consecutive new prescriptions over the last 2–3 months",
+  "data_source": "Sexual health EPR; prescribing record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hiv_status",
+    "type": "choice",
+    "options": [
+     "negative",
+     "living with HIV",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "prep_status_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prep_outcome",
+    "type": "choice",
+    "options": [
+     "already on PrEP",
+     "eligible and started",
+     "eligible and declined",
+     "not eligible",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "sti_tests_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vaccines_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_information_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a doxycycline prophylaxis prescribing template with required fields for PrEP status, STI tests, vaccines and information.",
+  "target": "≥97%",
+  "reaudit": "Wk 13–14; same template; next 50 prescriptions",
+  "close_loop": "Present at sexual health clinical governance. If it works, keep the template and report all five BASHH measures quarterly.",
+  "evidence": [
+   "[186] Sexual health: many not offered an HIV test → record changes and reminders",
+   "[40] Sexual health: missed hepatitis offers → prompts on the risk assessment panel",
+   "[1736] Sexual health: fracture risk assessment in PrEP users 71%; DEXA requested where indicated in 40%"
+  ],
+  "pitfalls": [
+   "Prescribing rules still settling locally → agree the local doxyPEP protocol before cycle 1.",
+   "Online and postal prescriptions use another system → include both routes.",
+   "People living with HIV counted as fails → mark them as 'not applicable, pass'.",
+   "Template fatigue → keep fields to single clicks."
+  ],
+  "pearls": [
+   "Recruit the PrEP lead nurse.",
+   "Audit the other BASHH measures from the same records for little extra effort.",
+   "Agree definitions with the health adviser team.",
+   "Keep the template owned by the service manager."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 prescriptions from EPR"
+ },
+ {
+  "area": "Obstetrics, gynaecology and sexual health",
+  "question": "Of HIV post-exposure prophylaxis starter packs given in the emergency department, what proportion fitted within the recommended or consider indications?",
+  "why": "Emergency departments start many post-exposure prophylaxis courses out of hours, and prescribing outside the indications occurs. No audit of emergency department HIV prophylaxis has been published in the library.",
+  "standard": {
+   "source": "BASHH UK guideline for the use of HIV post-exposure prophylaxis (2021, amended 2023), auditable outcome measure 3",
+   "wording": "Proportion of PEP prescriptions that fit within recommended indications (consider or recommended): aim 90%",
+   "url": "https://www.bashh.org/_userfiles/pages/files/resources/pep2021_2023amendment.pdf"
+  },
+  "pass": "Exposure type and source risk recorded, and the prescription matches the guideline table as 'recommended' or 'consider'.",
+  "population": "Include: adults given HIV post-exposure prophylaxis in the emergency department after sexual or needlestick exposure. Exclude: occupational exposures managed by occupational health.",
+  "sample": "40 consecutive starter packs over the last 6–12 months",
+  "data_source": "Emergency department EPR; pharmacy issue log for starter packs; sexual health follow-up record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local code; key kept separately"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exposure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_exposure_to_first_dose",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exposure_type",
+    "type": "choice",
+    "options": [
+     "receptive anal",
+     "insertive anal",
+     "receptive vaginal",
+     "insertive vaginal",
+     "needlestick",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "source_risk_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "guideline_category",
+    "type": "choice",
+    "options": [
+     "recommended",
+     "consider",
+     "not recommended"
+    ],
+    "note": ""
+   },
+   {
+    "field": "baseline_hiv_test_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sexual_health_follow_up_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Replace free-text assessment with an emergency department post-exposure prophylaxis proforma that uses the BASHH risk table and prints the follow-up referral.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 and at 6 months; same template; next 40 starter packs",
+  "close_loop": "Present at emergency department governance and to the sexual health service. If it works, keep the proforma on the EPR.",
+  "evidence": [
+   "[186] Sexual health: many not offered an HIV test → record changes and reminders",
+   "[3026] Sexual health: HIV testing rose in general practices after multifaceted education",
+   "[38] Sexual health: variable empirical antibiotic prescribing → electronic proforma changed"
+  ],
+  "pitfalls": [
+   "Source HIV status unknown and poorly recorded → the proforma asks for source group.",
+   "Starter packs issued without notes → cross-check the pharmacy issue log.",
+   "ED staff see it as a sexual health task → run it jointly with the sexual health lead.",
+   "Follow-up loss → record the referral as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit an emergency medicine consultant and a sexual health consultant.",
+   "Use the pharmacy log to find every starter pack.",
+   "Agree what counts as 'consider' before cycle 1.",
+   "Keep the proforma linked to the sexual health referral."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 cases from ED records and pharmacy log"
+ }
+]

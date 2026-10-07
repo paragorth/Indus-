@@ -1,0 +1,3292 @@
+[
+ {
+  "question": "What proportion of adults newly registering with a GP practice have their MMR vaccination history checked and, if unvaccinated or partially vaccinated, are offered catch-up MMR?",
+  "why": "Measles has re-established endemic transmission risk in the UK when coverage falls, and new registration is a recognised catch-up opportunity that is not systematically used. No closed-loop audit of MMR catch-up at new patient registration has been published in the library.",
+  "standard": {
+   "source": "UKHSA Green Book, Measles chapter (updated 2 April 2026)",
+   "wording": "MMR vaccine can be given to individuals of any age and should be offered opportunistically and promoted to unvaccinated or partially vaccinated younger adults. New GP registration, and entry into college, university or other higher education institutions, prison or military service also provides an opportunity to check an individual's immunisation history. Those who have not received MMR should be offered appropriate MMR immunisation.",
+   "url": "https://www.gov.uk/government/publications/measles-the-green-book-chapter"
+  },
+  "population": "Adults aged 18 to 45 newly registering with the practice over the audit period. Exclude patients registering only temporarily (less than 3 months) or with a documented allergy contraindicating MMR.",
+  "sample": "40 consecutive new adult registrations over the last 3 months, from the practice registration list.",
+  "data_source": "New patient registration questionnaire, GP record immunisation history (Read/SNOMED codes) and consultation notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "pseudonymised NHS number"
+   },
+   {
+    "field": "registration_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mmr_history_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": "at new patient check"
+   },
+   {
+    "field": "documented_mmr_doses",
+    "type": "choice",
+    "options": [
+     "0",
+     "1",
+     "2",
+     "unknown after checking"
+    ],
+    "note": ""
+   },
+   {
+    "field": "catch_up_mmr_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "if fewer than 2 doses"
+   },
+   {
+    "field": "date_offer_made",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "catch_up_mmr_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "by audit date"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'MMR history: 0/1/2/unknown' field to the new patient health check template in the EPR, with an automatic task to the practice nurse to offer catch-up MMR whenever fewer than 2 doses are recorded.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same template and sample size, on a fresh cohort of new registrations.",
+  "close_loop": "Present at the practice clinical governance meeting; if the new patient template change raises the rate, keep the mandatory field live and add it to new-partner and locum induction so it is not lost when staff change.",
+  "evidence": [
+   "No closed-loop audit of MMR catch-up at new GP registration has been published in the library."
+  ],
+  "pitfalls": [
+   "Immunisation history from other countries is often unavailable → record as 'unknown after checking' rather than assuming fully vaccinated, and offer catch-up unless clear written evidence of 2 doses exists.",
+   "Reception staff may not prompt the MMR question at registration → build it into the mandatory new-patient questionnaire, not a free-text box.",
+   "Small numbers of eligible unvaccinated adults in some practices → extend the sampling window to 6 months if fewer than 40 new registrations are found.",
+   "Staff may worry about vaccine hesitancy conversations taking appointment time → agree a short scripted offer and a nurse-led catch-up clinic slot before cycle 1.",
+   "Gains fade once the new-patient template reverts to a free-text field after a system upgrade → re-check the template build after any EPR update."
+  ],
+  "pearls": [
+   "Recruit the practice nurse who runs new-patient checks as the change champion before cycle 1.",
+   "Agree the catch-up MMR offer script and consent process with the whole team before starting data collection.",
+   "Use the same registration list report each cycle so the sample is reproducible.",
+   "Link the audit to the practice's outbreak-preparedness discussion to keep it a clinical priority after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from the EPR new-patient template and immunisation record",
+  "area": "General practice and community care",
+  "pass": "The new patient health check or registration template records MMR status (two doses, one dose, none or unknown) and, where the patient has had fewer than two documented doses, an offer of catch-up MMR is recorded within 8 weeks of registration."
+ },
+ {
+  "question": "What proportion of severely immunosuppressed adults under 80 who are eligible for shingles vaccination have been offered Shingrix in the last 12 months?",
+  "why": "Eligibility for shingles vaccination was extended to all severely immunosuppressed adults aged 18 and over in September 2025, but practices commonly identify eligibility only by age band on the immunisation call system. No audit in corpus checks whether immunosuppressed patients outside the routine age cohorts are being offered the vaccine.",
+  "standard": {
+   "source": "UKHSA Green Book, Shingles (herpes zoster) chapter (12 August 2025)",
+   "wording": "From September 2025, Shingrix® should be offered to all severely immunosuppressed individuals aged 18 years and over (with no upper age limit). Previously this was offered to immunosuppressed individuals aged 70 to 79 years and then those aged 50 years and over. Eligible individuals should be offered two doses of Shingrix®.",
+   "url": "https://www.gov.uk/government/publications/shingles-herpes-zoster-the-green-book-chapter-28a"
+  },
+  "population": "Adults aged 18 to 79 on the practice's severe immunosuppression register (chemotherapy, organ or bone marrow transplant, high-dose steroids, biologic DMARDs, HIV with low CD4 count, or equivalent) not already in the routine age-based shingles cohort. Exclude patients already recorded as having completed a 2-dose Shingrix course.",
+  "sample": "All patients on the immunosuppression register aged under 80, or 40 consecutive patients if the register is larger, checked over the last 3 months.",
+  "data_source": "Practice immunosuppression/DMARD register, GP record vaccination history, shingles vaccination call/recall search.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immunosuppression_reason",
+    "type": "choice",
+    "options": [
+     "chemotherapy",
+     "transplant",
+     "biologic DMARD",
+     "high-dose steroid",
+     "HIV",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "on_shingles_search_list",
+    "type": "yes/no",
+    "options": [],
+    "note": "whether the practice's routine shingles recall found this patient"
+   },
+   {
+    "field": "shingrix_offered_last_12m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_given",
+    "type": "choice",
+    "options": [
+     "0",
+     "1",
+     "2"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_last_offer",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a rule-based search that cross-references the immunosuppression/DMARD register against the shingles vaccination record, run monthly by a named administrator, generating a recall letter for anyone not yet offered Shingrix.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's long-term conditions or prescribing meeting; if the monthly search works, add it to the standing list of automated searches run by the pharmacy technician.",
+  "evidence": [
+   "No audit in corpus of shingles vaccination uptake in immunosuppressed adults outside the routine age cohort."
+  ],
+  "pitfalls": [
+   "Age-based call/recall systems will not flag immunosuppressed patients under 50 or 60 → build a separate immunosuppression-register search rather than relying on the age search.",
+   "Defining 'severely immunosuppressed' consistently is hard → agree the practice's operational definition (drug list and doses) with a GP before starting.",
+   "Small numbers per practice → consider a PCN-level audit pooling several practices.",
+   "Clinicians may be unsure about timing relative to chemotherapy cycles → agree a simple rule (for example, avoid the week of chemotherapy) with a specialist in advance.",
+   "The immunosuppression register itself may be incomplete → cross-check against recent hospital letters and repeat prescriptions for biologics or high-dose steroids."
+  ],
+  "pearls": [
+   "Ask the practice pharmacist to build and run the register cross-reference; they already handle DMARD/biologic searches.",
+   "Agree with hospital specialists a simple safe-timing rule for vaccination around treatment before cycle 1.",
+   "Use the same immunosuppression register definition at re-audit so the sample is comparable.",
+   "Keep the monthly search running after the audit team rotates by assigning it a named permanent owner, not an individual GP."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the DMARD/immunosuppression register and vaccination record",
+  "area": "General practice and community care",
+  "pass": "The patient's GP record shows a documented offer of Shingrix in the last 12 months (accepted, declined with reason, or already fully vaccinated with 2 doses)."
+ },
+ {
+  "question": "What proportion of adults newly added to a pneumococcal at-risk clinical group have been offered pneumococcal vaccination within 3 months of the risk factor being coded?",
+  "why": "Pneumococcal vaccination for clinical risk groups depends on practices noticing a new diagnosis (for example, starting insulin, a new COPD or chronic kidney disease code) and acting on it, rather than on an age-based call. No audit in corpus checks the time from a new risk-group diagnosis to vaccination offer.",
+  "standard": {
+   "source": "UKHSA Green Book, Pneumococcal chapter (29 July 2026)",
+   "wording": "Adults aged 65 years and over, and clinical risk groups aged 2 years or over: a single dose of 0.5ml of PPV23 or PCV20 ... Antibody levels are likely to decline rapidly in individuals with asplenia, splenic dysfunction (including sickle cell disease) or chronic kidney disease ... and, therefore, re-immunisation with PPV23 or PCV20 is recommended every five years in these groups.",
+   "url": "https://www.gov.uk/government/publications/pneumococcal-the-green-book-chapter-25"
+  },
+  "population": "Adults aged 18 to 64 with a new qualifying clinical risk group code entered in the last 6 to 9 months, identified from the practice's chronic disease registers. Exclude patients who already had a qualifying risk factor and vaccine before this diagnosis.",
+  "sample": "40 consecutive adults with a new qualifying risk-group code over the last 6 months.",
+  "data_source": "GP clinical coding search (new diagnosis dates), immunisation record, repeat prescription list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_group",
+    "type": "choice",
+    "options": [
+     "chronic respiratory",
+     "chronic heart disease",
+     "diabetes on medication",
+     "chronic kidney disease",
+     "chronic liver disease",
+     "immunosuppression",
+     "asplenia/splenic dysfunction",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_risk_code_entered",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pneumococcal_vaccine_status_before",
+    "type": "choice",
+    "options": [
+     "never",
+     "previously given, due revaccination",
+     "up to date"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vaccine_offered_within_3m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_offered_or_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build an EPR alert that fires when a qualifying risk-group code is entered, creating a task for the practice nurse to check and offer pneumococcal vaccination at the same or next contact.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same coding search and template.",
+  "close_loop": "Present at the practice's QOF/chronic disease review meeting; if the alert increases timely vaccination, keep it enabled for all new risk-group diagnoses, not only the audited ones.",
+  "evidence": [
+   "No audit in corpus of time from new pneumococcal risk-group coding to vaccination offer."
+  ],
+  "pitfalls": [
+   "Risk-group coding is often incomplete or inconsistent between clinicians → agree a fixed code list with the coding lead before starting.",
+   "Diagnoses made in secondary care may not be coded in primary care promptly → include a check of recent discharge summaries and clinic letters in the search.",
+   "Patients may decline vaccination → count a documented, informed decline as meeting the standard.",
+   "The 3-month window may be too tight for patients seen infrequently → confirm the window with the team before cycle 1 rather than changing it after seeing the results.",
+   "Alert fatigue if too many pop-ups are added to the EPR → restrict the new alert to the specific risk-group codes being audited."
+  ],
+  "pearls": [
+   "Ask the practice's data quality lead to build the risk-group code search; it can be reused for other opportunistic vaccination audits.",
+   "Agree with the nursing team who owns the task list generated by the alert before go-live.",
+   "Use the same code list at re-audit to keep the sample comparable.",
+   "Fold the alert into the standard new-diagnosis workflow so it survives staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the coding search and immunisation record",
+  "area": "General practice and community care",
+  "pass": "Pneumococcal vaccine is offered (given, declined with reason, or already up to date) within 3 months of the date the qualifying clinical risk group code (for example, chronic respiratory disease, chronic heart disease, diabetes on medication, chronic kidney disease, chronic liver disease, or immunosuppression) is first entered in the record."
+ },
+ {
+  "question": "What proportion of adults in a pneumococcal high-risk group (asplenia, splenic dysfunction or chronic kidney disease) who are due 5-yearly revaccination receive it within 3 months of the due date?",
+  "why": "Unlike the once-only PPV23/PCV20 dose for most at-risk adults, asplenia, splenic dysfunction and chronic kidney disease require revaccination every 5 years, a recall step that is easily missed once the initial dose is recorded as complete. No audit in corpus tracks 5-yearly pneumococcal revaccination.",
+  "standard": {
+   "source": "UKHSA Green Book, Pneumococcal chapter (29 July 2026)",
+   "wording": "Antibody levels are likely to decline rapidly in individuals with asplenia, splenic dysfunction (including sickle cell disease) or chronic kidney disease ... and, therefore, re-immunisation with PPV23 or PCV20 is recommended every five years in these groups.",
+   "url": "https://www.gov.uk/government/publications/pneumococcal-the-green-book-chapter-25"
+  },
+  "population": "All patients on the practice's asplenia, splenic dysfunction or CKD stage 4/5 registers who received a pneumococcal dose 4 years 9 months or more ago. Exclude patients vaccinated within the last 4 years 9 months.",
+  "sample": "All eligible patients identified by a practice search, or 40 consecutive patients if the register is larger.",
+  "data_source": "Asplenia/CKD register, immunisation record with vaccination dates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_group",
+    "type": "choice",
+    "options": [
+     "asplenia/splenic dysfunction",
+     "CKD stage 4/5 or dialysis",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_last_pneumococcal_dose",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "due_date_for_revaccination",
+    "type": "date",
+    "options": [],
+    "note": "last dose + 5 years"
+   },
+   {
+    "field": "revaccination_given_or_offered_within_3m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_revaccination_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 5-year pneumococcal revaccination recall to the practice's existing asplenia/CKD register searches, run quarterly, generating an invitation letter automatically.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same registers and template.",
+  "close_loop": "Present at the practice's long-term conditions meeting; if the quarterly recall works, add it to the standard list of searches run alongside the annual review searches.",
+  "evidence": [
+   "No audit in corpus of 5-yearly pneumococcal revaccination completion in asplenia or CKD patients."
+  ],
+  "pitfalls": [
+   "Immunisation records may show the vaccine name but not clearly flag it as needing a 5-year recall → use a dedicated recall date field rather than relying on staff remembering the rule.",
+   "Patients may have moved practices since their first dose, losing the vaccination date → request records from PCSE/previous practice where the date is missing.",
+   "Small numbers at individual practice level → combine data across a PCN if needed to reach 30-40 cases.",
+   "Confusing PPV23 with the routine over-65 dose → clarify in the template that this audit is only about the 5-yearly at-risk revaccination.",
+   "Recall lists not reviewed once built → assign a named administrator to run and act on the quarterly search."
+  ],
+  "pearls": [
+   "Ask the practice's long-term conditions nurse to lead, since they already run the asplenia/CKD annual review.",
+   "Agree the exact due-date calculation (last dose + 5 years) with the whole team before cycle 1.",
+   "Use the same register definitions at re-audit for a fair comparison.",
+   "Hand the quarterly search to the practice's routine search rota so it continues after the lead moves on."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the register and immunisation record",
+  "area": "General practice and community care",
+  "pass": "Revaccination is given, or a documented offer and decline is recorded, within 3 months of the 5-year due date calculated from the last dose."
+ },
+ {
+  "question": "What proportion of adult smokers identified in general practice consultations are told about the range of stop-smoking support available and referred if they wish to quit?",
+  "why": "Brief, opportunistic advice at any contact is the recommended first step in helping people quit, but it depends on smoking status being checked and acted on, not just recorded. No closed-loop general practice audit of opportunistic stop-smoking referral (as opposed to hospital admission NRT prescribing) has been published in the library.",
+  "standard": {
+   "source": "NICE NG209 Tobacco: preventing uptake, promoting quitting and treating dependence, rec 1.12.1 (2021, amended 2025)",
+   "wording": "Tell people who smoke that a range of interventions is available to help them stop smoking. Explain how to access them and refer people to stop-smoking support if appropriate.",
+   "url": "https://www.nice.org.uk/guidance/ng209/chapter/Promoting-quitting"
+  },
+  "population": "Adults attending a GP or practice nurse appointment for any reason, with current smoking status recorded in the last 12 months. Exclude patients recorded as never-smokers or long-term ex-smokers.",
+  "sample": "40 consecutive current-smoker consultations over the last 4 weeks, from a search of coded smoking status.",
+  "data_source": "Consultation notes, smoking status Read/SNOMED code, referral letters to stop-smoking services.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultation_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_for_consultation",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "smoking_status_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_smoking_options_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_offered_or_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_accepted",
+    "type": "choice",
+    "options": [
+     "yes",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a one-click 'discussed stop-smoking support / referred' template item to the consultation screen that pops up whenever the smoking status is 'current smoker', linked directly to the local stop-smoking service referral form.",
+  "target": "≥80%",
+  "reaudit": "At 3 months, same coded search and template.",
+  "close_loop": "Present at the practice meeting; if the template prompt increases referral rates, keep it live for every consultation type, not only specific clinics.",
+  "evidence": [
+   "No closed-loop general practice audit of opportunistic stop-smoking referral has been published in the library."
+  ],
+  "pitfalls": [
+   "Smoking status may be out of date → include a rule to re-check status if it has not been updated in 12 months.",
+   "Staff may feel repeated advice annoys patients → agree brief, non-judgemental wording in advance, as NICE recommends.",
+   "Recording bias: 'discussed' may be ticked without a genuine conversation → spot-check a sample of consultation free text alongside the coded box.",
+   "Referral pathways to external stop-smoking services vary by area and may be confusing → print the local referral route on the consultation template before cycle 1.",
+   "Improvement may fade once the prompt becomes routine and is dismissed automatically → review click-through rates at re-audit, not just referral numbers."
+  ],
+  "pearls": [
+   "Recruit the practice's health promotion or long-term conditions lead to champion the template change.",
+   "Agree the referral pathway and paperwork with the local stop-smoking service before cycle 1.",
+   "Keep the same coded smoking-status search for both cycles so results are comparable.",
+   "Report referral numbers back to reception and nursing staff regularly to sustain motivation after the lead moves on."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the consultation record and coded smoking status",
+  "area": "General practice and community care",
+  "pass": "The consultation record shows smoking status was checked, the patient (if a current smoker) was told about the range of stop-smoking options, and, if the patient expressed interest, a referral to stop-smoking support (in-house, pharmacy or specialist service) was made or offered."
+ },
+ {
+  "question": "What proportion of adults who screen positive for hazardous or harmful drinking on AUDIT/AUDIT-C in general practice receive a structured brief alcohol intervention at the same or next contact?",
+  "why": "Screening without a structured brief intervention delivers little benefit, and delivery of the FRAMES-based brief advice step is rarely measured separately from screening completion. No audit in corpus of alcohol brief intervention delivery (as opposed to screening rate) has been published in the library.",
+  "standard": {
+   "source": "NICE PH24 Alcohol-use disorders: prevention, Recommendation 10: brief advice for adults (2010)",
+   "wording": "Offer a session of structured brief advice on alcohol. If this cannot be offered immediately, offer an appointment as soon as possible thereafter. Use a recognised, evidence-based resource that is based on FRAMES principles (feedback, responsibility, advice, menu, empathy, self-efficacy). It should take 5–15 minutes.",
+   "url": "https://www.nice.org.uk/guidance/ph24/chapter/Recommendations"
+  },
+  "population": "Adults with a new AUDIT or AUDIT-C score in the hazardous or harmful range (AUDIT 8-19 or AUDIT-C ≥5) recorded in the last 3 months. Exclude patients scoring in the possible dependence range (AUDIT ≥20) who need a full assessment rather than brief intervention.",
+  "sample": "40 consecutive patients with a new hazardous/harmful AUDIT or AUDIT-C score over the last 3 months.",
+  "data_source": "AUDIT/AUDIT-C coded score, consultation notes, NHS Health Check template, referral records.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_screen",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tool_used",
+    "type": "choice",
+    "options": [
+     "AUDIT",
+     "AUDIT-C"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "context_of_screening",
+    "type": "choice",
+    "options": [
+     "NHS Health Check",
+     "new patient check",
+     "other consultation"
+    ],
+    "note": ""
+   },
+   {
+    "field": "brief_intervention_same_visit",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_appointment_offered_within_2wk",
+    "type": "yes/no",
+    "options": [],
+    "note": "if not done same visit"
+   },
+   {
+    "field": "brief_intervention_completed_by_audit_date",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'brief intervention delivered / appointment offered' field to the AUDIT/AUDIT-C template, which cannot be closed until completed, and give staff a standard FRAMES-based script card.",
+  "target": "≥80%",
+  "reaudit": "At 3 months, same coded search and template.",
+  "close_loop": "Present at the practice's health promotion meeting; if the mandatory field improves delivery, keep it in the NHS Health Check and new-patient templates permanently.",
+  "evidence": [
+   "No audit in corpus of structured brief alcohol intervention delivery after a positive AUDIT/AUDIT-C in general practice."
+  ],
+  "pitfalls": [
+   "Screening and brief intervention may both be ticked as done without a genuine 5-15 minute conversation → spot-check free-text notes against the coded box.",
+   "Appointment time pressure may push staff to skip the intervention → build a 10-minute brief-intervention slot into nurse or HCA clinics.",
+   "Patients scoring in the possible-dependence range need a different pathway (full assessment, not brief intervention) → exclude them from this audit and route separately.",
+   "Staff training in FRAMES-based brief advice varies → agree and circulate one resource before cycle 1.",
+   "Improvement may fade if the template field becomes a routine tick-box → review free-text quality at re-audit."
+  ],
+  "pearls": [
+   "Recruit a practice nurse or HCA trained in alcohol brief intervention to champion the change.",
+   "Agree the FRAMES-based resource and script with the whole team before starting data collection.",
+   "Use the same AUDIT/AUDIT-C threshold definitions at re-audit for a fair comparison.",
+   "Keep the mandatory template field live after the audit team rotates by building it into new-starter induction."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the AUDIT template and consultation notes",
+  "area": "General practice and community care",
+  "pass": "A structured brief alcohol intervention (using a FRAMES-based resource, taking 5-15 minutes) is delivered at the same appointment, or an appointment for one is offered within 2 weeks, for every patient scoring in the hazardous or harmful range on AUDIT or AUDIT-C."
+ },
+ {
+  "question": "What proportion of women reaching the 20-week screening scan in pregnancy have been offered pertussis vaccination, and what proportion have received it before 32 weeks?",
+  "why": "Pertussis vaccination in pregnancy protects newborns before they are old enough for their own vaccine course, but protection is reduced if given after 32 weeks. No audit in corpus of the timing of pertussis vaccination in pregnancy (as opposed to overall uptake) has been published in the library.",
+  "standard": {
+   "source": "UKHSA Green Book, Pertussis chapter (19 December 2025)",
+   "wording": "Pregnant women should be offered a single 0.5 ml dose of pertussis containing vaccine in every pregnancy. Women should normally receive pertussis vaccine around the time of the mid-pregnancy scan (usually 20 weeks) but can receive it from 16 weeks gestation. To maximise the likelihood that the baby will be protected from birth, the vaccine should be given before 32 weeks.",
+   "url": "https://www.gov.uk/government/publications/pertussis-the-green-book-chapter-24"
+  },
+  "population": "Pregnant women booked with the practice who reached their 20-week scan in the last 3 months. Exclude women who transferred care from another practice after 20 weeks.",
+  "sample": "40 consecutive women reaching 20 weeks over the last 3 months, from the practice maternity register.",
+  "data_source": "GP maternity template, antenatal records shared from the maternity unit, immunisation record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_20wk_scan",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pertussis_offer_documented_by_20wk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pertussis_vaccine_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_pertussis_vaccine_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_before_32wk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'pertussis vaccine due' task to the GP maternity template at the point the 16-week booking bloods are recorded, with a reminder if not given by the time the 20-week scan result is filed.",
+  "target": "≥90% offered by 20 weeks; ≥85% vaccinated before 32 weeks",
+  "reaudit": "At 6 months, same maternity register and template.",
+  "close_loop": "Present at the practice's maternity/perinatal meeting; if the reminder task improves timing, extend it to cover whooping cough vaccine alongside the flu vaccine reminder for pregnant patients.",
+  "evidence": [
+   "No audit in corpus of pertussis vaccination timing relative to 32 weeks in pregnancy."
+  ],
+  "pitfalls": [
+   "Vaccination may be delivered by the maternity unit rather than the GP practice, so records can be incomplete in the GP system → cross-check with the hand-held maternity notes or shared care record.",
+   "Some women decline vaccination → record a documented, informed decline as distinct from a missed offer.",
+   "Late bookers may reach 20 weeks with little time before 32 weeks → flag these women for an earlier offer at booking.",
+   "Coding of pregnancy stage may be inconsistent → agree a standard gestation-recording method before starting.",
+   "Improvement may not persist if midwifery and GP records are not integrated → confirm information-sharing arrangements with the maternity unit before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the practice's maternity liaison midwife or lead GP to champion the reminder task.",
+   "Agree with the local maternity unit how vaccination given there will be recorded back in the GP system.",
+   "Use the same maternity register extraction method at re-audit.",
+   "Keep the reminder task linked to the booking bloods step so it continues automatically after the audit lead moves on."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the maternity template and immunisation record",
+  "area": "General practice and community care",
+  "pass": "Pertussis vaccination is offered at or before the 20-week scan appointment and, where accepted, is given before 32 weeks of gestation."
+ },
+ {
+  "question": "What proportion of patients on the practice's non-responder list for cervical screening have a documented follow-up action recorded within 8 weeks of appearing on the list?",
+  "why": "The national call and recall system generates a non-responder list after an invitation and reminder go unanswered, but what a practice then does with that list is locally variable and rarely measured. No closed-loop audit in corpus targets non-responder follow-up specifically (as opposed to colposcopy follow-up, which NNA-342 already covers).",
+  "standard": {
+   "source": "NHS Cervical Screening: guidance for call and recall administration best practice, section 10 (updated 2024)",
+   "wording": "Individuals join the non-responder list (NRL) if they have been sent an invitation and a reminder but have not attended for a test within 26 weeks of their NTDD (or 32 weeks of invite). GP practices will be prompted to check their NRL on CSMS.",
+   "url": "https://www.gov.uk/government/publications/cervical-screening-call-and-recall-administration-best-practice/cervical-screening-call-and-recall"
+  },
+  "population": "Women and people with a cervix aged 25 to 64 appearing on the practice's cervical screening non-responder list in the last 3 months. Exclude patients already formally ceased from the screening programme.",
+  "sample": "40 consecutive patients added to the non-responder list over the last 3 months, or all if fewer.",
+  "data_source": "Cervical Screening Management System (CSMS) non-responder list, GP record, call/recall search.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_added_to_nrl",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "follow_up_action_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "type_of_action",
+    "type": "choice",
+    "options": [
+     "third invitation sent",
+     "phone call",
+     "opportunistic flag added",
+     "ceased with reason",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_action",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screened_by_audit_date",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Assign a named administrator to review the CSMS non-responder list monthly and action every entry within 2 weeks, using an agreed local script for calls and opportunistic flags.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same non-responder list source and template.",
+  "close_loop": "Present at the practice meeting; if monthly review closes the gap, add it to the practice's standing list of monthly administrative tasks.",
+  "evidence": [
+   "NNA-342 (colposcopy follow-up) is a related but distinct audit; no closed-loop audit of cervical screening non-responder list follow-up has been published in the library."
+  ],
+  "pitfalls": [
+   "The non-responder list may not be checked regularly if no one owns the task → name a specific administrator and add it to their job plan before cycle 1.",
+   "Opportunistic flags may be added but never actioned at the next visit → audit whether the flag led to a discussion, not just whether it was added.",
+   "Patients who have valid reasons for non-attendance (for example, no cervix, pregnancy) should be excluded or ceased, not repeatedly chased → build a clear ceasing pathway.",
+   "Data protection and consent must be respected for phone calls → confirm the practice's telephone contact policy before starting.",
+   "Improvement may fade if the CSMS list is not checked after the administrator changes role → document the process in a standard operating procedure."
+  ],
+  "pearls": [
+   "Recruit the practice's screening administrator as the audit lead, since they already access CSMS.",
+   "Agree a short call script and letter template addressing common barriers (fear, embarrassment, cultural sensitivity) before cycle 1.",
+   "Use the same CSMS extraction method at re-audit for a fair comparison.",
+   "Write the monthly review into a standard operating procedure so it survives staff changes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from CSMS and the GP record",
+  "area": "General practice and community care",
+  "pass": "Within 8 weeks of a patient appearing on the practice's cervical screening non-responder list, the record shows a documented follow-up action: a further invitation, a phone call, a discussion opportunistically flagged for the next appointment, or a recorded reason for ceasing recall."
+ },
+ {
+  "question": "What proportion of patients eligible for an NHS Health Check who do not attend their first invited appointment are re-invited using a different contact method within 12 weeks?",
+  "why": "The NHS Health Check programme is designed as a rolling 5-year offer to the whole eligible population, but a single unanswered invitation often leads to no further contact until the next scheduled call. No audit in corpus of NHS Health Check non-attender re-invitation has been published in the library.",
+  "standard": {
+   "source": "NHS Health Check generic service specification for general practice (NHS Health Check programme, Public Health England template)",
+   "wording": "The check is offered once every five years. The Department of Health expects 20% of the eligible population to be invited each year over the 5 year rolling programme with an uptake moving from an initial 50% towards 75%... The practice will ensure that the most appropriate mix of invitation methods are used to encourage uptake of the programme... All attempts to contact patients will be recorded using the agreed local template. DNAs should be managed in line with the practice's own local DNA policy.",
+   "url": "https://www.healthcheck.nhs.uk/seecmsfile/?id=718"
+  },
+  "population": "Adults aged 40 to 74, eligible for an NHS Health Check, who did not attend their first invited appointment in the last 6 months. Exclude patients who have since had a Health Check or become ineligible (for example, new CVD diagnosis).",
+  "sample": "40 consecutive DNAs to a first NHS Health Check invitation over the last 6 months.",
+  "data_source": "NHS Health Check invitation log, appointment system, GP record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_dna",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "invitation_method_used",
+    "type": "choice",
+    "options": [
+     "letter",
+     "text",
+     "phone",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "re_invited_within_12wk",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "re_invitation_method",
+    "type": "choice",
+    "options": [
+     "letter",
+     "text",
+     "phone",
+     "opportunistic",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "attended_second_invitation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a 12-week DNA recall rule into the NHS Health Check invitation system that automatically triggers a second invitation by a different method (text after a letter, or a phone call after a text).",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same invitation log and template.",
+  "close_loop": "Present at the practice's public health/QOF meeting; if the automatic recall rule works, keep it as the default DNA pathway for all Health Check invitations.",
+  "evidence": [
+   "No audit in corpus of NHS Health Check DNA re-invitation using a different contact method."
+  ],
+  "pitfalls": [
+   "DNA management is often left to individual staff discretion → write a single agreed local DNA policy before cycle 1.",
+   "Contact details may be out of date, especially for less engaged groups → verify phone numbers at the point of first invitation.",
+   "Practices may deprioritise Health Checks against same-day clinical demand → protect specific appointment slots for the programme.",
+   "Equity: some groups (deprived, hard-to-reach) DNA more often and need tailored, not just repeated, invitations → review DNA rates by deprivation decile if data allow.",
+   "Improvement may fade once the automatic rule is switched off after a system change → check the rule is still active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the healthcare assistant or nurse who runs the Health Check clinic to lead the audit.",
+   "Agree the second-contact method and script with reception before cycle 1.",
+   "Use the same invitation log extraction method at re-audit for a fair comparison.",
+   "Report DNA and re-invitation rates to the practice manager regularly to keep the recall rule prioritised after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the invitation log and appointment system",
+  "area": "General practice and community care",
+  "pass": "A patient who does not attend their first invited NHS Health Check appointment is re-invited using a different contact method (for example, phone call or text after a letter) within 12 weeks, with the attempt recorded on the practice's invitation log."
+ },
+ {
+  "question": "What proportion of people entering prison have a first-stage health assessment completed, before allocation to a cell, that documents any prescribed medicines and immediate health and safety issues?",
+  "why": "The first-stage assessment is meant to happen before cell allocation so that continuity of medicines and urgent risks are identified immediately, but delays under operational pressure at reception are a recognised risk. No audit in corpus of first-stage prison reception health assessment completion before cell allocation has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.1 (2016)",
+   "wording": "At first reception into prison, a healthcare professional (or trained healthcare assistant under the supervision of a registered nurse) should carry out a health assessment for every person. Do this before the person is allocated to their cell. As part of the assessment, identify: any issues that may affect the person's immediate health and safety before the second-stage health assessment; priority health needs to be addressed at the next clinical opportunity.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions into the prison (first reception, not transfers already assessed elsewhere) over the audit period. Exclude same-day court returns already assessed that day.",
+  "sample": "40 consecutive new receptions over the last 4 weeks, from the reception log.",
+  "data_source": "Prison electronic health record (SystmOne or equivalent), reception log, cell allocation record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "prison/NHS number pseudonymised"
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_first_stage_assessment_completed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_cell_allocation",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "assessment_completed_before_cell_allocation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescribed_medicines_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "immediate_safety_issue_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make cell allocation on the prison IT system dependent on the first-stage health assessment record being saved first, so custodial staff cannot allocate a cell before healthcare confirms the assessment is complete.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison health and justice governance board; if the system dependency works, embed it as a standard operating procedure across the health and justice contract.",
+  "evidence": [
+   "No audit in corpus of first-stage prison reception assessment completion before cell allocation."
+  ],
+  "pitfalls": [
+   "Late-night or high-volume receptions create time pressure that can push assessment after cell allocation → agree an escalation process for surge nights before cycle 1.",
+   "Custody and healthcare IT systems may not talk to each other, making the sequencing hard to verify → use manual timestamp checks if systems are not linked.",
+   "Staff may complete the assessment but backdate or forget to timestamp it → audit against the reception log time, not just presence of a record.",
+   "Reduced staffing at weekends and bank holidays → review results by day of week to check for a pattern.",
+   "The IT dependency change needs governor and healthcare provider sign-off together → secure both before cycle 1, not after."
+  ],
+  "pearls": [
+   "Recruit the reception nurse lead and the prison's head of residence together, since this crosses healthcare and custodial systems.",
+   "Agree the IT change with both the healthcare records supplier and the prison establishment before cycle 1.",
+   "Use the same reception log extraction at re-audit for a fair comparison.",
+   "Report results at the joint health and justice partnership board so the change survives staff and contract rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 receptions from the prison health record and reception log",
+  "area": "General practice and community care",
+  "pass": "The first-stage health assessment (Table 1 of NG57) is completed and documented before the person is recorded as allocated to a cell, including the prescribed-medicines question and identification of any immediate health and safety issues."
+ },
+ {
+  "question": "What proportion of people in prison have a second-stage health assessment completed within 7 days of their first-stage assessment?",
+  "why": "The second-stage assessment covers substance misuse history, sexual health, family history and screening history that cannot always be completed at first reception, and delay increases the risk that treatable conditions and screening gaps go unaddressed. No audit in corpus of second-stage prison health assessment timeliness has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.13 (2016)",
+   "wording": "A healthcare professional (for example, a registered general nurse) should carry out a second-stage health assessment for every person in prison. Do this within 7 days of the first-stage health assessment.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All people in prison who had a first-stage health assessment in the last 6 weeks, allowing enough time to have reached the 7-day deadline. Exclude people released or transferred before day 7.",
+  "sample": "40 consecutive receptions with a completed first-stage assessment over the last 6 weeks.",
+  "data_source": "Prison electronic health record, reception log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_first_stage_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_second_stage_assessment",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_between_assessments",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'second-stage assessment due' task to the prison health record, created on completion of the first-stage assessment with a 7-day countdown visible on the nursing team's daily worklist.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison health and justice governance board; if the automatic worklist task works, extend it to all reception pathways across the health and justice contract.",
+  "evidence": [
+   "No audit in corpus of second-stage prison health assessment completion within 7 days."
+  ],
+  "pitfalls": [
+   "Staff shortages on the nursing team can push second-stage assessments beyond 7 days → review staffing rotas alongside the audit results.",
+   "People released or transferred within 7 days will not have a completed second-stage assessment for a valid reason → exclude them rather than counting as a failure.",
+   "IT worklists may not be checked if not part of the daily routine → build the check into the nursing handover, not a separate report.",
+   "Assessment quality may drop if teams rush to hit the 7-day target → spot-check a sample of second-stage assessments for completeness alongside timeliness.",
+   "Improvement may fade if the worklist task is not maintained after an IT upgrade → confirm it is still functioning at re-audit."
+  ],
+  "pearls": [
+   "Recruit the prison's senior nurse for reception healthcare as the audit lead.",
+   "Agree the worklist design with the nursing team before cycle 1 so it fits their existing handover process.",
+   "Use the same reception log extraction method at re-audit.",
+   "Review the worklist task list at the weekly clinical governance meeting so it stays visible after the audit team changes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record",
+  "area": "General practice and community care",
+  "pass": "The second-stage health assessment is completed and documented within 7 days (168 hours) of the recorded date and time of the first-stage assessment."
+ },
+ {
+  "question": "What proportion of people entering prison who were taking prescribed medicines in the community have their next dose confirmed as given, or a prescriber referral made, before the second-stage health assessment?",
+  "why": "Missed or delayed doses of critical medicines on reception into prison are a recognised source of preventable harm, but continuity depends on rapid communication between reception staff and the prescriber. No audit in corpus of medicines continuity from reception to second-stage assessment has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, recs 1.1.4 (table 1, item 2) and 1.7.10 (2016)",
+   "wording": "[Prescribed medicines] Yes: document any current medicines being taken and generate a medicine chart. Refer the person to the prescriber for appropriate medicines to be prescribed, to ensure continuity of medicines. If medicines are being taken, ensure that the next dose has been provided... Let the person know that medicines reconciliation will take place before the second-stage health assessment. [1.7.10] Ensure the person can keep taking their medicines after coming into prison.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions who reported taking one or more prescribed medicines at first-stage assessment over the audit period. Exclude people reporting only over-the-counter creams or drops with no ongoing prescription need.",
+  "sample": "40 consecutive receptions reporting prescribed medicines over the last 4 weeks.",
+  "data_source": "Prison electronic health record, medicine chart, reception log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medicines_reported",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "next_dose_given_or_provided",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescriber_referral_made_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_medicines_reconciliation_completed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reconciliation_before_second_stage_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a same-day electronic referral from the reception nurse's medicines question directly to the prison pharmacist/prescriber worklist, with a flag that clears only once the next dose is confirmed given.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison medicines optimisation committee; if the electronic referral closes the gap, embed it as the standard reception medicines pathway.",
+  "evidence": [
+   "No audit in corpus of medicines continuity from prison reception to second-stage assessment."
+  ],
+  "pitfalls": [
+   "Community medication lists brought in by the person may be incomplete or unverifiable → agree a process for contacting the community pharmacy or GP the same day.",
+   "Critical medicines (for example, anticonvulsants, insulin, opioid substitution therapy) need faster action than routine ones → prioritise these using the NG57 table 2 critical medicines list.",
+   "Reception nights with high volume may overwhelm the pharmacist worklist → agree an escalation and cover plan before cycle 1.",
+   "Paper-based medicine charts can be lost between reception and the wing → track the chart alongside the person, not as a separate document.",
+   "Improvement may fade if the electronic referral is bypassed during IT downtime → have a clear paper backup process and check it is used correctly at re-audit."
+  ],
+  "pearls": [
+   "Recruit the prison pharmacist and reception nurse lead jointly, since this spans both roles.",
+   "Agree escalation routes for out-of-hours prescribing before starting data collection.",
+   "Use the same critical-medicines definition (NG57 table 2) at re-audit.",
+   "Report near misses as well as full audit results to keep the pathway prioritised after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the prison health record and medicine chart",
+  "area": "General practice and community care",
+  "pass": "For a person who reports taking prescribed medicines at first-stage assessment, the record shows either the next dose was given/provided, or a same-day referral to the prescriber was made, and full medicines reconciliation is completed before or at the second-stage assessment."
+ },
+ {
+  "question": "What proportion of people in prison who were on community opioid substitution treatment have their opioid substitution medicine continued, at a confirmed dose, within 24 hours of reception?",
+  "why": "Interruption of opioid substitution treatment on reception into prison is a recognised cause of withdrawal, illicit drug-seeking and fatal overdose risk on release, yet confirming the community dose and pharmacy before the first inpatient dose depends on rapid cross-checking that is easy to miss under reception pressure. No audit in corpus of opioid substitution continuity specifically at prison reception has been published in the library (NNA-162 covers psychiatric ward admission, not prison reception).",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, recs 1.1.4 (table 1, item 14) and 1.7.10-1.7.11 (2016)",
+   "wording": "[Alcohol and substance misuse] Has the person used street drugs in the last month?... heroin, methadone... Yes: refer the person to substance misuse services if there are concerns about their immediate clinical management and they need immediate support... [1.7.10] Ensure the person can keep taking their medicines after coming into prison. [1.7.11] Give critical medicines in a timely way to prevent harm from missed or delayed doses [including] drugs used to treat substance misuse.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions who report current opioid substitution treatment at first-stage assessment over the audit period. Exclude people who report having already stopped OST more than 4 weeks previously.",
+  "sample": "40 consecutive receptions reporting current OST over the last 6 weeks, or all if fewer.",
+  "data_source": "Prison substance misuse service record, reception log, community pharmacy confirmation record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ost_medicine",
+    "type": "choice",
+    "options": [
+     "methadone",
+     "buprenorphine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "community_dose_and_pharmacy_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_confirmation_completed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_prison_dose_given_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a same-day electronic confirmation pathway between the prison substance misuse team and community pharmacies (or the national controlled drug database where available), with a target of confirming dose and pharmacy within 4 hours of reception.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison substance misuse governance meeting; if the confirmation pathway closes the gap, embed it in the health and justice service specification for the establishment.",
+  "evidence": [
+   "No audit in corpus of opioid substitution treatment continuity at prison reception (distinct from NNA-162, which covers psychiatric ward admission)."
+  ],
+  "pitfalls": [
+   "Community pharmacies or prescribers may be unreachable out of hours or at weekends → agree an escalation and interim-dose protocol with clinical leadership before cycle 1.",
+   "Self-reported doses may be inaccurate or exaggerated → always attempt independent confirmation before prescribing the full dose.",
+   "Reception at night or on Fridays increases delay risk → review results by day/time of reception.",
+   "Prescribers may be reluctant to prescribe without full confirmation, causing safe but slow practice → agree a documented interim bridging protocol for uncertain cases.",
+   "Improvement may fade if the confirmation pathway relies on one enthusiastic clinician → build it into the substance misuse team's standard operating procedure."
+  ],
+  "pearls": [
+   "Recruit the prison substance misuse lead clinician and the reception nurse team together.",
+   "Agree the interim bridging protocol and escalation contacts with the substance misuse service before cycle 1.",
+   "Use the same OST-reporting definition at re-audit.",
+   "Report near-miss delays as well as completed audits at the substance misuse governance meeting to sustain the pathway after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the substance misuse record and reception log",
+  "area": "General practice and community care",
+  "pass": "For a person confirmed to be on community methadone or buprenorphine, the substance misuse team confirms the dose and last dispensing with the community pharmacy/prescriber, and a dose is prescribed and given within 24 hours of reception."
+ },
+ {
+  "question": "What proportion of people entering prison are offered confidential testing for hepatitis B and hepatitis C, and what proportion of those tested receive their result regardless of location?",
+  "why": "Prisons are a key opportunity to find and treat blood-borne viruses in a population with higher prevalence and poorer community access to testing, but opt-out or offered testing at reception is not always completed or results relayed if the person moves location. No audit in corpus of hepatitis B/C testing offer and result delivery at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, recs 1.1.23 (2016), adapted from the NICE guideline on hepatitis B and C testing",
+   "wording": "Prison healthcare services (working with the NHS lead for hepatitis) should ensure that: all people are offered a hepatitis B vaccination when entering prison... all people are offered access to confidential testing for hepatitis B and C when entering prison and during their detention; people who test for hepatitis B or C receive the results of the test, regardless of their location, when they become available.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions over the audit period. Exclude people who can show a documented negative test result from within the last 3 months elsewhere.",
+  "sample": "40 consecutive new receptions over the last 4 weeks.",
+  "data_source": "Prison electronic health record, blood-borne virus testing register.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hep_bc_testing_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "testing_accepted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "test_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_communicated_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_from_test_to_result_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add hepatitis B/C testing as a default opt-out item on the first-stage reception assessment template, with an electronic result-tracking flag that stays open (and is checked at every wing move or segregation transfer) until the result is confirmed given to the patient.",
+  "target": "≥90% offered; ≥95% of those tested given their result",
+  "reaudit": "At 3 months, same reception log and testing register.",
+  "close_loop": "Present to the prison health and justice governance board; if the opt-out default and tracking flag work, embed them in the establishment's standard reception pathway and health and justice contract KPIs.",
+  "evidence": [
+   "No audit in corpus of hepatitis B/C testing offer and result delivery at prison reception."
+  ],
+  "pitfalls": [
+   "People may be transferred or released before results are back → build a handover process that follows the result, not just the person's location on the day of testing.",
+   "Opt-out testing still requires informed consent and cultural sensitivity → agree a standard explanation script before cycle 1.",
+   "Segregation or healthcare in-patient status can make results harder to deliver in person → include a specific check for these locations in the tracking flag.",
+   "Laboratory turnaround delays are outside the practice's control → report delays separately from delivery failures.",
+   "Improvement may fade if the electronic flag is closed prematurely → spot-check a sample of 'result given' entries against actual documented conversations."
+  ],
+  "pearls": [
+   "Recruit the prison's blood-borne virus lead nurse and NHS hepatitis lead jointly.",
+   "Agree the opt-out script and consent process with the whole reception team before cycle 1.",
+   "Use the same reception log extraction method at re-audit.",
+   "Report testing and result-delivery rates to the health and justice partnership board so the pathway survives contract and staff changes."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the prison health record and BBV testing register",
+  "area": "General practice and community care",
+  "pass": "The record shows hepatitis B and C testing was offered at reception, and, where the person accepted and was tested, the result was documented as communicated to the person regardless of their current location (including segregation or transfer)."
+ },
+ {
+  "question": "What proportion of people entering prison are offered an HIV test at reception?",
+  "why": "HIV testing at prison reception identifies undiagnosed infection in a population at higher risk with historically poorer community testing access, but the offer depends on it being a routine, non-optional part of the reception pathway rather than left to individual judgement. No audit in corpus of HIV testing offer rates at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.24 (2016), adapted from the NICE guideline on HIV testing",
+   "wording": "Offer all people HIV testing when entering prison.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions over the audit period. Exclude same-day court returns already tested that day.",
+  "sample": "40 consecutive new receptions over the last 4 weeks.",
+  "data_source": "Prison electronic health record, blood-borne virus testing register.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hiv_test_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "accepted and tested",
+     "declined",
+     "already known result within 3 months"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_result_available",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_communicated_to_patient",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Combine the HIV test offer with the hepatitis B/C offer as a single mandatory blood-borne virus testing block on the first-stage reception template, so none of the three can be skipped independently.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison health and justice governance board; if the combined testing block improves the offer rate, keep it as the default reception pathway and report the rate as a standing health and justice KPI.",
+  "evidence": [
+   "No audit in corpus of HIV testing offer rates at prison reception."
+  ],
+  "pitfalls": [
+   "Staff may assume HIV testing is only needed for people reporting risk factors, contrary to the opt-out approach recommended → make it a default with reasoned opt-out, not opt-in.",
+   "Stigma concerns may make some staff hesitant to raise the offer routinely → provide brief training and a standard script before cycle 1.",
+   "Reception time pressure can push non-mandatory items to be skipped → make the combined BBV block a required field before the assessment can be saved.",
+   "Repeat testing of people known to be already diagnosed wastes capacity → exclude them clearly in the template.",
+   "Improvement may fade if the mandatory field is later made optional in an IT update → confirm the field remains mandatory at re-audit."
+  ],
+  "pearls": [
+   "Recruit the prison's blood-borne virus lead nurse as the audit lead, combining this with the hepatitis B/C audit for efficiency.",
+   "Agree a brief non-stigmatising offer script with the whole reception team before cycle 1.",
+   "Use the same reception log extraction method at re-audit.",
+   "Report the combined BBV testing rate at the health and justice partnership board to keep it prioritised after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record",
+  "area": "General practice and community care",
+  "pass": "The reception health record documents that an HIV test was offered, with the outcome recorded (accepted and tested, declined, or already known positive/negative within 3 months)."
+ },
+ {
+  "question": "What proportion of people in prison, or at prisons receiving from high-incidence areas, who are under 65 and in regular contact with substance misuse services are offered an interferon-gamma release assay for TB, combined with hepatitis B/C and HIV testing?",
+  "why": "TB screening in prisons is recommended alongside blood-borne virus testing for people in contact with substance misuse services, but the two are often organised by separate teams and one can be completed without the other. No audit in corpus of combined TB/BBV testing in this group has been published in the library.",
+  "standard": {
+   "source": "NICE NG33 Tuberculosis, recs 1.2.3.5 and 1.2.3.6 (2012, amended 2016)",
+   "wording": "In high incidence areas (and at prisons that receive prisoners from high incidence areas), prison health services should offer an interferon-gamma release assay for TB to inmates younger than 65 years who are in regular contact with substance misuse services or other support services... Substance misuse services and prison health services should incorporate interferon-gamma release assay testing with screening for hepatitis B and C, and HIV testing.",
+   "url": "https://www.nice.org.uk/guidance/ng33/chapter/Recommendations"
+  },
+  "population": "People under 65 engaged with the prison substance misuse service over the audit period, at an establishment identified as receiving prisoners from TB high-incidence areas. Exclude people with a documented active or recently treated TB episode.",
+  "sample": "40 consecutive substance misuse service attendees under 65 over the last 3 months, or all if fewer.",
+  "data_source": "Substance misuse service record, TB screening register, blood-borne virus testing register.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_substance_misuse_contact",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "igra_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hep_bc_testing_offered_same_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hiv_testing_offered_same_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_three_offered_together",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a single combined 'blood-borne virus and TB testing' order set to the substance misuse service's clinical template so IGRA, hepatitis B/C and HIV testing are requested together by default.",
+  "target": "≥85%",
+  "reaudit": "At 3 months, same service record and template.",
+  "close_loop": "Present at the joint TB/substance misuse governance meeting; if the combined order set works, extend it to all substance misuse service contacts across the establishment.",
+  "evidence": [
+   "No audit in corpus of combined TB IGRA and blood-borne virus testing in prison substance misuse service attendees."
+  ],
+  "pitfalls": [
+   "TB screening and BBV testing are often commissioned and delivered by separate teams → agree a single combined pathway and blood-draw process before cycle 1.",
+   "Establishing whether a prison 'receives from high incidence areas' needs local public health input → confirm this with the local TB team before starting.",
+   "Support for continuing treatment after release is a precondition in the NICE recommendation → confirm community follow-up arrangements are in place before offering testing.",
+   "Substance misuse service attendance is often episodic → use the first contact in the audit period as the index event, not every subsequent contact.",
+   "Improvement may fade if the combined order set reverts to separate requests after an IT change → check it remains combined at re-audit."
+  ],
+  "pearls": [
+   "Recruit the substance misuse lead nurse and the multidisciplinary TB team jointly, since NICE requires their integration.",
+   "Confirm continuity-of-care arrangements for post-release treatment before cycle 1, as NICE specifies.",
+   "Use the same substance misuse service contact definition at re-audit.",
+   "Report combined testing rates at the joint TB/substance misuse governance meeting to keep the pathway prioritised after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the substance misuse and TB screening records",
+  "area": "General practice and community care",
+  "pass": "For a person under 65 in regular contact with prison substance misuse services (at an establishment receiving prisoners from high-incidence areas), the record shows an interferon-gamma release assay for TB was offered at the same time as hepatitis B/C and HIV testing."
+ },
+ {
+  "question": "What proportion of prisoners in prison for the first time are screened for TB within 48 hours of arrival?",
+  "why": "TB screening within 48 hours of arrival is a specific, time-critical NG57 standard distinct from the first- and second-stage general health assessments, and is easy to lose track of separately if not tracked as its own metric. No audit in corpus of the 48-hour TB screening timescale specifically has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.9 (2016), adapted from the NICE guideline on tuberculosis",
+   "wording": "Healthcare professionals in prisons should ensure people coming into prison are screened for TB within 48 hours of arrival.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions over the audit period. Exclude same-day transfers from another prison with a documented TB screen completed there within the last 48 hours.",
+  "sample": "40 consecutive new receptions over the last 4 weeks.",
+  "data_source": "Prison electronic health record, TB screening register, reception log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_tb_screen_completed",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_screening",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "completed_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screening_method",
+    "type": "choice",
+    "options": [
+     "symptom screen",
+     "chest X-ray",
+     "IGRA",
+     "combination"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 'TB screen due within 48 hours' countdown task to the reception worklist, visible to the nursing team separately from the general first/second-stage assessment tasks.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the local multidisciplinary TB team and prison health governance board; if the separate countdown task works, keep it as a standing item on the reception dashboard.",
+  "evidence": [
+   "No audit in corpus of TB screening completion within the specific 48-hour NG57 timescale."
+  ],
+  "pitfalls": [
+   "TB screening may be recorded as part of the general health assessment without a separate timestamp → add a dedicated TB screening field with its own date/time.",
+   "Access to mobile X-ray or IGRA testing may be limited out of hours → agree local arrangements for weekend and night receptions before cycle 1.",
+   "People who decline screening should be recorded distinctly from those simply not yet screened → add a 'declined' option to avoid conflating the two.",
+   "High reception volumes on a single day can delay screening for later arrivals → review results by daily reception volume.",
+   "Improvement may fade if the countdown task is not maintained after an IT upgrade → confirm the task list still functions at re-audit."
+  ],
+  "pearls": [
+   "Recruit the reception nurse lead and the local multidisciplinary TB team liaison together.",
+   "Agree out-of-hours screening arrangements (for example, symptom screen with X-ray to follow) before cycle 1.",
+   "Use the same reception log extraction method at re-audit.",
+   "Report the 48-hour completion rate at the multidisciplinary TB team meeting so it remains visible after the audit lead moves on."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record",
+  "area": "General practice and community care",
+  "pass": "TB screening (symptom screen, and chest X-ray or IGRA as locally protocolised) is documented as completed within 48 hours of the recorded reception date and time."
+ },
+ {
+  "question": "When an ACCT is opened for a prisoner, what proportion of first case reviews have healthcare or mental health staff attendance, or a documented written/verbal contribution, recorded?",
+  "why": "Health input at the first ACCT case review is intended to bring clinical information into the multi-disciplinary safety planning for prisoners at risk of self-harm or suicide, but attendance is not automatic and depends on healthcare being invited and available. No audit in corpus of healthcare attendance or contribution at first ACCT case reviews has been published in the library.",
+  "standard": {
+   "source": "Prison Safety Policy Framework, paragraph 4.184 (re-issued 14 January 2026)",
+   "wording": "Healthcare or mental health staff must attend the first case review. If in exceptional circumstances they cannot attend, a verbal or written contribution must be provided. A further ACCT case review must then be convened as soon as possible.",
+   "url": "https://assets.publishing.service.gov.uk/media/6720ae033758e4604742a838/prison-safety-policy-framework.pdf"
+  },
+  "population": "All ACCT documents opened in the establishment over the audit period. Exclude ACCTs closed before a first case review could take place (for example, same-day resolution).",
+  "sample": "40 consecutive ACCT openings over the last 3 months, or all if fewer.",
+  "data_source": "ACCT case review records, prison electronic health record cross-referenced with NOMIS ACCT alerts.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_acct_opened",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_first_case_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "healthcare_attended_in_person",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_or_verbal_contribution_if_absent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "healthcare_input_documented_overall",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic healthcare notification when a concern form is raised (as required by paragraph 4.173/4.184), with the first case review time only confirmed once healthcare has acknowledged attendance or provided a contribution.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same ACCT case review records and template.",
+  "close_loop": "Present at the joint safer custody and healthcare governance meeting; if the notification-and-acknowledgement step works, embed it as the establishment's standard ACCT healthcare pathway.",
+  "evidence": [
+   "No audit in corpus of healthcare attendance or contribution at first ACCT case reviews."
+  ],
+  "pitfalls": [
+   "Healthcare staffing levels may not allow attendance at every case review, especially out of hours → ensure the written/verbal contribution route is genuinely available as a fallback.",
+   "'Attendance' may be recorded loosely without confirming a genuine clinical contribution was made → audit the content of the contribution, not just a tick box.",
+   "ACCT and healthcare records sit on different IT systems in most establishments → agree a cross-referencing method before cycle 1.",
+   "Case reviews may be rescheduled at short notice, making healthcare attendance harder to plan → build early notification into the concern-form process, as the framework requires.",
+   "Improvement may fade if the notification step is seen as an add-on rather than mandatory → make it part of the ACCT case co-ordinator's checklist."
+  ],
+  "pearls": [
+   "Recruit the safer custody lead and the prison's senior healthcare clinical lead jointly, since this crosses both services.",
+   "Agree the notification and escalation process with both teams before cycle 1.",
+   "Use the same ACCT/case review extraction method at re-audit.",
+   "Report results at the joint safer custody and healthcare governance meeting so the pathway survives staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 ACCT case reviews from ACCT and health records",
+  "area": "General practice and community care",
+  "pass": "The first ACCT case review record shows healthcare or mental health staff attended in person, or a documented written or verbal contribution from healthcare was provided if they could not attend."
+ },
+ {
+  "question": "What proportion of people discharged or transferred from prison with an ongoing prescription are given at least 7 days of their prescribed medicines or an FP10 prescription?",
+  "why": "A gap in medicines supply at the point of release or transfer is a recognised risk for relapse, overdose and loss of continuity of care, and depends on planning that can be missed with short-notice releases. No audit in corpus of the 7-day discharge medicines supply standard has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.7.14 (2016)",
+   "wording": "When a person is discharged or transferred from prison, give them a minimum of 7 days' prescribed medicines or an FP10 prescription, based on a risk assessment.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All people discharged (released to the community, not transferred between custodial settings) from the prison with at least one ongoing prescribed medicine, over the audit period. Exclude people with no ongoing prescription at release.",
+  "sample": "40 consecutive releases with an ongoing prescription over the last 4 weeks.",
+  "data_source": "Prison electronic health record, discharge medicines record, pharmacy dispensing log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_release",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ongoing_medicines_list",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_supply_or_fp10_given",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_7_day_minimum",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_assessment_documented_if_different",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'discharge medicines: days supplied' field to the release checklist that must show 7 or more (or a linked risk assessment) before the release paperwork can be signed off by pharmacy.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same discharge records and template.",
+  "close_loop": "Present at the medicines optimisation and resettlement governance meeting; if the mandatory field works, keep it as a standard release checklist item.",
+  "evidence": [
+   "No audit in corpus of the 7-day discharge medicines supply standard on release from prison."
+  ],
+  "pitfalls": [
+   "Short-notice releases (for example, following a court decision) leave little time to prepare medicines → build a same-day pharmacy fast-track process for unplanned releases (see NG57 1.7.15).",
+   "Controlled drugs and opioid substitution therapy need specific arrangements with community providers → confirm the community pharmacy handover process before cycle 1.",
+   "People released without a fixed address may struggle to access a community pharmacy → note this in the risk assessment rather than skipping the medicines supply.",
+   "FP10 prescriptions may not be dispensed promptly in the community → measure days supplied given directly where possible, not just the prescription being issued.",
+   "Improvement may fade if pharmacy staffing is reduced → review staffing alongside the audit results."
+  ],
+  "pearls": [
+   "Recruit the prison pharmacist and resettlement/throughcare team jointly.",
+   "Agree the fast-track process for unplanned releases before cycle 1, as NG57 requires a contingency plan.",
+   "Use the same discharge record extraction method at re-audit.",
+   "Report results at the resettlement and medicines optimisation governance meetings so the checklist item survives contract or staff changes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 discharges from the prison health record and pharmacy log",
+  "area": "General practice and community care",
+  "pass": "The discharge/transfer record shows the person was given at least 7 days' supply of each ongoing prescribed medicine, or an FP10 prescription covering at least 7 days, unless a documented risk assessment specifies a different amount."
+ },
+ {
+  "question": "What proportion of people in prison who smoke are offered stop-smoking support at their first-stage health assessment, in a smoke-free establishment?",
+  "why": "Prisons in England and Wales are smoke-free, and reception is a key opportunity to offer stop-smoking or nicotine replacement support to a population with a much higher smoking prevalence than the general community, but this can be overshadowed by the many other items covered at reception. No audit in corpus of stop-smoking support offered at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG209 Tobacco: preventing uptake, promoting quitting and treating dependence, rec 1.12.1 and 1.12.2 (2021, amended 2025)",
+   "wording": "Tell people who smoke that a range of interventions is available to help them stop smoking. Explain how to access them and refer people to stop-smoking support if appropriate... Ensure the following are accessible to adults who smoke: behavioural interventions... nicotine replacement therapy (NRT).",
+   "url": "https://www.nice.org.uk/guidance/ng209/chapter/Promoting-quitting"
+  },
+  "population": "All new receptions over the audit period who report current smoking at first-stage assessment. Exclude non-smokers and long-term vapers only.",
+  "sample": "40 consecutive receptions reporting current smoking over the last 4 weeks.",
+  "data_source": "Prison electronic health record, first-stage assessment template, NRT prescribing record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "current_smoker_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stop_smoking_support_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nrt_offered_or_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "support_accepted",
+    "type": "choice",
+    "options": [
+     "yes",
+     "declined",
+     "not offered"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'smoker: NRT/stop-smoking support offered' field to the first-stage reception template, linked directly to an NRT prescribing order set so support can be started the same day.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison health and justice governance board; if the mandatory field and linked order set work, embed them as the standard smoke-free reception pathway.",
+  "evidence": [
+   "No audit in corpus of stop-smoking support offered at prison reception."
+  ],
+  "pitfalls": [
+   "Reception staff have many competing priorities at first-stage assessment → make the smoking field mandatory rather than optional to prevent it being missed.",
+   "Withdrawal symptoms may be attributed to other causes if not specifically asked about → train reception staff to recognise and act on nicotine withdrawal.",
+   "NRT stock shortages can undermine same-day support → confirm supply arrangements with pharmacy before cycle 1.",
+   "Vaping status may not be captured separately from smoking, complicating the denominator → clarify the definition of 'current smoker' before starting.",
+   "Improvement may fade if NRT is only offered at reception and not continued on the wing → check continuation rates as a secondary measure."
+  ],
+  "pearls": [
+   "Recruit the reception nurse lead and the prison's smoke-free/stop-smoking coordinator jointly.",
+   "Agree the NRT order set and supply arrangements with pharmacy before cycle 1.",
+   "Use the same reception log extraction method at re-audit.",
+   "Report results at the smoke-free prison steering group to keep the pathway prioritised after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record",
+  "area": "General practice and community care",
+  "pass": "The first-stage health assessment record shows smoking status was asked, and, for a current smoker, that stop-smoking support (behavioural support and/or NRT) was offered before or at the point of reception into the smoke-free establishment."
+ },
+ {
+  "question": "What proportion of adults with hypertension aged under 80 on antihypertensive treatment have a clinic blood pressure below 140/90 mmHg at their most recent reading?",
+  "why": "Blood pressure treatment to target is one of the largest levers for preventing stroke and cardiovascular events in general practice, but achievement of the specific NICE target (as opposed to diagnosis or QOF recording) is not routinely closed-loop audited. No closed-loop audit in corpus targets the NG136 clinic BP treatment target for adults under 80.",
+  "standard": {
+   "source": "NICE NG136 Hypertension in adults: diagnosis and management, rec 1.4.20 (2019, amended 2022)",
+   "wording": "For adults with hypertension aged under 80, reduce clinic blood pressure to below 140/90 mmHg and ensure that it is maintained below that level.",
+   "url": "https://www.nice.org.uk/guidance/ng136/chapter/Recommendations"
+  },
+  "population": "Adults aged 18 to 79 on the practice hypertension register, on one or more antihypertensive medicines for at least 3 months, with a clinic BP reading in the last 12 months. Exclude patients using home or ambulatory targets only, or with white-coat/masked hypertension under active review.",
+  "sample": "40 consecutive patients from the hypertension register meeting the inclusion criteria, or a 10% random sample if the register is larger.",
+  "data_source": "Practice hypertension register, GP clinical system BP readings, repeat prescription record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "has_diabetes_or_severe_ckd",
+    "type": "yes/no",
+    "options": [],
+    "note": "affects which target applies"
+   },
+   {
+    "field": "date_of_most_recent_bp",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "systolic_bp",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diastolic_bp",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bp_at_target",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medication_review_in_last_12m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Run a monthly practice search flagging hypertension register patients whose last clinic BP is above target with no medication change or clinic BP recheck in the last 8 weeks, for pharmacist-led review.",
+  "target": "≥80%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's QOF/long-term conditions meeting; if the monthly search improves target achievement, add it to the pharmacist's standing task list.",
+  "evidence": [
+   "No closed-loop audit in corpus of NG136 clinic blood pressure target achievement in adults under 80."
+  ],
+  "pitfalls": [
+   "A single high reading may not reflect true control → use the most recent recorded reading but flag patients for a re-check rather than assuming poor control from one value.",
+   "White-coat effect can make clinic readings appear worse than home readings → review NG136's advice on ABPM/HBPM for patients with a suspected white-coat effect.",
+   "Medication non-adherence is a common but under-recorded reason for poor control → include an adherence check in the pharmacist review.",
+   "Frailty and multimorbidity may justify a less strict target in practice, even under 80 → document clinical judgement clearly rather than treating every above-target reading as a failure.",
+   "Improvement may fade if the monthly search is not resourced → confirm pharmacist time is protected before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the practice's clinical pharmacist to lead the medication reviews generated by the search.",
+   "Agree the exclusion criteria (diabetes/severe CKD targets, white-coat effect) with the GP lead before cycle 1.",
+   "Use the same register extraction method at re-audit for a fair comparison.",
+   "Report target-achievement rates at the practice's QOF preparation meeting to keep this visible year-round, not just at year-end."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the hypertension register and BP readings",
+  "area": "General practice and community care",
+  "pass": "The most recent clinic blood pressure reading in the last 12 months is below 140/90 mmHg. For patients with type 1 diabetes or severe chronic kidney disease, use the NG136 table 1 target for that condition instead."
+ },
+ {
+  "question": "What proportion of adults with atrial fibrillation and a CHA2DS2-VASc score of 2 or more are prescribed a direct-acting oral anticoagulant or warfarin?",
+  "why": "Undertreatment of stroke risk in atrial fibrillation remains a major preventable cause of stroke, and while CHA2DS2-VASc scoring is often recorded, whether anticoagulation is actually prescribed for those who meet the threshold is less often specifically audited in primary care. No closed-loop primary care audit in corpus targets anticoagulation prescribing against the CHA2DS2-VASc threshold itself (as opposed to scoring completion or single-drug-class checks).",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.6.3 (2021)",
+   "wording": "Offer anticoagulation with a direct-acting oral anticoagulant to people with atrial fibrillation and a CHA2DS2-VASc score of 2 or above, taking into account the risk of bleeding.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "population": "Adults on the practice atrial fibrillation register with a documented CHA2DS2-VASc score of 2 or more. Exclude patients with a score of 0-1 (where anticoagulation is not routinely recommended) and patients already excluded from anticoagulation for a valve-related indication requiring warfarin-specific pathways if being separately managed by a specialist.",
+  "sample": "40 consecutive patients from the AF register with CHA2DS2-VASc ≥2, or a 10% random sample if the register is larger.",
+  "data_source": "Practice AF register, CHA2DS2-VASc coded score, repeat prescription record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "chadsvasc_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "currently_anticoagulated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_type",
+    "type": "choice",
+    "options": [
+     "DOAC",
+     "warfarin",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "documented_reason_if_not_anticoagulated",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bleeding_risk_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Run a monthly practice search cross-referencing the AF register, CHA2DS2-VASc score and current anticoagulant prescription, generating a task for GP review of every patient scoring ≥2 with no anticoagulant and no documented reason.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's QOF/long-term conditions meeting; if the monthly search closes the gap, add it to the standing list of chronic disease searches.",
+  "evidence": [
+   "No closed-loop primary care audit in corpus of anticoagulation prescribing against the CHA2DS2-VASc ≥2 threshold."
+  ],
+  "pitfalls": [
+   "CHA2DS2-VASc scores may be out of date if not recalculated after a new diagnosis (for example, new diabetes or heart failure) → recalculate at the point of audit, not just use the last coded score.",
+   "Patients may be correctly excluded for a specific contraindication (for example, active bleeding) → always check for a documented reason before counting as a gap.",
+   "Some patients may be under specialist anticoagulation clinics with prescribing outside the GP record → check shared care records before concluding a patient is untreated.",
+   "Patient choice to decline anticoagulation after full discussion is a valid outcome → record this distinctly from an unexplained gap.",
+   "Improvement may fade if the search is run once and not repeated → make it a standing monthly search, not a one-off audit tool."
+  ],
+  "pearls": [
+   "Recruit the practice's cardiovascular disease lead GP or pharmacist to review flagged patients.",
+   "Agree the exclusion criteria (score, contraindications, specialist care) with the whole team before cycle 1.",
+   "Use the same register extraction method at re-audit for a fair comparison.",
+   "Report the gap-closure rate at the QOF preparation meeting to keep this visible after the audit lead moves on."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the AF register and prescribing record",
+  "area": "General practice and community care",
+  "pass": "The patient is prescribed a DOAC or warfarin, or has a clearly documented reason for not being anticoagulated (for example, a specific contraindication or a fully informed decision to decline after discussion of risks and benefits)."
+ },
+ {
+  "question": "What proportion of adults with one of the NICE risk factors for chronic kidney disease (diabetes, hypertension, cardiovascular disease or previous acute kidney injury) have had both an eGFR and a urine albumin:creatinine ratio (ACR) tested in the last 12 months?",
+  "why": "ACR testing is frequently omitted even when eGFR is checked, meaning early CKD with normal eGFR but raised ACR (which independently predicts adverse outcomes) is missed. No closed-loop audit in corpus specifically targets ACR testing coverage in at-risk groups alongside eGFR.",
+  "standard": {
+   "source": "NICE NG203 Chronic kidney disease: assessment and management, rec 1.1.21 (2021)",
+   "wording": "Offer testing for CKD using eGFRcreatinine and ACR to adults with any of the following risk factors: diabetes; hypertension; previous episode of acute kidney injury; cardiovascular disease (ischaemic heart disease, chronic heart failure, peripheral vascular disease or cerebral vascular disease); structural renal tract disease, recurrent renal calculi or prostatic hypertrophy; multisystem diseases with potential kidney involvement... gout; family history of end-stage renal disease... or hereditary kidney disease; incidental detection of haematuria or proteinuria.",
+   "url": "https://www.nice.org.uk/guidance/ng203/chapter/Recommendations"
+  },
+  "population": "Adults on the practice's diabetes, hypertension or cardiovascular disease registers (or coded with a previous acute kidney injury episode) without a diagnosis of CKD already established at stage G3a or above with a recorded ACR. Exclude patients under active nephrology follow-up with their own testing schedule.",
+  "sample": "40 consecutive patients from the combined at-risk registers, or a 10% random sample if larger.",
+  "data_source": "Diabetes/hypertension/CVD registers, laboratory results (eGFR and ACR), GP clinical system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factor",
+    "type": "choice",
+    "options": [
+     "diabetes",
+     "hypertension",
+     "cardiovascular disease",
+     "previous AKI",
+     "other NICE risk factor"
+    ],
+    "note": ""
+   },
+   {
+    "field": "egfr_tested_in_last_12m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acr_tested_in_last_12m",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_tests_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ckd_gfr_category_if_known",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ckd_acr_category_if_known",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add ACR to the default annual review blood test order set for diabetes, hypertension and cardiovascular disease reviews, so it is requested automatically alongside eGFR rather than as a separate step.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same registers and template.",
+  "close_loop": "Present at the practice's QOF/long-term conditions meeting; if the combined order set improves ACR testing, keep it as the default for all relevant annual reviews.",
+  "evidence": [
+   "No closed-loop audit in corpus of ACR testing coverage alongside eGFR in NICE-defined CKD risk groups."
+  ],
+  "pitfalls": [
+   "ACR requires a urine sample that patients may not bring to the same appointment as blood tests → provide a sample pot and instructions in advance of the review, or a postal kit if available.",
+   "Some laboratories process ACR separately from routine biochemistry, causing results to be missed on a quick chart review → confirm the exact test code used locally before starting.",
+   "Patients already diagnosed with advanced CKD under nephrology may have testing arranged elsewhere → exclude them or verify with the specialist team.",
+   "A raised ACR needs a repeat confirmatory test before diagnosis → make this clear in staff training so a single result is interpreted correctly.",
+   "Improvement may fade if the order set is reverted during an EPR template update → check it remains in place at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's diabetes or CKD lead nurse to champion the combined order set.",
+   "Agree the exact local ACR test code and sample logistics with the laboratory before cycle 1.",
+   "Use the same register definitions at re-audit for a fair comparison.",
+   "Report ACR testing rates at QOF preparation meetings to keep this visible after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the registers and laboratory results",
+  "area": "General practice and community care",
+  "pass": "Both an eGFR and a urine ACR result are recorded in the last 12 months for a patient with one or more of the listed NICE risk factors."
+ },
+ {
+  "question": "What proportion of adults and children aged 5 and over on the practice asthma register have a documented, reviewed personalised asthma action plan?",
+  "why": "A written personalised action plan halves the risk of hospital admission for asthma, but plan issue and subsequent review at key points (admission, acute consultation, annual review) are inconsistently tracked as a single closed-loop measure. No closed-loop audit in corpus specifically targets the presence and review of a personalised asthma action plan under the current joint BTS/NICE/SIGN guideline.",
+  "standard": {
+   "source": "NICE NG245 Asthma: diagnosis, monitoring and management (BTS/NICE/SIGN), rec 1.14.1 and 1.14.2 (2024)",
+   "wording": "For adults, young people and children aged 5 and over with a diagnosis of asthma... offer an asthma self-management programme, comprising a documented personalised action plan and education... Review the content of the personalised action plan, and check that the person understands it, at the following: hospital admission, including in virtual wards; acute consultations in primary care or emergency department; annual reviews.",
+   "url": "https://www.nice.org.uk/guidance/ng245/chapter/Recommendations"
+  },
+  "population": "Patients aged 5 and over on the practice asthma register with an annual review, acute asthma consultation, or hospital admission in the last 12 months. Exclude patients with asthma in remission and no contact in the last 12 months.",
+  "sample": "40 consecutive patients from the asthma register with a qualifying contact in the last 12 months, or a 10% random sample if larger.",
+  "data_source": "Asthma register, GP clinical template for asthma review, hospital discharge letters.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "type_of_qualifying_contact",
+    "type": "choice",
+    "options": [
+     "annual review",
+     "acute primary care consultation",
+     "hospital admission"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_contact",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_plan_exists",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "action_plan_reviewed_at_this_contact",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "understanding_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'action plan issued/reviewed' field to the asthma annual review and acute asthma consultation templates, which cannot be closed until completed, with a printable or app-based plan generated automatically.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's respiratory/QOF meeting; if the mandatory field works, keep it in all three trigger-point templates (annual review, acute consultation, admission follow-up) permanently.",
+  "evidence": [
+   "No closed-loop audit in corpus of personalised asthma action plan issue and review under NG245."
+  ],
+  "pitfalls": [
+   "A plan may be issued once and never reviewed again, appearing compliant on a simple 'exists' check → audit review at the most recent qualifying contact, not just existence.",
+   "Post-hospital-admission plans may be created by the hospital but not visible in the GP record → request a copy be sent with every discharge letter.",
+   "Children under 5 are excluded from the mandatory plan (self-management programmes for carers instead) → apply the correct age threshold in the template.",
+   "Time pressure in 10-minute appointments can squeeze out plan review → protect specific time in asthma review templates for this step.",
+   "Improvement may fade if the mandatory field becomes a routine tick without real review → spot-check free text for genuine discussion at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's respiratory/asthma lead nurse to champion the mandatory template field.",
+   "Agree a standard action plan format (paper or app-based) with the team before cycle 1.",
+   "Use the same register and qualifying-contact definitions at re-audit for a fair comparison.",
+   "Report plan review rates at the respiratory/QOF meeting to keep this visible after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the asthma register and consultation templates",
+  "area": "General practice and community care",
+  "pass": "A documented personalised asthma action plan exists in the record and has been reviewed (content checked and understanding confirmed) at the most recent annual review, acute consultation, or hospital admission, whichever was most recent."
+ },
+ {
+  "question": "What proportion of adults admitted with a COPD exacerbation in the last year who remain at risk of exacerbations have a documented individualised exacerbation action plan, with a short course of oral corticosteroids and antibiotics to keep at home?",
+  "why": "Rescue packs are widely prescribed but a formal, individualised exacerbation action plan explaining when and how to use them, and how to get replacements, is a distinct and less consistently documented step. No closed-loop audit in corpus specifically targets the combination of exacerbation action plan plus rescue pack issue under NG115.",
+  "standard": {
+   "source": "NICE NG115 Chronic obstructive pulmonary disease in over 16s, rec 1.2.128 (2018)",
+   "wording": "Offer people a short course of oral corticosteroids and a short course of oral antibiotics to keep at home as part of their exacerbation action plan if: they have had an exacerbation within the last year, and remain at risk of exacerbations; they understand and are confident about when and how to take these medicines, and the associated benefits and harms; they know to tell their healthcare professional when they have used the medicines, and to ask for replacements.",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "population": "Adults on the COPD register who had an exacerbation (primary care treated or hospital admission) in the last 12 months and remain at risk of further exacerbations (previous frequent exacerbator or ongoing risk factors). Exclude patients with a documented reason a rescue pack is unsuitable (for example, cognitive impairment without a carer able to manage it safely).",
+  "sample": "40 consecutive patients on the COPD register with an exacerbation in the last 12 months, or a 10% random sample if larger.",
+  "data_source": "COPD register, GP consultation and review templates, repeat prescription record for rescue pack medicines.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_exacerbation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exacerbation_action_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rescue_pack_supplied",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_understanding_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "courses_used_in_last_12m",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_if_3_or_more_courses",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'exacerbation action plan and rescue pack' section to the COPD annual review and post-exacerbation follow-up templates, generating a printed plan and linked repeat prescription automatically.",
+  "target": "≥80%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's respiratory/QOF meeting; if the mandatory section improves documented plan issue, keep it in the standard COPD review and post-exacerbation pathway.",
+  "evidence": [
+   "No closed-loop audit in corpus of the combined exacerbation action plan and rescue pack standard under NG115."
+  ],
+  "pitfalls": [
+   "Rescue packs may be repeatedly issued without ever reviewing whether the patient understands how to use them safely → audit understanding confirmation, not just supply.",
+   "Patients using 3 or more courses in a year need specific review of possible reasons, per NG115 1.2.130 → flag these patients for a dedicated consultation rather than automatic re-issue.",
+   "Self-management may not suit patients with cognitive impairment living alone → document a clear individual risk assessment rather than a blanket policy.",
+   "Rescue pack medicines can be stockpiled or used inappropriately if not reviewed → check medicine cupboard content at annual review where practical.",
+   "Improvement may fade if the mandatory template section is skipped under time pressure → protect appointment time for COPD reviews."
+  ],
+  "pearls": [
+   "Recruit the practice's respiratory lead nurse to champion the mandatory template section.",
+   "Agree the exact rescue pack medicines and quantities with the GP lead before cycle 1.",
+   "Use the same register and exacerbation definitions at re-audit for a fair comparison.",
+   "Report over-use flags (3+ courses) at the respiratory/QOF meeting to sustain the review pathway after staff rotate."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the COPD register and review templates",
+  "area": "General practice and community care",
+  "pass": "A documented, individualised exacerbation action plan is in the record, a rescue pack (oral corticosteroid and antibiotic) has been supplied to keep at home, and the record shows the patient was told to inform the practice when used and to request replacements."
+ },
+ {
+  "question": "What proportion of patients on shared-care methotrexate monitoring in general practice have had FBC, liver function tests and renal function checked within the interval specified in the shared care protocol?",
+  "why": "Methotrexate monitoring is delegated to general practice under shared care agreements, but responsibility for chasing results and acting on abnormal or overdue tests can fall between the specialist and GP practice. No closed-loop audit in corpus specifically targets adherence to the agreed monitoring interval for shared-care DMARDs in general practice.",
+  "standard": {
+   "source": "NHS Specialist Pharmacy Service, Methotrexate monitoring (based on British Society for Rheumatology shared care guidance)",
+   "wording": "Every 2-3 months: Full blood count; Liver function tests; Serum creatinine (for creatinine clearance) or Estimated glomerular filtration rate. [Rheumatology and gastroenterology, once stable]: At least every 12 weeks: Full blood count; Liver function tests; Serum creatinine.",
+   "url": "https://sps.nhs.uk/monitorings/methotrexate-monitoring/"
+  },
+  "population": "Patients on the practice's DMARD/methotrexate shared care register, on a stable dose for at least 3 months. Exclude patients recently started or with a dose change in the last 6 weeks, who need more frequent monitoring under a different part of the protocol.",
+  "sample": "40 consecutive patients on the shared care methotrexate register, or all if fewer.",
+  "data_source": "Practice DMARD/shared care register, laboratory results, shared care agreement documentation.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_last_dose_change",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "shared_care_monitoring_interval_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_fbc_lft_renal",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_agreed_interval",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abnormal_result_actioned",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Run a monthly practice search identifying shared-care methotrexate patients overdue their monitoring interval, generating an automatic recall to the patient and a task to the practice pharmacist.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's medicines optimisation/QOF meeting; if the monthly search closes the gap, add it to the standing list of shared-care searches run alongside other DMARD safety checks.",
+  "evidence": [
+   "No closed-loop audit in corpus of shared-care methotrexate monitoring interval adherence in general practice."
+  ],
+  "pitfalls": [
+   "Monitoring intervals vary between individual shared care protocols and specialties → record the specific agreed interval for each patient rather than assuming one national standard.",
+   "Results may be filed without being reviewed against the expected interval → build an interval check into the search, not just a search for any recent bloods.",
+   "Patients who do not attend for monitoring bloods may have their methotrexate wrongly continued → build in a rule to flag and consider withholding the prescription if overdue.",
+   "Shared care responsibilities may be unclear between specialist and GP, especially soon after a hospital discharge → confirm and document the shared care agreement for every patient.",
+   "Improvement may fade if the pharmacist task list is not resourced → confirm protected time before cycle 1."
+  ],
+  "pearls": [
+   "Recruit the practice's clinical pharmacist to lead the monthly monitoring search, since they already manage repeat prescribing safety.",
+   "Agree the individual monitoring interval for each patient with the specialist shared care letter before cycle 1.",
+   "Use the same register and interval definitions at re-audit for a fair comparison.",
+   "Report overdue-monitoring rates at the medicines optimisation meeting to sustain the pathway after staff rotate."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the DMARD register and laboratory results",
+  "area": "General practice and community care",
+  "pass": "FBC, LFTs and renal function (creatinine or eGFR) are all recorded within the interval specified in the patient's individual shared care protocol (no more than 12 weeks for stable patients on rheumatology/gastroenterology shared care, or as otherwise specified)."
+ },
+ {
+  "question": "What proportion of people prescribed systemic HRT for menopausal symptoms have a documented review at 3 months of starting or changing treatment?",
+  "why": "The 3-month review is when efficacy, tolerability and expected side effects such as unscheduled bleeding are checked, but it is easy for repeat prescribing to continue without a structured review taking place. No closed-loop audit in corpus specifically targets completion of the NG23 3-month HRT review.",
+  "standard": {
+   "source": "NICE NG23 Menopause: diagnosis and management, rec 1.9.2 (2015)",
+   "wording": "Review each treatment for symptoms associated with menopause: at 3 months to assess efficacy and tolerability; annually thereafter, unless there are clinical indications for an earlier review (such as treatment ineffectiveness, side effects or adverse events).",
+   "url": "https://www.nice.org.uk/guidance/ng23/chapter/Recommendations"
+  },
+  "population": "Patients who started HRT for the first time, or had a dose or preparation change, in the last 6 months, allowing time to have reached the 3-month review window. Exclude patients who stopped HRT before 3 months for an unrelated reason.",
+  "sample": "40 consecutive patients starting or changing HRT over the last 6 months, or all if fewer.",
+  "data_source": "Repeat prescription record (start/change dates), GP consultation templates, menopause review template.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_hrt_started_or_changed",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_from_start_to_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_3_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bleeding_pattern_discussed_if_has_uterus",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic 3-month HRT review task to the practice system, generated whenever a new HRT prescription or dose/preparation change is issued, with a structured review template pre-populated with the bleeding-pattern question.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same prescribing record and template.",
+  "close_loop": "Present at the practice's women's health/QOF meeting; if the automatic task works, keep it live for every new HRT start or change.",
+  "evidence": [
+   "No closed-loop audit in corpus of HRT 3-month review completion under NG23."
+  ],
+  "pitfalls": [
+   "Repeat HRT prescriptions can be issued by reception or pharmacy without a clinician review being triggered → build the review task into the prescribing system itself, not rely on staff memory.",
+   "Reviews may happen but not be coded as such, undercounting true compliance → agree a specific template or code for the 3-month review before cycle 1.",
+   "Telephone or online reviews may be harder to capture consistently than face-to-face → include all consultation modes in the audit definition.",
+   "Patients may not attend the review appointment → record non-attendance and re-invitation separately from a failure to offer.",
+   "Improvement may fade if the automatic task is switched off during a system update → confirm it remains active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's menopause or women's health lead GP or nurse to champion the automatic task.",
+   "Agree the review template content (efficacy, tolerability, bleeding pattern) with the team before cycle 1.",
+   "Use the same prescribing record extraction method at re-audit for a fair comparison.",
+   "Report review completion rates at the women's health/QOF meeting to sustain the pathway after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prescribing record and consultation templates",
+  "area": "General practice and community care",
+  "pass": "A documented review (efficacy, tolerability, and, for patients with a uterus, discussion of expected bleeding patterns) is recorded within 3 months (10-16 weeks) of starting HRT or changing the dose or preparation."
+ },
+ {
+  "question": "What proportion of adult patients with a new safeguarding concern raised in a GP consultation have that concern coded in their electronic record using the practice's agreed safeguarding code?",
+  "why": "Safeguarding concerns raised in consultations are sometimes documented only in free text, which is not searchable for multi-agency information sharing, case conferences or future risk assessment. No audit in corpus specifically targets the coding (as opposed to the existence) of adult or child safeguarding concerns in the GP record.",
+  "standard": {
+   "source": "Local standard, informed by RCGP safeguarding recording principles and NHS England information-sharing requirements for safeguarding",
+   "wording": "A safeguarding concern raised in a consultation should be recorded using a specific, searchable safeguarding code in the patient's electronic record, in addition to any free-text description, so that the concern can be identified for information sharing, multi-agency working and future risk assessment.",
+   "url": "https://www.rcgp.org.uk/mrcgpexams/safeguarding"
+  },
+  "population": "All adult and child consultations over the audit period where a safeguarding concern is mentioned in the free-text notes. Exclude routine safeguarding training or administrative entries with no individual patient concern.",
+  "sample": "40 consecutive consultations with a free-text safeguarding concern identified by a text search over the last 3 months, or all if fewer.",
+  "data_source": "GP consultation free-text search, coded record entries, safeguarding register.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_consultation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "type_of_concern",
+    "type": "choice",
+    "options": [
+     "adult safeguarding",
+     "child safeguarding"
+    ],
+    "note": ""
+   },
+   {
+    "field": "free_text_concern_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specific_safeguarding_code_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "coded_same_working_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_register_updated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a pop-up prompt in the EPR whenever certain safeguarding-related free-text phrases are entered, asking the clinician to confirm and apply the specific safeguarding code before the consultation can be saved.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same free-text search and template.",
+  "close_loop": "Present at the practice's safeguarding lead meeting; if the pop-up prompt improves coding, keep it live and review the trigger phrase list periodically with the safeguarding lead.",
+  "evidence": [
+   "No audit in corpus of safeguarding concern coding completeness in general practice records."
+  ],
+  "pitfalls": [
+   "A free-text search will miss concerns described in varied language → use a broad set of trigger phrases and accept the search will not be exhaustive.",
+   "Coding a safeguarding concern raises confidentiality and information-governance questions → confirm the practice's information-sharing policy with the safeguarding lead before cycle 1.",
+   "Clinicians may worry that coding could affect the patient relationship if seen by the patient online → clarify with the safeguarding lead what is and is not visible to patients via online access.",
+   "Over-triggering the pop-up prompt on unrelated entries could cause alert fatigue → refine the trigger phrase list after an initial pilot.",
+   "Improvement may fade if the pop-up is disabled during an EPR update → confirm it is still active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's named safeguarding lead GP or nurse to define the trigger phrases and code.",
+   "Agree the information-governance approach with the safeguarding lead and practice manager before cycle 1.",
+   "Use the same free-text search terms at re-audit for a fair comparison.",
+   "Report coding completeness at the practice's safeguarding supervision meetings to keep this prioritised after the lead changes."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 consultations from the free-text search and coded record",
+  "area": "General practice and community care",
+  "pass": "A new safeguarding concern documented in the consultation free text is also recorded using the practice's specific safeguarding code (for example, 'safeguarding adult concern' or 'safeguarding child concern') within the same working day."
+ },
+ {
+  "question": "What proportion of adults aged 6 months to 64 years in a clinical risk group for influenza are on the practice's flu register and are invited for vaccination each season?",
+  "why": "Uptake of flu vaccine in at-risk adults under 65 is persistently lower than in the over-65 routine cohort, and depends on the practice proactively compiling and using a risk-group register rather than waiting for patients to request vaccination. No closed-loop audit in corpus targets flu register completeness for under-65 at-risk adults specifically.",
+  "standard": {
+   "source": "UKHSA Green Book, Influenza chapter (25 August 2026)",
+   "wording": "General practitioners are required to proactively identify all those for whom influenza immunisations are indicated and to compile a register of those patients for whom influenza immunisation is recommended. Sufficient vaccine can then be ordered in advance and patients can be invited to planned immunisation sessions or appointments.",
+   "url": "https://www.gov.uk/government/publications/influenza-the-green-book-chapter"
+  },
+  "population": "Patients aged 6 months to 64 years with a coded qualifying clinical risk group, active on the practice list at the start of the flu season. Exclude patients already vaccinated elsewhere (for example, by a community pharmacy) with evidence in the record.",
+  "sample": "40 consecutive patients from the combined risk-group registers, or a 10% random sample if larger.",
+  "data_source": "Practice clinical risk registers (respiratory, cardiac, diabetes, renal, liver, immunosuppression), flu vaccination call/recall log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_group",
+    "type": "choice",
+    "options": [
+     "chronic respiratory",
+     "chronic heart disease",
+     "chronic kidney disease",
+     "chronic liver disease",
+     "diabetes",
+     "immunosuppression",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "on_flu_register",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "invited_this_season",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vaccinated_this_season",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a single combined flu risk-group search that pulls from all individual chronic disease registers automatically each August, generating the season's invitation list without relying on manual compilation.",
+  "target": "≥95% on register; ≥70% vaccinated",
+  "reaudit": "At the start of the next flu season, same combined search and template.",
+  "close_loop": "Present at the practice's flu campaign planning meeting; if the combined search improves register completeness, keep it as the default pre-season process.",
+  "evidence": [
+   "No closed-loop audit in corpus of flu register completeness for under-65 at-risk adults."
+  ],
+  "pitfalls": [
+   "Risk-group coding is inconsistent between clinicians, so some eligible patients may not appear on any register → review and standardise the code list with the coding lead before the season starts.",
+   "Patients newly diagnosed with a risk factor after the initial register is built may be missed → re-run the search monthly through the season, not just once in August.",
+   "Vaccination given outside the practice (community pharmacy, hospital) may not be recorded in the GP system → check the national vaccination record where available.",
+   "Vaccine supply constraints can affect invitation timing → report supply issues separately from register or invitation failures.",
+   "Improvement may fade if the combined search is not re-run every season → build it into the annual flu campaign checklist."
+  ],
+  "pearls": [
+   "Recruit the practice's flu campaign lead nurse to own the combined register search.",
+   "Agree the risk-group code list with the whole clinical team before the season starts.",
+   "Use the same combined search method at re-audit for a fair comparison.",
+   "Review register completeness at the practice's pre-season flu planning meeting each year so it is not forgotten after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the combined risk registers and flu call/recall log",
+  "area": "General practice and community care",
+  "pass": "A patient with a coded clinical risk group qualifying for flu vaccination (chronic respiratory, heart, kidney or liver disease, diabetes, immunosuppression, or other Green Book risk group) aged 6 months to 64 years is included on the practice's flu register and has a documented invitation for the current season."
+ },
+ {
+  "question": "What proportion of adults aged 65 and over on the practice list have a record of having received a pneumococcal vaccine (PPV23 or PCV20)?",
+  "why": "Pneumococcal vaccination at 65 is a single, once-only dose that is easy to miss for patients who turned 65 before electronic call/recall systems were fully established, or who registered later in life, and coverage in this whole-population cohort is rarely audited as its own measure. No closed-loop audit in corpus targets pneumococcal vaccination coverage in the whole 65-and-over population.",
+  "standard": {
+   "source": "UKHSA Green Book, Pneumococcal chapter (29 July 2026)",
+   "wording": "Adults aged 65 years and over, and clinical risk groups aged 2 years or over: a single dose of 0.5ml of PPV23 or PCV20.",
+   "url": "https://www.gov.uk/government/publications/pneumococcal-the-green-book-chapter-25"
+  },
+  "population": "All patients aged 65 and over registered with the practice for at least 12 months. Exclude patients who have already received PPV23/PCV20 in a clinical risk group before age 65.",
+  "sample": "40 consecutive patients aged 65 and over identified by a practice search, or a 10% random sample if the cohort is larger.",
+  "data_source": "Practice age-based population search, immunisation record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pneumococcal_vaccine_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_vaccine_if_given",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_before_or_after_65",
+    "type": "choice",
+    "options": [
+     "before 65 (risk group)",
+     "at or after 65",
+     "not given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "invited_if_not_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Run a one-off practice-wide search of all patients aged 65 and over with no recorded pneumococcal vaccine, and add a standing rule that the vaccine is offered automatically at the 65th birthday alongside the shingles vaccination invitation.",
+  "target": "≥90%",
+  "reaudit": "At 6 months, same age-based search and template.",
+  "close_loop": "Present at the practice's immunisation/QOF meeting; if the standing 65th-birthday rule improves coverage, keep it running permanently alongside the shingles invitation.",
+  "evidence": [
+   "No closed-loop audit in corpus of whole-population pneumococcal vaccination coverage in adults aged 65 and over."
+  ],
+  "pitfalls": [
+   "Historic paper records may not have been fully migrated to the electronic system → check paper records for older patients before concluding a vaccine was never given.",
+   "Patients vaccinated by a previous practice may not have the record transferred → request records from PCSE/previous practice where the immunisation history is unclear.",
+   "Combining the invitation with the shingles vaccination call reduces extra appointments but requires coordination → agree the combined invitation letter wording before cycle 1.",
+   "Small numbers of long-standing gaps may reflect genuine past declines → record a documented decline separately from a true gap in offering.",
+   "Improvement may fade if the 65th-birthday rule is not maintained after an EPR template change → confirm it is still active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's immunisation lead nurse to run the age-based search and design the combined invitation.",
+   "Agree the combined pneumococcal/shingles invitation letter with the practice manager before cycle 1.",
+   "Use the same age-based search definitions at re-audit for a fair comparison.",
+   "Report coverage rates at the immunisation/QOF meeting to keep the standing rule visible after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the age-based search and immunisation record",
+  "area": "General practice and community care",
+  "pass": "The patient's record shows a documented single dose of PPV23 or PCV20 given at or after age 65 (or in a qualifying risk group before 65, which satisfies the requirement without needing a repeat dose at 65)."
+ },
+ {
+  "question": "What proportion of people transferring between prisons have relevant health record information (including current medicines) available to the receiving establishment's healthcare team before or at the point of transfer?",
+  "why": "Loss of continuity of care and medicines information at inter-prison transfer is a recognised risk, particularly for people on complex regimens, opioid substitution therapy or mental health treatment. No audit in corpus of health information continuity specifically at inter-prison transfer has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.7.3 (2016)",
+   "wording": "Ensure continuity of care between custodial settings, including court, the receiving prison or during escort periods by, for example: providing access to relevant information from the patient record; providing any medicines (including controlled drugs) - see also the section on continuity of medicines; issuing an FP10 prescription.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All people transferred between prisons (not first reception from the community or court) over the audit period. Exclude emergency hospital transfers, which are covered under a different pathway.",
+  "sample": "40 consecutive inter-prison transfers over the last 4 weeks, or all if fewer.",
+  "data_source": "Prison electronic health record, prisoner escort record, medicine chart.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_transfer",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sending_establishment",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "health_record_information_available_at_arrival",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medicines_or_fp10_provided_for_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "any_missed_doses_during_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a standard transfer healthcare summary (including current medicines list) that must accompany every prisoner escort record electronically, checked as complete by the sending establishment's healthcare team before transfer.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same transfer log and template.",
+  "close_loop": "Present to the regional health and justice governance meeting, since this crosses establishments; if the standard summary works, embed it in the regional health and justice service specification.",
+  "evidence": [
+   "No audit in corpus of health information continuity at inter-prison transfer."
+  ],
+  "pitfalls": [
+   "Sending and receiving prisons may use different or non-linked IT systems → agree a minimum standard paper or electronic summary that works across systems.",
+   "Transfers can happen at short notice, leaving little time to prepare a full summary → build a rapid-summary template that can be completed quickly for urgent transfers.",
+   "Controlled drugs require additional security and documentation during transfer → confirm the local controlled drugs transfer protocol before cycle 1.",
+   "Escort staff may not prioritise healthcare paperwork among other transfer documents → make the health record a mandatory, checked item in the transfer process.",
+   "Improvement may fade without ongoing cross-establishment coordination → review the pathway with both establishments at re-audit, not just the sending one."
+  ],
+  "pearls": [
+   "Recruit healthcare leads from both the sending and receiving establishments, since this audit spans two teams.",
+   "Agree a standard minimum data set for the transfer summary before cycle 1.",
+   "Use the same transfer log extraction method at re-audit for a fair comparison.",
+   "Report results at a regional (not just single-establishment) health and justice meeting so the pathway is adopted across multiple sites."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 transfers from the prison health record and escort record",
+  "area": "General practice and community care",
+  "pass": "At the point of arrival at the receiving prison, the healthcare team has access to relevant patient record information (including current medicines) from the sending establishment, and the person has been provided with sufficient medicines or an FP10 prescription to cover the transfer period without a missed dose."
+ },
+ {
+  "question": "What proportion of people entering prison who report drinking more than 15 units of alcohol daily, or who show signs of withdrawal, are urgently referred to the GP or an alternative healthcare professional at first-stage assessment?",
+  "why": "Unrecognised or delayed management of alcohol withdrawal on reception into prison carries a risk of seizures and death, and depends on the first-stage screening question triggering an urgent, not routine, referral. No audit in corpus of urgent alcohol withdrawal referral timeliness at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.4 (table 1, item 13) (2016)",
+   "wording": "[Alcohol and substance misuse] Does the person drink alcohol, and if so: how much do they normally drink? how much did they drink in the week before coming into custody? Urgently refer the person to the GP or an alternative suitable healthcare professional if: they drink more than 15 units of alcohol daily or they are showing signs of withdrawal or they have been given medication for withdrawal in police or court cells.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions meeting one of the three urgent-referral criteria over the audit period. Exclude people already on an established prison alcohol withdrawal pathway from a very recent previous custodial episode with continuity of care already arranged.",
+  "sample": "40 consecutive receptions meeting the urgent-referral criteria over the last 6 weeks, or all if fewer.",
+  "data_source": "First-stage assessment record, alcohol withdrawal (for example CIWA-Ar) monitoring chart, referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "criterion_met",
+    "type": "choice",
+    "options": [
+     ">15 units/day reported",
+     "signs of withdrawal",
+     "withdrawal medication already given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "urgent_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_from_assessment_to_referral",
+    "type": "number",
+    "options": [],
+    "note": "minutes"
+   },
+   {
+    "field": "withdrawal_monitoring_chart_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build an automatic same-shift alert to the on-call GP or clinical lead whenever the first-stage assessment template records one of the three urgent-referral criteria, with a linked withdrawal monitoring chart started at the same time.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same reception records and template.",
+  "close_loop": "Present to the prison substance misuse and safer custody governance meeting; if the automatic alert works, embed it as the standard reception alcohol pathway.",
+  "evidence": [
+   "No audit in corpus of urgent alcohol withdrawal referral timeliness at prison reception."
+  ],
+  "pitfalls": [
+   "Self-reported alcohol consumption may be under- or over-stated → use clinical judgement and any available third-party information (for example, police custody records) alongside self-report.",
+   "Withdrawal signs can develop hours after reception, after the first-stage assessment is complete → ensure ongoing monitoring is triggered, not just a one-off referral at reception.",
+   "Night or weekend receptions may have reduced on-call GP availability → confirm the out-of-hours escalation pathway before cycle 1.",
+   "Alcohol withdrawal management protocols vary between establishments → confirm the local monitoring chart and medication protocol with the clinical lead.",
+   "Improvement may fade if the automatic alert is disabled during an IT update → confirm it remains active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the prison's substance misuse lead clinician and reception nurse team jointly.",
+   "Agree the out-of-hours escalation pathway with the on-call GP rota before cycle 1.",
+   "Use the same urgent-referral criteria at re-audit for a fair comparison.",
+   "Report results at the substance misuse and safer custody governance meeting to sustain the pathway after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the reception record and withdrawal monitoring chart",
+  "area": "General practice and community care",
+  "pass": "For a person reporting more than 15 units of alcohol daily, showing signs of withdrawal, or already given withdrawal medication in police or court cells, the record shows an urgent referral to the GP or an alternative suitable healthcare professional was made at, or immediately after, first-stage assessment (same shift)."
+ },
+ {
+  "question": "What proportion of people in prison who score above threshold on the Correctional Mental Health Screen (CMHS-M or CMHS-W) at reception are referred for further mental health assessment?",
+  "why": "The CMHS is a validated brief screen used to decide who needs further mental health assessment at reception, but a positive screen only reduces risk if it reliably leads to referral and assessment by a trained professional. No audit in corpus of referral completion after a positive CMHS score at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.17 (2016)",
+   "wording": "If there is other evidence supporting the likelihood of mental health problems, or a man scores 6 or more on the CMHS-M, or a woman scores 4 or more on the CMHS-W: a practitioner who is trained to perform an assessment of mental health problems should conduct further assessment or a practitioner who is not trained to perform an assessment of mental health problems should refer the person to an appropriately trained professional for further assessment.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All people screened with the CMHS-M or CMHS-W at reception over the audit period who scored above the referral threshold. Exclude people already under active mental health in-reach team follow-up at the time of screening.",
+  "sample": "40 consecutive above-threshold CMHS screens over the last 6 weeks, or all if fewer.",
+  "data_source": "Prison electronic health record, CMHS screening tool record, mental health in-reach referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_screen",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "tool_used",
+    "type": "choice",
+    "options": [
+     "CMHS-M",
+     "CMHS-W"
+    ],
+    "note": ""
+   },
+   {
+    "field": "score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "further_assessment_or_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_assessment_or_referral",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_5_working_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic referral task to the mental health in-reach team's worklist whenever a CMHS score meets or exceeds the referral threshold, removing reliance on the reception clinician remembering to refer manually.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same screening record and template.",
+  "close_loop": "Present to the prison mental health in-reach governance meeting; if the automatic referral task works, embed it as the standard reception mental health pathway.",
+  "evidence": [
+   "No audit in corpus of referral completion after a positive CMHS score at prison reception."
+  ],
+  "pitfalls": [
+   "Reception staff may not always be trained to score the CMHS correctly → confirm scoring training is up to date before cycle 1.",
+   "Mental health in-reach team capacity may limit how quickly referrals can be seen → report waiting times as a secondary measure alongside referral completion.",
+   "Transgender patients require the CMHS version matching their gender identity, which staff may apply inconsistently → confirm staff know NG57's guidance on this before starting.",
+   "People who are unwilling or unable to engage with screening may be recorded as 'not screened' rather than a true negative → track these separately from below-threshold results.",
+   "Improvement may fade if the automatic referral task is not monitored → review the worklist regularly, not just at audit points."
+  ],
+  "pearls": [
+   "Recruit the mental health in-reach team lead and reception nurse team jointly.",
+   "Agree the referral pathway and expected assessment timescale with the in-reach team before cycle 1.",
+   "Use the same CMHS threshold definitions at re-audit for a fair comparison.",
+   "Report referral and assessment completion rates at the mental health in-reach governance meeting to sustain the pathway after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record and referral log",
+  "area": "General practice and community care",
+  "pass": "A person scoring 6 or more (men, CMHS-M) or 4 or more (women, CMHS-W) has a documented further mental health assessment, either conducted directly by a trained practitioner or via a referral to one, within 5 working days of the screen."
+ },
+ {
+  "question": "What proportion of people entering prison are offered hepatitis B vaccination at reception?",
+  "why": "Hepatitis B vaccination on entry to prison protects a population at higher risk of exposure through injecting drug use and closed-setting transmission, and is a distinct action from hepatitis B/C testing, which can be completed without the vaccine also being offered. No audit in corpus of hepatitis B vaccination offer rates at prison reception (as opposed to testing) has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.23 (2016)",
+   "wording": "Prison healthcare services (working with the NHS lead for hepatitis) should ensure that: all people are offered a hepatitis B vaccination when entering prison (for the vaccination schedule, refer to the UK Health Security Agency's Green Book).",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions over the audit period without documented evidence of a completed hepatitis B vaccination course. Exclude people with a documented full course within the last 5 years.",
+  "sample": "40 consecutive new receptions over the last 4 weeks.",
+  "data_source": "Prison electronic health record, immunisation record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hepb_vaccination_status_before",
+    "type": "choice",
+    "options": [
+     "never",
+     "incomplete course",
+     "fully vaccinated",
+     "unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hepb_vaccine_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_dose_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "accepted",
+     "declined",
+     "already fully vaccinated"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add hepatitis B vaccination as a mandatory field on the first-stage reception template, linked to an accelerated (0, 7, 21 day plus booster) schedule order set for people likely to be in custody only briefly.",
+  "target": "≥90%",
+  "reaudit": "At 3 months, same reception log and template.",
+  "close_loop": "Present to the prison health and justice governance board; if the mandatory field and accelerated schedule work, embed them in the establishment's standard reception pathway.",
+  "evidence": [
+   "No audit in corpus of hepatitis B vaccination offer rates at prison reception."
+  ],
+  "pitfalls": [
+   "Short remand stays may end before the full vaccination course is complete → use the accelerated schedule and hand over remaining doses to the community or receiving establishment on release/transfer.",
+   "Vaccination history from the community is often unverifiable → offer vaccination unless there is clear documented evidence of a completed course.",
+   "Vaccine stock and cold-chain management at reception need to be reliable → confirm supply arrangements with pharmacy before cycle 1.",
+   "Staff may conflate the vaccination offer with the separate testing offer → keep the two as distinct fields in the template to avoid double-counting.",
+   "Improvement may fade if the mandatory field is later removed in an IT update → confirm it remains mandatory at re-audit."
+  ],
+  "pearls": [
+   "Recruit the prison's blood-borne virus/immunisation lead nurse as the audit lead, combining with the hepatitis B/C testing audit for efficiency.",
+   "Agree the accelerated vaccination schedule and handover process for short stays with the pharmacy and community hepatitis service before cycle 1.",
+   "Use the same reception log extraction method at re-audit.",
+   "Report vaccination offer rates at the health and justice partnership board to keep this prioritised after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prison health record",
+  "area": "General practice and community care",
+  "pass": "The reception health record documents that hepatitis B vaccination was offered, with the outcome recorded (accepted and first dose given, declined, or already fully vaccinated)."
+ },
+ {
+  "question": "What proportion of people entering prison who report injecting drug use in the last month have their injection sites checked and are referred to substance misuse services if there are concerns about their immediate clinical management?",
+  "why": "Injecting drug use carries specific risks (site infection, overdose, blood-borne virus transmission) that require a physical check and a clear referral pathway distinct from simply recording drug use history. No audit in corpus of injection site checking and referral completion at prison reception has been published in the library.",
+  "standard": {
+   "source": "NICE NG57 Physical health of people in prison, rec 1.1.4 (table 1, item 14) (2016)",
+   "wording": "If the person has used intravenous drugs, check them for injection sites. Refer them to substance misuse services if there are concerns about their immediate clinical management and they need immediate support.",
+   "url": "https://www.nice.org.uk/guidance/ng57/chapter/Recommendations"
+  },
+  "population": "All new receptions reporting intravenous drug use in the last month over the audit period. Exclude people already actively engaged with the prison substance misuse service from a very recent previous custodial episode.",
+  "sample": "40 consecutive receptions reporting intravenous drug use over the last 6 weeks, or all if fewer.",
+  "data_source": "First-stage assessment record, substance misuse service referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_time_of_reception",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injection_sites_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_concern_identified",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made_if_concern",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_referral",
+    "type": "number",
+    "options": [],
+    "note": "minutes"
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'injection sites checked' field to the first-stage assessment template for anyone reporting intravenous drug use, with a direct one-click referral to substance misuse services built in.",
+  "target": "≥95%",
+  "reaudit": "At 3 months, same reception records and template.",
+  "close_loop": "Present to the prison substance misuse governance meeting; if the mandatory field and one-click referral work, embed them as the standard reception pathway for reported intravenous drug use.",
+  "evidence": [
+   "No audit in corpus of injection site checking and referral completion at prison reception for people reporting intravenous drug use."
+  ],
+  "pitfalls": [
+   "Disclosure of intravenous drug use may be incomplete due to stigma or fear of consequences → train staff in a non-judgemental, harm-reduction approach to improve disclosure.",
+   "Physical examination for injection sites requires appropriate privacy and consent → confirm the examination process respects dignity and consent before cycle 1.",
+   "Injection site infections may need urgent same-day medical review, not just a substance misuse referral → ensure the pathway includes an option for urgent medical assessment.",
+   "Substance misuse service capacity may limit rapid referral response → report referral-to-seen time as a secondary measure.",
+   "Improvement may fade if the mandatory field is bypassed under reception time pressure → monitor compliance at re-audit, not just presence of the field."
+  ],
+  "pearls": [
+   "Recruit the prison substance misuse lead nurse and reception team jointly.",
+   "Agree the examination and consent process with the clinical lead before cycle 1.",
+   "Use the same reporting definition (intravenous drug use in the last month) at re-audit for a fair comparison.",
+   "Report results at the substance misuse governance meeting to sustain the pathway after staff turnover."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the reception record and referral log",
+  "area": "General practice and community care",
+  "pass": "For a person reporting intravenous drug use in the last month, the record shows injection sites were physically checked, and, where there were concerns about immediate clinical management, a referral to substance misuse services was made at, or immediately after, first-stage assessment."
+ },
+ {
+  "question": "What proportion of adults with hypertension aged 80 and over on antihypertensive treatment have a clinic blood pressure below 150/90 mmHg at their most recent reading?",
+  "why": "Older patients have a different, less strict blood pressure target that accounts for the balance of benefit and harm from tighter control, but this age-specific target is not always distinguished from the under-80 target in routine practice audits. No closed-loop audit in corpus specifically targets the NG136 clinic BP target for adults aged 80 and over.",
+  "standard": {
+   "source": "NICE NG136 Hypertension in adults: diagnosis and management, rec 1.4.21 (2019, amended 2022)",
+   "wording": "For adults with hypertension aged 80 and over, reduce clinic blood pressure to below 150/90 mmHg and ensure that it is maintained below that level. Use clinical judgement for people with frailty or multimorbidity.",
+   "url": "https://www.nice.org.uk/guidance/ng136/chapter/Recommendations"
+  },
+  "population": "Adults aged 80 and over on the practice hypertension register, on one or more antihypertensive medicines for at least 3 months, with a clinic BP reading in the last 12 months. Exclude patients with type 1 diabetes or severe CKD, who have a different NG136 table 2 target.",
+  "sample": "40 consecutive patients aged 80 and over from the hypertension register, or all if fewer.",
+  "data_source": "Practice hypertension register, GP clinical system BP readings, frailty coding.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "frailty_or_multimorbidity_coded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_bp",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "systolic_bp",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diastolic_bp",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "bp_at_target_or_individualised_target_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an age- and frailty-aware target display to the hypertension review template so clinicians see the correct NG136 target (under-80, 80-and-over, or individualised for frailty) automatically rather than applying a single blanket target.",
+  "target": "≥80%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's QOF/frailty meeting; if the age-aware target display improves appropriate target-setting, keep it live for all hypertension reviews.",
+  "evidence": [
+   "No closed-loop audit in corpus of NG136 clinic blood pressure target achievement in adults aged 80 and over."
+  ],
+  "pitfalls": [
+   "Applying the under-80 target to older patients can lead to inappropriate over-treatment and falls risk → make sure the template clearly separates the two age-based targets.",
+   "Frailty coding is often incomplete, making it hard to identify who needs an individualised target → improve frailty coding as part of this audit, not as an afterthought.",
+   "Postural hypotension should be checked in this age group per NG136 1.4.16 → include a postural BP check alongside the target assessment.",
+   "A single high reading may not reflect true control → use the most recent recorded reading but flag for re-check rather than treating one value as definitive.",
+   "Improvement may fade if the age-aware display is not maintained after an EPR update → confirm it remains accurate at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's frailty or elderly care lead GP to champion the age-aware target display.",
+   "Agree the frailty definition and individualised target-setting process with the whole team before cycle 1.",
+   "Use the same register extraction method at re-audit for a fair comparison.",
+   "Report target-achievement rates at the QOF/frailty meeting to keep this visible after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the hypertension register and BP readings",
+  "area": "General practice and community care",
+  "pass": "The most recent clinic blood pressure reading in the last 12 months is below 150/90 mmHg, or, for patients with frailty or multimorbidity, a documented clinical judgement is recorded explaining a different individualised target."
+ },
+ {
+  "question": "What proportion of stable patients with atrial fibrillation taking warfarin have their time in therapeutic range discussed, with the option of switching to a direct-acting oral anticoagulant, at their most recent routine anticoagulation review?",
+  "why": "Patients remaining on warfarin despite poor anticoagulation control may benefit from switching to a DOAC, but this discussion depends on time in therapeutic range being calculated and reviewed, which is easy to omit from a routine INR check. No closed-loop audit in corpus targets this specific NG196 recommendation on warfarin review and switching.",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.6.6 (2021)",
+   "wording": "For adults with atrial fibrillation who are already taking a vitamin K antagonist and are stable, continue with their current medication and discuss the option of switching treatment at their next routine appointment, taking into account the person's time in therapeutic range.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "population": "Adults with atrial fibrillation on warfarin under the practice's or anticoagulation clinic's routine review, with a review in the last 12 months. Exclude patients with a mechanical heart valve or other indication requiring warfarin specifically.",
+  "sample": "40 consecutive warfarin patients with a routine review in the last 12 months, or a 10% random sample if larger.",
+  "data_source": "Anticoagulation clinic or practice warfarin register, INR monitoring records, consultation notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_in_therapeutic_range_calculated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ttr_percentage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "switch_discussion_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "outcome_of_discussion",
+    "type": "choice",
+    "options": [
+     "stayed on warfarin",
+     "switched to DOAC",
+     "deferred"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic time-in-therapeutic-range calculation to the anticoagulation review template, with a mandatory 'DOAC switch discussed: yes/outcome' field that cannot be left blank at routine review.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same warfarin register and template.",
+  "close_loop": "Present at the practice's anticoagulation/QOF meeting; if the mandatory field improves discussion rates, keep it live for every routine warfarin review.",
+  "evidence": [
+   "No closed-loop audit in corpus of NG196 warfarin review and DOAC-switch discussion completion."
+  ],
+  "pitfalls": [
+   "Time in therapeutic range calculation requires several recent INR results and a recognised method (for example, Rosendaal) → agree the calculation method and data source with the anticoagulation service before cycle 1.",
+   "Patients who are genuinely well controlled and prefer warfarin should still have the discussion documented, even if the outcome is to continue warfarin → audit that the discussion happened, not just the outcome.",
+   "Anticoagulation monitoring may be run by a community service outside the GP record → confirm data-sharing arrangements before starting.",
+   "Some patients have valid reasons to avoid a DOAC (for example, renal function, cost of monitoring not relevant) → record these clearly rather than treating as non-compliance.",
+   "Improvement may fade if the mandatory field is skipped when reviews are done quickly → spot-check consultation quality at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's anticoagulation lead GP or pharmacist, or the community anticoagulation service, to champion the mandatory field.",
+   "Agree the time-in-therapeutic-range calculation method before cycle 1 so results are comparable.",
+   "Use the same warfarin register extraction method at re-audit.",
+   "Report discussion completion rates at the anticoagulation/QOF meeting to sustain the pathway after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the warfarin register and consultation notes",
+  "area": "General practice and community care",
+  "pass": "At the most recent routine anticoagulation review, the patient's time in therapeutic range is calculated (or estimated from recent INR results) and a documented discussion of the option to switch to a DOAC has taken place, regardless of the outcome of that discussion."
+ },
+ {
+  "question": "What proportion of patients on the asthma register who have been dispensed 6 or more short-acting beta agonist (SABA) inhalers in the last 12 months have a documented clinical review of the reasons for overuse?",
+  "why": "Heavy SABA use is a marker of poor asthma control and increased risk of a fatal or near-fatal attack, but a high dispensing count can go unnoticed if no one reviews repeat prescribing data specifically for this pattern. No closed-loop audit in corpus specifically targets clinical review triggered by SABA over-use volume (as opposed to switching the default prescribing pathway, covered elsewhere in the library).",
+  "standard": {
+   "source": "NICE NG245 Asthma: diagnosis, monitoring and management (BTS/NICE/SIGN), rec 1.6.1 (2024)",
+   "wording": "Take into account and try to address the possible reasons for uncontrolled asthma before starting or adjusting medicines for asthma in adults, young people and children. These may include: alternative diagnoses or comorbidities; suboptimal adherence; suboptimal inhaler technique; smoking (active or passive), including vaping using e-cigarettes; occupational or environmental exposures.",
+   "url": "https://www.nice.org.uk/guidance/ng245/chapter/Recommendations"
+  },
+  "population": "Patients aged 12 and over on the asthma register dispensed 6 or more SABA inhalers in the last 12 months, identified from the prescribing system. Exclude patients under specialist severe asthma service review with their own monitoring pathway.",
+  "sample": "40 consecutive patients meeting the SABA over-use threshold over the last 6 months, or all if fewer.",
+  "data_source": "Prescribing dispensing data, asthma register, consultation templates.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "saba_inhalers_dispensed_12m",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_threshold_reached",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinical_review_completed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reasons_addressed",
+    "type": "choice",
+    "options": [
+     "inhaler technique",
+     "adherence",
+     "smoking/vaping",
+     "alternative diagnosis",
+     "other/none identified"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Run a monthly practice search flagging patients reaching the 6-SABA-inhaler threshold, generating an automatic task for a respiratory review appointment.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same prescribing search and template.",
+  "close_loop": "Present at the practice's respiratory/QOF meeting; if the monthly search prompts timely review, add it to the standing list of prescribing safety searches.",
+  "evidence": [
+   "No closed-loop audit in corpus of clinical review triggered by SABA over-use volume, distinct from prescribing-default switch audits already in the library."
+  ],
+  "pitfalls": [
+   "Dispensing data may lag behind actual use if patients stockpile inhalers → use dispensing counts as a prompt for review, not a precise measure of use.",
+   "Patients may obtain inhalers from more than one source (for example, online pharmacy) → note this as a limitation when interpreting results.",
+   "A review may happen but not address all relevant factors → audit the content of the review, not just its occurrence.",
+   "Some patients with legitimately severe asthma may need frequent SABA under specialist guidance → exclude those under active severe asthma service review.",
+   "Improvement may fade if the monthly search stops running after a system change → confirm it is still active at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's respiratory lead nurse or pharmacist to run the monthly search and lead reviews.",
+   "Agree the 6-inhaler threshold and review template content with the team before cycle 1.",
+   "Use the same prescribing search method at re-audit for a fair comparison.",
+   "Report over-use flags and review completion at the respiratory/QOF meeting to sustain the pathway after staff rotate."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the prescribing search and consultation templates",
+  "area": "General practice and community care",
+  "pass": "A patient dispensed 6 or more SABA inhalers in the last 12 months has a documented clinical review addressing possible reasons for overuse (inhaler technique, adherence, alternative diagnoses, smoking/vaping, triggers) within 8 weeks of reaching that threshold."
+ },
+ {
+  "question": "What proportion of adults with a new diagnosis of chronic kidney disease have their GFR and ACR category jointly recorded and used to state their risk of adverse outcomes in the record?",
+  "why": "NICE's CKD classification combines GFR and ACR categories into a single risk grid, but practices commonly record the two results without translating them into the combined risk category that should guide monitoring frequency and referral. No closed-loop audit in corpus targets whether the combined GFR/ACR risk classification (as opposed to the individual test results) is documented.",
+  "standard": {
+   "source": "NICE NG203 Chronic kidney disease: assessment and management, rec 1.2.1 (2014)",
+   "wording": "Classify CKD in adults using a combination of GFR and ACR categories (as described in table 1). Be aware that: increased ACR is associated with increased risk of adverse outcomes; decreased GFR is associated with increased risk of adverse outcomes; increased ACR and decreased GFR in combination multiply the risk of adverse outcomes.",
+   "url": "https://www.nice.org.uk/guidance/ng203/chapter/Recommendations"
+  },
+  "population": "Adults with a coded diagnosis of CKD (stage 3a or above, or stage 1-2 with proteinuria) with a GFR and ACR result in the last 12 months. Exclude patients under active nephrology follow-up whose classification is documented in specialist correspondence rather than the GP record.",
+  "sample": "40 consecutive patients from the CKD register, or a 10% random sample if larger.",
+  "data_source": "CKD register, GP clinical system, laboratory results, annual review template.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_most_recent_gfr_acr",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gfr_category_recorded",
+    "type": "choice",
+    "options": [
+     "G1",
+     "G2",
+     "G3a",
+     "G3b",
+     "G4",
+     "G5",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "acr_category_recorded",
+    "type": "choice",
+    "options": [
+     "A1",
+     "A2",
+     "A3",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "combined_risk_category_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_category",
+    "type": "choice",
+    "options": [
+     "low",
+     "moderate",
+     "high",
+     "very high",
+     "not stated"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an automatic GFR/ACR risk-grid calculator to the CKD annual review template that displays the combined NICE risk category as soon as both results are entered, rather than requiring manual look-up of table 1.",
+  "target": "≥85%",
+  "reaudit": "At 6 months, same register and template.",
+  "close_loop": "Present at the practice's QOF/long-term conditions meeting; if the automatic calculator improves documentation, keep it as the default CKD annual review tool.",
+  "evidence": [
+   "No closed-loop audit in corpus of combined GFR/ACR risk classification documentation under NG203 rec 1.2.1."
+  ],
+  "pitfalls": [
+   "GFR and ACR results may be recorded on different dates and never brought together in one place → the calculator should pull the most recent value of each, regardless of date, and flag if either is more than 12 months old.",
+   "Staff may record the individual numeric results without translating them into the categorical grid → make the categorical output, not just the raw numbers, the audited item.",
+   "Patients under nephrology may have their classification documented only in hospital letters → check for this before counting as a gap in the GP record.",
+   "A single ACR result in category A2/A3 needs confirmation before acting on it clinically, per NICE → note this distinction in staff training so classification and clinical action are not conflated.",
+   "Improvement may fade if the calculator is not maintained after an EPR template change → confirm it remains functional at re-audit."
+  ],
+  "pearls": [
+   "Recruit the practice's CKD lead nurse or clinical pharmacist to champion the automatic calculator.",
+   "Agree the calculator's exact grid values with NICE table 1 before building it, to avoid errors.",
+   "Use the same CKD register definition at re-audit for a fair comparison.",
+   "Report documentation rates at the QOF/long-term conditions meeting to keep this visible after the lead rotates."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the CKD register and laboratory results",
+  "area": "General practice and community care",
+  "pass": "The record documents both the GFR category (G1-G5) and ACR category (A1-A3) together, with the combined NICE risk category (low, moderate, high or very high) stated, at the time of diagnosis or most recent annual review."
+ },
+ {
+  "question": "What proportion of patients on shared-care DMARD monitoring have their individual risk factors for toxicity (renal function, age, alcohol use, interacting medicines) reviewed at least annually, with monitoring frequency adjusted accordingly?",
+  "why": "DMARD shared care guidance expects monitoring frequency to be individualised to risk, not applied as a single fixed interval for everyone, but an annual risk review distinct from the routine blood test cycle is easy to omit. No closed-loop audit in corpus targets the annual DMARD toxicity risk review as a discrete step separate from routine blood monitoring.",
+  "standard": {
+   "source": "British Society for Rheumatology shared care guidance for DMARD monitoring (as summarised by NHS Specialist Pharmacy Service)",
+   "wording": "Risk factors for DMARD toxicity should be reviewed at least annually, adjusting the frequency of monitoring according to the level of risk identified. A shared care protocol should be agreed upon delineating the responsibilities of each party.",
+   "url": "https://sps.nhs.uk/monitorings/methotrexate-monitoring/"
+  },
+  "population": "Patients on the practice's shared-care DMARD register on treatment for 12 months or more. Exclude patients within their first year of treatment, who follow a different, more frequent initial monitoring schedule.",
+  "sample": "40 consecutive patients on the shared-care DMARD register on treatment for over 12 months, or all if fewer.",
+  "data_source": "Shared-care DMARD register, GP consultation and annual review templates, laboratory results.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dmard_medicine",
+    "type": "choice",
+    "options": [
+     "methotrexate",
+     "leflunomide",
+     "sulfasalazine",
+     "azathioprine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_of_last_annual_risk_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_factors_reviewed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "monitoring_interval_confirmed_or_adjusted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interacting_medicines_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a dedicated 'annual DMARD risk review' template, separate from the routine blood monitoring recall, that prompts the reviewing clinician to check renal trend, age, alcohol use and new interacting prescriptions once a year for every shared-care DMARD patient.",
+  "target": "≥85%",
+  "reaudit": "At 12 months, same register and template.",
+  "close_loop": "Present at the practice's medicines optimisation/QOF meeting; if the dedicated template improves completion, keep it as a standing annual task alongside routine monitoring.",
+  "evidence": [
+   "No closed-loop audit in corpus of the annual DMARD toxicity risk review as a discrete step from routine blood monitoring."
+  ],
+  "pitfalls": [
+   "Routine blood monitoring can be mistaken for the full annual risk review, when it only covers some of the required factors → keep the two as clearly separate template items.",
+   "Interacting medicines (for example, trimethoprim prescribed by an out-of-hours service) may not trigger an alert if prescribed outside the practice → include a manual interaction check as part of the annual review.",
+   "Alcohol intake may be under-reported → use a standard, non-judgemental question as part of the review.",
+   "Shared care responsibilities between specialist and GP may be unclear for who leads the annual risk review → confirm this explicitly in the shared care agreement before cycle 1.",
+   "Improvement may fade if the annual review template is not linked to a recall system → build in an automatic annual reminder."
+  ],
+  "pearls": [
+   "Recruit the practice's clinical pharmacist to lead the annual risk review process.",
+   "Agree with the rheumatology or gastroenterology shared care team which factors and thresholds to use before cycle 1.",
+   "Use the same DMARD register definitions at re-audit for a fair comparison.",
+   "Report annual review completion at the medicines optimisation meeting to sustain the process after staff rotate."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the DMARD register and consultation templates",
+  "area": "General practice and community care",
+  "pass": "A documented annual review of individual toxicity risk factors (renal function trend, age, alcohol intake, interacting medicines such as trimethoprim or NSAIDs) is recorded, with the monitoring interval confirmed as appropriate or adjusted as a result."
+ }
+]

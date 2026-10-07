@@ -1,0 +1,2106 @@
+[
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults diagnosed with NSTEMI or unstable angina have a formal 6-month mortality risk score (such as GRACE) recorded in their notes within 24 hours of diagnosis?",
+  "why": "The risk score decides who should be considered for angiography within 72 hours, so a missing score can delay the right treatment. No audit of risk score recording in NSTEMI has been published in the library; the nearest ACS audits look at secondary prevention [8264] [6854].",
+  "standard": {
+   "source": "NICE NG185 recs 1.2.7 and 1.2.9 (2020)",
+   "wording": "1.2.7 As soon as the diagnosis of unstable angina or NSTEMI is made, and aspirin and antithrombin therapy have been offered, formally assess individual risk of future adverse cardiovascular events using an established risk scoring system that predicts 6‑month mortality (for example, Global Registry of Acute Cardiac Events [GRACE]). [2010] 1.2.9 Record the results of the risk assessment in the person's care record. [2010]",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "pass": "A named 6-month mortality score (GRACE or equivalent) with its value or risk band written in the notes or EPR within 24 hours of the first documented NSTEMI or unstable angina diagnosis.",
+  "population": "Adults with a discharge diagnosis of NSTEMI or unstable angina. Exclude type 2 myocardial infarction, STEMI and patients on an end-of-life pathway at diagnosis.",
+  "sample": "40 consecutive eligible admissions over the last 3 months.",
+  "data_source": "MINAP (NICOR) extract or cardiology coding for the case list; EPR clerking and cardiology review notes for the score and its time; results system for troponin times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "diagnosis",
+    "type": "choice",
+    "options": [
+     "NSTEMI",
+     "Unstable angina"
+    ],
+    "note": ""
+   },
+   {
+    "field": "diagnosis_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "First note that states NSTEMI or unstable angina"
+   },
+   {
+    "field": "risk_score_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: a named score with a value or risk band"
+   },
+   {
+    "field": "score_used",
+    "type": "choice",
+    "options": [
+     "GRACE",
+     "Other validated score",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "six_month_mortality_percent",
+    "type": "number",
+    "options": [],
+    "note": "As recorded; blank if not recorded"
+   },
+   {
+    "field": "score_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "score_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion: timing"
+   },
+   {
+    "field": "recorded_by",
+    "type": "choice",
+    "options": [
+     "Emergency department",
+     "Acute medicine",
+     "Cardiology",
+     "Not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory GRACE field, with a built-in calculator link, to the ACS clerking proforma or EPR chest pain pathway.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: 40 consecutive NSTEMI or unstable angina admissions after the change, same template and same 24-hour rule.",
+  "close_loop": "Present at the cardiology and acute medicine governance meetings. If it worked, make the field mandatory in the EPR ACS pathway and add score completion to the monthly MINAP data check.",
+  "evidence": [
+   "[8062] Croydon University Hospital: Wells score documented 6.9% → 87.5% (mandatory fields on the electronic CTPA request)",
+   "[2357] Surgical admissions unit: Oakland score documented 10% → 42% (teaching and e-calculator link only)",
+   "[8264] Swindon DGH, after ACS: full lipid profile 10% → 75% (updated blood panels, education)"
+  ],
+  "pitfalls": [
+   "Cardiologists may work out the score but not write it down → count only a recorded score, and agree this rule before cycle 1 so the baseline is not disputed.",
+   "The diagnosis time is unclear when troponin rises late → use the first note that states NSTEMI or unstable angina, and keep the same rule in both cycles.",
+   "Type 2 myocardial infarction coded as NSTEMI inflates the denominator → exclude cases relabelled by cardiology in the discharge diagnosis.",
+   "Staff see the score as paperwork → show the link between score, 72-hour angiography decision and length of stay when presenting.",
+   "The field is skipped at night → check completion on the next morning's board round for the first 4 weeks."
+  ],
+  "pearls": [
+   "Recruit the MINAP data clerk; the extract gives the case list in minutes.",
+   "Agree with cardiology which scores count before cycle 1 (GRACE 6-month mortality is the default).",
+   "Put the calculator link in the proforma so the score takes under a minute.",
+   "Ask the chest pain or cardiology nurse to own the field so it survives trainee rotation."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MINAP and EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with NSTEMI or unstable angina and a predicted 6-month mortality above 3% have coronary angiography within 72 hours of first admission?",
+  "why": "Delay to angiography lengthens stay and exposes patients to further events, and hospitals without a catheter laboratory depend on transfer. No audit of time to angiography in NSTEMI has been published in the library; the only related closed loop used live national feedback to cut treatment times [4401].",
+  "standard": {
+   "source": "NICE NG185 rec 1.2.13 (2020)",
+   "wording": "Consider coronary angiography (with follow‑on PCI if indicated) within 72 hours of first admission for people with unstable angina or NSTEMI who have an intermediate or higher risk of adverse cardiovascular events (predicted 6‑month mortality above 3.0%) and no contraindications to angiography (such as active bleeding or comorbidity).",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "pass": "Coronary angiography started within 72 hours of arrival at the first hospital. Patients with a documented contraindication or who declined angiography are excluded from the denominator and counted separately.",
+  "population": "Adults with NSTEMI or unstable angina and a GRACE 6-month mortality above 3.0% (or intermediate/high risk band). Exclude documented contraindication (active bleeding, comorbidity, frailty with a decision for medical management) and patient refusal.",
+  "sample": "40 consecutive eligible patients over the last 3–4 months.",
+  "data_source": "MINAP (NICOR) extract for admission time, risk and angiography time; EPR for referral time and reasons for delay; tertiary centre letter for transferred patients.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "first_admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Arrival at the first hospital"
+   },
+   {
+    "field": "grace_6m_mortality_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_or_declined",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, exclude from denominator and record reason"
+   },
+   {
+    "field": "referral_to_pci_centre_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if on-site catheter laboratory"
+   },
+   {
+    "field": "angiography_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_angiography",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "angiography_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "main_reason_for_delay",
+    "type": "choice",
+    "options": [
+     "Late referral",
+     "No bed at PCI centre",
+     "Clinical instability",
+     "Awaiting tests",
+     "Weekend or bank holiday",
+     "Other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Send the referral to the PCI centre electronically on the day the diagnosis is made, triggered from the ACS proforma, with a daily 'awaiting angiography' list reviewed at the cardiology board round.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template, same clock start (first admission).",
+  "close_loop": "Present jointly with the PCI centre at the cardiac network or cardiology governance meeting. If it worked, keep the daily list as a standing board-round item and report the 72-hour rate monthly from MINAP.",
+  "evidence": [
+   "[4401] MINAP, 230 hospitals: median arrival to thrombolysis 38 → 20 min (electronic data entry with live national comparison)",
+   "[1526] Fracture clinic referrals: seen within 72 hours 6% → 100% (new referral pathway, system change)",
+   "[7965] Hillingdon ED: CT head within 60 min 4.34% → 6.9% (pro forma and teaching; time targets barely moved without a pathway change)"
+  ],
+  "pitfalls": [
+   "Transferred patients are hard to trace → use the MINAP record, which follows the patient, or the tertiary centre's discharge letter.",
+   "Clock start differs between hospitals → use first admission time, as NICE does, in both cycles.",
+   "Frail patients managed medically lower the rate → exclude those with a documented contraindication or informed refusal, and report them separately.",
+   "Delays sit in the PCI centre's bed capacity → record the reason for each delay so the change targets the right step, and invite the PCI centre lead from the start."
+  ],
+  "pearls": [
+   "Recruit the MINAP lead and the cardiac network manager before cycle 1.",
+   "Split results by weekday and weekend admission; weekend referrals often explain most breaches.",
+   "Agree the referral route with the PCI centre before changing it.",
+   "Keep the 'awaiting angiography' list on the board-round agenda so it outlives the audit team."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from MINAP and EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults admitted with an acute coronary syndrome and a blood glucose above 11.0 mmol/L, without known diabetes, have HbA1c measured before discharge?",
+  "why": "Undiagnosed diabetes after ACS changes secondary prevention, yet a Glasgow audit found HbA1c checked in 45% of high-risk chest pain admissions [9699]. No closed-loop audit of the hyperglycaemic ACS group has been published in the library.",
+  "standard": {
+   "source": "NICE NG185 rec 1.3.3 (2020)",
+   "wording": "Offer all people with hyperglycaemia after acute coronary syndrome and without known diabetes tests for: HbA1c levels before discharge; fasting blood glucose levels no earlier than 4 days after the onset of acute coronary syndrome. These tests should not delay discharge. [2011]",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "pass": "An HbA1c result dated between admission and discharge.",
+  "population": "Adults with a discharge diagnosis of STEMI, NSTEMI or unstable angina, any laboratory or point-of-care glucose above 11.0 mmol/L during admission, and no diabetes diagnosis before admission. Exclude deaths before discharge.",
+  "sample": "40 consecutive eligible admissions over the last 3–6 months.",
+  "data_source": "MINAP extract or cardiology coding for ACS admissions; results system for glucose and HbA1c; GP summary care record to confirm no known diabetes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "acs_type",
+    "type": "choice",
+    "options": [
+     "STEMI",
+     "NSTEMI",
+     "Unstable angina"
+    ],
+    "note": ""
+   },
+   {
+    "field": "known_diabetes_before_admission",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, exclude"
+   },
+   {
+    "field": "highest_glucose_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hba1c_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hba1c_mmol_mol",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "abnormal_result_acted_on",
+    "type": "choice",
+    "options": [
+     "Yes",
+     "No",
+     "Not applicable"
+    ],
+    "note": "Secondary: GP told or diabetes team referral if HbA1c 48 mmol/mol or above"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add HbA1c to the standard ACS admission blood order set so it is requested with the first troponin.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible ACS admissions after the change, same template.",
+  "close_loop": "Present at the cardiology governance meeting and to the laboratory lead. If it worked, keep HbA1c in the order set and add abnormal results to the discharge summary template.",
+  "evidence": [
+   "[8264] Swindon DGH, after ACS: full lipid profile 10% → 75% (updated blood test panels and education)",
+   "[9699] Glasgow Royal Infirmary, high-risk chest pain: HbA1c checked in 45% (admission testing changes; improvement driven mainly by lipids)",
+   "[2402] Birmingham surgical units: ECG in over-40s with upper abdominal pain 28% → 61% (protocol, education and electronic change)"
+  ],
+  "pitfalls": [
+   "The laboratory may reject HbA1c added to every ACS panel → agree the order set with the biochemistry lead before cycle 1.",
+   "Point-of-care glucose values are missed → search both laboratory and point-of-care results for the glucose threshold.",
+   "Known diabetes is not recorded in hospital notes → check the GP summary care record before excluding.",
+   "An HbA1c is done but nobody acts on a high result → record the action field so the next step can be fixed if needed."
+  ],
+  "pearls": [
+   "Recruit a biochemist and the cardiology pharmacist early.",
+   "Fix the glucose threshold (above 11.0 mmol/L) before cycle 1 and keep it.",
+   "An order-set change is cheap and lasts after trainees rotate.",
+   "Share the number of new diabetes diagnoses found; it keeps the change supported."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from the results system"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults admitted with acute heart failure are reviewed by the specialist heart failure team before discharge?",
+  "why": "Specialist input shapes diagnosis, medicines and follow-up after a heart failure admission. It was 51.6% in one London hospital before a care bundle [7574]; no district general hospital closed-loop audit of this single step has been published in the library.",
+  "standard": {
+   "source": "NICE CG187 rec 1.1.2 (2014, updated 2021)",
+   "wording": "Ensure that all people being admitted to hospital with suspected acute heart failure have early and continuing input from a dedicated specialist heart failure team.",
+   "url": "https://www.nice.org.uk/guidance/cg187/chapter/Recommendations"
+  },
+  "pass": "A documented review (in person or a recorded advice note) by a heart failure specialist nurse, heart failure consultant or cardiologist during the admission, before discharge or death.",
+  "population": "Adults with a primary discharge diagnosis of heart failure (new or known). Exclude patients on an end-of-life pathway from admission and those admitted under cardiology who are counted separately.",
+  "sample": "40 consecutive admissions over the last 2–3 months.",
+  "data_source": "National Heart Failure Audit (NICOR) submission list or coding for cases; EPR notes and heart failure team referral log for review date and grade.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admitting_specialty",
+    "type": "choice",
+    "options": [
+     "Acute medicine",
+     "General medicine",
+     "Elderly care",
+     "Cardiology",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "new_or_known_heart_failure",
+    "type": "choice",
+    "options": [
+     "New",
+     "Known"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nt_probnp_ng_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hf_team_referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hf_team_review_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "hf_team_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer_role",
+    "type": "choice",
+    "options": [
+     "HF specialist nurse",
+     "HF consultant or cardiologist",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharge_or_death_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set up an automatic electronic alert to the heart failure team for every inpatient with a raised NT-proBNP (local threshold agreed with the team).",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: 40 consecutive heart failure admissions after the alert goes live, same template.",
+  "close_loop": "Present at the cardiology and acute medicine governance meetings. If it worked, keep the alert and add specialist review rate to the heart failure service dashboard.",
+  "evidence": [
+   "[7574] Guy's and St Thomas', heart failure admissions: specialist input 51.6% → 90.4% (admission care bundle with a QI approach)",
+   "[8058] Darent Valley AMU: heart failure monitoring median adherence 50.9% → 86.8% (bundle flowchart)",
+   "[1899] Maidstone elderly care, acute heart failure: SGLT2 inhibitor 45% → 79% (teaching and board-round prompts)"
+  ],
+  "pitfalls": [
+   "Advice given by phone is not written down → count a dated advice note in the EPR, and agree this before cycle 1.",
+   "The heart failure team may fear more referrals than they can see → agree a threshold and triage rule with them before switching on the alert.",
+   "Short stays are discharged before review → report stays under 48 hours separately.",
+   "Coded diagnoses miss patients admitted with 'breathlessness' → cross-check the NICOR list against the NT-proBNP list."
+  ],
+  "pearls": [
+   "Recruit the heart failure specialist nurse lead as co-author from the start.",
+   "The laboratory can usually build the NT-proBNP alert in a few weeks; ask early.",
+   "Report results by admitting ward so wards can see their own gap.",
+   "Hand the monthly figure to the heart failure team so it outlasts the audit team."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults admitted with new suspected heart failure and a raised natriuretic peptide have a transthoracic echocardiogram within 48 hours of admission?",
+  "why": "Early echocardiography confirms the diagnosis and the ejection fraction, which decides treatment. Only one library audit measures inpatient echo timing (within 24 hours, in a London bundle) [7574]; no district general hospital audit of the 48-hour step has been published in the library.",
+  "standard": {
+   "source": "NICE CG187 rec 1.2.4 (2014, updated 2021)",
+   "wording": "In people presenting with new suspected acute heart failure, consider performing transthoracic Doppler 2D echocardiography within 48 hours of admission to guide early specialist management.",
+   "url": "https://www.nice.org.uk/guidance/cg187/chapter/Recommendations"
+  },
+  "pass": "Transthoracic echocardiogram performed (report time) within 48 hours of arrival.",
+  "population": "Adults admitted with no previous heart failure diagnosis and BNP 100 ng/L or above, or NT-proBNP 300 ng/L or above. Exclude patients with an echo in the previous 6 months and those on an end-of-life pathway.",
+  "sample": "40 consecutive eligible admissions over the last 3 months.",
+  "data_source": "Laboratory list of raised natriuretic peptides in inpatients; echo department system for request and report times; EPR for exclusions.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "natriuretic_peptide_type",
+    "type": "choice",
+    "options": [
+     "BNP",
+     "NT-proBNP"
+    ],
+    "note": ""
+   },
+   {
+    "field": "natriuretic_peptide_value",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "echo_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "echo_report_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_to_echo",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "echo_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ejection_fraction_category",
+    "type": "choice",
+    "options": [
+     "Reduced",
+     "Mildly reduced",
+     "Preserved",
+     "Not reported"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Ring-fence daily inpatient echo slots for new suspected heart failure, booked directly from the heart failure referral.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible admissions after the change, same template.",
+  "close_loop": "Present with the echo department lead at cardiology governance. If it worked, keep the ring-fenced slots in the echo rota and report the 48-hour rate quarterly.",
+  "evidence": [
+   "[7574] Guy's and St Thomas', heart failure admissions: echo within 24 hours 84.7% → 98.9% (admission care bundle)",
+   "[1526] Fracture clinic referrals: seen within 72 hours 6% → 100% (dedicated pathway, system change)",
+   "[7965] Hillingdon ED: CT head within 60 min 4.34% → 6.9% (pro forma and teaching without extra capacity)"
+  ],
+  "pitfalls": [
+   "Echo capacity is the real limit → involve the echo lead before cycle 1 and measure request-to-report time as well.",
+   "NICE says 'consider' → present this as a local standard supported by NICE, not a mandate.",
+   "Patients with an old echo are counted wrongly → check the echo system for any study in the last 6 months.",
+   "Weekend admissions breach most → report weekday and weekend results separately."
+  ],
+  "pearls": [
+   "Recruit the chief cardiac physiologist; they know where the slots can come from.",
+   "Use the laboratory natriuretic peptide list to find cases quickly.",
+   "Agree the peptide thresholds before cycle 1.",
+   "Link the slot to the heart failure team review so one referral does both."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from the echo and results systems"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults receiving intravenous diuretics for acute heart failure have their weight recorded every day while on intravenous treatment?",
+  "why": "Daily weight is the simplest guide to fluid loss and diuretic dose, and missed weights lead to over- or under-diuresis. Fluid status monitoring was among the weakest items in one AMU heart failure audit [8058]; no audit of daily weights has been published in the library.",
+  "standard": {
+   "source": "NICE CG187 rec 1.3.5 (2014, updated 2021)",
+   "wording": "Closely monitor the person's renal function, weight and urine output during diuretic therapy.",
+   "url": "https://www.nice.org.uk/guidance/cg187/chapter/Recommendations"
+  },
+  "pass": "A weight recorded on every calendar day from the first to the last day of intravenous diuretic (local standard for 'closely monitor weight').",
+  "population": "Adults with acute heart failure given intravenous furosemide or bumetanide for at least 48 hours. Exclude patients who cannot be weighed safely (documented) and end-of-life care.",
+  "sample": "40 consecutive eligible patients over the last 2–3 months.",
+  "data_source": "EPR drug administration record for intravenous diuretic dates; observation chart or EPR for weights.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_iv_diuretic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_iv_diuretic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "iv_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_with_weight_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_every_iv_day",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "admission_weight_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic daily weight task to the EPR observation schedule that switches on when intravenous loop diuretic is prescribed.",
+  "target": "≥90% of patients",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible patients after the change, same template.",
+  "close_loop": "Present to the ward managers and at the medical governance meeting. If it worked, keep the automatic task and add 'daily weight done' to the nursing safety huddle.",
+  "evidence": [
+   "[8058] Darent Valley AMU: heart failure monitoring median adherence 50.9% → 86.8%, fluid status +52.6% (bundle flowchart)",
+   "[6130] Sandwell AMU: valid oxygen prescription 55% → 94% (new chart and alert stickers)",
+   "[4307] West Norwich respiratory ward: written inhaler technique check 32/55 → 22/23 (a stamp in the notes)"
+  ],
+  "pitfalls": [
+   "Scales are missing or broken → check scale availability on each ward before cycle 1.",
+   "Weights are written on paper and not in the EPR → agree one place to look and keep it for both cycles.",
+   "Bed-bound patients cannot be weighed → count a documented reason as an exclusion, not a fail.",
+   "Nurses feel blamed → present the results by ward system, not by individual."
+  ],
+  "pearls": [
+   "Recruit a ward sister from each main medical ward.",
+   "Report day-level and patient-level results; day-level shows progress sooner.",
+   "Ask the EPR team for the diuretic-linked task early; it is a small build.",
+   "Add a weigh-in time to the morning routine so it becomes habit."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with atrial fibrillation prescribed a DOAC in hospital receive the licensed dose for their kidney function, age and weight?",
+  "why": "Wrong DOAC doses, mostly under-dosing, leave patients unprotected from stroke or at higher bleeding risk. A Galway stroke audit found 21% incorrectly dosed, 93% of them under-dosed [1930], and creatinine clearance could be calculated in only 46% of primary care patients [3022]. Only one closed-loop hospital audit of DOAC initiation has been published in the library [9678].",
+  "standard": {
+   "source": "NICE NG196 rec 1.6.2 (2021)",
+   "wording": "When deciding between anticoagulation treatment options: … Take into account any contraindications for each drug and follow the guidance in the British National Formulary and the MHRA advice on direct-acting oral anticoagulants, in particular for advice on dosages in people with renal impairment, reversal agents and monitoring. [2021]",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "pass": "Prescribed dose matches the BNF/SmPC dose for atrial fibrillation, using Cockcroft–Gault creatinine clearance from actual body weight and the creatinine nearest to the prescription (apixaban also by age, weight and creatinine; dabigatran also by age and interacting drugs).",
+  "population": "Adults with non-valvular atrial fibrillation who had apixaban, edoxaban, rivaroxaban or dabigatran started or continued on an inpatient drug chart. Exclude DOAC prescribed for venous thromboembolism only, and patients with no weight recorded (report these separately).",
+  "sample": "50 consecutive eligible inpatients over the last 4–6 weeks.",
+  "data_source": "Pharmacy or EPR report of inpatient DOAC prescriptions; EPR for weight, age and diagnosis; results system for creatinine; BNF/SmPC dosing table.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "prescription_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doac",
+    "type": "choice",
+    "options": [
+     "Apixaban",
+     "Edoxaban",
+     "Rivaroxaban",
+     "Dabigatran"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_prescribed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": "Blank if not recorded"
+   },
+   {
+    "field": "serum_creatinine_umol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "creatinine_clearance_ml_min",
+    "type": "number",
+    "options": [],
+    "note": "Cockcroft–Gault, actual body weight"
+   },
+   {
+    "field": "started_or_continued",
+    "type": "choice",
+    "options": [
+     "Started in hospital",
+     "Continued from home"
+    ],
+    "note": ""
+   },
+   {
+    "field": "dose_correct",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "error_type",
+    "type": "choice",
+    "options": [
+     "None",
+     "Under-dose",
+     "Over-dose",
+     "Contraindicated"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a DOAC dose calculator into the EPR prescribing screen that uses the latest weight and creatinine and offers only the licensed AF dose.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: 50 consecutive inpatient AF DOAC prescriptions after the change, same template.",
+  "close_loop": "Present at the drugs and therapeutics committee and medical governance. If it worked, keep the calculator and add DOAC dose checks to the pharmacist ward-round checklist.",
+  "evidence": [
+   "[9678] DGH medical wards: multiple DOAC dosing errors → most prescriptions appropriate, no major errors (paper DOAC initiation form with training)",
+   "[1930] Galway University Hospital stroke service: 21% incorrectly dosed, 93% of these under-dosed (single cycle)",
+   "[3022] Two GP practices, Bognor Regis: creatinine clearance calculable 46%; rivaroxaban dose correct 81% (single cycle)"
+  ],
+  "pitfalls": [
+   "No weight is recorded, so creatinine clearance cannot be calculated → report missing weight as its own finding, and fix it first if it is common.",
+   "eGFR is used instead of creatinine clearance → agree Cockcroft–Gault with actual body weight as the audit rule before cycle 1.",
+   "Consultants may choose a lower dose on purpose → count a documented reason as a pass and list those cases.",
+   "Doses brought in from home are assumed correct → include continued prescriptions; they are often where errors sit."
+  ],
+  "pearls": [
+   "Recruit a ward pharmacist; they can check 50 charts quickly and know the dosing rules.",
+   "Use one printed dosing table for both cycles.",
+   "Present the under-dose number in stroke terms; it convinces prescribers.",
+   "Ask the EPR team whether the calculator can be shared across all DOAC indications once it works."
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPR and results"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults seen in hospital after transient loss of consciousness with a red flag feature have a specialist cardiovascular assessment referral reviewed within 24 hours?",
+  "why": "Red flag features after blackout point to cardiac causes that can kill if missed. A Newcastle syncope audit found family history recorded in 15% [7971]; no audit of red flag referral within 24 hours has been published in the library.",
+  "standard": {
+   "source": "NICE CG109 rec 1.1.4.2 (2010, updated 2023)",
+   "wording": "Refer urgently for cardiovascular assessment, with the referral reviewed and prioritised by an appropriate specialist within 24 hours, anyone with TLoC who also has any of the following: an ECG abnormality (see recommendations 1.1.2.2 and 1.1.2.3); heart failure (history or physical signs); TLoC during exertion; family history of sudden cardiac death in people aged younger than 40 years and/or an inherited cardiac condition; new or unexplained breathlessness; a heart murmur.",
+   "url": "https://www.nice.org.uk/guidance/cg109/chapter/Recommendations"
+  },
+  "pass": "Referral to cardiology or a syncope service made and reviewed by a specialist (documented) within 24 hours of first hospital assessment; admission under cardiology within 24 hours also passes.",
+  "population": "Adults attending the ED or acute medical unit with TLoC and at least one NICE red flag. Exclude clear epileptic seizure, hypoglycaemia, intoxication or head injury as the cause.",
+  "sample": "40 consecutive eligible attendances over the last 2–3 months.",
+  "data_source": "ED system search for collapse, syncope and blackout; EPR for ECG, red flags, referral and review times; cardiology referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "red_flag",
+    "type": "choice",
+    "options": [
+     "ECG abnormality",
+     "Heart failure",
+     "TLoC during exertion",
+     "Family history of sudden death under 40 or inherited condition",
+     "New or unexplained breathlessness",
+     "Heart murmur"
+    ],
+    "note": "Tick all that apply"
+   },
+   {
+    "field": "ecg_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "specialist_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewed_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "disposition",
+    "type": "choice",
+    "options": [
+     "Admitted",
+     "Discharged with referral",
+     "Discharged without referral"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add the six NICE red flags as tick boxes to the ED TLoC proforma; any ticked box opens an electronic cardiology referral.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: 40 consecutive eligible attendances after the change, same template.",
+  "close_loop": "Present at joint ED and cardiology governance. If it worked, keep the proforma and ask cardiology to report 24-hour review times monthly.",
+  "evidence": [
+   "[7971] Royal Victoria Infirmary ED and MAU, syncope: family history 15% → 41%, lying and standing BP 59% → 72% (risk chart and prompts)",
+   "[4870] Newcastle acute medicine: falls and syncope admissions 10.6% → 8.2% (evidence-based algorithms)",
+   "[8421] Dundee, acute asthma: PEFR documented 52% → 83% (severity marker stamp in notes)"
+  ],
+  "pitfalls": [
+   "Red flags are not recorded, so eligible patients cannot be found → also count patients with no red flag assessment and report them.",
+   "Discharged patients' referrals are reviewed days later → record the review time from the referral system, not the referral time.",
+   "Cardiology may worry about extra referrals → share the red flag list and expected numbers before switching on the referral.",
+   "Coding misses 'fall' presentations that were blackouts → search free text for 'collapse' and 'blackout' too."
+  ],
+  "pearls": [
+   "Recruit an ED consultant and a cardiology registrar as joint leads.",
+   "Agree what 'reviewed' means (triage decision recorded) before cycle 1.",
+   "Report older adults without prodrome separately; NICE says consider referral for them too.",
+   "Keep the proforma in the ED EPR so it survives rotation."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED system and EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with acute hypercapnic respiratory failure who need NIV start it within 60 minutes of the blood gas that led to the decision?",
+  "why": "Acute NIV halves mortality in COPD with respiratory acidosis, and delay is common. One closed-loop audit saw delays rise from 31% to 77% after e-learning alone [7360], and timely NIV stayed at 21–24% nationally [7080].",
+  "standard": {
+   "source": "BTS Quality Standards for acute NIV in adults, Quality statement 4 (2018)",
+   "wording": "Patients who meet evidence-based criteria for acute NIV should start NIV within 60 min of the blood gas result associated with the clinical decision to provide NIV and within 120 min of hospital arrival for patients who present acutely.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5890056/"
+  },
+  "pass": "NIV start time (from the NIV chart) 60 minutes or less after the time of the qualifying blood gas.",
+  "population": "Adults started on acute NIV for hypercapnic respiratory failure (pH below 7.35 and PaCO2 above 6.5 kPa) in ED, AMU or wards. Exclude NIV started on intensive care and planned home NIV.",
+  "sample": "40 consecutive acute NIV episodes over the last 3–4 months.",
+  "data_source": "NIV register or ventilator log for cases; blood gas analyser record for time and values; NIV chart and EPR for start time and location.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "qualifying_abg_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ph",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "paco2_kpa",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "niv_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_abg_to_niv",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "niv_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "location_niv_started",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "Respiratory ward",
+     "Other ward"
+    ],
+    "note": ""
+   },
+   {
+    "field": "main_reason_for_delay",
+    "type": "choice",
+    "options": [
+     "None",
+     "Waiting for decision",
+     "No machine",
+     "No trained nurse",
+     "Bed move",
+     "Repeat blood gas",
+     "Other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Introduce a single NIV activation call (one bleep or phone number) that brings a ventilator and an NIV-trained nurse to the patient once the decision is made.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 acute NIV episodes, same template and same clock start.",
+  "close_loop": "Present at respiratory and ED governance and the NIV operational group. If it worked, keep the activation call and add door-to-mask times to the NIV morbidity and mortality review.",
+  "evidence": [
+   "[7360] King's Mill Hospital: delay in NIV start 31% → 77% (e-learning only; delays worsened)",
+   "[5789] Seven North London and Essex hospitals: NIV within 3 hours 48%, no change over the study (mandated proforma)",
+   "[7080] National COPD audit programme: timely NIV 21–24% while incentivised items improved faster (continuous audit with QI support)"
+  ],
+  "pitfalls": [
+   "Blood gas times on paper differ from the analyser → use the analyser time for both cycles.",
+   "The qualifying gas is unclear when several are taken → take the gas recorded as prompting the decision; if none, the first acidotic gas after medical treatment.",
+   "Teaching alone made delays worse in one hospital → pick a system change, not another e-learning module.",
+   "Small monthly numbers swing the rate → use at least 40 episodes and report the median minutes as well."
+  ],
+  "pearls": [
+   "Recruit the NIV lead nurse and an ED consultant from the start.",
+   "Map the steps from gas to mask on one real case before cycle 1; it shows where time goes.",
+   "Record the delay reason every time; it tells you what to fix.",
+   "Report door-to-mask time to the NIV group monthly so it lasts after the audit."
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 episodes from NIV chart and blood gas record"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults started on acute NIV have an escalation plan documented before NIV begins?",
+  "why": "Without a plan made before NIV, staff face deterioration at night with no agreed ceiling of care. Escalation plans in other specialties reached only 36–83% after changes [2183] [2673]; no audit of NIV escalation plans has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standards for acute NIV in adults, Quality statement 5 (2018)",
+   "wording": "All patients should have a documented escalation plan before starting treatment with acute NIV.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5890056/"
+  },
+  "pass": "A written plan stating whether the patient is for intubation and intensive care or NIV as the ceiling, timed before or at the NIV start time.",
+  "population": "Adults started on acute NIV outside intensive care. Exclude NIV started during a cardiac arrest call.",
+  "sample": "40 consecutive acute NIV episodes over the last 3–4 months.",
+  "data_source": "NIV register or ventilator log for cases; NIV chart and EPR for plan and start times; treatment escalation plan form.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "niv_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "escalation_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "plan_before_niv",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "plan_content",
+    "type": "choice",
+    "options": [
+     "For intubation and ICU",
+     "NIV is ceiling of care",
+     "Unclear"
+    ],
+    "note": ""
+   },
+   {
+    "field": "plan_made_by_grade",
+    "type": "choice",
+    "options": [
+     "Consultant",
+     "Registrar",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "Respiratory ward",
+     "Other ward"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put a mandatory escalation plan box on the front of the NIV prescription chart, so NIV cannot be prescribed until it is completed.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 acute NIV episodes, same template.",
+  "close_loop": "Present at the NIV operational group and respiratory governance. If it worked, keep the box on the chart and review any NIV death without a plan at morbidity and mortality meetings.",
+  "evidence": [
+   "[2673] Sussex surgical floor: ceiling of care documented 58% → 83% (regular frailty consultant review)",
+   "[2183] Whittington general surgery: treatment escalation plan completed 21% → 36% (clerking proforma changed)",
+   "[2254] Aberdeen ENT: treatment escalation plan completed 0% → 40% (education and reminders)"
+  ],
+  "pitfalls": [
+   "Plans are written but not timed → accept the note time in the EPR, and agree this before cycle 1.",
+   "Juniors feel unable to set a ceiling at night → allow a registrar plan 'for review by consultant' to pass, and record the grade.",
+   "A general TEP form exists but is not NIV-specific → count it if it states the ventilation ceiling clearly.",
+   "Staff may object that plans delay NIV → make the box a single line so it takes under a minute."
+  ],
+  "pearls": [
+   "Recruit the NIV lead consultant and nurse; they own the chart.",
+   "Link the box to the existing Trust TEP form rather than creating a new one.",
+   "Audit the same episodes for time to NIV; it shows the plan does not slow treatment.",
+   "Keep plan completion as a standing item at NIV morbidity and mortality meetings."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 episodes from NIV chart"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults started on acute NIV have a blood gas taken within 2 hours of starting?",
+  "why": "The first blood gas on NIV shows whether it is working and when to escalate. No audit of the 2-hour gas has been published in the library; related NIV audits only measured time to start [7360] [5789].",
+  "standard": {
+   "source": "BTS Quality Standards for acute NIV in adults, Quality statement 6 (2018)",
+   "wording": "All patients treated with acute NIV should have blood gas analysis performed within 2 hours of starting acute NIV. Failure of these blood gas measurements to improve should trigger specialist healthcare professional review within 30 min.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5890056/"
+  },
+  "pass": "An arterial or arterialised capillary blood gas analysed 2 hours or less after the NIV start time.",
+  "population": "Adults started on acute NIV outside intensive care. Exclude patients who died or stopped NIV within 2 hours.",
+  "sample": "40 consecutive acute NIV episodes over the last 3–4 months.",
+  "data_source": "NIV register or ventilator log for cases; blood gas analyser record for times and values; NIV chart for start time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "niv_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_gas_on_niv_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_to_first_gas",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gas_within_2h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "ph_on_niv",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gas_improved",
+    "type": "choice",
+    "options": [
+     "Yes",
+     "No",
+     "Not done"
+    ],
+    "note": ""
+   },
+   {
+    "field": "specialist_review_within_30_min_if_not_improved",
+    "type": "choice",
+    "options": [
+     "Yes",
+     "No",
+     "Not applicable"
+    ],
+    "note": "Secondary measure"
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "Respiratory ward",
+     "Other ward"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Print the 'repeat blood gas due' time on the NIV prescription chart and set an automatic 2-hour task in the EPR when NIV starts.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 acute NIV episodes, same template.",
+  "close_loop": "Present at the NIV operational group. If it worked, keep the chart field and EPR task and add the 2-hour gas to the NIV competency sign-off.",
+  "evidence": [
+   "[7360] King's Mill Hospital: delay in NIV start 31% → 77% (e-learning only)",
+   "[6130] Sandwell AMU: target saturation documented 50% → 94% (new oxygen prescription chart and stickers)",
+   "[8081] Russells Hall ICU: blood gases per patient 14.27 → 11.78 (local guideline and prompts; shows gas practice can be changed by protocol)"
+  ],
+  "pitfalls": [
+   "Gases taken during a move between wards are missed → search the analyser for all gases on that patient, not the notes.",
+   "The NIV start time is not recorded → use the first recorded ventilator settings time and keep the rule for both cycles.",
+   "Patients moved to ICU early are counted twice → include only the ward NIV episode.",
+   "Nurses cannot take arterial samples → agree who takes the 2-hour gas out of hours before switching on the task."
+  ],
+  "pearls": [
+   "Recruit the blood gas analyser point-of-care lead; the analyser export gives exact times.",
+   "Report the secondary 30-minute review to show why the gas matters.",
+   "Add the 2-hour gas to the NIV handover sheet.",
+   "Re-audit after the next junior doctor rotation to check it holds."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 episodes from analyser export and NIV chart"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults started on acute NIV are reviewed by a consultant trained in NIV within 14 hours of starting?",
+  "why": "Early consultant review decides whether NIV is working, the ceiling of care and when to wean. Early specialist review in COPD admissions was 55–66% nationally [7080]; no audit of consultant review after NIV has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standards for acute NIV in adults, Quality statement 5 (2018)",
+   "wording": "Clinical progress should be reviewed by a healthcare professional with appropriate training and competence within 4 hours of starting NIV and by a consultant with training and competence in acute NIV within 14 hours of starting acute NIV.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5890056/"
+  },
+  "pass": "A documented review by a consultant with NIV competence (respiratory, intensive care or named acute physician on the NIV rota) 14 hours or less after NIV start.",
+  "population": "Adults started on acute NIV outside intensive care. Exclude patients who died or stopped NIV before 14 hours.",
+  "sample": "40 consecutive acute NIV episodes over the last 3–4 months.",
+  "data_source": "NIV register or ventilator log for cases; EPR and NIV chart for start and review times; consultant rota for competence.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "niv_start_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "day_of_week_started",
+    "type": "choice",
+    "options": [
+     "Weekday",
+     "Weekend or bank holiday"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_specialty",
+    "type": "choice",
+    "options": [
+     "Respiratory",
+     "Intensive care",
+     "Acute medicine (NIV-trained)",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hours_to_consultant_review",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "review_within_14h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_within_4h_by_trained_professional",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add every new NIV patient automatically to the on-call respiratory consultant's review list (EPR list or ward NIV board) at the time NIV starts.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 acute NIV episodes, same template.",
+  "close_loop": "Present at respiratory governance and the NIV operational group. If it worked, keep the list and report weekend review times each quarter.",
+  "evidence": [
+   "[7080] National COPD audit programme: early specialist review 55–66% (continuous audit, QI support and incentives)",
+   "[2673] Sussex surgical floor: ceiling of care 58% → 83% (regular frailty consultant review)",
+   "[1482] Hip fracture unit: geriatrician review within 72 hours 68.8% → 81.8% (process and logistics changes)"
+  ],
+  "pitfalls": [
+   "Weekend rota has no NIV-trained consultant → agree which consultants count before cycle 1 and report weekends separately.",
+   "Reviews by phone are not documented → count only a written review, and say so early.",
+   "Consultants feel judged on individual performance → present results by day and time, not by name.",
+   "Episodes starting in the evening skew the result → report median hours as well as the rate."
+  ],
+  "pearls": [
+   "Recruit the respiratory clinical director; the fix is a rota issue.",
+   "Start with the list the NIV nurses already keep.",
+   "Show that most breaches cluster at weekends; it makes the case for a named weekend reviewer.",
+   "Keep the 14-hour figure on the NIV dashboard after the audit ends."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 episodes from EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults admitted with a COPD exacerbation who have no spirometry on record have spirometry requested before discharge?",
+  "why": "A COPD label without spirometry is often wrong, and national audit found spirometry available for only 40–46% of admissions [7080]. No hospital audit of closing this gap at discharge has been published in the library; a Devon register audit confirmed COPD in only 73% of those tested [4918].",
+  "standard": {
+   "source": "NICE NG115 rec 1.1.5 (2018, updated 2019)",
+   "wording": "Measure post-bronchodilator spirometry to confirm the diagnosis of COPD. [2010]",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "Outpatient or community spirometry requested (lung function referral, or an explicit request to the GP in the discharge summary) before discharge, in a patient with no post-bronchodilator spirometry found on record.",
+  "population": "Adults with a primary discharge diagnosis of COPD exacerbation and no spirometry result in hospital lung function records, clinic letters or the GP summary care record. Exclude deaths and end-of-life care.",
+  "sample": "All COPD exacerbation admissions until 40 without spirometry on record are found (usually 2–3 months).",
+  "data_source": "Coding or NACAP (national respiratory audit) case list; lung function laboratory system and summary care record for previous spirometry; discharge summary and referral system for the request.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_spirometry_found",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, record date and FEV1/FVC, then exclude from the pass denominator"
+   },
+   {
+    "field": "fev1_fvc_ratio",
+    "type": "number",
+    "options": [],
+    "note": "Only if previous spirometry found"
+   },
+   {
+    "field": "spirometry_requested_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "request_route",
+    "type": "choice",
+    "options": [
+     "Hospital lung function referral",
+     "GP request in discharge summary",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "discharging_team",
+    "type": "choice",
+    "options": [
+     "Respiratory",
+     "Acute medicine",
+     "Elderly care",
+     "Other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'spirometry on record? If not, request now' step with a one-click lung function referral to the COPD discharge bundle.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14: next 40 COPD admissions without spirometry on record, same template.",
+  "close_loop": "Present at respiratory governance and to the lung function lead. If it worked, keep the bundle step and report the proportion of admissions with confirmed spirometry each quarter.",
+  "evidence": [
+   "[6148] Gloucestershire COPD admissions: all bundle elements 63% → 73% (bundle paperwork, training, junior focus group)",
+   "[7080] National COPD audit programme: discharge bundle 53–74% improved faster than spirometry availability 40–46% (incentives and continuous audit)",
+   "[4918] Devon primary care registers: COPD confirmed in 73% of those with spirometry (single cycle)"
+  ],
+  "pitfalls": [
+   "Old spirometry sits in GP records you cannot see → check the summary care record and ask one local practice to confirm a sample.",
+   "Patients are too unwell for spirometry soon after discharge → accept a request timed for 6–8 weeks after recovery.",
+   "The lung function lab worries about capacity → agree numbers with them before the change.",
+   "Requests are made but never done → record completion at 3 months as a secondary check."
+  ],
+  "pearls": [
+   "Recruit the respiratory physiologist lead; they can tell you who has had spirometry in seconds.",
+   "Use the NACAP case list if your hospital submits; it saves coding searches.",
+   "Include a line in the discharge summary so the GP knows why spirometry matters.",
+   "Hand the bundle step to the COPD specialist nurses so it outlasts the audit team."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from lung function system and EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults discharged after a COPD exacerbation are referred to pulmonary rehabilitation?",
+  "why": "Pulmonary rehabilitation after an exacerbation reduces readmission, yet referral is often missed at discharge. National COPD audits report discharge bundles in only 53–74% [7080]; no hospital audit of pulmonary rehabilitation referral has been published in the library.",
+  "standard": {
+   "source": "NICE NG115 rec 1.2.82 (2018, updated 2019)",
+   "wording": "Make pulmonary rehabilitation available to all appropriate people with COPD (see the recommendation on offering pulmonary rehabilitation), including people who have had a recent hospitalisation for an acute exacerbation. [2010]",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "pass": "A pulmonary rehabilitation referral sent before discharge, or a documented offer that the patient declined.",
+  "population": "Adults discharged alive after a COPD exacerbation. Exclude people unable to walk, with unstable angina or recent myocardial infarction, on end-of-life care, or who completed pulmonary rehabilitation in the last 12 months.",
+  "sample": "40 consecutive eligible discharges over the last 2 months.",
+  "data_source": "Coding or NACAP case list; EPR discharge bundle and notes; pulmonary rehabilitation service referral log.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mrc_dyspnoea_grade",
+    "type": "choice",
+    "options": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "Not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "pr_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pr_referral_sent_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (or documented decline)"
+   },
+   {
+    "field": "declined_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pr_start_date",
+    "type": "date",
+    "options": [],
+    "note": "Secondary: enrolled within 30 days of discharge?"
+   },
+   {
+    "field": "discharging_team",
+    "type": "choice",
+    "options": [
+     "Respiratory",
+     "Acute medicine",
+     "Elderly care",
+     "Other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make pulmonary rehabilitation referral a mandatory item on the COPD discharge bundle, with the referral form embedded in the EPR.",
+  "target": "≥80%",
+  "reaudit": "Weeks 13–14: next 40 eligible COPD discharges, same template.",
+  "close_loop": "Present at respiratory governance with the pulmonary rehabilitation team. If it worked, keep the mandatory item and track referral and 30-day enrolment rates together.",
+  "evidence": [
+   "[6148] Gloucestershire COPD admissions: all bundle elements 63% → 73% (bundle paperwork and training)",
+   "[7080] National COPD audit programme: discharge bundle 53–74% (continuous audit with incentives)",
+   "[5276] 192 UK units, 2003 → 2008: 90-day mortality fell and more patients were discharged under a respiratory specialist (better resources and organisation of care)"
+  ],
+  "pitfalls": [
+   "Referrals are made by the pulmonary rehabilitation team itself after discharge → check their log, not only the notes.",
+   "Patients declining are counted as fails → record documented declines as a pass, as agreed before cycle 1.",
+   "The rehabilitation service cannot enrol more people quickly → warn them and measure 30-day enrolment separately.",
+   "Non-respiratory wards miss the bundle → report results by discharging team."
+  ],
+  "pearls": [
+   "Recruit the pulmonary rehabilitation coordinator; they know who was referred.",
+   "Ask patients' preference for venue at referral; it lifts uptake.",
+   "Use the NACAP data if your hospital submits.",
+   "Give the COPD nurses ownership of the bundle item after the audit."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPR and referral log"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults discharged after an asthma attack have follow-up with their GP or practice asthma nurse arranged within two working days?",
+  "why": "More than 15% of people reattend within two weeks of an asthma attack, and early review prevents relapse. The only asthma discharge audits in the library date from the 1990s and did not measure early follow-up [9159] [8397].",
+  "standard": {
+   "source": "BTS/SIGN British guideline on the management of asthma (SIGN 158), section 9.6.3 (revised 2019, revised edition November 2024, corrections May 2025)",
+   "wording": "Prior to discharge, follow up should be arranged with the patient’s general practitioner or asthma nurse within two working days and with a hospital specialist asthma nurse or respiratory physician at about one month after admission.",
+   "url": "https://www.sign.ac.uk/media/2342/sign-158-2024-british-guideline-on-the-management-of-asthma-may-2025.pdf"
+  },
+  "pass": "Discharge summary or notes record a GP or practice asthma nurse review booked or requested within two working days of discharge.",
+  "population": "Adults aged 16 and over discharged from a ward, ED or same-day emergency care after an asthma attack. Exclude COPD overlap coded as COPD and transfers to other hospitals.",
+  "sample": "40 consecutive eligible discharges over the last 3 months.",
+  "data_source": "ED and inpatient coding for asthma; discharge summary and EPR notes for follow-up arrangements.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "attendance_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_setting",
+    "type": "choice",
+    "options": [
+     "Ward",
+     "ED",
+     "Same-day emergency care"
+    ],
+    "note": ""
+   },
+   {
+    "field": "attack_severity",
+    "type": "choice",
+    "options": [
+     "Moderate",
+     "Acute severe",
+     "Life-threatening"
+    ],
+    "note": ""
+   },
+   {
+    "field": "gp_review_within_2_working_days_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "how_arranged",
+    "type": "choice",
+    "options": [
+     "Booked by hospital",
+     "Patient told to book",
+     "Request in discharge summary only",
+     "None"
+    ],
+    "note": ""
+   },
+   {
+    "field": "specialist_follow_up_about_1_month",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary measure"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'GP/asthma nurse review within 2 working days: requested' field to the asthma discharge template, which sends an electronic task to the practice.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at respiratory and ED governance. If it worked, keep the template field and share results with the local integrated care board asthma lead.",
+  "evidence": [
+   "[7933] East and North Hertfordshire ED, pneumonia: follow-up chest X-ray 32% → 70% (mandatory electronic discharge prompts, leaflets, alert system)",
+   "[4307] West Norwich respiratory ward, asthma: written inhaler technique check 32/55 → 22/23 (a stamp in the notes)",
+   "[9159] Tayside asthma discharge letters: inhaler technique 17%, self-management plan 66% (single cycle)"
+  ],
+  "pitfalls": [
+   "ED discharges have no discharge summary → check the ED letter to the GP and count it only if it asks for review.",
+   "'Two working days' is miscounted over weekends → define working days before cycle 1 and keep the rule.",
+   "Practices may not act on an electronic task → agree the route with two local practices first.",
+   "Patients told to book themselves may not → record how it was arranged so the change can target it."
+  ],
+  "pearls": [
+   "Recruit a respiratory nurse and an ED consultant; most asthma attacks leave from ED.",
+   "Pair the field with the written asthma action plan to keep discharge simple.",
+   "Ask a local GP to confirm a sample of appointments actually happened.",
+   "Put the field in the ED template as well as the ward template."
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with a likely PE Wells score whose CTPA cannot be done immediately receive interim therapeutic anticoagulation before the scan?",
+  "why": "Untreated pulmonary embolism can kill while patients wait for imaging. Library audits of suspected PE focus on Wells scoring and CTPA appropriateness [8062] [6188]; none measures interim anticoagulation during the wait.",
+  "standard": {
+   "source": "NICE NG158 rec 1.1.18 (2020, updated 2023)",
+   "wording": "For people with a likely PE Wells score (more than 4 points): offer a computed tomography pulmonary angiogram (CTPA) immediately if possible or for people with an allergy to contrast media, severe renal impairment (estimated creatinine clearance less than 30 ml/min) or a high risk from irradiation, assess the suitability of a ventilation/perfusion single photon emission computed tomography (V/Q SPECT) scan or, if a V/Q SPECT scan is not available, a V/Q planar scan, as an alternative to CTPA. If a CTPA, V/Q SPECT or V/Q planar scan cannot be done immediately, offer interim therapeutic anticoagulation (see the section on interim therapeutic anticoagulation for suspected DVT or PE). [2012, amended 2020]",
+   "url": "https://www.nice.org.uk/guidance/ng158/chapter/Recommendations"
+  },
+  "pass": "A therapeutic dose of anticoagulant given (drug chart administration time) before the scan, when the scan was more than 1 hour after the Wells score was recorded (local definition of 'not immediately'); a documented contraindication also passes.",
+  "population": "Adults with a Wells score above 4 who had CTPA or V/Q scan requested from ED, AMU or wards, with the scan done more than 1 hour after the Wells score. Exclude patients already on therapeutic anticoagulation and pregnant women (separate pathway).",
+  "sample": "40 consecutive eligible patients over the last 2–3 months.",
+  "data_source": "Radiology system (RIS/PACS) list of CTPA and V/Q requests with request and scan times; EPR for Wells score and time; drug chart for anticoagulant dose and time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "wells_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "wells_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "interim_anticoagulant_given_before_scan",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "anticoagulant_and_dose",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pe_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a required question to the electronic CTPA and V/Q request: 'Wells above 4 and scan not within 1 hour: interim anticoagulant prescribed? (yes / contraindicated)'.",
+  "target": "≥90%",
+  "reaudit": "Weeks 13–14: next 40 eligible patients, same template and same 1-hour rule.",
+  "close_loop": "Present at joint ED, acute medicine and radiology governance. If it worked, keep the request question and add interim anticoagulation to the Trust PE pathway audit.",
+  "evidence": [
+   "[8062] Croydon University Hospital: Wells score documented 6.9% → 87.5% (mandatory fields on the electronic CTPA request)",
+   "[6188] Two Melbourne EDs: inappropriate CTPAs 34% → 10% (PE flowchart)",
+   "[8335] RCP inpatient anticoagulation audit: APTT subtherapeutic in 33% at the start of treatment (single cycle)"
+  ],
+  "pitfalls": [
+   "Wells score time is missing → use the CTPA request time as the start and keep it for both cycles.",
+   "Radiologists may resist an extra question on the request → keep it to one tick box and agree it with the radiology lead first.",
+   "Bleeding-risk patients are counted as fails → count a documented contraindication as a pass.",
+   "Scans done within the hour inflate the denominator → exclude them as the standard only applies when imaging is delayed."
+  ],
+  "pearls": [
+   "Recruit a radiology registrar; RIS gives request and scan times in one export.",
+   "Agree the 1-hour definition of 'immediately' with ED and radiology before cycle 1.",
+   "Record whether PE was confirmed; untreated confirmed PE makes a strong case.",
+   "Keep the request question after the audit; it costs nothing."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from RIS and drug chart"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of pleural aspirations and chest drains for pleural fluid are done with thoracic ultrasound at the time of the procedure?",
+  "why": "Blind or pre-marked pleural procedures cause organ puncture and failed taps. One library audit found ultrasound guidance poorly documented before a chest drain bundle [9514]; no audit of peri-procedural ultrasound use has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standard for Pleural Disease, Quality statement 3 (2026)",
+   "wording": "Peri-procedural thoracic ultrasound must be used for all pleural fluid procedures unless real-time CT imaging is more appropriate.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13202182/"
+  },
+  "pass": "Procedure note records thoracic ultrasound performed by the operator at the bedside immediately before or during the procedure (site marking done earlier in radiology does not count).",
+  "population": "Adult pleural aspirations (diagnostic or therapeutic) and chest drains for fluid in ED, wards, AMU and procedure rooms. Exclude drains for pneumothorax, CT-guided procedures and procedures in theatre or intensive care.",
+  "sample": "40 consecutive procedures over the last 2–3 months.",
+  "data_source": "Pleural procedure log or chest drain register; EPR procedure notes; laboratory pleural fluid sample list to find aspirations.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_type",
+    "type": "choice",
+    "options": [
+     "Diagnostic aspiration",
+     "Therapeutic aspiration",
+     "Chest drain for fluid"
+    ],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "Medical ward",
+     "Pleural procedure room",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ultrasound_at_bedside",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "operator_grade",
+    "type": "choice",
+    "options": [
+     "Consultant",
+     "Registrar",
+     "Core trainee",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "operator_ultrasound_trained",
+    "type": "choice",
+    "options": [
+     "Yes",
+     "No",
+     "Unknown"
+    ],
+    "note": ""
+   },
+   {
+    "field": "in_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": "09:00–17:00 weekday"
+   },
+   {
+    "field": "complication",
+    "type": "choice",
+    "options": [
+     "None",
+     "Pneumothorax",
+     "Bleeding",
+     "Organ puncture",
+     "Dry tap",
+     "Other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Route all non-emergency pleural fluid procedures through a daily pleural list run by ultrasound-trained operators, booked by electronic referral.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 procedures, same template.",
+  "close_loop": "Present at respiratory governance and the Trust invasive procedures group. If it worked, keep the pleural list and report ultrasound use and complications quarterly.",
+  "evidence": [
+   "[9514] Gloucestershire: poor documentation of ultrasound guidance and consent → improved above the national average (chest drain insertion bundle and guidelines)",
+   "[5755] BTS national pleural audit, 90 UK hospitals: 71% had a chest drain safety lead (organisational survey)",
+   "[4770] Taunton, spontaneous pneumothorax: deviation from BTS guidance 26.9% → 32.1% (teaching only)"
+  ],
+  "pitfalls": [
+   "Aspirations done on the ward leave no procedure note → find them from the laboratory pleural fluid list.",
+   "Radiology site-marking is counted as ultrasound use → agree before cycle 1 that only bedside ultrasound counts.",
+   "Out-of-hours procedures have no trained operator → report in-hours and out-of-hours separately.",
+   "Operators feel policed → present by location and time, not by name."
+  ],
+  "pearls": [
+   "Recruit the pleural lead and the chest drain safety lead.",
+   "Check where the ultrasound machines are and who can use them before cycle 1.",
+   "Record complications; they make the case for the pleural list.",
+   "Keep a simple procedure log in the pleural room so the next audit takes minutes."
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 procedures from EPR and laboratory list"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of pleural procedures have a pleural safety checklist (LocSSIP) completed both before and after the procedure?",
+  "why": "Pleural procedures cause serious harm, and national safety standards expect a checklist for every one. Checklists in theatres and ED moved from 16.7–64% to 84–100% after system changes [7271] [7133]; no audit of pleural checklist use has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standard for Pleural Disease, Quality statement 3 (2026)",
+   "wording": "A pleural procedures specific safety LocSSIP (Local Safety Standard for Invasive Procedures) should be completed for each patient before and after all pleural procedures.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13202182/"
+  },
+  "pass": "Pleural LocSSIP present in the notes or EPR with both the pre-procedure and post-procedure sections completed.",
+  "population": "All adult pleural aspirations, chest drains and indwelling pleural catheter insertions outside theatre. Exclude procedures during cardiac arrest or peri-arrest.",
+  "sample": "40 consecutive procedures over the last 2–3 months.",
+  "data_source": "Pleural procedure log or chest drain register; laboratory pleural fluid list; EPR or scanned notes for the checklist.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "procedure_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "procedure_type",
+    "type": "choice",
+    "options": [
+     "Aspiration",
+     "Chest drain",
+     "Indwelling pleural catheter"
+    ],
+    "note": ""
+   },
+   {
+    "field": "location",
+    "type": "choice",
+    "options": [
+     "ED",
+     "AMU",
+     "Medical ward",
+     "Pleural procedure room",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "locssip_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_procedure_section_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "post_procedure_section_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "both_sections_complete",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "emergency_procedure",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build the pleural LocSSIP into the EPR pleural procedure note so the note cannot be saved until both sections are complete.",
+  "target": "≥95%",
+  "reaudit": "Weeks 13–14: next 40 procedures, same template.",
+  "close_loop": "Present at the Trust NatSSIPs or invasive procedures group and respiratory governance. If it worked, keep the EPR build and add LocSSIP completion to the procedure competency sign-off.",
+  "evidence": [
+   "[7271] East Lancashire ED: intubation checklist use 16.7% → 84% (prompts and expectation-setting)",
+   "[7133] Gloucestershire theatres: 'Sign In' 55% → 99% (wall-mounted checklist)",
+   "[5459] Wexham Park ENT theatres: WHO checklist compliance 63.7% → 90.4% (staff education)"
+  ],
+  "pitfalls": [
+   "Paper checklists are lost after scanning → check scanned notes and the procedure log.",
+   "The post-procedure section is skipped when the operator leaves → make the post-check part of the nursing handover.",
+   "Aspirations on the ward are missed → use the laboratory pleural fluid list to find them.",
+   "Staff see it as box-ticking → share local pleural incidents to show why it matters."
+  ],
+  "pearls": [
+   "Recruit the Trust NatSSIPs lead; they may already have the EPR form.",
+   "Agree what 'complete' means (all fields, signed) before cycle 1.",
+   "Put blank LocSSIPs in every chest drain pack while the EPR build is made.",
+   "Report procedure-room and ward results separately; wards usually lag."
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 procedures from EPR and scanned notes"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with respiratory infection symptoms and a unilateral pleural effusion have the fluid sampled within 24 hours?",
+  "why": "Delay in sampling a parapneumonic effusion delays drainage of pleural infection and lengthens stay. No audit of time to pleural fluid sampling in pneumonia has been published in the library; the nearest audits cover follow-up imaging after pneumonia [9431] [7933].",
+  "standard": {
+   "source": "BTS Quality Standard for Pleural Disease, Quality statement 11 (2026)",
+   "wording": "In the context of respiratory infective symptoms, a unilateral pleural effusion should be promptly recognised as potential pleural infection and sampled within 24 hours if appropriate to confirm or exclude the diagnosis.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13202182/"
+  },
+  "pass": "Pleural fluid sample taken within 24 hours of the first imaging report showing the effusion (sample time from laboratory or procedure note), or a documented reason sampling was not appropriate.",
+  "population": "Adults admitted with pneumonia or lower respiratory tract infection and a new unilateral pleural effusion on chest X-ray, ultrasound or CT. Exclude effusions under 2 cm depth on ultrasound, known malignant effusions and end-of-life care.",
+  "sample": "30–40 consecutive eligible patients over the last 4–6 months.",
+  "data_source": "Pneumonia coding list cross-checked with radiology report search for 'effusion'; laboratory system for pleural fluid samples and times; EPR for reasons.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_imaging_showing_effusion_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "imaging_type",
+    "type": "choice",
+    "options": [
+     "Chest X-ray",
+     "Thoracic ultrasound",
+     "CT"
+    ],
+    "note": ""
+   },
+   {
+    "field": "effusion_depth_cm",
+    "type": "number",
+    "options": [],
+    "note": "On ultrasound, if done"
+   },
+   {
+    "field": "pleural_sample_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sampled_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_not_sampled_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ph_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": "Secondary: non-purulent fluid sent for pH"
+   },
+   {
+    "field": "pleural_infection_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse and present; Wk 4 put the change in; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'pneumonia with effusion' step to the pneumonia admission proforma that requires thoracic ultrasound and a pleural team referral within 24 hours.",
+  "target": "≥85%",
+  "reaudit": "Weeks 13–14 (or when 30 new eligible patients are reached): same template.",
+  "close_loop": "Present at respiratory and acute medicine governance. If it worked, keep the proforma step and add time-to-sampling to the pleural service dashboard.",
+  "evidence": [
+   "[9431] Weston General Hospital AMU: follow-up imaging after pneumonia 22/42 → 37/50 (discharge template prompt, posters, leaflets)",
+   "[7933] East and North Hertfordshire ED: follow-up chest X-ray after pneumonia 32% → 70% (mandatory electronic discharge prompts)",
+   "[9514] Gloucestershire: chest drain documentation improved above the national average (chest drain insertion bundle)"
+  ],
+  "pitfalls": [
+   "Small effusions on X-ray are not truly eligible → record ultrasound depth and exclude effusions under 2 cm.",
+   "Clock start is disputed → use the first imaging report time in both cycles.",
+   "Weekend sampling depends on who can scan → report weekend and weekday results separately.",
+   "Numbers are small → extend the look-back period rather than lower the sample."
+  ],
+  "pearls": [
+   "Recruit the pleural lead and a radiologist to run the report search.",
+   "Record pleural infection confirmed; it shows the yield of prompt sampling.",
+   "Link to the pleural list or ultrasound audit if run in the same year.",
+   "Keep the proforma step after the audit; it takes seconds."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from radiology, laboratory and EPR"
+ },
+ {
+  "area": "Cardiology and respiratory medicine",
+  "question": "What proportion of adults with a recurrent spontaneous pneumothorax are offered referral to thoracic surgery for recurrence prevention?",
+  "why": "A second pneumothorax carries a high risk of further episodes, and surgery can prevent them. The only library pneumothorax audit found guideline deviation rising from 26.9% to 32.1% after teaching [4770]; no audit of surgical referral for recurrence has been published in the library.",
+  "standard": {
+   "source": "BTS Quality Standard for Pleural Disease, Quality statement 16 (2026)",
+   "wording": "Patients with spontaneous recurrent pneumothorax* should be considered for elective surgical recurrence prevention if clinically appropriate. *Recurrent pneumothorax includes patients with second ipsilateral or first contralateral pneumothorax.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13202182/"
+  },
+  "pass": "Documented offer of thoracic surgical referral (referral sent, or the patient declined) during the admission or at the first respiratory follow-up.",
+  "population": "Adults with a second ipsilateral or first contralateral spontaneous pneumothorax (primary or secondary). Exclude patients documented as unfit for surgery and traumatic or iatrogenic pneumothorax.",
+  "sample": "All eligible patients over the last 12–24 months (aim for 30).",
+  "data_source": "Coding for spontaneous pneumothorax; radiology and clinic letters for previous episodes; EPR and thoracic surgery referral system for the offer.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "episode_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pneumothorax_type",
+    "type": "choice",
+    "options": [
+     "Primary spontaneous",
+     "Secondary spontaneous"
+    ],
+    "note": ""
+   },
+   {
+    "field": "recurrence_type",
+    "type": "choice",
+    "options": [
+     "Second ipsilateral",
+     "First contralateral",
+     "Third or more"
+    ],
+    "note": ""
+   },
+   {
+    "field": "management",
+    "type": "choice",
+    "options": [
+     "Conservative",
+     "Aspiration",
+     "Chest drain",
+     "Ambulatory device"
+    ],
+    "note": ""
+   },
+   {
+    "field": "unfit_for_surgery_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "If yes, exclude"
+   },
+   {
+    "field": "surgical_referral_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_declined",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect (12–24 month look-back); Wk 3 analyse and present; Wk 4 put the change in; Wk 5–26 embed; Wk 27–28 re-audit (numbers are small, so allow 6 months)",
+  "change": "Add 'Recurrent pneumothorax? Offer thoracic surgery referral' to the pneumothorax discharge proforma, with an electronic link to the regional thoracic surgical referral.",
+  "target": "≥90%",
+  "reaudit": "After 6 months: all eligible patients since the change, same template.",
+  "close_loop": "Present at respiratory governance with the regional thoracic surgeons. If it worked, keep the proforma prompt and add recurrence referral to the pleural service annual report.",
+  "evidence": [
+   "[4770] Taunton DGH: deviation from BTS pneumothorax guidance 26.9% → 32.1% (teaching and online link only)",
+   "[9431] Weston General Hospital AMU: follow-up imaging after pneumonia 22/42 → 37/50 (discharge template prompt)",
+   "[7933] East and North Hertfordshire ED: follow-up chest X-ray 32% → 70% (mandatory discharge prompts)"
+  ],
+  "pitfalls": [
+   "Previous episodes at other hospitals are missed → ask about and search clinic letters for past pneumothorax.",
+   "Numbers are small → use a 12–24 month look-back and allow 6 months before re-audit.",
+   "Surgeons may not accept some referrals → count the offer as the pass, and record the surgical outcome separately.",
+   "Patients may decline surgery → count a documented informed decline as a pass."
+  ],
+  "pearls": [
+   "Recruit a thoracic surgical registrar from the regional centre.",
+   "Agree the recurrence definition (second ipsilateral or first contralateral) before cycle 1.",
+   "Put the prompt in both the ED and respiratory discharge templates.",
+   "Add the prompt to the first respiratory clinic letter template as a safety net."
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from coding and EPR"
+ }
+]

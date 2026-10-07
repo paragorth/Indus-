@@ -1,0 +1,1622 @@
+[
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "In children who have K-wire fixation of a supracondylar fracture, does the operation note state when the wires will come out?",
+  "why": "Missing wire-removal plans cause lost-to-follow-up wires and extra clinic visits. Corpus supracondylar audits measure nerve checks and 2 mm wires [1640, 1232], not this item; no audit in corpus.",
+  "standard": {
+   "source": "BOAST Supracondylar Fractures of the Humerus in Children (October 2020), standard 12",
+   "wording": "The operating surgeon should determine and document the need for post-operative radiographs and anticipated time of wire removal.",
+   "url": "https://www.boa.ac.uk/resource/boast-11-pdf.html"
+  },
+  "pass": "Operation note records the anticipated time of wire removal (e.g. '3–4 weeks, in clinic'). The need for post-operative X-rays is collected as a secondary item.",
+  "population": "Children under 16 with a supracondylar humerus fracture fixed with K-wires. Exclude open reductions for vascular exploration if the note is written by vascular surgery only.",
+  "sample": "40 consecutive cases from the theatre system, going back up to 18 months.",
+  "data_source": "Theatre system (case list, date); electronic operation note (wire plan, X-ray plan, grade of author); clinic letters (actual removal date).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operating_surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "wire_removal_time_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "wire_removal_time_weeks",
+    "type": "number",
+    "options": [],
+    "note": "As written in the note"
+   },
+   {
+    "field": "postop_xray_need_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Either 'X-ray needed' or 'no X-ray needed'"
+   },
+   {
+    "field": "date_wires_removed",
+    "type": "date",
+    "options": [],
+    "note": "From clinic letter"
+   },
+   {
+    "field": "wires_removed_late",
+    "type": "yes/no",
+    "options": [],
+    "note": "More than 1 week after the planned time"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add two mandatory drop-down fields to the paediatric K-wire operation note template: 'wire removal at __ weeks' and 'post-op X-ray: yes/no'.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 20–40 consecutive cases after the template goes live, same template.",
+  "close_loop": "Present at trauma and orthopaedic governance and the paediatric fracture clinic team. If it works, keep the fields mandatory and add to the unit's supracondylar pathway.",
+  "evidence": [
+   "[1483] Royal London trauma: post-operative instructions → 100% (smart electronic operation note with drop-downs)",
+   "[2256] general surgery: overall operation note compliance <80% → >98% (electronic proforma built with IT)",
+   "[1232] Stevenage supracondylar: information booklet alone gave mixed gains and time to theatre regressed (education only)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from theatre system and EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "When a medial K-wire is used for a child's supracondylar fracture, does the operation note record how the ulnar nerve was protected?",
+  "why": "Iatrogenic ulnar nerve injury is a known risk of medial wires and a medicolegal issue. Corpus audits count crossed wires [1543] but none check the op-note record of ulnar nerve protection; no audit in corpus.",
+  "standard": {
+   "source": "BOAST Supracondylar Fractures of the Humerus in Children (October 2020), standard 6",
+   "wording": "When a medial wire is used, techniques to avoid ulnar nerve injury should be employed and recorded on the operation note.",
+   "url": "https://www.boa.ac.uk/resource/boast-11-pdf.html"
+  },
+  "pass": "Operation note names a technique (e.g. mini-open medial incision, elbow extended when the medial wire goes in, nerve palpated and held back).",
+  "population": "Children under 16 with supracondylar fixation that includes at least one medial-entry wire (from op note or intra-operative image). Exclude lateral-only constructs.",
+  "sample": "All medial-wire cases over the last 24 months (expect 20–40 in a trauma unit; pool across 2 sites if fewer).",
+  "data_source": "Theatre system; operation note; intra-operative fluoroscopy images on PACS (to confirm medial wire); post-op clinic letters (ulnar nerve status).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "medial_wire_confirmed_on_imaging",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ulnar_protection_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "technique_recorded",
+    "type": "choice",
+    "options": [
+     "mini-open",
+     "elbow extension",
+     "nerve palpated/retracted",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "preop_ulnar_nerve_status_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "postop_ulnar_nerve_deficit",
+    "type": "yes/no",
+    "options": [],
+    "note": "From ward/clinic notes"
+   },
+   {
+    "field": "operating_surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a conditional field to the paediatric K-wire op-note template: if 'medial wire = yes', the note cannot be saved until an ulnar protection technique is chosen.",
+  "target": "100%",
+  "reaudit": "At 6 months (medial wires are infrequent): all medial-wire cases since the change, same template.",
+  "close_loop": "Present at departmental M&M/governance. If it works, keep the conditional field and report annually with the supracondylar audit.",
+  "evidence": [
+   "[1483] Royal London trauma: closure and post-op instructions → 100% (electronic op note with drop-downs)",
+   "[1543] Edinburgh: 7/49 cases used crossed wires, so expect small numbers per year"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients (op note plus a PACS check)"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "When a child's supracondylar fracture is fixed at night, is the urgent reason for night surgery documented?",
+  "why": "Night operating on children carries more risk and is often avoidable. Corpus audits measure time to theatre [1232] and one noted night operating in passing [1211]; none measure the documented indication.",
+  "standard": {
+   "source": "BOAST Supracondylar Fractures of the Humerus in Children (October 2020), standard 2",
+   "wording": "Surgical management should be carried out on the day of injury. Night-time operating is not necessary unless there are indications for urgent surgery which should be documented.",
+   "url": "https://www.boa.ac.uk/resource/boast-11-pdf.html"
+  },
+  "pass": "For a case with knife-to-skin between 22:00 and 07:59, the notes or booking record an urgent indication (absent radial pulse, impaired hand perfusion, open injury or threatened skin, or other stated reason).",
+  "population": "Children under 16 with supracondylar fixation starting 22:00–07:59. Exclude cases done in the day.",
+  "sample": "All night-time cases over the last 24 months (expect 20–40); also record total cases to give the night-time rate.",
+  "data_source": "Theatre system (knife-to-skin time); emergency theatre booking form; ED and orthopaedic clerking; operation note.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_injury",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_knife_to_skin",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "urgent_indication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "indication",
+    "type": "choice",
+    "options": [
+     "absent pulse",
+     "impaired perfusion",
+     "open injury",
+     "skin threatened",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "consultant_aware_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fasting_hours",
+    "type": "number",
+    "options": [],
+    "note": "Last food to anaesthesia"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'urgent indication' drop-down to the emergency theatre booking form for any paediatric case booked for 22:00–07:59.",
+  "target": "≥90% of night cases with a documented indication",
+  "reaudit": "At 6 months: all night cases since the change, same template; also compare the night-time rate.",
+  "close_loop": "Present at trauma governance with anaesthesia and theatre leads. If it works, keep the booking field and add night rate to the paediatric trauma dashboard.",
+  "evidence": [
+   "[1358] Stockport ED: VTE assessment 32% → 93.1% (electronic discharge prompt/block with pathway)",
+   "[1692] Wythenshawe: trauma meeting documentation 64% → 84% (EPR proforma)",
+   "[1211] three hospitals: night operating judged appropriate per BOAST, but indication documentation not measured"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from theatre system and booking forms"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children who have a forearm fracture manipulated in the Emergency Department have a documented consultant review within 48 hours of injury?",
+  "why": "Late senior review delays spotting lost reduction. National CURFFED found 78% [1739]; no unit-level closed loop on this item in corpus.",
+  "standard": {
+   "source": "BOAST Early Management of the Paediatric Forearm Fracture (May 2021), standard 12",
+   "wording": "A documented review of the case and images by a consultant orthopaedic surgeon should occur within 48 hours of injury.",
+   "url": "https://www.boa.ac.uk/resource/boast-early-management-of-the-paediatric-forearm-fracture.html"
+  },
+  "pass": "A note naming the consultant who reviewed the case and images, dated within 48 hours of the injury time.",
+  "population": "Children under 16 with an angulated (not off-ended) forearm fracture manipulated in ED. Exclude fractures taken straight to theatre.",
+  "sample": "40 consecutive cases over the last 3 months.",
+  "data_source": "ED record (injury time, manipulation); trauma meeting list and notes; virtual fracture clinic record; EPR timestamps.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_injury",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_manipulation",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_consultant_review",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_named",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "consultant_review_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "review_route",
+    "type": "choice",
+    "options": [
+     "trauma meeting",
+     "virtual fracture clinic",
+     "face-to-face",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "plan_changed_at_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "ED paediatric manipulation form auto-adds the child to the next trauma meeting list; trauma meeting proforma has a mandatory 'reviewing consultant' field.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: 40 consecutive cases, same template.",
+  "close_loop": "Present jointly to ED and orthopaedics. If it works, embed the auto-listing in the ED pathway.",
+  "evidence": [
+   "[1281] Wythenshawe: trauma meeting cases documented 64% → 88% (structured smart-phrase proforma)",
+   "[1692] Wythenshawe: named consultant and plan documentation rose after EPR trauma meeting proforma",
+   "[1739] CURFFED national: consultant review within 48 h 78% (no intervention)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ED and trauma meeting records"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children discharged after Emergency Department manipulation of a forearm fracture get a leaflet with red-flag symptoms and contact details?",
+  "why": "Parents need to know when a tight cast is dangerous. National CURFFED found discharge analgesia and advice complete in only 23% [1739]; corpus leaflet work is on buckle fractures [1307, 1536], not manipulated fractures.",
+  "standard": {
+   "source": "BOAST Early Management of the Paediatric Forearm Fracture (May 2021), standard 11",
+   "wording": "Oral analgesia to take home and dedicated information leaflets, that include red flag symptoms and contact details, should be provided. Prior to discharge, a fracture clinic appointment should be made to occur within 7 days of injury.",
+   "url": "https://www.boa.ac.uk/resource/boast-early-management-of-the-paediatric-forearm-fracture.html"
+  },
+  "pass": "Discharge record states a dedicated cast/fracture leaflet with red flags and contact numbers was given. Analgesia advice and clinic ≤7 days are secondary items.",
+  "population": "Children under 16 discharged home from ED after forearm fracture manipulation. Exclude admissions.",
+  "sample": "40 consecutive cases over the last 3 months.",
+  "data_source": "ED discharge summary and nursing notes; plaster room record; outpatient booking system (clinic date).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_injury",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_ed_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "red_flag_leaflet_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "take_home_analgesia_advice_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_clinic_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "clinic_within_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "unplanned_return_cast_problem",
+    "type": "yes/no",
+    "options": [],
+    "note": "Within 7 days"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'paediatric cast leaflet given' tick box to the ED discharge template for paediatric fracture diagnoses, with leaflets stocked in the plaster room.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: 40 consecutive cases, same template.",
+  "close_loop": "Present at ED and paediatric governance. If it works, keep the tick box and add the leaflet to the ED paediatric fracture pathway.",
+  "evidence": [
+   "[1337] UCLH: imaging in discharge summaries 0% → 92.9% (mandatory template field)",
+   "[1575] soft-cast pathway: 88/88 successful with verbal and written discharge information (protocol change)",
+   "[1634] Gloucester: after a BOAST pathway, clinic within 7 days was still 49.42% (pathway plus teaching)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from ED EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with a suspected limb fracture and moderate or severe pain get analgesia within 30 minutes of arrival?",
+  "why": "Children wait longer for pain relief than adults. RCEM runs national pain-in-children QIPs, but there is no orthopaedic limb-fracture audit of this in corpus; CURFFED found pain scores in only 20% [1739].",
+  "standard": {
+   "source": "RCEM Pain in Children QIP 2021/22, standard 2 (fundamental)",
+   "wording": "2. Administration of analgesia to patients in severe pain F = within 30 minutes D = within 20 minutes 2. Administration of analgesia to patients in moderate pain F = within 30 minutes D = within 20 minutes",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2022/02/Pain_in_Children_QIP_Info_Pack_2021-22_v4.pdf"
+  },
+  "pass": "First analgesic given within 30 minutes of arrival (or triage, if earlier) when the pain score is moderate (4–7) or severe (7–10).",
+  "population": "Children under 16 with a suspected long-bone limb fracture and a recorded moderate or severe pain score. Exclude those given analgesia pre-hospital and in no pain at triage.",
+  "sample": "40 consecutive children over the last 1–2 months.",
+  "data_source": "ED EPR (arrival and triage times, pain score); drug chart/e-prescribing administration time; ambulance record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_arrival",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_triage",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_at_triage",
+    "type": "number",
+    "options": [],
+    "note": "0–10 or local equivalent"
+   },
+   {
+    "field": "datetime_first_analgesia",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "analgesia_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "analgesia_within_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Developmental standard"
+   },
+   {
+    "field": "first_agent",
+    "type": "choice",
+    "options": [
+     "paracetamol",
+     "ibuprofen",
+     "intranasal opioid",
+     "IV opioid",
+     "Entonox",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Nurse-initiated analgesia at triage: a patient group direction for oral ibuprofen/paracetamol, prompted by the triage template when the pain score is 4 or more.",
+  "target": "≥75% within 30 minutes (RCEM fundamental standard)",
+  "reaudit": "Wk 13–14: 40 consecutive children, same template.",
+  "close_loop": "Present at ED and paediatric governance. If it works, make the triage prompt permanent and report monthly.",
+  "evidence": [
+   "[1713] Macclesfield ED hip fracture: mean time to first analgesia 130 → 38.8 min (mandatory analgesia checklist plus teaching)",
+   "[1649] Poole ED: intranasal fentanyl and Entonox in an agreed SOP enabled ED manipulation (system change)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ED EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with a limb fracture who receive analgesia in the Emergency Department have their pain re-scored within 60 minutes?",
+  "why": "One dose rarely controls fracture pain, and without a repeat score nobody escalates. CURFFED recorded pain scores in only 20% [1739]; no closed-loop re-evaluation audit in children in corpus.",
+  "standard": {
+   "source": "RCEM Pain in Children QIP 2021/22, standard 3 (fundamental)",
+   "wording": "3. Patients with severe or moderate pain should have documented evidence of re-evaluation and action within 60 minutes of receiving the first dose of analgesic",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2022/02/Pain_in_Children_QIP_Info_Pack_2021-22_v4.pdf"
+  },
+  "pass": "A second documented pain score within 60 minutes of the first analgesic dose, with action if pain remains moderate or severe.",
+  "population": "Children under 16 with an X-ray-confirmed limb fracture who had moderate or severe pain and received analgesia in ED.",
+  "sample": "40 consecutive children over the last 1–2 months.",
+  "data_source": "ED EPR observations and pain scores; drug administration record.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_first_analgesia",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_pain_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_repeat_pain_score",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "repeat_pain_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reevaluated_within_60_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "further_analgesia_if_still_4_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "EPR task: giving an analgesic to a child with pain score 4 or more automatically creates a 'repeat pain score due' task at 45 minutes on the nursing board.",
+  "target": "≥75%",
+  "reaudit": "Wk 13–14: 40 consecutive children, same template.",
+  "close_loop": "Present at ED nursing and medical governance. If it works, keep the automatic task.",
+  "evidence": [
+   "[1713] Macclesfield ED: re-evaluation within 30 min 52.5% → 50% with checklist and teaching (no gain; a timed prompt was not used)",
+   "[1739] CURFFED national: pain scores recorded in 20% of children"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from ED EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with a suspected long-bone fracture and moderate or severe pain receive an intranasal or intravenous opioid in the Emergency Department?",
+  "why": "Children with displaced fractures are often given oral analgesia only. No audit of NG38 rec 1.1.8 in corpus.",
+  "standard": {
+   "source": "NICE NG38 Fractures (non-complex) rec 1.1.8 (2016)",
+   "wording": "For the initial management of pain in children (under 16s) with suspected long bone fractures of the legs (femur, tibia, fibula) or arms (humerus, radius, ulna), offer: oral ibuprofen, or oral paracetamol, or both for mild to moderate pain intranasal or intravenous opioids for moderate to severe pain (use intravenous opioids if intravenous access has been established).",
+   "url": "https://www.nice.org.uk/guidance/ng38/chapter/Recommendations"
+  },
+  "pass": "Intranasal or IV opioid given (or offered and declined, documented) when the pain score is 7 or more, or moderate pain persists after oral analgesia.",
+  "population": "Children under 16 with suspected long-bone fracture (humerus, radius, ulna, femur, tibia, fibula) and a severe pain score, or moderate pain not settled by oral drugs. Exclude pre-hospital opioid.",
+  "sample": "40 consecutive eligible children over the last 2–3 months.",
+  "data_source": "ED EPR pain scores; drug administration record; controlled drug register if needed.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_arrival",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_pain_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "humerus",
+     "radius/ulna",
+     "femur",
+     "tibia/fibula"
+    ],
+    "note": ""
+   },
+   {
+    "field": "opioid_given_or_offered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "route",
+    "type": "choice",
+    "options": [
+     "intranasal",
+     "intravenous",
+     "oral",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "datetime_opioid",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add intranasal diamorphine/fentanyl to the ED paediatric fracture order set, pre-filled by weight, triggered when a pain score of 7 or more is entered.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: 40 consecutive eligible children, same template.",
+  "close_loop": "Present with ED pharmacy. If it works, keep it in the order set and include in paediatric ED induction.",
+  "evidence": [
+   "[1649] Poole ED: theatre needed 36.4% → 1.9%; all manipulable fractures done in ED (SOP with intranasal fentanyl and Entonox)",
+   "[1517] Whittington: protocol compliance 0/27 → 58% (electronic prescribing order set)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED EPR and drug chart"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with a suspected displaced femoral shaft fracture receive a femoral nerve or fascia iliaca block in the Emergency Department?",
+  "why": "Blocks are routine for adult hip fractures but often missed in children. Corpus FICB audits are all adult hip fracture [1598, 1713]; no paediatric audit in corpus.",
+  "standard": {
+   "source": "NICE NG38 Fractures (non-complex) rec 1.1.11 (2016)",
+   "wording": "Consider a femoral nerve block or fascia iliaca block in the emergency department for children (under 16s) with suspected displaced femoral fractures.",
+   "url": "https://www.nice.org.uk/guidance/ng38/chapter/Recommendations"
+  },
+  "pass": "Femoral nerve or fascia iliaca block given in ED, or a documented reason why not.",
+  "population": "Children under 16 with a suspected displaced femoral shaft fracture presenting to ED. Exclude proximal femoral (neck) fractures and those transferred before assessment.",
+  "sample": "All cases over the last 36 months (expect 20–40 in a trauma unit; pool with a neighbouring site or MTC if fewer).",
+  "data_source": "ED EPR; drug chart (local anaesthetic, dose, time); anaesthetic/procedure notes; admission clerking.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_arrival",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "block_given_in_ed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_block",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_not_given_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pass_block_or_reason",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pain_score_before_after",
+    "type": "text",
+    "options": [],
+    "note": "e.g. 8→3"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–26 embed (low numbers); Wk 27–28 re-audit",
+  "change": "Add a 'block given / reason not given' sign-off box to the ED paediatric femoral fracture proforma, with a weight-based dosing card.",
+  "target": "≥80% block or documented reason",
+  "reaudit": "At 6–12 months: all cases since the change, same template.",
+  "close_loop": "Present at ED/anaesthesia/orthopaedic joint governance. If it works, embed the proforma and include in paediatric ED training.",
+  "evidence": [
+   "[1598] Salisbury hip fracture: FICB 24.5% → 44.3% (proforma sign-off plus teaching)",
+   "[1713] Macclesfield: contraindications documented 0% → 64.3% (mandatory checklist)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients; case finding by ICD code takes ~1 hour"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with a femoral fracture have a documented safeguarding assessment before discharge?",
+  "why": "Femoral fractures in young children are a sentinel sign of abuse. No audit of NG38 rec 1.7.1 in corpus.",
+  "standard": {
+   "source": "NICE NG38 Fractures (non-complex) rec 1.7.1 (2016)",
+   "wording": "Address issues of non-accidental injury before discharge in all children with femoral fractures. This is particularly important for children who are not walking or talking. For more information, see the NICE guideline on when to suspect child maltreatment.",
+   "url": "https://www.nice.org.uk/guidance/ng38/chapter/Recommendations"
+  },
+  "pass": "Before discharge, the notes record a safeguarding assessment: mechanism consistent with injury and developmental stage, safeguarding records checked, and the outcome (no concern / referred / paediatric review).",
+  "population": "Children under 16 admitted with any femoral fracture. Exclude major trauma with a witnessed high-energy mechanism only if the assessment is still collected as data.",
+  "sample": "All cases over the last 36 months (expect 30–50 in a trauma unit).",
+  "data_source": "Admission clerking; paediatric review notes; safeguarding team records; discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_admission",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_discharge",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "walking_independently",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_assessment_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "paediatrician_review",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_outcome",
+    "type": "choice",
+    "options": [
+     "no concern",
+     "referral to social care",
+     "skeletal survey",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–26 embed (low numbers); Wk 27–28 re-audit",
+  "change": "Add a mandatory safeguarding section to the paediatric trauma admission proforma that must be completed before the discharge summary can be finalised.",
+  "target": "100%",
+  "reaudit": "At 6–12 months: all cases since the change, same template.",
+  "close_loop": "Present to orthopaedics, paediatrics and the named doctor for safeguarding. If it works, embed in the proforma and trust safeguarding policy.",
+  "evidence": [
+   "[1270] Watford ED: detailed documentation <40% → 70% (simple clerking proforma)",
+   "[1358] Stockport ED: VTE assessment 32% → 93.1% (electronic discharge block)"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients (notes plus safeguarding record check)"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "In children under 2 years with a fracture, does the Emergency Department note record whether the explanation fits the injury?",
+  "why": "Missed abuse in infants often starts with an unexplained fracture. No audit of fracture safeguarding documentation in corpus.",
+  "standard": {
+   "source": "NICE CG89 Child maltreatment rec 1.1.9 (2009, updated 2025)",
+   "wording": "Suspect child maltreatment if a child has one or more fractures in the absence of a medical condition that predisposes to fragile bones (for example, osteogenesis imperfecta, osteopenia of prematurity) or if the explanation is absent or unsuitable.",
+   "url": "https://www.nice.org.uk/guidance/cg89/chapter/Recommendations"
+  },
+  "pass": "ED note records the mechanism, the child's mobility or developmental stage, and an explicit judgement that the explanation is suitable or not, with the action taken.",
+  "population": "Children under 2 years with an X-ray-confirmed fracture seen in ED. Exclude birth injuries seen on the neonatal unit.",
+  "sample": "40 consecutive cases over the last 6–12 months.",
+  "data_source": "ED EPR; radiology reports; safeguarding referral records; paediatric notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_arrival",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mobility_or_development_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "explanation_judgement_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "safeguarding_action",
+    "type": "choice",
+    "options": [
+     "none needed",
+     "discussed with paediatrician",
+     "referral to social care",
+     "skeletal survey",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_records_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Mandatory safeguarding prompt in the ED EPR for any fracture diagnosis in a child under 2 (mechanism, mobility, 'explanation suitable? yes/no', action), in line with NICE NG38 rec 1.5.1.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14 or when 20–40 new cases have accrued, same template.",
+  "close_loop": "Present to ED, paediatrics and the named doctor for safeguarding. If it works, keep the prompt and add to trust safeguarding training.",
+  "evidence": [
+   "[2093] St George's hand trauma: 11/15 data points significantly improved (electronic clerking proforma, 95% uptake)",
+   "[1270] Watford ED: <40% → 70% (simple proforma)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ED EPR"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Are skeletal surveys for suspected physical abuse done and reported within 24 hours of the request?",
+  "why": "Delays keep children in hospital and hold up protection decisions. No audit of this in corpus.",
+  "standard": {
+   "source": "RCR/SCoR The radiological investigation of suspected physical abuse in children (revised first edition, November 2018), recommendation 14",
+   "wording": "The skeletal survey should be acquired and reported within 24 hours and certainly no later than 72 hours from the request being made.",
+   "url": "https://www.rcr.ac.uk/media/nznl1mv4/rcr-publications_the-radiological-investigation-of-suspected-physical-abuse-in-children-revised-first-edition_november-2018.pdf"
+  },
+  "pass": "Time from request to final report is 24 hours or less. Over 72 hours is recorded separately as a serious breach.",
+  "population": "Children who had an initial skeletal survey for suspected physical abuse. Exclude surveys for skeletal dysplasia or tumour.",
+  "sample": "40 consecutive initial skeletal surveys over the last 12 months.",
+  "data_source": "RIS/PACS (request, acquisition and report timestamps); request form (weekday/weekend).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_request",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_acquired",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_reported",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reported_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reported_within_72h",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "requested_at_weekend",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "double_reported",
+    "type": "yes/no",
+    "options": [],
+    "note": "Two radiologists"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create a RIS priority code for 'suspected physical abuse skeletal survey' that books the next available paediatric slot and alerts the reporting radiologist automatically.",
+  "target": "≥90% within 24 hours; 100% within 72 hours",
+  "reaudit": "At 3–6 months: next 20–40 surveys, same template.",
+  "close_loop": "Present at radiology and safeguarding governance. If it works, keep the RIS code and report in the radiology dashboard.",
+  "evidence": [
+   "[1991] Lewisham: referral to ultrasound 14 h 15 min → 4 h 37 min (posters; timing audit)",
+   "[1223] Southmead: scaphoid MRI within 14 days 63% → 73% (redesigned imaging pathway)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from RIS timestamps"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children who have a skeletal survey for suspected physical abuse have follow-up imaging within 11 to 14 days?",
+  "why": "Healing fractures show on the follow-up survey, and children are easily lost after discharge. No audit of this in corpus.",
+  "standard": {
+   "source": "RCR/SCoR The radiological investigation of suspected physical abuse in children (revised first edition, November 2018), recommendation 33",
+   "wording": "Follow-up imaging should be performed ideally within 11 to 14 days, and no later than 28 days after the initial skeletal survey.",
+   "url": "https://www.rcr.ac.uk/media/nznl1mv4/rcr-publications_the-radiological-investigation-of-suspected-physical-abuse-in-children-revised-first-edition_november-2018.pdf"
+  },
+  "pass": "Follow-up imaging done 11–14 days after the first survey. Done by 28 days is recorded as a secondary pass.",
+  "population": "Children who had an initial skeletal survey for suspected physical abuse. Exclude children who died or whose follow-up was cancelled by the safeguarding team with a documented reason.",
+  "sample": "40 consecutive children over the last 12 months.",
+  "data_source": "RIS/PACS (dates of initial and follow-up surveys); safeguarding records (named professional, missed appointments).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_initial_survey",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_followup_imaging",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_to_followup",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "followup_11_to_14_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "followup_by_28_days",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "booked_at_time_of_initial_survey",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_professional_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Book the follow-up survey at the time of the first survey, with a named professional in the safeguarding team to chase missed appointments (RCR rec 34).",
+  "target": "≥90% within 11–14 days; 100% by 28 days",
+  "reaudit": "At 3–6 months: next 20–40 children, same template.",
+  "close_loop": "Present to radiology, paediatrics and safeguarding. If it works, write it into the local standard operating procedure.",
+  "evidence": [
+   "[1223] Southmead: imaging within 14 days 63% → 73% (pathway redesign)",
+   "[1337] UCLH: 0% → 92.9% (mandatory template field)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from RIS"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children admitted with suspected bone or joint infection have FBC, CRP, blood cultures and ESR sent before antibiotics?",
+  "why": "Missing ESR or cultures weakens diagnosis and later monitoring. The only septic arthritis audit in corpus is adult [1329]; no paediatric audit.",
+  "standard": {
+   "source": "BOAST The Management of Children with Acute Musculoskeletal Infection (May 2022), standard 6",
+   "wording": "Essential haematological investigations include, in order, FBC, CRP, blood cultures*, ESR. Plain radiographs of the affected bone or joint are required. No single investigation algorithm is completely reliable: diagnosis should be considered in conjunction with history and examination.",
+   "url": "https://www.boa.ac.uk/resource/boast-the-management-of-children-with-acute-musculoskeletal-infection.html"
+  },
+  "pass": "All four tests (FBC, CRP, blood culture, ESR) sent before the first antibiotic dose. Radiograph and culture volume ≥2 ml are secondary items.",
+  "population": "Children under 16 admitted with suspected septic arthritis, osteomyelitis, discitis or pyomyositis. Exclude transient synovitis discharged from ED without admission.",
+  "sample": "40 consecutive admissions over the last 12 months.",
+  "data_source": "Pathology system (request times); drug chart (first antibiotic time); PACS (radiograph); microbiology (culture volume if recorded).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_first_antibiotic",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fbc_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crp_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "blood_culture_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "esr_sent",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_four_before_antibiotics",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "radiograph_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "final_diagnosis",
+    "type": "choice",
+    "options": [
+     "septic arthritis",
+     "osteomyelitis",
+     "discitis",
+     "pyomyositis",
+     "not infection"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an EPR 'suspected bone and joint infection – child' order set that requests FBC, CRP, blood culture, ESR and an X-ray together.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 or when 20–40 new admissions have accrued, same template.",
+  "close_loop": "Present to paediatrics, orthopaedics and microbiology. If it works, keep the order set and link it to the local limping child guideline.",
+  "evidence": [
+   "[1517] Whittington: protocol compliance 0/27 → 58% (electronic order set)",
+   "[2446] Sandwell: calcium tests 65% → 46% after posters (education only failed)",
+   "[1329] DGH adult septic arthritis: pre-antibiotic blood cultures in 2/7 (baseline)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from pathology and drug chart"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with suspected osteomyelitis or complex joint infection who need an MRI get it within 48 hours of admission?",
+  "why": "Late MRI delays finding abscesses and adjacent osteomyelitis. No paediatric MRI-timing audit in corpus.",
+  "standard": {
+   "source": "BOAST The Management of Children with Acute Musculoskeletal Infection (May 2022), standard 7",
+   "wording": "MRI is the preferred second line modality, ideally within 48 hours unless the clinical condition mandates more urgent imaging. Ultrasound should be performed within the same time frame.",
+   "url": "https://www.boa.ac.uk/resource/boast-the-management-of-children-with-acute-musculoskeletal-infection.html"
+  },
+  "pass": "MRI done within 48 hours of admission.",
+  "population": "Children under 16 admitted with suspected musculoskeletal infection who had an MRI requested during the admission.",
+  "sample": "40 consecutive children over the last 12–18 months.",
+  "data_source": "RIS (request and scan times); admission time from EPR; anaesthetic records (GA for MRI).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_mri_request",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_mri_done",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_within_48h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "needed_general_anaesthetic",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mri_changed_management",
+    "type": "yes/no",
+    "options": [],
+    "note": "e.g. abscess drained"
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Agree a protected daily paediatric MRI slot (with GA list access) for suspected bone and joint infection, bookable via a 'BJI – within 48 h' RIS priority code.",
+  "target": "≥85%",
+  "reaudit": "At 3–6 months: next 20–40 children, same template.",
+  "close_loop": "Present to radiology, anaesthesia, paediatrics and orthopaedics. If it works, write the slot into the job plan and radiology SOP.",
+  "evidence": [
+   "[1223] Southmead: MRI within 14 days 63% → 73% (redesigned imaging pathway)",
+   "[1687] Medway cauda equina: presentation-to-MRI 5.9 → 5.7 h, aim not met when extra MRI hours were not delivered (SOP and teaching)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from RIS"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children with septic arthritis have surgical drainage within 24 hours of diagnosis?",
+  "why": "Delay destroys cartilage and the growth plate. No paediatric audit in corpus; the adult DGH audit [1329] did not time surgery.",
+  "standard": {
+   "source": "BOAST The Management of Children with Acute Musculoskeletal Infection (May 2022), standard 10",
+   "wording": "Septic arthritis requires surgical drainage as soon as possible, ideally within 24 hours of diagnosis.",
+   "url": "https://www.boa.ac.uk/resource/boast-the-management-of-children-with-acute-musculoskeletal-infection.html"
+  },
+  "pass": "Knife-to-skin (or arthroscopy start) within 24 hours of the documented clinical diagnosis or decision to operate.",
+  "population": "Children under 16 with septic arthritis treated surgically. Exclude aspiration-only cases where culture was negative and surgery was not indicated.",
+  "sample": "All cases over the last 24–36 months (expect 20–40 in a trauma unit; pool across a network if fewer).",
+  "data_source": "EPR (time diagnosis documented, orthopaedic review); theatre system (booking and start times); CEPOD booking.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "datetime_admission",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "datetime_diagnosis",
+    "type": "datetime",
+    "options": [],
+    "note": "First note stating septic arthritis or decision to operate"
+   },
+   {
+    "field": "datetime_knife_to_skin",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "drainage_within_24h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "joint",
+    "type": "choice",
+    "options": [
+     "hip",
+     "knee",
+     "ankle",
+     "shoulder",
+     "elbow",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_for_delay",
+    "type": "choice",
+    "options": [
+     "theatre availability",
+     "anaesthetic",
+     "transfer",
+     "diagnostic uncertainty",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "return_to_theatre",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–26 embed (low numbers); Wk 27–28 re-audit",
+  "change": "Classify paediatric septic arthritis as NCEPOD category 2 on the emergency theatre booking form, so it is listed with a 24-hour target.",
+  "target": "≥90%",
+  "reaudit": "At 6–12 months: all cases since the change, same template.",
+  "close_loop": "Present at trauma and theatre governance. If it works, keep the booking category and add to the paediatric MSK infection pathway.",
+  "evidence": [
+   "[1358] Stockport ED: 32% → 93.1% (electronic prompt and pathway)",
+   "[1595] Pinderfields hip fracture: surgery within 36 h 54% → 87.5% (dedicated anaesthetic 'hot week', system change)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPR and theatre system"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do children treated for bone or joint infection have clinical and X-ray follow-up for at least 12 months?",
+  "why": "Growth arrest and avascular necrosis show late, and children are often discharged at 6 weeks. No audit in corpus.",
+  "standard": {
+   "source": "BOAST The Management of Children with Acute Musculoskeletal Infection (May 2022), standard 14",
+   "wording": "Bone and joint infection should be followed up clinically and radiographically for a minimum of 12 months by a clinician able to identify long-term complications.",
+   "url": "https://www.boa.ac.uk/resource/boast-the-management-of-children-with-acute-musculoskeletal-infection.html"
+  },
+  "pass": "A clinic review with a radiograph at 12 months or later after diagnosis (or documented plan still active if 12 months not yet reached).",
+  "population": "Children under 16 treated for septic arthritis or osteomyelitis 12–36 months ago. Exclude children transferred out of area with a documented handover.",
+  "sample": "40 consecutive children diagnosed 12–36 months ago.",
+  "data_source": "Clinic letters; outpatient system (appointments, DNAs, discharge date); PACS (radiographs).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_diagnosis",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "infection_type",
+    "type": "choice",
+    "options": [
+     "septic arthritis",
+     "osteomyelitis",
+     "both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_last_clinic",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_last_radiograph",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "followup_12_months_with_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "discharged_before_12_months",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "was_not_brought_episodes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "late_complication_found",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a '12-month infection review with X-ray' field to the discharge letter template and an outpatient outcome code that blocks discharge from clinic before 12 months.",
+  "target": "≥90%",
+  "reaudit": "At 12 months, prospectively on children diagnosed after the change, same template; meanwhile check clinic bookings at 3 months.",
+  "close_loop": "Present to the paediatric orthopaedic team and outpatient managers. If it works, keep the outcome code and discharge field.",
+  "evidence": [
+   "[1337] UCLH: 0% → 92.9% (mandatory discharge template field)",
+   "[1527] Aberdeen: dedicated acute clinic cut time to surgery from mean 14 to 6 months (system change)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from clinic letters and PACS"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Is every child treated for a slipped upper femoral epiphysis discussed at a documented regional peer review meeting?",
+  "why": "SUFE is rare and life-changing, and DGH surgeons pin few. The corpus has no SUFE audit at all; BSCOS now lists SUFE for peer review.",
+  "standard": {
+   "source": "BSCOS Best Practice in Children's Trauma & Orthopaedics in the UK (November 2025), Section 3 Key Points: Life Changing Injuries",
+   "wording": "Specific paediatric injuries that could have potentially life-changing results should be discussed at PRMs. These should include amongst others: open fractures, pelvic fractures, femoral neck fractures, Slipped Upper Femoral Epiphysis (SUFE), lower limb physeal fractures, intra-articular fractures and pathological fractures or fractures occurring in children with underlying musculoskeletal conditions",
+   "url": "https://www.bscos.org.uk/Portals/0/Best%20Practice%20in%20Children's%20T%20&%20O%20in%20the%20UK%20Final%20%20%20%20%205%2011%202025.pdf"
+  },
+  "pass": "Minutes of a regional or network peer review meeting (or MDT) record discussion of the case.",
+  "population": "Children treated (operatively or not) for SUFE at the unit. Exclude cases treated only at the tertiary centre after transfer.",
+  "sample": "All cases over the last 36 months (expect 15–40 in a DGH; pool with network units if fewer).",
+  "data_source": "Theatre system and coding (SUFE procedures); peer review/MDT minutes; clinic letters (stability, symptom duration).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_presentation",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stability",
+    "type": "choice",
+    "options": [
+     "stable",
+     "unstable",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "symptom_duration_weeks",
+    "type": "number",
+    "options": [],
+    "note": "Before first presentation"
+   },
+   {
+    "field": "previous_missed_presentation",
+    "type": "yes/no",
+    "options": [],
+    "note": "Seen earlier by GP/ED without diagnosis"
+   },
+   {
+    "field": "discussed_at_peer_review",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "date_of_discussion",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contralateral_hip_plan_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–26 embed (low numbers); Wk 27–28 re-audit",
+  "change": "SUFE procedure codes on the theatre system automatically add the case to the next network peer review meeting list, with a structured case template.",
+  "target": "100%",
+  "reaudit": "At 6–12 months: all cases since the change, same template.",
+  "close_loop": "Present at the paediatric trauma network/ODN meeting. If it works, extend auto-listing to the other BSCOS life-changing injuries.",
+  "evidence": [
+   "[1281] Wythenshawe: trauma meeting cases documented 64% → 88% (structured proforma)",
+   "[1692] Wythenshawe: 64% → 84% (EPR trauma meeting proforma)"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from theatre coding and meeting minutes"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Do babies with a screen-positive newborn hip result have their hip ultrasound between 4 and 6 weeks of age?",
+  "why": "Late scans delay harness treatment for DDH. Corpus has an old breech-referral audit [1435] and an Irish programme review with no loop [1613]; no audit of the 2024 NIPE timing standard.",
+  "standard": {
+   "source": "NHS NIPE screening standards, NIPE-S03 (valid for data collected from 1 April 2024)",
+   "wording": "The proportion of babies with a screen positive newborn hip result who attend for ultrasound scan of the hips within the designated timescale.",
+   "url": "https://www.gov.uk/government/publications/newborn-and-infant-physical-examination-screening-standards/newborn-and-infant-physical-examination-screening-standards-valid-for-data-collected-from-1-april-2024"
+  },
+  "pass": "Babies born at 34+0 weeks or later scanned at ≥4 weeks 0 days and ≤6 weeks 0 days of age (42 days); babies born before 34+0 weeks scanned at 38+0 to 40+0 weeks corrected age. Thresholds: acceptable ≥90%, achievable ≥95%.",
+  "population": "Babies with a screen-positive newborn hip result (abnormal Barlow/Ortolani or a national hip risk factor). Exclude babies who died before the appointment and 'clicky hips'.",
+  "sample": "40 consecutive screen-positive babies over the last 3–6 months.",
+  "data_source": "S4N (screen result, risk factor); RIS (scan date); birth record (gestation, date of birth).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_birth",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gestation_weeks",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "screen_positive_reason",
+    "type": "choice",
+    "options": [
+     "abnormal examination",
+     "breech",
+     "family history",
+     "multiple pregnancy rule"
+    ],
+    "note": ""
+   },
+   {
+    "field": "date_ultrasound",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_at_scan_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_in_window",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "was_not_brought",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "At the newborn check, the NIPE practitioner books the hip scan directly into a RIS slot dated for day 28–35, and the date is printed on the parent's discharge letter.",
+  "target": "≥95% (NIPE achievable)",
+  "reaudit": "Wk 13–14 on babies born after the change, same template.",
+  "close_loop": "Present to the local screening board, neonatal and radiology teams. If it works, embed booking at the newborn check in the local NIPE SOP.",
+  "evidence": [
+   "[1435] Glasgow neonatal: breech babies referred 56% → 76% (proforma at the newborn check)",
+   "[1613] Irish DDH programme: 26% referred to clinic; timing reported without a loop"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 babies from S4N and RIS"
+ },
+ {
+  "area": "Paediatric orthopaedics",
+  "question": "Are infants with a screen-positive hip at the 6 to 8 week check seen by a paediatric orthopaedic surgeon by 10 weeks of age?",
+  "why": "Late-found DDH needs fast specialist review because harness success falls with age. No audit in corpus.",
+  "standard": {
+   "source": "NHS NIPE screening programme handbook (updated October 2025), section 14.11",
+   "wording": "Infants with screen positive results following NIPE infant 6 to 8-week screening examination should be referred directly to paediatric orthopaedic surgeon for urgent expert opinion and be seen by 10 weeks of age.",
+   "url": "https://www.gov.uk/government/publications/newborn-and-infant-physical-examination-programme-handbook/newborn-and-infant-physical-examination-screening-programme-handbook"
+  },
+  "pass": "First paediatric orthopaedic appointment attended on or before 70 days of age.",
+  "population": "Infants referred after a screen-positive hip result at the 6–8 week GP check. Exclude infants already under the newborn hip pathway.",
+  "sample": "All referrals over the last 12 months (expect 20–40).",
+  "data_source": "e-Referral/outpatient system (referral date, triage, appointment); clinic letters; RIS (ultrasound).",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local study code; key kept separately on a trust drive"
+   },
+   {
+    "field": "date_of_birth",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_referral_received",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "date_first_orthopaedic_review",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age_at_review_days",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "seen_by_10_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referred_direct_to_paediatric_orthopaedics",
+    "type": "yes/no",
+    "options": [],
+    "note": "Not via general paediatrics"
+   },
+   {
+    "field": "outcome",
+    "type": "choice",
+    "options": [
+     "normal",
+     "harness",
+     "other treatment",
+     "further imaging"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Create an e-Referral triage category 'NIPE 6–8 week hip – see by 10 weeks' that shows the date-of-birth-based deadline to the vetting consultant and books into a reserved slot.",
+  "target": "≥90%",
+  "reaudit": "At 6 months: all referrals since the change, same template.",
+  "close_loop": "Present to the screening board, GP leads and orthopaedic outpatients. If it works, write the category into the local NIPE pathway and inform GPs.",
+  "evidence": [
+   "[1435] Glasgow: 56% → 76% (proforma prompt at the screening check)",
+   "[1527] Aberdeen: dedicated acute clinic halved time to surgery (system change)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 infants from outpatient system"
+ }
+]

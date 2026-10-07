@@ -1,0 +1,3067 @@
+[
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of ambulance-to-emergency-department patient handovers are completed within 15 minutes of the ambulance arriving?",
+  "why": "No closed-loop audit of ambulance handover timing has been published in the library, despite this being the single most reported pre-hospital patient-safety problem in England.",
+  "standard": {
+   "source": "AACE, Hospital Handovers (webpage, accessed 2026)",
+   "wording": "The nationally defined target for hospitals included in the NHS Standard Contract states that all handovers between ambulance and A&E must take place within 15 minutes, with none waiting more than 30 minutes.",
+   "url": "https://aace.org.uk/hospital-handovers/"
+  },
+  "population": "Inclusion: all adult and paediatric patients brought to the ED by a NHS ambulance over a 2-week period. Exclusion: patients brought by non-emergency patient transport service, self-presenting or brought by police/other agency",
+  "sample": "50 consecutive ambulance arrivals over 2 weeks, using the ambulance service's own arrival timestamp and the ED's handover-accepted timestamp",
+  "data_source": "Ambulance electronic patient record (arrival time) matched to the ED tracking system (handover-accepted or 'patient in department' time)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ambulance_arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "handover_accepted_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "handover_delay_minutes",
+    "type": "number",
+    "options": [],
+    "note": "handover_accepted_time minus ambulance_arrival_time"
+   },
+   {
+    "field": "handover_within_15_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ambulance_category_of_call",
+    "type": "choice",
+    "options": [
+     "Category 1",
+     "Category 2",
+     "Category 3",
+     "Category 4",
+     "Not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "ed_occupancy_at_arrival",
+    "type": "number",
+    "options": [],
+    "note": "number of patients in the department at the time of arrival, if available"
+   },
+   {
+    "field": "crew_reported_deterioration_while_waiting",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a rapid 'streaming and handover' nurse and a cohorting bay so incoming ambulances are met at the door, with a visible countdown clock at the ambulance entrance and an internal professional standard escalation when handover passes 30 minutes.",
+  "target": "≥90% within 15 minutes, none over 30 minutes",
+  "reaudit": "Re-audit at 3 months using the same 2-week sampling window and template",
+  "close_loop": "Present at the joint ED-ambulance trust liaison meeting; if the streaming nurse role works, make it a permanent rostered post and add handover time to the trust's monthly urgent and emergency care dashboard",
+  "evidence": [
+   "No closed-loop audit of ambulance-to-ED handover timing is in the library; nearest related entries concern ED waiting times and flow"
+  ],
+  "pitfalls": [
+   "Ambulance and ED clocks are not synchronised → agree a single timestamp source before cycle 1",
+   "Small numbers on quiet shifts hide the true delay → sample across day, evening and night shifts",
+   "Definition of 'handover accepted' drifts between cycles → lock the definition (first ED clinician contact) in writing with the ambulance trust liaison",
+   "Ambulance and nursing staff see this as blame-shifting → present it jointly as a shared flow problem, not a performance league table",
+   "Gains fade once the streaming nurse post is not backfilled on leave → build it into the establishment, not a rota extra"
+  ],
+  "pearls": [
+   "Recruit the ambulance trust liaison officer as a co-presenter before cycle 1",
+   "Agree the timestamp definitions with both organisations in writing before data collection starts",
+   "Display live handover times on the department screen so staff see the effect of the change in real time",
+   "Link the audit to the trust's existing corridor-care or ambulance-queue safety huddle so it does not need a new meeting"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the ambulance and ED electronic records",
+  "pass": "Ambulance clock-stop (patient accepted by an ED clinician) is within 15 minutes of the ambulance's arrival time recorded on the ambulance electronic patient record"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of ambulance pre-alert calls for adult major trauma patients record all the core information items required by the trauma network?",
+  "why": "No closed-loop audit of pre-alert content quality has been published in the library; incomplete pre-alerts delay trauma team assembly and equipment preparation.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: service delivery, rec 1.8.1 (2016)",
+   "wording": "Record the following in patients with major trauma in pre-hospital settings: ... the ambulance call sign, name of the person taking the call and time of call.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: all adult patients brought in as a pre-alerted trauma call over a 4-week period. Exclusion: patients arriving unannounced with trauma subsequently identified",
+  "sample": "40 consecutive pre-alerted adult trauma calls over 4 weeks",
+  "data_source": "Trauma call proforma/EPR trauma page compared against the recorded ambulance radio pre-alert message (call recording or written pre-alert sheet)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_alert_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mechanism_of_injury_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "injuries_found_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vital_signs_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_given_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "eta_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "call_sign_name_time_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_items_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Replace the free-text pre-alert radio message with a structured ATMIST (age, time, mechanism, injuries, signs, treatment) proforma shared with the ambulance trust, printed automatically as a trauma call sheet when the pre-alert is logged.",
+  "target": "≥90% of pre-alerts complete on all items",
+  "reaudit": "Re-audit at 4 months, same sample size and template",
+  "close_loop": "Present at the joint trauma network governance meeting with the ambulance trust; embed the ATMIST proforma in both the ambulance despatch system and the ED trauma call sheet if it improves completeness",
+  "evidence": [
+   "ONA-024 and ONA-026 (pelvic fracture care) show ambulance-to-hospital information sharing already matters in this network; no audit of pre-alert content completeness itself is in the library"
+  ],
+  "pitfalls": [
+   "Radio recordings are hard to retrieve after a few days → agree a retrieval process with the ambulance trust before cycle 1",
+   "Small sample if trauma calls are infrequent → extend the collection window to 6 weeks in a lower-volume unit",
+   "Definitions of 'given' vary between reviewers → agree a one-page scoring key before starting",
+   "Ambulance crews may feel audited without being consulted → involve the trust's trauma desk lead in designing the proforma",
+   "Improvement fades once new crews rotate in → add ATMIST training to ambulance trust induction"
+  ],
+  "pearls": [
+   "Get sign-off from the trauma network's clinical lead before starting, since the change affects the ambulance trust too",
+   "Use existing trauma network governance meetings to close the loop rather than creating a new forum",
+   "Pilot the ATMIST proforma on one ambulance station before a wider rollout",
+   "Keep the same reviewer for both cycles to reduce scoring drift"
+  ],
+  "novelty": "new",
+  "effort": "~25 min per 10 patients from the trauma proforma and call recordings",
+  "pass": "The recorded pre-alert (written or on the trauma call proforma) contains mechanism of injury, injuries found, vital signs, treatment given, estimated time of arrival, and the ambulance call sign/name of caller/time of call"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of pre-alerted major trauma patients have a trauma team leader and team ready to receive the handover before the patient arrives?",
+  "why": "No closed-loop audit of trauma team readiness at handover has been published in the library.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: service delivery, recs 1.8.4 and 1.8.5 (2016)",
+   "wording": "A senior nurse or trauma team leader in the emergency department should receive the pre-alert information and determine the level of trauma team response according to agreed and written local guidelines. The trauma team leader should be easily identifiable to receive the handover and the trauma team ready to receive the information.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: all pre-alerted adult and paediatric trauma calls over 4 weeks. Exclusion: unannounced trauma arrivals",
+  "sample": "40 consecutive pre-alerted trauma calls over 4 weeks",
+  "data_source": "Trauma call log/EPR trauma page and direct observation or debrief sheet completed by the trauma team leader",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_alert_to_arrival_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "named_ttl_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "team_present_before_arrival",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "equipment_checked_before_arrival",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ttl_identifiable_by_tabard",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a mandatory trauma team leader tabard and a pre-arrival checklist (bay, airway trolley, blood products requested, team roles assigned) signed off by the TTL before the patient arrives, triggered automatically by the pre-alert bleep.",
+  "target": "≥95%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the trauma governance meeting; if the checklist works, add it as a mandatory step in the trauma call bleep system",
+  "evidence": [
+   "No audit of trauma team readiness at handover is in the library; ONA-024/ONA-026 show related pelvic-trauma pathway gaps"
+  ],
+  "pitfalls": [
+   "Readiness is hard to verify retrospectively → use direct observation for at least half the sample",
+   "Staff may complete the checklist after the event to look compliant → timestamp the checklist electronically",
+   "Small numbers if major trauma calls are rare → extend the collection window",
+   "Rota gaps mean no consultant TTL is available out of hours → escalate staffing gaps found by the audit to rota planning",
+   "Improvement fades once the tabard goes missing → keep a spare stock in the resus room"
+  ],
+  "pearls": [
+   "Recruit the trauma coordinator to help design and pilot the checklist",
+   "Agree with nursing and ED consultant leads before cycle 1 who owns team readiness",
+   "Use the trauma governance meeting, which already exists, to close the loop",
+   "Keep the audit tool the same across cycles so the readiness rate is directly comparable"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the trauma log and direct observation",
+  "pass": "A named trauma team leader is recorded as having received the pre-alert, and the trauma bay/team is documented as ready (equipment checked, team present) before the patient's arrival"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with major trauma needing pre-hospital rapid sequence induction have it started within 45 minutes of the initial 999 call?",
+  "why": "No closed-loop audit of pre-hospital RSI timing has been published in the library.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: assessment and initial management, rec 1.2.3 (2016)",
+   "wording": "Aim to perform RSI as soon as possible and within 45 minutes of the initial call to the emergency services, preferably at the scene of the incident.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with major trauma who cannot maintain their own airway and/or ventilation and who receive pre-hospital RSI by a critical care team. Exclusion: RSI performed in hospital only",
+  "sample": "20 consecutive pre-hospital RSIs over 3 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance/critical care paramedic or HEMS patient report form, cross-checked against the 999 call log time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "call_time_999",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rsi_drug_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_rsi_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rsi_within_45_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rsi_location",
+    "type": "choice",
+    "options": [
+     "Scene",
+     "En route",
+     "Trauma unit before transfer"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Feed back individual case timelines to the regional critical care/HEMS desk at the monthly trauma governance meeting, with a standard 'time to RSI' field added to the electronic patient report form so delays are flagged automatically.",
+  "target": "≥85% within 45 minutes",
+  "reaudit": "Re-audit at 6 months, same sample definition and template",
+  "close_loop": "Present at the regional trauma network's pre-hospital governance meeting; if the ePR field works, ask the ambulance trust to make it a standard audit field",
+  "evidence": [
+   "No audit of pre-hospital RSI timing is in the library; ONA-026 (pelvic fracture TXA timing) shows the same network already audits pre-hospital time-critical interventions"
+  ],
+  "pitfalls": [
+   "999 call time and drug administration time are recorded on different systems → agree the linkage method with the ambulance trust before cycle 1",
+   "Small numbers because pre-hospital RSI is rare → pool data across a longer period or across the regional network",
+   "Case-mix varies (rural versus urban scenes) → record scene location type to interpret outliers",
+   "Crews may feel individually blamed for system delays → present aggregated, anonymised timelines only",
+   "Improvement is not sustained after staff turnover on the critical care desk → build the RSI-time review into the desk's standard handover"
+  ],
+  "pearls": [
+   "Agree data-sharing with the ambulance/critical care service before starting, since most of the data sits outside the hospital",
+   "Recruit the regional trauma network's pre-hospital lead as co-owner of the audit",
+   "Use the existing trauma governance meeting to close the loop",
+   "Keep case numbers pooled across the network if a single trust's volume is too small to interpret alone"
+  ],
+  "novelty": "new",
+  "effort": "~30 min per case from the ambulance/HEMS patient report form",
+  "pass": "Time from the initial 999 call to RSI drug administration (scene or en route) is 45 minutes or less"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with active pre-hospital haemorrhage who receive intravenous fluid are given crystalloid only when blood components are not available?",
+  "why": "No closed-loop audit of pre-hospital fluid choice in active bleeding has been published in the library; inappropriate crystalloid use can worsen coagulopathy.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: assessment and initial management, rec 1.5.22 (2016)",
+   "wording": "In pre-hospital settings only use crystalloids to replace fluid volume in patients with active bleeding if blood components are not available.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with active bleeding from trauma who receive any IV fluid pre-hospital. Exclusion: patients with no fluid given, or fluid given only after blood products started",
+  "sample": "30 consecutive pre-hospital trauma patients with active bleeding who received IV fluid, over 3 months",
+  "data_source": "Ambulance/HEMS patient report form fluid administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fluid_type_given",
+    "type": "choice",
+    "options": [
+     "Blood component",
+     "Crystalloid",
+     "Both"
+    ],
+    "note": ""
+   },
+   {
+    "field": "blood_available_on_crew",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crystalloid_only_given_appropriately",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "volume_given_ml",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "crew_type",
+    "type": "choice",
+    "options": [
+     "Double-crewed ambulance",
+     "Critical care paramedic",
+     "HEMS"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'blood available: yes/no, reason for crystalloid' field to the ambulance/HEMS electronic patient report form fluid section, and reinforce the crystalloid-avoidance message in the trauma network's annual pre-hospital update training.",
+  "target": "≥90% appropriate",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the regional trauma network pre-hospital governance meeting; embed the mandatory field in the ambulance ePR if it improves practice",
+  "evidence": [
+   "No audit of pre-hospital fluid choice in active bleeding is in the library; ONA-026 (pelvic fracture TXA) is the nearest related pre-hospital trauma audit"
+  ],
+  "pitfalls": [
+   "Free-text fluid records make coding inconsistent → agree a coding key with the ambulance trust before cycle 1",
+   "Blood component availability varies by crew type, confounding comparisons → record crew type for every case",
+   "Small numbers if pre-hospital blood is well established locally → pool across the network",
+   "Crews may see this as second-guessing a scene decision → frame feedback as system learning, not individual performance",
+   "Gains fade if new crews are not told about the change → add to annual mandatory pre-hospital training"
+  ],
+  "pearls": [
+   "Involve the ambulance trust's clinical governance lead from the start",
+   "Use the trauma network's existing pre-hospital blood programme meeting to close the loop",
+   "Keep the same fluid-choice coding key for both cycles",
+   "Share results with crews as a learning bulletin, not a performance table"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the ambulance/HEMS patient report form",
+  "pass": "Crystalloid is given to a bleeding trauma patient only when the ambulance/HEMS crew records that blood components were not carried or not available at the time"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a head injury and a GCS of 12 or less, and no suspected extracranial bleeding, receive tranexamic acid within 2 hours of injury?",
+  "why": "No closed-loop audit of tranexamic acid timing in isolated head injury has been published in the library; the nearest related entries concern TXA in pelvic fracture.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.3.17 (2023)",
+   "wording": "For people with a head injury and a GCS score of 12 or less who are not thought to have active extracranial bleeding, consider: a 2 g intravenous bolus injection of tranexamic acid for people 16 and over ... Give the tranexamic acid as soon as possible within 2 hours of the injury, in the pre-hospital or hospital setting and before imaging.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with GCS 12 or less after head injury and no suspected extracranial bleeding, seen pre-hospital or in ED within 2 hours of injury. Exclusion: known contraindication documented at triage (e.g. injury time unknown, >2 hours ago)",
+  "sample": "30 consecutive eligible adults over 6 months (or all cases if fewer)",
+  "data_source": "Ambulance patient report form and ED trauma clerking, cross-checked against the recorded time of injury and time of TXA administration",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_of_injury",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gcs_on_first_assessment",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_within_2_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "location_of_administration",
+    "type": "choice",
+    "options": [
+     "Pre-hospital",
+     "Emergency department",
+     "Not given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add TXA as a default prompt on both the ambulance head injury pathway card and the ED trauma order set whenever GCS 12 or less is entered without a bleeding flag, with the 2-hour deadline shown on the prompt.",
+  "target": "≥85%",
+  "reaudit": "Re-audit at 6 months, same sample definition and template",
+  "close_loop": "Present at the trauma governance meeting; if the prompt works, add it to both the ambulance clinical decision support tool and the ED EPR trauma order set permanently",
+  "evidence": [
+   "ONA-026 (pelvic fracture TXA within 1 hour) shows a closed-loop audit of TXA timing already works in this network for a different injury; no equivalent audit exists for isolated head injury"
+  ],
+  "pitfalls": [
+   "Time of injury is often uncertain → exclude or flag cases with an estimated rather than witnessed injury time",
+   "Ambulance and ED records are on separate systems → agree a single audit form covering both before cycle 1",
+   "Small numbers in a district general hospital → extend the collection period to 6-12 months",
+   "Clinicians may worry about giving TXA before imaging excludes a contraindication → reinforce the NICE wording ('before imaging') in training",
+   "Gains fade if the prompt is switched off during a system upgrade → check it after any EPR update"
+  ],
+  "pearls": [
+   "Agree with the ambulance trust which record system will supply the injury-time and TXA-time fields before starting",
+   "Recruit a trauma nurse coordinator to flag eligible cases prospectively as a data-collection aid",
+   "Present pooled ambulance and hospital data together so both services see the whole pathway",
+   "Keep the same eligibility criteria (GCS ≤12, no extracranial bleeding) across cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and ED records",
+  "pass": "TXA 2 g IV bolus is given, or a documented reason for not giving it is recorded, within 2 hours of injury"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of ambulance patient report forms for head-injured children and adults record a Glasgow Coma Scale score using the correct adult or paediatric version?",
+  "why": "No closed-loop audit of ambulance GCS recording accuracy has been published in the library.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.3.15 (2003)",
+   "wording": "Ambulance crews and paramedics should be fully trained in the use of the adult and paediatric versions of the GCS and its derived score.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "population": "Inclusion: all patients conveyed by ambulance after a head injury over a 2-week period. Exclusion: patients with no ambulance patient report form available",
+  "sample": "40 consecutive ambulance-conveyed head injury patients over 2 weeks",
+  "data_source": "Ambulance patient report form handed over with the patient, or the ambulance trust's electronic record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gcs_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gcs_components_all_three_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "correct_gcs_version_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gcs_repeated_if_transport_over_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Feed back examples of incomplete or wrong-version GCS recording to the ambulance trust's clinical education team for inclusion in the next mandatory update training cycle, and add a hard-stop prompt for the paediatric GCS version in the electronic patient report form for patients under 5.",
+  "target": "≥95% fully and correctly recorded",
+  "reaudit": "Re-audit at 6 months, same sample size and template",
+  "close_loop": "Present jointly to the ED and ambulance trust clinical governance leads; if the electronic prompt reduces errors, keep it as a permanent build",
+  "evidence": [
+   "No audit of ambulance GCS recording accuracy is in the library; ONA-163 shows the same trauma network already audits documentation quality for head injury in children"
+  ],
+  "pitfalls": [
+   "Ambulance and hospital notes may be scored differently by different reviewers → use one trained reviewer for the whole audit",
+   "Paediatric cases are infrequent, giving small numbers → extend the sampling period for the under-5 subgroup",
+   "Ambulance crews may feel individually singled out → report results in aggregate only",
+   "Definitions of 'correct version' can be disputed at the 5-year-old boundary → agree the cut-off with the ambulance trust in advance",
+   "Improvement is not sustained after a change of electronic patient record supplier → re-check the prompt after any system change"
+  ],
+  "pearls": [
+   "Agree access to ambulance patient report forms with the ambulance trust's information governance team before starting",
+   "Involve the ambulance trust's clinical education lead in interpreting results",
+   "Use existing joint governance meetings rather than creating a new one",
+   "Keep the same scoring key across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ambulance patient report form",
+  "pass": "A GCS score (eye, verbal, motor and total) is recorded on the ambulance patient report form, using the paediatric GCS for children under 5 and the standard GCS for everyone else"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "When ambulance crews identify a safeguarding concern in a patient with a head injury, what proportion of cases have this documented and verbally handed over to the emergency department?",
+  "why": "No closed-loop audit of ambulance-to-ED safeguarding handover has been published in the library, despite this being an explicit training requirement.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.3.16 (2003, amended 2014)",
+   "wording": "Ambulance crews and paramedics should be trained in the safeguarding of people under 16 and people 16 and over who are vulnerable. They should document and verbally inform emergency department staff of any safeguarding concerns.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "population": "Inclusion: all patients arriving with a head injury by ambulance whose patient report form flags a safeguarding concern (non-accidental injury suspicion, vulnerable adult, self-neglect, frequent falls in a vulnerable adult) over 3 months. Exclusion: no safeguarding flag on the ambulance form",
+  "sample": "20 consecutive flagged cases over 3 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance patient report form safeguarding section, matched to the ED clerking/triage note and the trust safeguarding referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ambulance_safeguarding_flag_type",
+    "type": "choice",
+    "options": [
+     "Suspected non-accidental injury",
+     "Vulnerable adult",
+     "Self-neglect",
+     "Frequent unexplained falls",
+     "Other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "verbal_handover_documented_in_ed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_safeguarding_action_taken",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "safeguarding_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_no_action",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'ambulance safeguarding flag received: yes/no, action taken' field to the ED triage template, so a flagged case cannot be booked in without an ED safeguarding decision being recorded.",
+  "target": "100% of flagged cases have a documented ED safeguarding decision",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the trust safeguarding committee jointly with the ambulance trust designated safeguarding lead; if the mandatory field works, keep it permanently in the triage template",
+  "evidence": [
+   "No audit of ambulance-to-ED safeguarding handover for head injury is in the library; NNA-089 (adolescent mental health assessment) shows the same department already audits vulnerable-patient pathway gaps"
+  ],
+  "pitfalls": [
+   "Safeguarding flags on ambulance forms are often free text and easy to miss at triage → make the field mandatory rather than free text",
+   "Small numbers given expected low case volume → extend the collection period to 6 months",
+   "Information governance restrictions on accessing ambulance safeguarding data → agree data-sharing with the ambulance trust's safeguarding lead first",
+   "Staff may under-report to avoid extra paperwork → make the field quick (drop-down, not free text)",
+   "Loop closure stalls if the safeguarding committee meets infrequently → agree a fixed re-audit slot on the agenda in advance"
+  ],
+  "pearls": [
+   "Involve both trusts' safeguarding leads from the outset, since this is a cross-organisational pathway",
+   "Use the existing safeguarding committee to close the loop rather than a new meeting",
+   "Keep the case definition (types of flag counted) identical across cycles",
+   "Share anonymised case learning, not identifiable feedback, with individual crews"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and ED records",
+  "pass": "Where the ambulance patient report form records a safeguarding concern, the ED clerking or triage note documents that the concern was verbally handed over and an ED safeguarding action was taken (referral, discussion with named nurse, or documented reason not to act)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with suspected acute stroke conveyed by ambulance are admitted directly to a specialist acute stroke unit without first going to a general emergency department bay?",
+  "why": "No closed-loop audit of direct ambulance-to-stroke-unit conveyance has been published in the library.",
+  "standard": {
+   "source": "NICE NG128 Stroke and transient ischaemic attack in over 16s, rec 1.3.1 (2008)",
+   "wording": "Admit everyone with suspected stroke directly to a specialist acute stroke unit after initial assessment, from either the community, the emergency department, or outpatient clinics.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults brought by ambulance with a positive pre-hospital stroke screen (e.g. FAST-positive) over a 4-week period. Exclusion: stroke diagnosed after arrival with no pre-hospital stroke screen documented",
+  "sample": "30 consecutive FAST-positive ambulance conveyances over 4 weeks",
+  "data_source": "Ambulance patient report form (FAST screen result and pre-alert), ED tracking system (bed location) and stroke unit admission log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fast_positive_documented_prehospital",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stroke_pre_alert_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_bed_location",
+    "type": "choice",
+    "options": [
+     "Acute/hyperacute stroke unit",
+     "General ED bay then stroke unit",
+     "General ED bay only, not admitted to stroke unit"
+    ],
+    "note": ""
+   },
+   {
+    "field": "time_ambulance_arrival_to_stroke_unit_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_direct",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree a direct-conveyance protocol with the ambulance trust so a FAST-positive pre-alert triggers the stroke unit bed to be held and the patient taken straight there (bypassing the general ED cubicle) unless immediate resuscitation is needed.",
+  "target": "≥80% direct conveyance",
+  "reaudit": "Re-audit at 6 months, same sample definition and template",
+  "close_loop": "Present at the stroke network's operational delivery network meeting with ambulance trust representation; embed the direct-conveyance protocol in the ambulance dispatch system if it improves the rate",
+  "evidence": [
+   "NNA-119/NNA-120 (TIA aspirin and CT decision-making) show this network already audits stroke and TIA pathway steps in the ED; no audit of ambulance-to-stroke-unit direct conveyance is in the library"
+  ],
+  "pitfalls": [
+   "Bed availability on the stroke unit may block direct conveyance regardless of the pathway → record bed availability as a separate field",
+   "Small numbers in a unit without a hyperacute stroke service → adjust the pathway definition to the local model of care",
+   "FAST-positive pre-alerts may be over- or under-called → cross check against the final stroke/TIA/stroke-mimic diagnosis",
+   "ED staff may resist bypassing initial ED assessment → involve ED consultants in agreeing exceptions (e.g. unstable airway) in advance",
+   "Gains fade if the stroke unit's bed-holding process is not maintained → review bed-holding capacity at the re-audit"
+  ],
+  "pearls": [
+   "Agree the direct-conveyance protocol jointly with ambulance, ED and stroke medicine before cycle 1",
+   "Use the stroke operational delivery network meeting, which already exists, to close the loop",
+   "Track bed availability as a confounder so failures to bypass are not all attributed to the pathway",
+   "Keep the FAST-positive definition identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and stroke unit records",
+  "pass": "The patient's first inpatient bed after ambulance arrival is the acute/hyperacute stroke unit, or a documented reason is recorded for going elsewhere (for example, needing immediate resuscitation)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with an ambulance-diagnosed ST-elevation myocardial infarction receive a 300 mg aspirin loading dose before hospital arrival?",
+  "why": "No closed-loop audit of pre-hospital aspirin administration in STEMI has been published in the library.",
+  "standard": {
+   "source": "NICE NG185 Acute coronary syndromes, rec 1.1.4 (2010)",
+   "wording": "Offer people with acute STEMI a single loading dose of 300 mg aspirin as soon as possible unless there is clear evidence that they are allergic to it.",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a pre-hospital 12-lead ECG diagnosis of STEMI conveyed by ambulance over 3 months. Exclusion: cardiac arrest before aspirin could be given",
+  "sample": "30 consecutive ambulance-diagnosed STEMI patients over 3 months (or all cases if fewer)",
+  "data_source": "Ambulance patient report form medication record, cross-checked with the cardiac catheter laboratory admission proforma",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prehospital_ecg_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_given_prehospital",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "aspirin_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "direct_to_cath_lab",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Feed back cases where aspirin was omitted or delayed to the ambulance trust's cardiac clinical lead, and add a mandatory 'aspirin given: dose/time or reason not given' field to the ambulance STEMI pathway record.",
+  "target": "≥95%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the cardiac network's primary PCI governance meeting with ambulance trust representation; embed the mandatory field permanently if compliance improves",
+  "evidence": [
+   "NNA-384 (angiography timing in NSTEMI) shows this network already audits ACS pathway timings in hospital; no audit of pre-hospital aspirin administration in STEMI is in the library"
+  ],
+  "pitfalls": [
+   "Patients who self-medicate with aspirin before the ambulance arrives may be miscounted → record 'already taken' as a separate category",
+   "Small numbers of pre-hospital STEMI diagnoses in a smaller ambulance sector → pool data across the cardiac network",
+   "Allergy documentation is sometimes missing rather than a true contraindication → distinguish 'documented allergy' from 'not recorded'",
+   "Crews may feel blamed for a system-level cath lab bottleneck → keep the audit focused on the aspirin step only",
+   "Gains fade if the mandatory field is removed in a system update → recheck after any ambulance ePR change"
+  ],
+  "pearls": [
+   "Agree data access with the ambulance trust's cardiac clinical lead before starting",
+   "Use the cardiac network's existing primary PCI governance meeting to close the loop",
+   "Keep the STEMI diagnosis definition (ambulance 12-lead ECG criteria) identical across cycles",
+   "Share results as a learning bulletin for crews, not a named performance table"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the ambulance patient report form",
+  "pass": "300 mg aspirin is given by the ambulance crew (or already taken and confirmed) before hospital arrival, or a documented allergy/contraindication is recorded"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults who achieve return of spontaneous circulation after out-of-hospital cardiac arrest have their oxygen saturation titrated to 94-98% by the time of ED handover?",
+  "why": "No closed-loop audit of post-ROSC oxygen titration during ambulance transfer has been published in the library, despite hyperoxaemia and hypoxaemia both being harmful after cardiac arrest.",
+  "standard": {
+   "source": "Resuscitation Council UK, Post-resuscitation care guidelines (2021, updated July 2023)",
+   "wording": "After ROSC, once SpO2 can be measured reliably or arterial blood gas values are obtained, titrate the inspired oxygen to achieve an arterial oxygen saturation of 94-98% ... Avoid hypoxaemia ... Avoid hyperoxaemia following ROSC.",
+   "url": "https://www.resus.org.uk/library/2021-resuscitation-guidelines/post-resuscitation-care-guidelines"
+  },
+  "population": "Inclusion: adults with sustained ROSC after out-of-hospital cardiac arrest conveyed by ambulance over 6 months. Exclusion: death before ED arrival, re-arrest during transfer with no further ROSC",
+  "sample": "20 consecutive ROSC patients over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance patient report form observations chart, cross-checked with the ED resuscitation room record at handover",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rosc_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "spo2_at_ed_handover",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "spo2_in_target_range",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fio2_at_handover",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_outside_target",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'post-ROSC oxygen target 94-98%' prompt to the ambulance cardiac arrest care bundle card and the post-ROSC section of the electronic patient report form, so oxygen is actively titrated down once saturations are reliably measured.",
+  "target": "≥80% within target range at handover",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the cardiac arrest network's post-resuscitation care governance meeting with the ambulance trust; embed the prompt permanently in the ambulance care bundle card if it improves the target rate",
+  "evidence": [
+   "No audit of post-ROSC oxygen titration during ambulance transfer is in the library; the nearest related entries concern oxygen prescribing with target saturations in the ED"
+  ],
+  "pitfalls": [
+   "Pulse oximetry can be unreliable in a cold, shut-down post-arrest patient → record whether the SpO2 reading was judged reliable",
+   "Small numbers given expected low ROSC volume → extend the collection period or pool with a neighbouring ambulance sector",
+   "Crews may keep FiO2 high out of caution → reinforce the harm of hyperoxaemia in training, not just hypoxaemia",
+   "Definitions of 'reliable SpO2' vary → agree a working definition with the ambulance trust before cycle 1",
+   "Gains fade without refresher training after the initial rollout → add to the annual post-resuscitation care update"
+  ],
+  "pearls": [
+   "Link the audit to the trust's existing out-of-hospital cardiac arrest outcomes review meeting",
+   "Recruit a resuscitation officer from both the ambulance trust and the ED as joint audit leads",
+   "Keep the SpO2 target and 'reliable reading' definitions identical for both cycles",
+   "Feed results back through the ambulance trust's cardiac arrest governance process, which already exists"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ambulance and ED resuscitation records",
+  "pass": "The last recorded SpO2 before ED handover is 94-98%, or a documented reason for a different target is recorded (for example, known chronic respiratory disease with a lower target)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with return of spontaneous circulation after cardiac arrest of presumed cardiac cause are transported directly to a hospital with 24/7 primary PCI capability?",
+  "why": "No closed-loop audit of direct conveyance to a cardiac arrest/heart attack centre after ROSC has been published in the library.",
+  "standard": {
+   "source": "Resuscitation Council UK, Post-resuscitation care guidelines (2021, updated July 2023)",
+   "wording": "Adult patients with a cardiac arrest of presumed cardiac aetiology should be transported directly to a hospital with 24/7 coronary angiography capability.",
+   "url": "https://www.resus.org.uk/library/2021-resuscitation-guidelines/post-resuscitation-care-guidelines"
+  },
+  "population": "Inclusion: adults with sustained ROSC after out-of-hospital cardiac arrest thought to be of cardiac cause, over 6 months. Exclusion: cardiac arrest with an obvious non-cardiac cause (trauma, drowning, hanging)",
+  "sample": "20 consecutive eligible ROSC patients over 6 months (or all cases if fewer)",
+  "data_source": "Ambulance patient report form destination decision record and receiving hospital's cardiac arrest centre admission log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presumed_cardiac_cause",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "destination_hospital_type",
+    "type": "choice",
+    "options": [
+     "24/7 primary PCI centre",
+     "Nearest ED without PCI capability"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_pci_centre",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "onward_transfer_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_rosc_to_cath_lab_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree a documented destination-decision algorithm with the ambulance trust's cardiac arrest desk so presumed-cardiac ROSC cases bypass the nearest general ED and go directly to the network's 24/7 PCI centre unless airway or scene factors prevent it.",
+  "target": "≥80% direct conveyance where clinically appropriate",
+  "reaudit": "Re-audit at 6 months, same sample definition and template",
+  "close_loop": "Present at the out-of-hospital cardiac arrest network governance meeting with ambulance trust representation; if the destination algorithm reduces onward transfers, adopt it as standard ambulance dispatch policy",
+  "evidence": [
+   "No audit of direct post-ROSC conveyance to a PCI centre is in the library; NNA-384 (angiography timing in NSTEMI) shows the same network already audits related cardiac pathway timings"
+  ],
+  "pitfalls": [
+   "Presumed cardiac cause is a judgement call and can be coded inconsistently → agree the coding criteria with ambulance clinicians before cycle 1",
+   "Rural areas may have long transfer times to the PCI centre → record transfer distance as a confounder",
+   "Small numbers given expected low ROSC volume → pool data across the network if a single ambulance sector is too small",
+   "Onward inter-hospital transfers add delay and risk if the algorithm is not followed → track onward transfers as a secondary outcome",
+   "Improvement is not sustained if the algorithm is not built into ambulance dispatch software → make it a system default rather than a memory-based decision"
+  ],
+  "pearls": [
+   "Agree the destination algorithm jointly between the ambulance trust and the cardiac network before starting",
+   "Use the existing out-of-hospital cardiac arrest outcomes governance meeting to close the loop",
+   "Keep the 'presumed cardiac cause' definition identical across both cycles",
+   "Track time from ROSC to cath lab as well as destination choice, since it is the outcome that matters clinically"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and cardiac network records",
+  "pass": "The patient is taken directly to a 24/7 primary PCI centre, or a documented reason for going elsewhere is recorded (for example, airway instability requiring the nearest ED)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with return of spontaneous circulation who remain comatose have active fever prevention (temperature kept below 37.7°C) documented for the first 72 hours?",
+  "why": "No closed-loop audit of post-ROSC temperature control has been published in the library.",
+  "standard": {
+   "source": "Resuscitation Council UK, Post-resuscitation care guidelines (2021, updated July 2023)",
+   "wording": "Continuously monitor the core temperature in patients who remain comatose after ROSC. Actively prevent fever (defined as a temperature > 37.7°C) for at least 72 h in post-cardiac arrest patients who remain comatose.",
+   "url": "https://www.resus.org.uk/library/2021-resuscitation-guidelines/post-resuscitation-care-guidelines"
+  },
+  "population": "Inclusion: adults admitted to critical care remaining comatose after ROSC, over 6 months. Exclusion: death or awakening within 24 hours of admission",
+  "sample": "20 consecutive comatose post-ROSC patients over 6 months (or all cases if fewer)",
+  "data_source": "Critical care observation chart (continuous temperature trend) and drug chart (antipyretic administration)",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "rosc_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "continuous_core_temp_monitoring_used",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_temperature_first_72h",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fever_over_37_7_occurred",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "active_fever_prevention_given_if_fever",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'post-ROSC fever prevention (target <37.7°C for 72 hours)' order set to the critical care admission bundle, with a nurse-initiated antipyretic protocol that fires automatically when temperature crosses the threshold.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the critical care and resuscitation joint governance meeting; embed the order set permanently in the critical care EPR if it improves compliance",
+  "evidence": [
+   "No audit of post-ROSC fever prevention is in the library; the nearest related entries concern general post-resuscitation and post-arrest ED care"
+  ],
+  "pitfalls": [
+   "Continuous core temperature monitoring devices are not always available → record the monitoring method used (core probe, bladder, tympanic)",
+   "Small numbers because comatose ROSC admissions are infrequent → extend the collection period to 6-12 months",
+   "Staff may treat fever reactively rather than proactively → make the order set nurse-initiated so no medical review delay is needed",
+   "Definitions of 'active prevention' vary between units → agree what counts (paracetamol, cooling blanket, ice packs) before cycle 1",
+   "Gains fade after critical care nursing rotation → include in critical care induction training"
+  ],
+  "pearls": [
+   "Recruit the critical care outreach or resuscitation officer team to help identify eligible cases prospectively",
+   "Use an existing critical care mortality and morbidity or resuscitation governance meeting to close the loop",
+   "Keep the 37.7°C threshold and monitoring definitions identical across cycles",
+   "Track antipyretic administration alongside temperature trend, not temperature alone"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from the critical care observation and drug chart",
+  "pass": "Core temperature is continuously monitored and stays below 37.7°C throughout the first 72 hours, or an active fever-prevention intervention (antipyretic, cooling device) is documented whenever it rises above that threshold"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults aged 65 and over attended by an ambulance after a fall, but not conveyed to hospital, are referred for a comprehensive falls assessment?",
+  "why": "No closed-loop audit of ambulance non-conveyance falls referral has been published in the library; NNA-083 audits ED-discharged fall patients but not those never brought to hospital at all.",
+  "standard": {
+   "source": "NICE NG249 Falls: assessment and prevention in older people and in people 50 and over at higher risk, rec 1.1.3 (2025)",
+   "wording": "Offer a comprehensive falls assessment and comprehensive falls management ... for people who ... have fallen and cannot get up without help, or ... have had 2 or more falls in the last 12 months.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults aged 65 and over attended by ambulance after a fall and not conveyed to hospital, over a 4-week period. Exclusion: falls with an injury requiring conveyance",
+  "sample": "30 consecutive non-conveyed fall attendances over 4 weeks",
+  "data_source": "Ambulance electronic patient record 'not conveyed' outcome and referral field, cross-checked with the community falls service referral log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_falls_in_12_months",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "meets_ng249_referral_criteria",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_service_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_informed_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'falls service referral: yes/no, reason' field to the ambulance non-conveyance falls pathway, with a direct electronic referral route to the local falls service built into the ambulance ePR.",
+  "target": "≥85%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present jointly to the ambulance trust and community falls service governance meetings; embed the electronic referral route permanently if it increases uptake",
+  "evidence": [
+   "NNA-083 (ED-discharged fall patients referred for falls assessment) shows this pathway gap already exists at the ED end; no audit of ambulance non-conveyance falls referral is in the library"
+  ],
+  "pitfalls": [
+   "Non-conveyed falls attendances are not always well documented → agree a minimum dataset with the ambulance trust before cycle 1",
+   "Falls services vary in how they accept ambulance referrals → confirm the referral route works before auditing uptake",
+   "Small numbers if 'not conveyed' coding is inconsistent → review ambulance coding practice first",
+   "Ambulance crews under time pressure may skip the referral step → make it a single click in the ePR rather than a phone call",
+   "Gains fade if the falls service cannot cope with increased referrals → agree capacity with the falls service before scaling up"
+  ],
+  "pearls": [
+   "Involve the community falls service lead and the ambulance trust's falls lead together from the start",
+   "Use the trust's existing falls prevention steering group to close the loop",
+   "Keep the NG249 referral criteria identical across both cycles",
+   "Track whether referrals are actually acted on by the falls service, not just made"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from ambulance and falls service records",
+  "pass": "A referral to a community falls service (or GP with a falls-specific request) is made and documented at the time of the ambulance 'see and treat, not conveyed' episode for a patient meeting the assessment criteria"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of ED patients on a time-critical medication (Parkinson's, insulin, anti-epileptic, immunosuppressant, or long-term steroid) receive their next scheduled dose at the usual time while waiting in the department?",
+  "why": "No closed-loop audit of time-critical medication administration during ED waits has been published in the library, despite an RCEM national safety flash on this exact risk.",
+  "standard": {
+   "source": "RCEM Safety Flash: Time Critical Medication (November 2023)",
+   "wording": "All patients should have time critical medications prescribed and administered at their usual time whilst in the ED.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2023/11/Time-Critical-Medication-Safety-Flash-V8-Final-1.pdf"
+  },
+  "population": "Inclusion: adults identified at triage as taking a time-critical medication (movement disorder, immunomodulator, diabetes, steroid, epilepsy, anticoagulant) with a dose due during their ED stay, over 4 weeks. Exclusion: patients discharged before the next dose was due",
+  "sample": "40 consecutive eligible patients over 4 weeks",
+  "data_source": "ED triage record (time-critical medication flag), drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_critical_medication_category",
+    "type": "choice",
+    "options": [
+     "Movement disorder (Parkinson's/myasthenia)",
+     "Immunomodulator",
+     "Diabetes",
+     "Steroid dependency",
+     "Epilepsy",
+     "DOAC/warfarin"
+    ],
+    "note": ""
+   },
+   {
+    "field": "flagged_at_triage",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "usual_dose_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "actual_administration_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_within_30_min_of_usual_time",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed_or_omitted",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Display the UKCPA patient-facing poster at reception/triage so patients can flag their own time-critical medicines, add a mandatory 'time-critical medication' triage field that creates a timed EPMA task, and confirm ED pharmacy cover for medicines availability.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety meeting; if the triage flag and pharmacy cover improve compliance, keep both permanently and report results to the trust medication safety group",
+  "evidence": [
+   "No audit of time-critical medication timing in the ED is in the library; NNA-135 (haloperidol ECG before dosing) shows the same department already audits time-critical prescribing safety"
+  ],
+  "pitfalls": [
+   "Patients may not know or disclose that a medicine is time-critical → use the UKCPA poster to prompt disclosure",
+   "Triage staff may not recognise all time-critical drug classes → use the MISSED mnemonic (movement, immunomodulators, sugar, steroids, epilepsy, DOACs) in training",
+   "Small numbers if flagging is inconsistent → audit the flagging rate itself as a secondary measure",
+   "ED pharmacy may not have 24/7 cover → record time of day to see if out-of-hours delays predominate",
+   "Improvement fades once the initial safety flash awareness fades → repeat the poster and training at 6-monthly intervals"
+  ],
+  "pearls": [
+   "Display the RCEM/UKCPA poster at triage before starting data collection",
+   "Recruit the ED pharmacist as a co-lead, since medicines availability is part of the standard",
+   "Use the trust medication safety group, which already exists, to close the loop",
+   "Keep the same list of time-critical drug classes (the MISSED categories) across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from triage and EPMA records",
+  "pass": "The patient's time-critical medication due while in the ED is prescribed and administered within 30 minutes of its usual time, or a documented clinical reason for delay/omission is recorded"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults on long-term steroid therapy who present with signs of possible adrenal crisis receive hydrocortisone promptly?",
+  "why": "No closed-loop audit of prompt steroid replacement in possible adrenal crisis has been published in the library, despite an RCEM national safety flash on missed steroid-dependency risk.",
+  "standard": {
+   "source": "RCEM Safety Flash: Cortico-Steroid Dependency (December 2023)",
+   "wording": "Patients on long term steroid therapy (by any route) are at risk of an adrenal crisis if they miss their medication or have intercurrent illness/injury. ... Start steroids promptly in patients at risk of an adrenal crisis. ... Severe intercurrent illness ... Hydrocortisone 100mg IM or IV.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2023/12/Cortico_Steroid_Dependancy_Safety_Flash_v8.pdf"
+  },
+  "population": "Inclusion: adults with documented long-term steroid dependency (Addison's disease, hypopituitarism, or long-term glucocorticoid therapy of any route) presenting with a severe intercurrent illness over 6 months. Exclusion: steroid-dependent patients presenting for an unrelated minor problem with no signs of illness",
+  "sample": "20 consecutive eligible presentations over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "ED triage note (steroid card/medic alert bracelet, drug history) and drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "steroid_dependency_cause",
+    "type": "choice",
+    "options": [
+     "Addison's disease",
+     "Hypopituitarism",
+     "Long-term glucocorticoid therapy (other cause)"
+    ],
+    "note": ""
+   },
+   {
+    "field": "steroid_card_or_bracelet_seen",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presenting_feature",
+    "type": "choice",
+    "options": [
+     "Nausea/vomiting",
+     "Acute abdominal pain",
+     "Confusion/reduced GCS",
+     "Syncope",
+     "Unexplained fever",
+     "Long-lie"
+    ],
+    "note": ""
+   },
+   {
+    "field": "hydrocortisone_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_hydrocortisone_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'steroid card/medic alert seen: yes/no' question to the ED triage template, stock pre-drawn hydrocortisone 100 mg in the resus room drug cupboard, and add an adrenal crisis order set to the ED EPR.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the ED patient safety meeting; if pre-stocking and the order set improve time to treatment, keep both permanently and add to ED induction",
+  "evidence": [
+   "No audit of prompt hydrocortisone administration in adrenal crisis is in the library; the nearest related entries concern sepsis care bundle compliance"
+  ],
+  "pitfalls": [
+   "Adrenal crisis presentations are non-specific and easily missed → use the RCEM safety flash's red-flag list (nausea/vomiting, abdominal pain, confusion, syncope, unexplained fever, long-lie) as the case-finding filter",
+   "Small numbers given expected low volume → extend the collection period to 12 months if needed",
+   "Steroid cards are not always carried → also check EPR medication history and GP summary care record",
+   "Hydrocortisone may not be immediately available on the resus trolley → confirm stock location with pharmacy before cycle 1",
+   "Gains fade once the safety flash is no longer fresh in staff minds → repeat awareness training at 6-monthly intervals"
+  ],
+  "pearls": [
+   "Display the NHS Steroid Emergency Card image at triage as a visual prompt",
+   "Recruit an ED pharmacist to confirm hydrocortisone stocking before starting",
+   "Use the ED patient safety meeting, which already exists, to close the loop",
+   "Keep the case-finding red-flag list identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from triage and drug chart records",
+  "pass": "Hydrocortisone 100 mg IM or IV is given within 30 minutes of triage/first assessment in a steroid-dependent patient with severe intercurrent illness (persistent vomiting, acute trauma, sepsis or surgery)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children under 16 with a suspected sepsis red flag identified by an ambulance crew have a sepsis pre-alert call made to the receiving emergency department?",
+  "why": "No closed-loop audit of ambulance sepsis pre-alerting for children has been published in the library.",
+  "standard": {
+   "source": "NICE NG254 Suspected sepsis in under 16s: recognition, diagnosis and early management, rec 1.7.3 (2025)",
+   "wording": "Treat the risk of sepsis as an emergency and refer immediately for emergency medical care by the most appropriate means of transport (usually 999 ambulance) if a child or young person with suspected sepsis meets any high risk criteria in table 3.",
+   "url": "https://www.nice.org.uk/guidance/ng254/chapter/Recommendations"
+  },
+  "population": "Inclusion: children under 16 conveyed by ambulance with a documented NICE high-risk sepsis criterion, over 6 months. Exclusion: children brought by ambulance for an unrelated reason with sepsis diagnosed only after arrival",
+  "sample": "20 consecutive eligible children over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance patient report form (high-risk criterion documented) and ED pre-alert log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_risk_criterion_identified",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_alert_call_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sepsis_mentioned_in_pre_alert",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_antibiotics_from_ed_arrival_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a paediatric sepsis red-flag prompt to the ambulance clinical decision-support tool that triggers a structured pre-alert message, and set the ED to open the paediatric sepsis order set automatically when a sepsis pre-alert is received.",
+  "target": "≥85%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present jointly to the ambulance trust and paediatric emergency governance meeting; embed the automatic order-set trigger permanently if it reduces time to antibiotics",
+  "evidence": [
+   "NNA-077 (paediatric sepsis antibiotics within 1 hour in the ED) shows this pathway already has a hospital-side gap; no audit of the ambulance pre-alert step for paediatric sepsis is in the library"
+  ],
+  "pitfalls": [
+   "High-risk criteria may not be explicitly documented by ambulance crews → agree a checklist with the ambulance trust before cycle 1",
+   "Small numbers given expected low paediatric sepsis volume → pool across a longer period or with a neighbouring trust",
+   "Pre-alert calls may mention 'unwell child' without naming sepsis specifically → record whether the word 'sepsis' or 'high risk' was used",
+   "Ambulance crews may feel audited without being consulted → involve the paediatric-trained ambulance clinical lead in the design",
+   "Gains fade once the decision-support prompt is switched off in an update → recheck after any ambulance system change"
+  ],
+  "pearls": [
+   "Link the audit to the existing paediatric sepsis quality improvement work already running in the ED",
+   "Recruit a paediatric emergency nurse and the ambulance trust's paediatric lead as joint owners",
+   "Use the paediatric emergency governance meeting to close the loop",
+   "Track time to antibiotics as the outcome that ultimately matters, alongside the process measure of pre-alerting"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and ED records",
+  "pass": "A structured pre-alert call is made to the receiving ED before arrival, stating that a high-risk sepsis criterion has been identified"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of patients cared for in a corridor or other non-designated clinical space in the ED have a full set of observations recorded at least hourly?",
+  "why": "No closed-loop audit of observation frequency for patients in corridor care has been published in the library; RCEM has raised corridor care as a rising national patient-safety concern.",
+  "standard": {
+   "source": "Local standard, based on NICE CG50 Acutely ill patients in hospital, rec 1.3 (2007) principle of physiological track-and-trigger monitoring for all acutely unwell patients regardless of location",
+   "wording": "Physiological observations should be monitored at least every 12 hours, unless a decision has been made at a senior level to increase or decrease this frequency for an individual patient.",
+   "url": "https://www.nice.org.uk/guidance/cg50/chapter/Recommendations"
+  },
+  "population": "Inclusion: all adults cared for in a corridor, ambulance queue or other non-designated ED space for more than 1 hour, over a 2-week period. Exclusion: patients in a designated cubicle or bay throughout their stay",
+  "sample": "40 consecutive corridor-care episodes over 2 weeks",
+  "data_source": "ED nursing observation chart (paper or electronic), matched to the location log showing time spent in a non-designated space",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_entered_corridor_care",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_left_corridor_care",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_in_corridor_care",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observations_expected",
+    "type": "number",
+    "options": [],
+    "note": "one per hour in corridor care"
+   },
+   {
+    "field": "observations_actually_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "news2_score_escalated_if_high",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Name a corridor-care safety nurse on each shift with explicit responsibility for hourly observations and NEWS2 escalation, and flag every corridor-care patient on the electronic tracking board with a visible observation-due countdown.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety meeting and trust corridor-care/overcrowding escalation group; make the named safety nurse role permanent on busy shifts if it improves compliance",
+  "evidence": [
+   "No audit of observation frequency for corridor-cared patients is in the library; the nearest related entries concern ED waiting times and flow"
+  ],
+  "pitfalls": [
+   "Corridor-care time is not always logged separately from cubicle time → agree a location-logging method before cycle 1",
+   "Staff may under-document during periods of extreme pressure, the exact time this audit targets → use direct spot-checks as well as retrospective chart review",
+   "Numbers vary hugely by day-of-week surge → sample across several different pressure levels",
+   "Staff may see this as adding more paperwork during an already unsafe situation → pair the audit with the safety-nurse role, not extra forms",
+   "Improvement is not sustained if the role is dropped once escalation pressure eases → keep it as a standing response to a defined occupancy trigger"
+  ],
+  "pearls": [
+   "Agree with senior nursing and medical leads what counts as 'corridor care' before starting",
+   "Use the trust's existing overcrowding/escalation policy meeting to close the loop",
+   "Track NEWS2 escalation, not just observation frequency, as the outcome that matters",
+   "Keep the same location-logging method for both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from the nursing observation chart and tracking board log",
+  "pass": "A full set of observations (respiratory rate, oxygen saturation, blood pressure, pulse, temperature, consciousness level) is recorded at least hourly for every hour spent in a corridor or non-designated space, or a documented senior decision sets a different frequency"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults aged 65 and over attending the ED have a Clinical Frailty Scale score recorded at triage?",
+  "why": "No closed-loop audit of Clinical Frailty Scale recording at ED triage has been published in the library.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.4.2 (2023) and BGS Silver Book II principle that frailty assessment should start at first contact",
+   "wording": "Consider that older people, or people who are frail, may have a lower threshold for CT scanning after a head injury because of an increased risk of both traumatic intracranial lesions and pre-existing neurological conditions that complicate assessment.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "population": "Inclusion: all patients aged 65 and over attending the ED over a 2-week period. Exclusion: patients who die or leave before triage is completed",
+  "sample": "50 consecutive patients aged 65 and over over 2 weeks",
+  "data_source": "ED triage record/EPR frailty field",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "patient_age_years",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cfs_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cfs_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "frailty_pathway_referral_made_if_cfs_5_or_more",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the Clinical Frailty Scale a mandatory field in the ED triage screen for every patient aged 65 and over (cannot complete triage without it), with an automatic prompt to refer to the frailty/same-day emergency care team when the score is 5 or more.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED and frailty service joint governance meeting; keep the mandatory triage field permanently if referral rates and recording improve",
+  "evidence": [
+   "NNA-341 (medication review in severe frailty) and NNA-083 (falls referral after head injury) show this trust already tracks frailty-related gaps; no audit of CFS recording at ED triage itself is in the library"
+  ],
+  "pitfalls": [
+   "CFS scoring needs a collateral history, which is not always available at triage → allow a 'provisional score, confirm later' option",
+   "Staff may not be trained in CFS scoring → provide a laminated CFS reference card at every triage desk",
+   "Small numbers if attendance data is not filtered correctly by age → double-check the age filter before sampling",
+   "Recording a score without acting on it (no referral) undermines the point → audit the referral step as well as the recording step",
+   "Gains fade after new starters join triage → add CFS training to ED induction"
+  ],
+  "pearls": [
+   "Involve the frailty/geriatric medicine team in designing the referral trigger before cycle 1",
+   "Use existing frailty service governance meetings to close the loop",
+   "Keep the referral threshold (CFS ≥5) identical across both cycles",
+   "Display CFS reference cards at every triage station, not just centrally"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ED triage record",
+  "pass": "A Clinical Frailty Scale score (1-9) is recorded on the triage assessment for every patient aged 65 and over"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with acute severe hyperkalaemia (potassium 6.5 mmol/L or above, or ECG changes) in the ED receive calcium gluconate or calcium chloride within 15 minutes of the result being available?",
+  "why": "No closed-loop audit of time to cardio-protective calcium administration in severe hyperkalaemia has been published in the library.",
+  "standard": {
+   "source": "UK Kidney Association, Treatment of Acute Hyperkalaemia in Adults clinical practice guideline (2023)",
+   "wording": "IV calcium gluconate or calcium chloride should be given immediately to patients with severe hyperkalaemia (serum potassium ≥6.5 mmol/L) and/or ECG changes consistent with hyperkalaemia.",
+   "url": "https://ukkidney.org/sites/renal.org/files/FINAL-Hyperkalaemia-Guideline-June-2023.pdf"
+  },
+  "population": "Inclusion: adults in the ED with a venous or arterial potassium of 6.5 mmol/L or above, or ECG changes of hyperkalaemia, over 3 months. Exclusion: cardiac arrest before treatment could be given",
+  "sample": "20 consecutive eligible patients over 3 months (or all cases if fewer)",
+  "data_source": "ED point-of-care/laboratory result timestamp and drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "potassium_result_mmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "result_available_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ecg_changes_present",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calcium_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "calcium_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "given_within_15_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a hyperkalaemia order set in the ED EPR that fires automatically when a potassium result of 6.5 mmol/L or above is filed, pre-selecting calcium gluconate 10 ml 10% with a one-click prescribe-and-administer pathway.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the ED patient safety meeting; if the automatic order set improves compliance, keep it permanently and share with acute medicine for ward-based hyperkalaemia",
+  "evidence": [
+   "No audit of time to calcium administration in severe hyperkalaemia is in the library; the nearest related entries concern sepsis care bundle compliance for similarly time-critical treatment"
+  ],
+  "pitfalls": [
+   "Point-of-care and laboratory potassium results may be recorded on different systems → agree a single result-timestamp source before cycle 1",
+   "Small numbers given expected low volume of severe hyperkalaemia → extend the collection period to 6-12 months",
+   "ECG-change cases without an extreme potassium value are easy to miss in a lab-based search → also screen ED ECGs reported as hyperkalaemic pattern",
+   "Nursing may wait for medical review before giving calcium → confirm local policy allows nurse-initiated calcium via a patient group direction or protocol",
+   "Gains fade if the automatic order set is switched off in a system update → recheck after any EPR change"
+  ],
+  "pearls": [
+   "Agree the case-finding method (lab result search plus ECG report search) with the laboratory and ED IT teams before starting",
+   "Recruit an ED pharmacist to help design the order set",
+   "Use the ED patient safety meeting, which already exists, to close the loop",
+   "Keep the 6.5 mmol/L and 15-minute definitions identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from laboratory, ECG and drug chart records",
+  "pass": "Calcium gluconate or calcium chloride is given within 15 minutes of the potassium result being available (or of ECG changes being recognised) for patients meeting the severe hyperkalaemia definition"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults presenting to the ED with suspected carbon monoxide poisoning have a carboxyhaemoglobin level measured before treatment decisions are made?",
+  "why": "No closed-loop audit of carboxyhaemoglobin testing in suspected carbon monoxide poisoning has been published in the library.",
+  "standard": {
+   "source": "UK Health Security Agency, Carbon Monoxide Poisoning: Diagnosis and Management (Public Health England/UKHSA toxicological guidance, 2021)",
+   "wording": "Carboxyhaemoglobin (COHb) concentration should be measured as soon as possible after exposure, either from an arterial or venous blood sample analysed by co-oximetry, to confirm the diagnosis and guide management.",
+   "url": "https://www.gov.uk/government/publications/carbon-monoxide-toxicological-overview"
+  },
+  "population": "Inclusion: adults presenting to the ED with a history or suspicion of carbon monoxide exposure over 6 months. Exclusion: incidental low-level exposure with no symptoms and no suspicion raised by staff",
+  "sample": "20 consecutive suspected carbon monoxide poisoning presentations over 6 months (or all cases if fewer)",
+  "data_source": "ED clerking note and blood gas/co-oximetry result",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "exposure_source_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cohb_measured",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cohb_level_percent",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "high_flow_oxygen_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hyperbaric_oxygen_referral_considered",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fire_service_or_gas_safe_notification_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a 'suspected carbon monoxide exposure' order set to the ED EPR that automatically requests a co-oximetry blood gas and prompts a fire and rescue service/Gas Safe notification and hyperbaric referral consideration.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the ED patient safety meeting and share findings with the local fire and rescue service liaison; embed the order set permanently if it improves testing rates",
+  "evidence": [
+   "No audit of carboxyhaemoglobin testing in suspected carbon monoxide poisoning is in the library; the nearest related entries concern general poisoning and overdose pathways"
+  ],
+  "pitfalls": [
+   "Mild or vague presentations (headache, flu-like symptoms) may not trigger suspicion → add a seasonal awareness campaign (winter heating season) alongside the audit",
+   "Small numbers given expected low local volume → extend the collection period to 12 months",
+   "Co-oximetry may not be available on every blood gas analyser → confirm equipment availability before cycle 1",
+   "Household/multiple casualties may not all be flagged to the same audit → cross-check ambulance dispatch data for clustered presentations",
+   "Gains fade outside the winter season when suspicion is lower → repeat awareness training before each heating season"
+  ],
+  "pearls": [
+   "Recruit ED toxicology/poisons information (TOXBASE) contacts as a resource, not a data source, when designing the order set",
+   "Use the ED patient safety meeting to close the loop",
+   "Keep the same case-finding method (clerking note search for 'carbon monoxide' or 'CO poisoning') across both cycles",
+   "Coordinate with the fire and rescue service so household safety checks follow confirmed cases"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ED clerking and blood gas records",
+  "pass": "A carboxyhaemoglobin level by co-oximetry is documented before a management decision (oxygen therapy duration, hyperbaric oxygen referral, discharge) is made"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children discharged from the ED after a first anaphylaxis episode leave with two adrenaline auto-injectors and a written action plan?",
+  "why": "No closed-loop audit of complete anaphylaxis discharge equipment for children has been published in the library; NNA-188 audits the specialist allergy referral step but not the auto-injector and action plan themselves.",
+  "standard": {
+   "source": "NICE NG258 Assessment and referral after emergency treatment for anaphylaxis, rec 1.1.15 (2026)",
+   "wording": "Before a person is discharged from hospital after emergency treatment for a suspected or confirmed anaphylactic reaction: provide them (or their family members or carers as appropriate) with 2 adrenaline auto-injectors as an interim measure ... and a written anaphylaxis action plan.",
+   "url": "https://www.nice.org.uk/guidance/ng258/chapter/Recommendations"
+  },
+  "population": "Inclusion: children under 16 discharged from the ED after treatment for suspected or confirmed anaphylaxis, over 3 months. Exclusion: children admitted to a ward or PICU rather than discharged from the ED",
+  "sample": "20 consecutive eligible discharges over 3 months (or all cases if fewer)",
+  "data_source": "ED discharge summary/EPR anaphylaxis discharge bundle",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "two_auto_injectors_supplied_or_confirmed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_action_plan_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "auto_injector_training_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "allergy_referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a mandatory anaphylaxis discharge bundle in the ED EPR that cannot be completed without ticking 'two auto-injectors supplied/confirmed', 'action plan given' and 'training given', with the auto-injectors and action plan template stocked in every paediatric bay.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the paediatric emergency governance meeting; keep the mandatory bundle permanently if compliance improves and report to the paediatric allergy service",
+  "evidence": [
+   "NNA-188 (paediatric allergy service referral before discharge) shows this discharge pathway is already partly audited; no audit of the auto-injector and action plan completeness itself is in the library"
+  ],
+  "pitfalls": [
+   "Families may already own auto-injectors, making 'supplied' an incomplete measure → record 'supplied or confirmed in-date and carried' as the combined pass criterion",
+   "Written action plans are sometimes given verbally only → audit for a physical or electronic copy actually handed over, not just advice given",
+   "Small numbers if paediatric anaphylaxis presentations are infrequent → extend the collection period to 6 months",
+   "Stock shortages of auto-injector trainer devices can limit training → confirm trainer-device stock with pharmacy before cycle 1",
+   "Gains fade if new staff are not shown the mandatory bundle → add to paediatric ED induction"
+  ],
+  "pearls": [
+   "Recruit the paediatric allergy service to help design the action-plan template",
+   "Use the paediatric emergency governance meeting to close the loop",
+   "Keep the discharge bundle definition identical across both cycles",
+   "Stock auto-injectors and action plans directly in paediatric bays to remove a barrier to completion"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the ED discharge record",
+  "pass": "The discharge record confirms 2 adrenaline auto-injectors were supplied (or already owned and confirmed in date) and a written anaphylaxis action plan was given, with training on use documented"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a suspected ureteric colic who have significant pain in the ED receive their first dose of analgesia within 20 minutes of arrival?",
+  "why": "No closed-loop audit of time to first analgesia specifically in renal colic has been published in the library; the corpus's 8 existing time-to-analgesia audits do not target this patient group.",
+  "standard": {
+   "source": "NICE NG118 Renal and ureteric stones: assessment and management, rec 1.2.1 (2019)",
+   "wording": "Offer people with suspected renal colic a choice of NSAID, paracetamol or opioid if NSAIDs are contraindicated or not giving sufficient pain relief, as first-line treatment for pain relief.",
+   "url": "https://www.nice.org.uk/guidance/ng118/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults triaged with suspected ureteric/renal colic and a documented pain score of 4 or more, over 4 weeks. Exclusion: pain score under 4 at triage",
+  "sample": "30 consecutive eligible patients over 4 weeks",
+  "data_source": "ED triage record (pain score, arrival time) and drug chart/EPMA administration time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_at_triage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_type",
+    "type": "choice",
+    "options": [
+     "NSAID",
+     "Paracetamol",
+     "Opioid",
+     "None given"
+    ],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_analgesia_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a nurse-initiated analgesia patient group direction for suspected renal colic at triage (NSAID unless contraindicated, otherwise paracetamol or opioid), prompted automatically when the triage template flags flank pain with a pain score of 4 or more.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety/pain management meeting; make the patient group direction permanent if it improves time to first analgesia",
+  "evidence": [
+   "The library holds 8 general time-to-analgesia audits and NNA-024 audits surgical treatment timing in renal colic, but no audit targets time to first analgesia in this specific patient group"
+  ],
+  "pitfalls": [
+   "Pain scores are not always recorded at triage → include 'no pain score recorded' as its own category rather than excluding these patients",
+   "NSAID contraindications (renal impairment, GI bleed history) may not be checked before an audit reviewer assumes non-compliance → record contraindications explicitly",
+   "Small numbers in a lower-volume unit → extend the collection period to 6 weeks",
+   "Nursing staff may be reluctant to give analgesia before a doctor review → confirm the patient group direction is signed off by the relevant clinical governance committee before cycle 1",
+   "Gains fade if the patient group direction is not refreshed on renewal → set a renewal reminder alongside the re-audit date"
+  ],
+  "pearls": [
+   "Agree the patient group direction with pharmacy and medical leadership before starting",
+   "Recruit a triage nurse champion to help embed the new prompt",
+   "Use the ED pain management meeting, which already exists for other analgesia audits, to close the loop",
+   "Keep the pain-score threshold and analgesia options identical across both cycles"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from triage and EPMA records",
+  "pass": "A first dose of NSAID, paracetamol or opioid analgesia is given within 20 minutes of arrival for a patient with a pain score of 4 or more and suspected renal colic"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults given IV opioid analgesia in the ED have their respiratory rate and sedation score checked within 30 minutes of the dose?",
+  "why": "No closed-loop audit of post-opioid respiratory monitoring specifically in the ED has been published in the library.",
+  "standard": {
+   "source": "Resuscitation Council UK / Royal College of Anaesthetists guidance on opioid safety, summarised in NHS England Patient Safety Alert on opioid medicines (2020) principle",
+   "wording": "Patients receiving parenteral opioids should have their respiratory rate, oxygen saturation and sedation score monitored regularly following administration to detect early signs of opioid-induced respiratory depression.",
+   "url": "https://www.england.nhs.uk/patient-safety/patient-safety-alerts/"
+  },
+  "population": "Inclusion: adults given IV morphine, oxycodone, fentanyl or other parenteral opioid in the ED, over 2 weeks. Exclusion: opioid given immediately before transfer to theatre or critical care with monitoring continued there",
+  "sample": "30 consecutive IV opioid doses over 2 weeks",
+  "data_source": "Drug chart/EPMA administration record and nursing observation chart",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "opioid_given",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "respiratory_rate_recorded_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sedation_score_recorded_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "naloxone_required",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Set the EPMA IV opioid administration step to automatically create a 30-minute 'respiratory rate and sedation score due' nursing task on the tracking board, which cannot be dismissed until both are recorded.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety meeting; keep the automatic task permanently if compliance improves and share with the trust medication safety group",
+  "evidence": [
+   "No audit of post-opioid respiratory monitoring in the ED is in the library; the nearest related entries concern general time-to-analgesia in the ED"
+  ],
+  "pitfalls": [
+   "Observations may be recorded as part of routine hourly obs rather than a specific post-opioid check, making them hard to attribute → record the nearest observation time relative to the dose, not just whether one exists in the hour",
+   "Sedation scoring tools vary between departments → agree a single sedation scale before cycle 1",
+   "Small numbers on quieter shifts → sample across different times of day",
+   "Nursing staff already stretched may see this as extra burden → pair with the automatic EPMA task rather than a manual checklist",
+   "Gains fade if the EPMA task is removed in an update → recheck after any system change"
+  ],
+  "pearls": [
+   "Agree the sedation scoring tool with anaesthetics/critical care outreach before starting, so it is consistent across the hospital",
+   "Recruit an ED pharmacist to help design the EPMA task",
+   "Use the ED patient safety meeting to close the loop",
+   "Keep the 30-minute window and sedation scale identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from EPMA and observation charts",
+  "pass": "A respiratory rate and sedation score are both documented within 30 minutes of any IV opioid dose given in the ED"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with suspected sepsis who are discharged from the ED after a period of observation have a documented safety-netting plan given to them in writing?",
+  "why": "No closed-loop audit of written safety-netting advice for ED patients discharged after a sepsis screen has been published in the library.",
+  "standard": {
+   "source": "NICE NG253 Suspected sepsis: recognition, diagnosis and early management, rec 1.10.2 (2025)",
+   "wording": "Give people being discharged after a suspected sepsis episode (and their family members or carers as appropriate) verbal and written information ... about ... signs and symptoms that should prompt them to seek further medical help.",
+   "url": "https://www.nice.org.uk/guidance/ng253/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults assessed for suspected sepsis in the ED, treated and discharged home (not admitted), over 4 weeks. Exclusion: patients admitted to a ward or transferred to another provider",
+  "sample": "30 consecutive eligible discharges over 4 weeks",
+  "data_source": "ED discharge summary/EPR discharge documentation",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sepsis_screen_performed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "written_safety_netting_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "verbal_safety_netting_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_letter_sent_same_day",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'sepsis safety-netting leaflet given' tick box to the ED discharge template, linked to an automatic print of the leaflet whenever a sepsis screening tool has been used during the attendance.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety meeting; keep the automatic print and mandatory tick box permanently if compliance improves",
+  "evidence": [
+   "NNA-074/NNA-075/NNA-076 (sepsis bundle timing in the ED) show this department already audits the sepsis pathway in detail; no audit of discharge safety-netting after a sepsis episode is in the library"
+  ],
+  "pitfalls": [
+   "Verbal advice may be given but not documented → audit only what is written in the record, and note this limitation when presenting results",
+   "Leaflet availability may run out during busy shifts → confirm stock levels with the ED matron before cycle 1",
+   "Small numbers if sepsis screening is not consistently coded → cross-check against the sepsis screening tool completion rate",
+   "Staff may see this as an extra step in an already complex pathway → automate the print rather than relying on staff to remember",
+   "Gains fade if the automatic print is switched off in a system change → recheck after any EPR update"
+  ],
+  "pearls": [
+   "Use the existing sepsis steering group to design and own the leaflet trigger",
+   "Recruit an ED nurse educator to reinforce safety-netting messaging at induction",
+   "Use the ED patient safety meeting, which already exists for other sepsis audits, to close the loop",
+   "Keep the definition of 'sepsis screen performed' identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ED discharge record",
+  "pass": "A written safety-netting leaflet listing red-flag symptoms and when to seek help is documented as given at discharge"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults presenting to the ED with an acute exacerbation of COPD have their oxygen prescribed with a target saturation range appropriate to their risk of hypercapnia?",
+  "why": "No closed-loop audit of oxygen target-range prescribing specifically for COPD exacerbations in the ED has been published in the library, although general oxygen-prescribing audits exist.",
+  "standard": {
+   "source": "BTS/RCP/RCN emergency oxygen guideline, updated NICE NG115 COPD guideline, rec 1.2.9 (2018, updated 2019)",
+   "wording": "Use a target oxygen saturation range of 88-92% for patients with a history of chronic obstructive pulmonary disease who are at risk of hypercapnic respiratory failure, until blood gas results are available.",
+   "url": "https://www.nice.org.uk/guidance/ng115/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a known or newly suspected diagnosis of COPD presenting to the ED with breathlessness who are prescribed supplemental oxygen, over 2 weeks. Exclusion: patients requiring immediate resuscitation before a target range could be set",
+  "sample": "30 consecutive eligible patients over 2 weeks",
+  "data_source": "ED drug chart/EPR oxygen prescription and arterial/venous blood gas record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_or_suspected_copd",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "oxygen_target_range_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "target_range_correct_88_92",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_blood_gas_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pco2_result",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make the oxygen target saturation range a mandatory field on the ED electronic drug chart whenever a COPD diagnosis flag is present, defaulting to 88-92% with an override reason required to change it.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety and respiratory joint meeting; keep the mandatory default field permanently if compliance improves",
+  "evidence": [
+   "Oxygen prescribing with target saturations already has 2 audits in the library; no audit targets the COPD-specific 88-92% range decision at ED presentation, which is the group at highest risk of harm from over-oxygenation"
+  ],
+  "pitfalls": [
+   "Undiagnosed COPD patients may not be flagged → include 'newly suspected' cases identified from smoking history and examination, not only coded diagnoses",
+   "Staff may prescribe 94-98% by habit → make the correct range the system default rather than relying on memory",
+   "Small numbers on quieter shifts → sample across a longer period if COPD presentations are infrequent",
+   "Definitions of 'at risk of hypercapnia' can be disputed → agree the criteria (known COPD, previous NIV, known CO2 retention) before cycle 1",
+   "Gains fade if the default is changed in a system update → recheck after any EPR change"
+  ],
+  "pearls": [
+   "Involve the respiratory team in agreeing the target-range default and override reasons",
+   "Recruit an ED pharmacist to help build the mandatory field",
+   "Use joint ED-respiratory governance to close the loop",
+   "Keep the 88-92% threshold and 'at risk' definition identical across both cycles"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the drug chart and blood gas record",
+  "pass": "An oxygen target saturation range of 88-92% is documented on the drug chart/oxygen prescription for a patient with known or suspected hypercapnic risk, before or pending the first blood gas"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with a suspected ectopic pregnancy have a formal transvaginal ultrasound or gynaecology review arranged within 24 hours of presenting to the ED?",
+  "why": "No closed-loop audit of time to definitive imaging or gynaecology review for suspected ectopic pregnancy presenting via the ED has been published in the library.",
+  "standard": {
+   "source": "NICE NG126 Ectopic pregnancy and miscarriage: diagnosis and initial management, rec 1.2.4 (2019, updated 2021)",
+   "wording": "Refer women and pregnant people to an early pregnancy assessment service if they are more than 6 weeks pregnant, or if the gestation is uncertain and they have pain and/or bleeding, or other complications ... to confirm the location and viability of the pregnancy.",
+   "url": "https://www.nice.org.uk/guidance/ng126/chapter/Recommendations"
+  },
+  "population": "Inclusion: women/pregnant people presenting to the ED with a positive pregnancy test and abdominal pain and/or bleeding of uncertain gestation, over 4 weeks. Exclusion: confirmed intrauterine pregnancy already seen by an early pregnancy service before this attendance",
+  "sample": "30 consecutive eligible attendances over 4 weeks",
+  "data_source": "ED clerking record and early pregnancy assessment unit referral/appointment log",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "presentation_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haemodynamically_unstable_at_presentation",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "referral_made",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_or_review_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_24_hours",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a direct electronic referral route from the ED clerking template to the early pregnancy assessment unit, with a weekend/out-of-hours pathway to on-call gynaecology so referrals made overnight are still seen within 24 hours.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the joint ED-gynaecology governance meeting; keep the direct electronic referral route permanently if it improves the 24-hour rate",
+  "evidence": [
+   "No audit of time to early pregnancy assessment from the ED is in the library; the nearest related entries concern general ED diagnostic pathway timing (e.g. CT KUB in renal colic)"
+  ],
+  "pitfalls": [
+   "Weekend and overnight presentations are the most likely to breach 24 hours → analyse weekday versus weekend/overnight separately",
+   "Haemodynamically unstable patients go straight to theatre and should be analysed separately, not counted as a breach → exclude or flag them",
+   "Small numbers in a unit with a low volume of early pregnancy attendances → extend the collection period to 6 weeks",
+   "Referral may be made but the appointment not actually booked → audit the actual scan/review time, not just referral completion",
+   "Gains fade if weekend gynaecology cover is not sustained → confirm the out-of-hours pathway is resourced before scaling up"
+  ],
+  "pearls": [
+   "Agree the out-of-hours pathway with gynaecology before starting data collection",
+   "Recruit the early pregnancy assessment unit lead as a co-owner of the audit",
+   "Use the joint ED-gynaecology governance meeting to close the loop",
+   "Keep the referral criteria and 24-hour definition identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ED and EPAU records",
+  "pass": "A referral to the early pregnancy assessment service (or a transvaginal ultrasound/gynaecology review if the service is closed) is made and actioned within 24 hours of ED presentation"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with suspected acute limb ischaemia in the ED are discussed with the vascular surgery on-call team within 30 minutes of the diagnosis being suspected?",
+  "why": "No closed-loop audit of time to vascular surgery discussion in suspected acute limb ischaemia has been published in the library.",
+  "standard": {
+   "source": "Vascular Society of Great Britain and Ireland, Quality Improvement Framework for Acute Limb Ischaemia (2020)",
+   "wording": "Patients with suspected acute limb ischaemia should be discussed with a vascular surgeon immediately, and those with an ischaemic limb should be assessed by a vascular surgeon within 30 minutes of referral.",
+   "url": "https://www.vascularsociety.org.uk/_userfiles/pages/files/Resources/VSGBI%20Acute%20Limb%20Ischaemia%20QI%20Framework.pdf"
+  },
+  "population": "Inclusion: adults presenting to the ED with a clinically documented suspicion of acute limb ischaemia (pain, pallor, pulselessness, paraesthesia, paralysis, perishingly cold limb), over 6 months. Exclusion: chronic limb ischaemia without an acute change",
+  "sample": "15 consecutive eligible presentations over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "ED clerking note (time suspicion first documented) and switchboard/bleep log or EPR referral timestamp for the vascular call",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "suspicion_first_documented_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vascular_team_contacted_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_referral_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulation_started_before_transfer",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add an 'acute limb ischaemia' one-click referral button to the ED EPR that pages the vascular on-call team directly and time-stamps the call automatically, bypassing switchboard.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the joint ED-vascular surgery governance meeting; keep the direct one-click referral button permanently if it improves the 30-minute rate",
+  "evidence": [
+   "No audit of time to vascular surgery referral in suspected acute limb ischaemia is in the library; the nearest related entries concern trauma call activation and attendance timing for other time-critical surgical referrals"
+  ],
+  "pitfalls": [
+   "Suspicion is not always explicitly time-stamped in free-text notes → train staff to write the time of suspicion as a discrete entry",
+   "Small numbers given the expected low volume of this presentation → collect over 6-12 months or pool across a vascular network",
+   "Switchboard/bleep delays may be outside ED control → record whether the delay was in ED referral or in reaching the vascular team",
+   "Anticoagulation may be delayed while awaiting vascular advice → audit this as a secondary process measure",
+   "Gains fade if the one-click referral button is removed in an EPR update → recheck after any system change"
+  ],
+  "pearls": [
+   "Agree the case-finding method (clerking note text search for limb ischaemia symptoms) with ED and vascular leads before starting",
+   "Recruit the vascular surgery on-call rota lead as a co-owner of the audit",
+   "Use the joint ED-vascular governance meeting to close the loop",
+   "Keep the 30-minute definition and referral method identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from ED and vascular referral records",
+  "pass": "The vascular surgery on-call team is contacted (call time documented) within 30 minutes of a clinician first documenting suspected acute limb ischaemia"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults triaged as category 2 (very urgent) in the ED are seen by a clinician within 10 minutes of triage?",
+  "why": "No closed-loop audit of time from triage category to first clinician contact for the most urgent non-resuscitation patients has been published in the library.",
+  "standard": {
+   "source": "Manchester Triage Group / RCEM Triage position statement, summarised in RCEM Best Practice Guideline: Triage (2017, reviewed)",
+   "wording": "Patients triaged as 'very urgent' (category 2) should be seen by a clinician within 10 minutes of arrival at triage.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2021/10/Triage_Guideline.pdf"
+  },
+  "population": "Inclusion: all adults triaged as category 2 over a 2-week period. Exclusion: patients who deteriorate to resuscitation status before first clinician contact (already captured by resuscitation-room standards)",
+  "sample": "40 consecutive category 2 triage episodes over 2 weeks",
+  "data_source": "ED tracking system triage-complete and first-clinician-seen timestamps",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "triage_complete_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_clinician_contact_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_clinician_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_10_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ed_occupancy_at_triage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a category 2 visual flag and 10-minute countdown to the ED tracking board, with a nurse-in-charge escalation if the countdown expires before a clinician has been assigned.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED patient safety and flow meeting; keep the countdown flag permanently if it improves the 10-minute rate",
+  "evidence": [
+   "ED triage accuracy already has 5 audits in the library, but none measures time from category 2 triage to first clinician contact, which is the outcome that matters for patient safety"
+  ],
+  "pitfalls": [
+   "Tracking system timestamps can be inaccurate if staff log in retrospectively → spot-check a sample against direct observation",
+   "Occupancy pressure is the main driver of delay and is outside the audit's control → record occupancy as a confounder, not an excuse to exclude cases",
+   "Small numbers on quiet shifts → sample across day, evening and night shifts",
+   "Staff may feel individually blamed for system-level overcrowding → present results as a department-level flow measure, not a named performance table",
+   "Gains fade once escalation fatigue sets in during sustained high occupancy → review escalation triggers at the re-audit"
+  ],
+  "pearls": [
+   "Agree the triage-category definitions with the ED triage lead before starting",
+   "Use the department's existing flow/safety huddle to close the loop",
+   "Keep the 10-minute definition and category 2 criteria identical across both cycles",
+   "Track occupancy alongside compliance so the effect of flow pressure is visible, not hidden"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ED tracking system",
+  "pass": "Time from triage completion to first clinician (doctor, ACP or ENP) contact is 10 minutes or less for a category 2 patient"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults discharged from the ED with a new diagnosis of atrial fibrillation have anticoagulation risk (CHA2DS2-VASc) formally assessed before discharge?",
+  "why": "No closed-loop audit of anticoagulation risk assessment at first ED presentation of atrial fibrillation has been published in the library.",
+  "standard": {
+   "source": "NICE NG196 Atrial fibrillation: diagnosis and management, rec 1.4.1 (2021)",
+   "wording": "Use the CHA2DS2-VASc score to assess stroke risk in people with any of the following: symptomatic or asymptomatic paroxysmal, persistent or permanent atrial fibrillation ... atrial flutter ... a continuing risk of arrhythmia recurrence after cardioversion back to sinus rhythm.",
+   "url": "https://www.nice.org.uk/guidance/ng196/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a new ED diagnosis of atrial fibrillation or flutter who are discharged home (not admitted), over 4 weeks. Exclusion: known pre-existing AF already on anticoagulation review by another team",
+  "sample": "30 consecutive eligible discharges over 4 weeks",
+  "data_source": "ED clerking record/EPR discharge summary",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "new_af_diagnosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2_vasc_calculated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cha2ds2_vasc_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulation_decision_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "gp_or_cardiology_follow_up_arranged",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory CHA2DS2-VASc calculator field to the ED discharge template whenever an AF/flutter diagnosis code is entered, which must be completed (with an anticoagulation decision) before the discharge letter can be printed.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED and cardiology joint governance meeting; keep the mandatory calculator field permanently if compliance improves",
+  "evidence": [
+   "No audit of CHA2DS2-VASc assessment at first ED presentation of atrial fibrillation is in the library; NNA-384 (angiography timing in NSTEMI) shows this network already audits other cardiac pathway steps"
+  ],
+  "pitfalls": [
+   "New AF is sometimes coded under a general 'palpitations' diagnosis → search discharge diagnoses broadly, not just the exact AF code",
+   "Score components (hypertension, diabetes, vascular disease history) may be incompletely documented → record 'unable to calculate, missing data' as its own category",
+   "Small numbers in a lower-volume unit → extend the collection period to 6 weeks",
+   "Clinicians may defer the decision to the GP without a formal score → count 'deferred with reason' as a partial pass only if the score itself is still documented",
+   "Gains fade if the mandatory field is bypassed by overriding it → monitor override rates at the re-audit"
+  ],
+  "pearls": [
+   "Agree the discharge coding search terms with the ED coding/informatics team before starting",
+   "Recruit a cardiology liaison clinician to help design the mandatory field and anticoagulation guidance",
+   "Use the joint ED-cardiology governance meeting to close the loop",
+   "Keep the CHA2DS2-VASc calculation method and pass definition identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ED discharge record",
+  "pass": "A CHA2DS2-VASc score is calculated and documented, with an anticoagulation decision (start, defer to GP/cardiology, or not indicated) recorded before ED discharge"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "When ambulance crews attend a person who has self-harmed but does not need urgent physical care, what proportion have a documented discussion of the person's care/safety plan and this information passed on if not conveyed?",
+  "why": "No closed-loop audit of ambulance non-conveyance self-harm care has been published in the library; NNA-088/NNA-145/NNA-146 audit the ED end of the self-harm pathway but not the ambulance non-conveyance decision.",
+  "standard": {
+   "source": "NICE NG225 Self-harm: assessment, management and preventing recurrence, rec 1.7.9 (2022)",
+   "wording": "When attending a person who has self-harmed but who does not need urgent physical care, ambulance staff and paramedics should: discuss with the person the best way that the ambulance service can help them; follow the person's care plan and safety plan if available; seek advice from mental health professionals, where necessary; record relevant information ... and pass this information to staff if the person is conveyed, or share it with other relevant people involved in the person's ongoing care if the person is not being conveyed.",
+   "url": "https://www.nice.org.uk/guidance/ng225/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults attended by ambulance following self-harm who did not need urgent physical care, over 3 months. Exclusion: patients conveyed to hospital for physical treatment of the self-harm injury itself",
+  "sample": "20 consecutive eligible non-conveyance episodes over 3 months (or all cases if fewer)",
+  "data_source": "Ambulance electronic patient record self-harm/mental health section",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "care_or_safety_plan_checked",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "mental_health_advice_sought_if_needed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "information_shared_with_ongoing_care_team",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "conveyed_to_hospital",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "alternative_service_discussed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a structured self-harm non-conveyance section to the ambulance electronic patient record with mandatory fields for care/safety plan check, mental health advice sought, and information sharing, linked to a direct referral route to the crisis/home treatment team.",
+  "target": "≥85%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present jointly to the ambulance trust mental health lead and the community mental health governance meeting; embed the structured section permanently if it improves documented information-sharing",
+  "evidence": [
+   "NNA-088, NNA-145 and NNA-146 (self-harm risk rating and discharge in the ED) show this pathway is well audited once patients reach hospital; no audit of the ambulance non-conveyance decision itself is in the library"
+  ],
+  "pitfalls": [
+   "Non-conveyed episodes are not always separately coded from other 'not conveyed' outcomes → agree a coding filter with the ambulance trust before cycle 1",
+   "Care and safety plans may exist in mental health records the ambulance crew cannot access in real time → record whether the crew had access to the plan, not just whether one existed",
+   "Small numbers given how this presentation is coded → extend the collection period to 6 months",
+   "Crews may under-document sensitive conversations → keep the audit tool short and focused on the specific NG225 items",
+   "Gains fade if the crisis team referral route is not resourced → confirm capacity with the crisis team before scaling up"
+  ],
+  "pearls": [
+   "Involve the ambulance trust's mental health lead and the local crisis team from the start",
+   "Use an existing joint mental health/ambulance governance meeting to close the loop",
+   "Keep the coding filter for 'self-harm, not conveyed' identical across both cycles",
+   "Track whether alternative services were actually accessed, not just discussed, as a secondary outcome"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the ambulance electronic patient record",
+  "pass": "The ambulance record documents that the person's existing care/safety plan was checked and followed (or that none existed), and that relevant information was shared with the person's ongoing care team if not conveyed"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of pre-hospital chest decompressions for suspected tension pneumothorax are performed only in patients with documented haemodynamic instability or severe respiratory compromise?",
+  "why": "No closed-loop audit of appropriateness of pre-hospital chest decompression has been published in the library; unnecessary decompression itself causes harm.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: assessment and initial management, rec 1.3.4 (2016)",
+   "wording": "Only perform chest decompression in a patient with suspected tension pneumothorax if there is haemodynamic instability or severe respiratory compromise.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: all patients who received a pre-hospital needle or open chest decompression for suspected tension pneumothorax, over 6 months. Exclusion: decompression performed after hospital arrival",
+  "sample": "15 consecutive pre-hospital chest decompressions over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance/HEMS/critical care paramedic patient report form",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haemodynamic_instability_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "severe_respiratory_compromise_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decompression_criteria_met",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "decompression_method",
+    "type": "choice",
+    "options": [
+     "Needle decompression",
+     "Open (finger) thoracostomy"
+    ],
+    "note": ""
+   },
+   {
+    "field": "post_decompression_observation_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'indication for decompression: haemodynamic instability / severe respiratory compromise' field to the ambulance/HEMS chest trauma pathway, and reinforce the NG39 threshold in the trauma network's annual pre-hospital training update.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 12 months, same sample definition (given expected low case volume)",
+  "close_loop": "Present at the regional trauma network pre-hospital governance meeting; embed the mandatory field permanently if appropriateness improves",
+  "evidence": [
+   "No audit of pre-hospital chest decompression appropriateness is in the library; ONA-024/ONA-026 show the same trauma network already audits other pre-hospital trauma interventions"
+  ],
+  "pitfalls": [
+   "Very low case numbers make single-trust audit under-powered → pool data across the regional trauma network",
+   "Retrospective documentation may under-record the clinical picture at the time of decision → use direct crew debrief where possible, in addition to the written record",
+   "Post-decompression observation for recurrence is a separate but related safety step → record this alongside indication appropriateness",
+   "Crews may feel individually scrutinised for a rare, high-stakes decision → present findings in aggregate, with a focus on system learning",
+   "Gains fade without regular case-based teaching → use real (anonymised) cases in the annual training update"
+  ],
+  "pearls": [
+   "Agree with the regional trauma network's pre-hospital lead to pool data across the network before starting",
+   "Recruit a HEMS/critical care paramedic clinical lead as co-owner of the audit",
+   "Use the trauma governance meeting, which already exists, to close the loop",
+   "Keep the indication definitions (haemodynamic instability, severe respiratory compromise) identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from the ambulance/HEMS patient report form",
+  "pass": "The pre-hospital record documents haemodynamic instability (hypotension, shock) or severe respiratory compromise immediately before chest decompression was performed"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults on warfarin with a head injury and CT-confirmed intracranial haemorrhage receive prothrombin complex concentrate within 1 hour of the scan result?",
+  "why": "No closed-loop audit of anticoagulation reversal timing in traumatic intracranial haemorrhage has been published in the library; NNA-080 audits the CT-decision step but not reversal once bleeding is confirmed.",
+  "standard": {
+   "source": "NICE NG232 Head injury: assessment and early management, rec 1.5.13 (2023), cross-referring to NICE's guideline on blood transfusion",
+   "wording": "For advice on reversing vitamin K antagonists for people with traumatic intracranial haemorrhage, see the section on prothrombin complex concentrate in NICE's guideline on blood transfusion.",
+   "url": "https://www.nice.org.uk/guidance/ng232/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults taking warfarin or another vitamin K antagonist with a head injury and CT-confirmed intracranial haemorrhage, over 6 months. Exclusion: patients on a DOAC (audited separately) or with a normal CT",
+  "sample": "15 consecutive eligible patients over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "ED clerking record, CT report timestamp and drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_report_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pcc_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pcc_administration_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_pcc_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_1_hour",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inr_checked_before_reversal",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build a 'warfarin-associated intracranial haemorrhage' order set in the ED EPR that fires automatically when a CT report containing both 'intracranial haemorrhage' and an anticoagulant flag is filed, pre-selecting weight-based prothrombin complex concentrate and vitamin K.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 12 months, same sample definition",
+  "close_loop": "Present at the ED and haematology joint governance meeting; embed the automatic order set permanently if time to reversal improves",
+  "evidence": [
+   "NNA-080 (documented CT decision in anticoagulated head injury) shows this trust already audits the earlier step of this pathway; no audit of reversal timing once bleeding is confirmed is in the library"
+  ],
+  "pitfalls": [
+   "Small numbers given expected low volume of warfarin-associated intracranial haemorrhage → extend the collection period to 12 months",
+   "PCC may be delayed by blood bank turnaround time rather than a clinical decision delay → record the time PCC was requested as well as when it was given",
+   "INR results may lag behind the clinical decision to reverse → do not delay treatment purely for INR confirmation, in line with the guideline's intent, and audit accordingly",
+   "DOAC-treated patients need a different reversal agent and should not be mixed into this sample → keep the two anticoagulant types in separate audits",
+   "Gains fade if the order set is switched off in an EPR update → recheck after any system change"
+  ],
+  "pearls": [
+   "Agree the order set design with haematology and pharmacy before starting",
+   "Recruit an ED pharmacist to identify eligible cases prospectively as a data-collection aid",
+   "Use the ED-haematology joint governance meeting, which already exists, to close the loop",
+   "Keep the same reversal-timing definition (from CT report to administration) across both cycles"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per case from CT, drug chart and blood bank records",
+  "pass": "Prothrombin complex concentrate is prescribed and administered within 1 hour of the CT report confirming intracranial haemorrhage in a patient taking a vitamin K antagonist"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with an ambulance-diagnosed STEMI, when the primary PCI centre is not the nearest hospital, are taken directly to the primary PCI centre rather than the nearest emergency department?",
+  "why": "No closed-loop audit of direct-to-cath-lab bypass decisions for ambulance-diagnosed STEMI has been published in the library.",
+  "standard": {
+   "source": "NICE NG185 Acute coronary syndromes, rec 1.1.6 (2013)",
+   "wording": "Offer coronary angiography, with follow-on primary PCI if indicated, as the preferred coronary reperfusion strategy for people with acute STEMI, if: presentation is within 12 hours of onset of symptoms and primary PCI can be delivered within 120 minutes of the time when fibrinolysis could have been given.",
+   "url": "https://www.nice.org.uk/guidance/ng185/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with a pre-hospital 12-lead ECG diagnosis of STEMI within 12 hours of symptom onset, where the nearest hospital is not the primary PCI centre, over 6 months. Exclusion: patients presenting more than 12 hours after symptom onset",
+  "sample": "20 consecutive eligible patients over 6 months (or all cases if fewer)",
+  "data_source": "Ambulance patient report form destination decision and cardiac network call-to-balloon time audit",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "symptom_onset_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prehospital_ecg_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "destination",
+    "type": "choice",
+    "options": [
+     "Direct to primary PCI centre",
+     "Nearest non-PCI emergency department first"
+    ],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_direct",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "call_to_balloon_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Agree a documented bypass-distance threshold with the ambulance trust and cardiac network so any ambulance-diagnosed STEMI within the threshold travel time bypasses the nearest ED automatically, with the cath lab activated directly from the ambulance ECG transmission.",
+  "target": "≥90% direct conveyance where within the network's agreed bypass threshold",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the cardiac network primary PCI governance meeting with ambulance trust representation; adopt the bypass threshold as standard ambulance policy if call-to-balloon times improve",
+  "evidence": [
+   "NNA-384 (angiography timing in NSTEMI) shows this network already audits related cardiac pathway timings; no audit of the ambulance bypass decision itself for STEMI is in the library"
+  ],
+  "pitfalls": [
+   "Rural geography may mean bypass is not always feasible within the 120-minute window → record travel time and distance as confounders",
+   "Small numbers in a smaller ambulance sector → pool data across the cardiac network",
+   "Ambulance ECG transmission failures can force a default to the nearest ED → record technical failures as a separate reason category",
+   "Crews may default to the nearest ED out of habit → reinforce the bypass threshold in annual cardiac pathway training",
+   "Gains fade if cath lab activation from the ambulance ECG is not reliably actioned → audit cath lab response time alongside conveyance decision"
+  ],
+  "pearls": [
+   "Agree the bypass-distance threshold jointly with the ambulance trust and cardiac network before starting",
+   "Use the existing primary PCI governance meeting to close the loop",
+   "Keep the 12-hour symptom-onset window and destination definitions identical across both cycles",
+   "Track call-to-balloon time as the ultimate outcome, alongside the process measure of direct conveyance"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance and cardiac network records",
+  "pass": "The patient is taken directly to the primary PCI centre (bypassing the nearest non-PCI ED), or a documented reason for going to the nearest ED first is recorded (for example, cardiac arrest requiring immediate resuscitation, or the calculated travel time exceeding the network's bypass threshold)"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of children assessed by an ambulance crew with a NICE 'red' (high-risk) fever feature are conveyed immediately by emergency ambulance rather than left for a delayed or alternative assessment?",
+  "why": "No closed-loop audit of ambulance conveyance decisions for febrile children with red-flag features has been published in the library.",
+  "standard": {
+   "source": "NICE NG143 Fever in under 5s: assessment and initial management, rec 1.3.2 (2007)",
+   "wording": "Children with 'red' features ... should be referred immediately for emergency medical care by the most appropriate means of transport (usually 999 ambulance).",
+   "url": "https://www.nice.org.uk/guidance/ng143/chapter/Recommendations"
+  },
+  "population": "Inclusion: children under 5 assessed by an ambulance crew with fever and at least one NICE 'red' feature documented, over 6 months. Exclusion: children with only 'amber' or 'green' features",
+  "sample": "20 consecutive eligible children over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Ambulance electronic patient record fever/traffic-light assessment section",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "red_feature_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "conveyed_immediately_by_ambulance",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_alert_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_not_conveyed",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Build the NICE traffic light system into the ambulance paediatric assessment screen so a 'red' feature triggers a mandatory conveyance recommendation and a paediatric pre-alert prompt, with an override reason required to deviate.",
+  "target": "≥95%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present jointly to the ambulance trust paediatric lead and the paediatric emergency governance meeting; embed the mandatory prompt permanently if compliance improves",
+  "evidence": [
+   "NNA-078 (observations in febrile children in the ED) shows this pathway is already audited once children reach hospital; no audit of the ambulance conveyance decision for red-flag fever is in the library"
+  ],
+  "pitfalls": [
+   "Traffic light features may be assessed inconsistently by non-paediatric-trained crews → provide a laminated traffic-light reference card on every vehicle",
+   "Small numbers given expected low volume of red-flag paediatric fever calls → extend the collection period to 12 months",
+   "Parents may decline conveyance despite advice → record 'declined against advice' as its own category, not a system failure",
+   "Ambulance and hospital records may use different fever assessment tools → agree a shared traffic-light tool with the paediatric department",
+   "Gains fade without refresher training → add to the ambulance trust's annual paediatric update"
+  ],
+  "pearls": [
+   "Agree the traffic-light assessment tool jointly with the paediatric emergency department before starting",
+   "Recruit the ambulance trust's paediatric clinical lead as a co-owner of the audit",
+   "Use the paediatric emergency governance meeting, which already exists, to close the loop",
+   "Keep the 'red feature' definition identical to the one used in the ED for continuity across the pathway"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per case from the ambulance electronic patient record",
+  "pass": "A child with a documented NICE 'red' fever feature is conveyed by emergency ambulance immediately (not left at home or referred to a delayed pathway), or a documented clinical reason for an alternative pathway is recorded"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of people with sudden-onset neurological symptoms assessed by an ambulance crew have a validated FAST (Face Arm Speech Test) screen documented before hypoglycaemia is excluded and a stroke pre-alert decision is made?",
+  "why": "No closed-loop audit of the completeness of the pre-hospital FAST and hypoglycaemia-exclusion sequence has been published in the library.",
+  "standard": {
+   "source": "NICE NG128 Stroke and transient ischaemic attack in over 16s, recs 1.1.1 and 1.1.2 (2008)",
+   "wording": "Use a validated tool, such as FAST (Face Arm Speech Test), outside hospital to screen people with sudden onset of neurological symptoms for a diagnosis of stroke or transient ischaemic attack (TIA). Exclude hypoglycaemia in people with sudden onset of neurological symptoms as the cause of these symptoms.",
+   "url": "https://www.nice.org.uk/guidance/ng128/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults assessed by ambulance for sudden-onset neurological symptoms over a 2-week period. Exclusion: patients with an obvious alternative cause identified at scene (for example, a witnessed seizure with full recovery)",
+  "sample": "30 consecutive eligible ambulance assessments over 2 weeks",
+  "data_source": "Ambulance electronic patient record neurological assessment section",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fast_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "capillary_glucose_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hypoglycaemia_excluded_before_stroke_call",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stroke_pre_alert_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Make both the FAST score and capillary glucose mandatory fields on the ambulance electronic patient report form before the stroke pre-alert option can be selected, so the sequence cannot be skipped.",
+  "target": "≥95%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present jointly to the ambulance trust and stroke operational delivery network; keep the mandatory field sequence permanently if completeness improves",
+  "evidence": [
+   "No audit of pre-hospital FAST and hypoglycaemia-exclusion completeness is in the library; NNA-119/NNA-120 show this network already audits the hospital-side stroke/TIA pathway"
+  ],
+  "pitfalls": [
+   "Capillary glucose may be checked but not documented in the neurological assessment section → search the whole ambulance record, not just the stroke-specific field",
+   "FAST scoring can be inconsistently applied by less experienced crews → provide a laminated FAST reference card on every vehicle",
+   "Small numbers if stroke-call coding is inconsistent → cross-check against the stroke pre-alert log as well as the neurological assessment field",
+   "Crews under time pressure may prioritise conveyance speed over full documentation → keep the mandatory fields quick (tick-box, not free text)",
+   "Gains fade without refresher training → add to the ambulance trust's annual stroke pathway update"
+  ],
+  "pearls": [
+   "Agree the mandatory field design with the ambulance trust's stroke clinical lead before starting",
+   "Use the stroke operational delivery network meeting, which already exists, to close the loop",
+   "Keep the FAST tool and glucose threshold definitions identical across both cycles",
+   "Track pre-alert accuracy (stroke mimics versus confirmed stroke) as a secondary measure of the pathway's overall quality"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from the ambulance electronic patient record",
+  "pass": "Both a documented FAST score and a documented capillary blood glucose (excluding hypoglycaemia) are recorded on the ambulance patient report form before the stroke pathway decision is made"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults with major trauma and active or suspected bleeding who are taking an anticoagulant have a documented decision about reversal made with, or by, a haematologist?",
+  "why": "No closed-loop audit of haematology involvement in anticoagulation reversal decisions for bleeding trauma patients has been published in the library.",
+  "standard": {
+   "source": "NICE NG39 Major trauma: assessment and initial management, rec 1.5.11-1.5.12 (2016)",
+   "wording": "Do not reverse anticoagulation in patients who do not have active or suspected bleeding. For advice on reversing direct-acting oral anticoagulants (DOACs), see the MHRA safety advice on DOACs for a list of reversal agents.",
+   "url": "https://www.nice.org.uk/guidance/ng39/chapter/Recommendations"
+  },
+  "population": "Inclusion: adults with major trauma known to be taking an anticoagulant (warfarin, DOAC, heparin) who are admitted via the trauma pathway, over 6 months. Exclusion: patients on antiplatelet monotherapy only",
+  "sample": "20 consecutive eligible patients over 6 months (or all cases if fewer, given expected low volume)",
+  "data_source": "Trauma clerking record, haematology consultation note, drug chart/EPMA administration record",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "anticoagulant_type",
+    "type": "choice",
+    "options": [
+     "Warfarin",
+     "DOAC",
+     "Heparin/LMWH"
+    ],
+    "note": ""
+   },
+   {
+    "field": "active_or_suspected_bleeding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "haematology_consulted",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reversal_agent_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reversal_avoided_if_no_bleeding",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Add a mandatory 'anticoagulant reversal decision: haematology contacted, agent/reason' field to the trauma team clerking proforma whenever an anticoagulant is flagged in the drug history.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 6 months, same sample definition",
+  "close_loop": "Present at the trauma governance and haematology joint meeting; keep the mandatory field permanently if compliance improves",
+  "evidence": [
+   "No audit of haematology involvement in trauma anticoagulation reversal decisions is in the library; the anticoagulated head-injury reversal audit in this set covers a related but narrower (intracranial haemorrhage only) population"
+  ],
+  "pitfalls": [
+   "Anticoagulant use may not be reliably known at first assessment → cross-check with the GP summary care record and pharmacy medicines reconciliation",
+   "Small numbers given expected low volume of anticoagulated major trauma → extend the collection period to 12 months",
+   "Out-of-hours haematology advice may be by telephone and not always documented → agree a documentation standard for telephone advice before cycle 1",
+   "Reversal may be started before haematology is reached in a genuine emergency, which is appropriate → audit for a subsequent haematology discussion, not necessarily a prior one, in the most urgent cases",
+   "Gains fade if the mandatory field is not maintained after an EPR update → recheck after any system change"
+  ],
+  "pearls": [
+   "Agree the reversal pathway and documentation standard with haematology before starting",
+   "Recruit the trauma coordinator to flag eligible cases prospectively",
+   "Use the joint trauma-haematology governance meeting to close the loop",
+   "Keep the definitions of 'active or suspected bleeding' and 'reversal indicated' identical across both cycles"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from trauma and haematology records",
+  "pass": "For a bleeding trauma patient on an anticoagulant, the trauma record documents a reversal decision (agent given, or reversal not indicated) made with haematology input; anticoagulation is not reversed in a patient without active or suspected bleeding"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of adults triaged in the ED with a pain score of 7 or more (severe pain) receive their first analgesia within 20 minutes of triage?",
+  "why": "No closed-loop audit of time to first analgesia specifically for severe (rather than any) pain has been published in the library; the corpus's 8 general time-to-analgesia audits do not isolate the severe-pain group most likely to come to harm from delay.",
+  "standard": {
+   "source": "Local standard, based on the pain-severity thresholds used in RCEM's Pain in Children quality improvement programme (2021/22) extended to adults",
+   "wording": "Patients in severe pain (pain score 7 or more out of 10) should receive their first dose of analgesia within 20 minutes of a pain score being recorded.",
+   "url": "https://rcem.ac.uk/wp-content/uploads/2022/02/Pain_in_Children_QIP_Info_Pack_2021-22_v4.pdf"
+  },
+  "population": "Inclusion: adults triaged with a documented pain score of 7 or more, over 2 weeks. Exclusion: patients who decline analgesia or for whom analgesia is contraindicated and this is documented",
+  "sample": "30 consecutive eligible patients over 2 weeks",
+  "data_source": "ED triage record (pain score, time) and drug chart/EPMA administration time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_at_triage",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pain_score_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "time_to_analgesia_minutes",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "within_20_min",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reason_if_delayed_or_declined",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a nurse-initiated analgesia protocol at triage for any adult scoring 7 or more, covering oral and intranasal options that do not need a doctor's prescription first.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the ED pain management/patient safety meeting; make the nurse-initiated protocol permanent if it improves the 20-minute rate",
+  "evidence": [
+   "The library holds 8 general time-to-analgesia audits in the ED, none of which isolates the severe (≥7/10) pain-score subgroup, where delay causes the most harm and complaints"
+  ],
+  "pitfalls": [
+   "Pain scores are not always recorded consistently by all triage staff → audit the recording rate itself as a secondary measure",
+   "Nurse-initiated analgesia protocols need pharmacy and governance sign-off before use → secure this before cycle 1",
+   "Small numbers on quieter shifts → sample across different shift types",
+   "Some patients decline analgesia or have a contraindication, which should not count as a breach → record these separately, not as failures",
+   "Gains fade if the protocol lapses on renewal → set a renewal reminder alongside the re-audit date"
+  ],
+  "pearls": [
+   "Agree the nurse-initiated analgesia protocol with pharmacy and medical leadership before starting",
+   "Recruit a triage nurse champion to help embed the change",
+   "Use the ED pain management meeting, which already exists for other analgesia audits, to close the loop",
+   "Keep the pain-score threshold (≥7) and time window identical across both cycles"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from triage and EPMA records",
+  "pass": "A first dose of analgesia (any route) is given within 20 minutes of a pain score of 7 or more being recorded at triage"
+ },
+ {
+  "area": "Emergency medicine",
+  "question": "What proportion of patients whose ambulance handover is delayed beyond 60 minutes have a full set of vital sign observations recorded by ambulance or ED staff at least every 30 minutes while still in the ambulance or queue?",
+  "why": "No closed-loop audit of observation frequency during prolonged ambulance handover delay has been published in the library, despite a national review finding severe potential harm in this group.",
+  "standard": {
+   "source": "AACE, Delayed Hospital Handovers: Impact Assessment of Patient Harm (November 2021), summarised on the AACE Hospital Handovers webpage (accessed 2026)",
+   "wording": "Over eight in ten of those whose 'handover' (from ambulance clinician to hospital clinician) was delayed beyond 60 minutes were assessed as having potentially experienced some level of harm; 53% low harm, 23% moderate harm and 9% (one patient in ten) could have been said to have experienced severe harm.",
+   "url": "https://aace.org.uk/hospital-handovers/"
+  },
+  "population": "Inclusion: all patients whose ambulance-to-ED handover exceeds 60 minutes over a 4-week period. Exclusion: handovers under 60 minutes",
+  "sample": "20 consecutive handovers exceeding 60 minutes over 4 weeks (or all cases if fewer)",
+  "data_source": "Ambulance observation chart during the wait, cross-checked with the ED tracking system handover time",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ambulance_arrival_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "handover_accepted_time",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "minutes_delayed_beyond_60",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observations_expected_every_30_min",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "observations_actually_recorded",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "news2_escalation_if_deteriorating",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1-2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5-12 embed; Wk 13-14 re-audit",
+  "change": "Introduce a joint ambulance-ED 'queue safety officer' role during any period when more than 2 ambulances are waiting, responsible for cycling through queued patients to check and escalate observations every 30 minutes.",
+  "target": "≥90%",
+  "reaudit": "Re-audit at 3 months, same sample size and template",
+  "close_loop": "Present at the joint ambulance-ED patient safety meeting; make the queue safety officer role permanent during escalation if it improves observation compliance",
+  "evidence": [
+   "This set's ambulance-to-ED handover time audit measures the 15-minute target itself; no audit in the library measures clinical monitoring quality during a delay once it has already happened"
+  ],
+  "pitfalls": [
+   "Responsibility for observations during a handover delay can be unclear between ambulance and ED staff → agree ownership explicitly before cycle 1",
+   "Small numbers if 60-minute-plus delays are rare (a good sign operationally, but limits audit power) → extend the collection period",
+   "Ambulance staff may be tied up with other calls during a queue → record which service (ambulance or ED) took each observation",
+   "Staff may see this as adding a role during an already unsafe situation → frame it as protecting patients, not adding paperwork",
+   "Gains fade once escalation pressure passes and the role is dropped informally → tie the role to a defined occupancy/queue-length trigger, not to memory"
+  ],
+  "pearls": [
+   "Use the trust's existing ambulance handover delay escalation policy meeting to close the loop",
+   "Recruit both an ED matron and an ambulance operations manager as joint audit owners",
+   "Keep the 60-minute delay threshold and 30-minute observation interval identical across both cycles",
+   "Track NEWS2 escalation events as the safety outcome that matters most, not just the observation count"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per case from ambulance observation and ED tracking records",
+  "pass": "A full set of vital sign observations is recorded at least every 30 minutes for every patient whose handover exceeds 60 minutes, with escalation to a senior clinician if NEWS2 rises"
+ }
+]

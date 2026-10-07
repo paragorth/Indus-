@@ -1,0 +1,1648 @@
+[
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of adults having hip fracture surgery receive intravenous tranexamic acid before the start of surgery?",
+  "why": "NICE widened TXA to all adults whose surgery breaches the skin (NG24, 2026). One hip fracture audit in the corpus [1725] reached 85% with protocol and teaching; nobody has audited against the 2026 wording.",
+  "standard": {
+   "source": "NICE NG24 rec 1.3.1 and 1.3.3 (2015, updated February 2026)",
+   "wording": "1.3.1 Offer tranexamic acid to adults having surgery in an operating theatre if: there is any risk of bleeding and the procedure will breach the skin or mucous membranes. [2026] ... 1.3.3 When using tranexamic acid for adults having surgery, administer it just before the start of surgery. Typically give 1 g by slow intravenous injection. [2026]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Reducing-requirement-for-blood-transfusion-for-people-having-surgery"
+  },
+  "pass": "TXA given IV between induction and knife-to-skin, recorded on the anaesthetic chart; or a specific contraindication documented.",
+  "population": "Adults (≥60) having surgery for hip fracture. Exclude patients managed without surgery.",
+  "sample": "40 consecutive operated hip fracture patients over the last 6 weeks.",
+  "data_source": "NHFD extract for case list; anaesthetic chart or anaesthetic e-record for TXA dose and time; theatre system for knife-to-skin time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "knife_to_skin_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Theatre system"
+   },
+   {
+    "field": "operation_type",
+    "type": "choice",
+    "options": [
+     "hemiarthroplasty",
+     "total hip replacement",
+     "sliding hip screw",
+     "intramedullary nail",
+     "cannulated screws",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "txa_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "txa_time",
+    "type": "datetime",
+    "options": [],
+    "note": "Blank if not given"
+   },
+   {
+    "field": "txa_before_incision",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "txa_dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Only if TXA not given"
+   },
+   {
+    "field": "contraindication_text",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a default 'Tranexamic acid 1 g IV at induction' line to the hip fracture anaesthetic e-record or pre-printed chart, with an 'omitted because' box.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive operated hip fractures, same template.",
+  "close_loop": "Present at the joint anaesthetic and trauma governance meeting. If it works, make the default line permanent and add TXA to the monthly hip fracture dashboard.",
+  "evidence": [
+   "[1725] hip fracture TXA: 70% → 85% (protocol update and teaching; p=0.23)",
+   "[2572] HPB: TXA prompt on WHO time-out did not increase pre-operative dosing (checklist prompt alone fails)",
+   "[1743] trust-wide e-record monitoring: 78.7% → 86.3% overall, T&O 98.2% (electronic tracking)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the anaesthetic e-record"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of red cell transfusions for non-bleeding hip fracture patients are given as a single unit followed by reassessment?",
+  "why": "Back-to-back two-unit transfusions are common on trauma wards. The corpus has threshold audits [1254][1294] but single-unit practice was only measured once (54.2%) with no loop.",
+  "standard": {
+   "source": "NICE NG24 rec 1.6.1 and 1.6.2 (2015, updated February 2026)",
+   "wording": "1.6.1 Consider single‑unit red blood cell transfusions for adults (or equivalent volumes calculated based on body weight for children or adults with low body weight) who do not have active bleeding. [2015] 1.6.2 After each single‑unit red blood cell transfusion (or equivalent volumes calculated based on body weight for children or adults with low body weight), clinically reassess and check haemoglobin levels, and give further transfusions if needed. [2015]",
+   "url": "https://www.nice.org.uk/guidance/ng24/chapter/Red-blood-cell-transfusion"
+  },
+  "pass": "One unit prescribed per episode, and a documented Hb check or clinical review before any further unit.",
+  "population": "Transfusion episodes in adults admitted with hip fracture. Exclude major haemorrhage and active bleeding documented at the time.",
+  "sample": "40 consecutive transfusion episodes in hip fracture patients over the last 3–4 months.",
+  "data_source": "Blood bank issue log (Trust transfusion lab) for episodes; EPMA or transfusion chart for units prescribed; lab system for Hb between units; notes for review.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "transfusion_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "pre_transfusion_hb_g_per_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "active_bleeding_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": "Exclude if yes"
+   },
+   {
+    "field": "units_prescribed_in_one_order",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "single_unit_prescribed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 1"
+   },
+   {
+    "field": "hb_or_review_before_next_unit",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion 2; N/A if only one unit given"
+   },
+   {
+    "field": "total_units_this_admission",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "prescriber_grade",
+    "type": "choice",
+    "options": [
+     "FY",
+     "CT/SHO",
+     "registrar",
+     "consultant",
+     "not recorded"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set the EPMA red cell order for hip fracture patients to default to 1 unit, with a mandatory reason field for more than 1.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive episodes, same template.",
+  "close_loop": "Present with the hospital transfusion practitioner at the transfusion committee. If it works, extend the 1-unit default to all T&O wards.",
+  "evidence": [
+   "[1254] T&O: 54.2% prescribed 1 unit at a time; no re-audit",
+   "[2515] general surgery: back-to-back units 20.5% → 4.5% (teaching and posters)",
+   "[1294] T&O: inappropriate transfusions 73.5% → 45.5% (teaching and induction booklet)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 episodes from blood bank log and EPMA"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of older adults admitted with a pelvic fragility fracture receive pharmacological VTE prophylaxis for one month?",
+  "why": "Pelvic and acetabular fragility fractures are often managed non-operatively outside the hip pathway. NICE gives them the same one-month prophylaxis as hip fractures. No audit in corpus; the NHFD adds pelvic fractures from 2026.",
+  "standard": {
+   "source": "NICE NG89 rec 1.11.2 (2018, updated 2019)",
+   "wording": "Offer VTE prophylaxis for a month to people with fragility fractures of the pelvis, hip or proximal femur if the risk of VTE outweighs the risk of bleeding. Choose either: LMWH, starting 6 to12 hours after surgery or fondaparinux sodium, starting 6 hours after surgery, providing there is low risk of bleeding. [2018]",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "LMWH or fondaparinux prescribed in hospital and on discharge to cover 28 days or more from admission; or a documented reason (bleeding risk, already anticoagulated).",
+  "population": "Adults ≥60 admitted with a low-energy pelvic ring or acetabular fracture. Exclude high-energy trauma and patients on therapeutic anticoagulation.",
+  "sample": "30 consecutive admissions over the last 6–9 months.",
+  "data_source": "Admissions or coding list (ICD-10 S32.1–S32.8) or NHFD pelvic dataset; EPMA for inpatient doses; discharge prescription (TTO) for days supplied.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "pubic rami",
+     "sacrum",
+     "acetabulum",
+     "combined",
+     "other pelvic"
+    ],
+    "note": ""
+   },
+   {
+    "field": "managed_operatively",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "inpatient_prophylaxis_started",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "days_supplied_on_discharge",
+    "type": "number",
+    "options": [],
+    "note": "0 if none"
+   },
+   {
+    "field": "total_days_covered_from_admission",
+    "type": "number",
+    "options": [],
+    "note": "Inpatient days plus TTO days"
+   },
+   {
+    "field": "one_month_covered",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion (≥28 days)"
+   },
+   {
+    "field": "reason_documented_if_not",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add pelvic fragility fractures to the hip fracture discharge letter template so the 28-day LMWH prompt appears for them too.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (or when 30 new cases accrue): next consecutive admissions, same template.",
+  "close_loop": "Present at trauma governance and to the VTE committee. If it works, write pelvic fragility fractures into the Trust VTE policy table.",
+  "evidence": [
+   "[1207] hip fracture: VTE prophylaxis on discharge 87% → 95% (discharge letter proforma with prompt)",
+   "[1691] arthroplasty: 90% → 98% (discharge pack and nurse check)"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from EPMA and TTO"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients whose surgery is delayed beyond the day after admission receive pre-operative pharmacological VTE prophylaxis?",
+  "why": "About four in ten patients miss surgery by the day after admission (NHFD KPI 2 national 57%). Delayed patients lie immobile without cover. No audit in corpus measures pre-operative prophylaxis in this group.",
+  "standard": {
+   "source": "NICE NG89 rec 1.11.3 (2018, updated 2019)",
+   "wording": "Consider pre‑operative VTE prophylaxis for people with fragility fractures of the pelvis, hip or proximal femur if surgery is delayed beyond the day after admission . Give the last dose no less than 12 hours before surgery for LMWH or 24 hours before",
+   "url": "https://www.nice.org.uk/guidance/ng89/chapter/Recommendations"
+  },
+  "pass": "At least one pre-operative dose of LMWH (or fondaparinux) given after the day of admission, with the last dose ≥12 h (LMWH) before surgery; or a documented reason not to.",
+  "population": "Adults ≥60 with hip fracture operated later than the day after admission. Exclude patients on therapeutic anticoagulation.",
+  "sample": "40 consecutive delayed patients from the last 3 months of NHFD data.",
+  "data_source": "NHFD extract (admission and surgery times) to find delayed cases; EPMA administration record for LMWH doses and times.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "surgery_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "choice",
+    "options": [
+     "theatre capacity",
+     "anticoagulation",
+     "medical optimisation",
+     "awaiting investigation",
+     "other"
+    ],
+    "note": "NHFD field"
+   },
+   {
+    "field": "preop_lmwh_given",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "last_preop_dose_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "hours_last_dose_to_surgery",
+    "type": "number",
+    "options": [],
+    "note": "≥12 h for LMWH"
+   },
+   {
+    "field": "reason_documented_if_not",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a rule to the hip fracture admission order set: if not on tomorrow's list, prescribe evening LMWH, with a 12-hour stop note.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 delayed patients, same template.",
+  "close_loop": "Present at trauma governance with the orthogeriatric team. If it works, add the rule to the Trust VTE policy.",
+  "evidence": [
+   "[1673] T&O: VTE reassessment at 24 h 0.13% → 74% (EPMA automated prompt)",
+   "no audit in corpus on pre-operative prophylaxis during surgical delay"
+  ],
+  "novelty": "new",
+  "effort": "~20 min per 10 patients from NHFD and EPMA"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients who had delirium in hospital have the delirium diagnosis written in the discharge summary to the GP?",
+  "why": "About a third of hip fracture patients fail the post-op 4AT (NHFD KPI 5 national 68% pass). Delirium raises later dementia risk, but GPs are rarely told. 4AT screening is heavily audited; the hand-over is not.",
+  "standard": {
+   "source": "NICE CG103 rec 1.6.4 (2010, updated 2023)",
+   "wording": "Ensure that the diagnosis of delirium is documented both in the person's record or notes, and in their primary care health record. [2010]",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "The discharge summary sent to the GP names delirium (or acute confusional state) as a diagnosis or complication of this admission.",
+  "population": "Adults with hip fracture who had delirium in hospital (post-op 4AT ≥4 or delirium diagnosed in notes). Exclude deaths in hospital.",
+  "sample": "40 consecutive eligible discharges over the last 3–4 months.",
+  "data_source": "NHFD extract (post-op 4AT score) to identify cases; notes for diagnosis; electronic discharge summary.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "highest_4at_score",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delirium_diagnosed_in_notes",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "delirium_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "pre_existing_dementia",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_destination",
+    "type": "choice",
+    "options": [
+     "own home",
+     "care home",
+     "rehabilitation bed",
+     "other hospital"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a mandatory 'Delirium this admission: yes/no' field to the orthogeriatric discharge summary template.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at the orthogeriatric and hip fracture governance meeting. If it works, share the field with the elderly-care discharge template.",
+  "evidence": [
+   "[1151] orthogeriatric discharge summaries: medication changes 1/10 → 7/10 (template and teaching)",
+   "[1187] orthogeriatric discharge letters: 71% had no bone plan handed to GP (proforma, not re-audited)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from NHFD and discharge summaries"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients with delirium still present at discharge have a plan for cognitive follow-up?",
+  "why": "Delirium that has not cleared by discharge may unmask dementia. NICE asks for follow-up. No audit in corpus looks at this step after hip fracture.",
+  "standard": {
+   "source": "NICE CG103 rec 1.7.5 (2010, updated 2023)",
+   "wording": "For people in whom delirium does not resolve: re-evaluate for underlying causes follow up and assess for possible dementia (see the NICE guideline on dementia ). [2010]",
+   "url": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations"
+  },
+  "pass": "Discharge summary or notes contain a named follow-up for cognition (GP review with repeat cognitive test, memory service referral, or geriatric clinic) with a timescale.",
+  "population": "Adults with hip fracture whose last 4AT before discharge was ≥4, or whose notes say delirium unresolved. Exclude known dementia already under a memory service.",
+  "sample": "30 consecutive eligible discharges over the last 6 months.",
+  "data_source": "NHFD extract and orthogeriatric notes for last 4AT; discharge summary; memory service referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_4at_score_before_discharge",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "last_4at_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "known_dementia_diagnosis",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cognitive_follow_up_plan",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "follow_up_type",
+    "type": "choice",
+    "options": [
+     "GP repeat test",
+     "memory service referral",
+     "geriatric clinic",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "timescale_stated",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an 'If delirium unresolved: cognitive follow-up plan' box to the orthogeriatric discharge template, triggered when the last 4AT is ≥4.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14 (extend window if under 30 cases): same template.",
+  "close_loop": "Present at the orthogeriatric meeting and to the local memory service. If it works, agree a direct referral route from the hip fracture ward.",
+  "evidence": [
+   "[1712] hip fracture AMTS: post-op day 1 0% → 36% (EPR alerts plus training)",
+   "no audit in corpus on follow-up of unresolved delirium"
+  ],
+  "novelty": "new",
+  "effort": "~15 min per 10 patients from notes and discharge summaries"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture inpatients staying longer than 7 days have their malnutrition screen repeated every week?",
+  "why": "Weight loss after hip fracture is common and admission MUST is usually done. Weekly repeats are not. Only 2 nutrition audits in hip fracture in the corpus; one elderly-care audit found 48% weekly MUST [1848].",
+  "standard": {
+   "source": "NICE CG32 rec 1.2.2 (2006, updated 2017)",
+   "wording": "All hospital inpatients on admission and all outpatients at their first clinic appointment should be screened. Screening should be repeated weekly for inpatients and when there is clinical concern for outpatients.",
+   "url": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+  },
+  "pass": "A MUST (with a recorded weight) on admission and at least every 7 days until discharge.",
+  "population": "Adults with hip fracture with length of stay >7 days. Exclude end-of-life care.",
+  "sample": "40 consecutive discharges over the last 2 months.",
+  "data_source": "NHFD extract for length of stay; nursing e-record for MUST dates and weights.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_must_done",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "admission_weight_kg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weeks_in_hospital",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weekly_must_count",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "must_every_7_days",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "dietitian_referral_if_must_2_plus",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a recurring 7-day MUST task in the nursing e-record for the hip fracture ward, shown on the ward whiteboard ('MUST Monday').",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 discharges with stay >7 days, same template.",
+  "close_loop": "Present at the ward nursing meeting and nutrition steering group. If it works, extend the task to all T&O wards.",
+  "evidence": [
+   "[1848] older inpatients: weekly MUST 48% → 80%, weight loss 70% → 55% (MUST Mondays and menus)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from nursing e-record"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients receive a nerve block within 4 hours of arrival at hospital?",
+  "why": "NHFD KPI 0 (block plus ward within 4 hours) is met in only 10% nationally. Block rates are well audited but block timing is not; one audit found 6.4% within 2 hours [1750].",
+  "standard": {
+   "source": "NHFD KPI 0 definition (Royal College of Physicians FFFAP, 2021 onwards)",
+   "wording": "KPI 0. - Admitted to Orthgeriatric Ward (All NHFD Hospitals) Given a nerve block and admitted to an appropriate orthopaedic or orthogeriatric ward within 4 hours of presentation",
+   "url": "https://www.nhfd.co.uk/20/nhfdcharts.nsf/vwInfo/KPI0-Admission"
+  },
+  "pass": "Fascia iliaca, PENG or femoral block documented with a time ≤4 h after ED arrival; or a contraindication documented.",
+  "population": "Adults ≥60 presenting through ED with hip fracture. Exclude inpatient falls and transfers from other hospitals.",
+  "sample": "40 consecutive ED presentations over the last 6 weeks.",
+  "data_source": "ED system for arrival time; ED notes or anaesthetic/block record for block time; NHFD extract for ward admission time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "xray_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nerve_block_given",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nerve_block_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "block_within_4h",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "block_performed_by",
+    "type": "choice",
+    "options": [
+     "ED doctor",
+     "ED practitioner/nurse",
+     "orthopaedic doctor",
+     "anaesthetist",
+     "not recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ward_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'nerve block' to the ED hip fracture triage order set so it is prescribed at X-ray confirmation, with a time field on the proforma.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 consecutive ED presentations, same template.",
+  "close_loop": "Present at ED and trauma governance. If it works, add block-within-4h to the monthly hip fracture dashboard.",
+  "evidence": [
+   "[1598] FICB given 24.5% → 44.3% (mortality meeting, teaching, proforma sign-off)",
+   "[1713] ED FICB 65% → 65%, contraindication documented 0% → 64% (checklist and teaching)",
+   "[1750] block within 2 h 6.4%, no re-audit"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from ED system and NHFD"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients have their pain reassessed within 30 minutes of their first analgesia in ED?",
+  "why": "The only closed loop in the corpus [1713] stayed at about 50% after a checklist and teaching. A system prompt has not been tested.",
+  "standard": {
+   "source": "NICE CG124 rec 1.3.1 (2011, guideline updated 2023)",
+   "wording": "Assess the person's pain: immediately upon presentation at hospital and within 30 minutes of administering initial analgesia and hourly until settled on the ward and regularly as part of routine nursing observations throughout admission. [2011]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "A documented pain score within 30 minutes after the time the first analgesic dose was given.",
+  "population": "Adults ≥60 presenting through ED with hip fracture who received analgesia in ED.",
+  "sample": "40 consecutive ED presentations over the last 6 weeks.",
+  "data_source": "ED system (triage pain score, observations); EPMA or ED drug chart for first analgesia time.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ed_arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "initial_pain_score_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "first_analgesia_drug",
+    "type": "choice",
+    "options": [
+     "paracetamol",
+     "opioid",
+     "nerve block",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "next_pain_score_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reassessed_within_30_min",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "cognitive_impairment",
+    "type": "yes/no",
+    "options": [],
+    "note": "Use PAINAD or Abbey if impaired"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make the ED system create an automatic 'pain score due' task 30 minutes after any analgesic is recorded as given.",
+  "target": "≥85%",
+  "reaudit": "Wk 13–14: next 40 consecutive ED presentations, same template.",
+  "close_loop": "Present at the ED nursing and governance meeting. If it works, extend the task to all ED analgesia.",
+  "evidence": [
+   "[1713] pain re-evaluation within 30 min 52.5% → 50% (mandatory checklist and teaching)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from the ED system"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients are prescribed regular 6-hourly paracetamol before surgery?",
+  "why": "Paracetamol is the NICE first-line analgesic but is often charted 'as required' only. No audit in corpus measures regular pre-operative paracetamol in hip fracture.",
+  "standard": {
+   "source": "NICE CG124 rec 1.3.4 (2011, guideline updated 2023)",
+   "wording": "Offer paracetamol every 6 hours preoperatively unless contraindicated. [2011]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "Paracetamol prescribed as a regular (6-hourly) dose on the admission drug chart before surgery; or a contraindication documented.",
+  "population": "Adults ≥60 admitted with hip fracture. Exclude patients not operated.",
+  "sample": "40 consecutive admissions over the last 6 weeks.",
+  "data_source": "EPMA or drug chart; admission weight from nursing record; NHFD extract for case list.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "weight_kg",
+    "type": "number",
+    "options": [],
+    "note": "For dose check"
+   },
+   {
+    "field": "paracetamol_regular_preop",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "paracetamol_prn_only",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "dose_mg",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "doses_given_before_surgery",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "contraindication_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Build a hip fracture analgesia order set in EPMA with regular weight-banded paracetamol ticked by default.",
+  "target": "≥95%",
+  "reaudit": "Wk 13–14: next 40 consecutive admissions, same template.",
+  "close_loop": "Present with the ward pharmacist at trauma governance. If it works, keep the order set and add opioid-sparing prompts.",
+  "evidence": [
+   "[1669] hip fracture NICE compliance 76% → 87% (smart phrase in electronic clerking)",
+   "no audit in corpus on regular pre-operative paracetamol"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from EPMA"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of stable trochanteric hip fractures are fixed with a sliding hip screw?",
+  "why": "Short nails are often used where NICE advises a sliding hip screw. Two corpus audits found 37–51% non-compliance [1326][1663]; neither closed the loop.",
+  "standard": {
+   "source": "NICE CG124 rec 1.6.9 (2011, amended 2023); NICE QS16 statement 4",
+   "wording": "Use extramedullary implants such as a sliding hip screw in preference to an intramedullary nail in people with trochanteric fractures above and including the lesser trochanter (except reverse oblique). [2011, amended 2023]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "Trochanteric fracture above and including the lesser trochanter (not reverse oblique) fixed with a sliding hip screw; or a documented reason for a nail.",
+  "population": "Adults ≥60 with trochanteric fracture (AO 31A1 or 31A2, not reverse oblique). Exclude subtrochanteric and pathological fractures.",
+  "sample": "40 consecutive cases over the last 4–6 months (NHFD extract).",
+  "data_source": "NHFD extract for fracture type and operation; PACS for independent fracture classification; operation note for implant and reasons.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ao_classification_on_review",
+    "type": "choice",
+    "options": [
+     "31A1",
+     "31A2",
+     "31A3 / reverse oblique",
+     "subtrochanteric"
+    ],
+    "note": "Reviewer reads pre-op X-ray"
+   },
+   {
+    "field": "implant_used",
+    "type": "choice",
+    "options": [
+     "sliding hip screw",
+     "short intramedullary nail",
+     "long intramedullary nail",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "nice_compliant_implant",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_for_nail_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operating_surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "other"
+    ],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add 'fracture pattern and NICE implant (1.6.9)' fields to the trauma meeting list, to be confirmed by the consultant when booking.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (or when 40 new cases accrue): same template.",
+  "close_loop": "Present at the trauma meeting and governance. If it works, keep the booking fields and add the measure to the NHFD KPI 3 review.",
+  "evidence": [
+   "[1326] 28/55 short nails could have been sliding hip screws; no re-audit",
+   "[1663] appropriate operation 63%; no re-audit",
+   "[1669] NICE surgical compliance 76% → 87% (smart phrase in electronic clerking)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from NHFD and PACS"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hemiarthroplasties for displaced intracapsular hip fracture use the hospital's single nominated cemented femoral stem?",
+  "why": "NICE added this in 2023 after comparing stem designs. Mixed stems raise cost, stock and training risk. No audit in corpus.",
+  "standard": {
+   "source": "NICE CG124 rec 1.6.5 (2023)",
+   "wording": "Hospitals should aim to use a single type of cemented femoral component for hemiarthroplasties as standard treatment for displaced intracapsular hip fracture management. [2023]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "The hemiarthroplasty used the hospital's nominated cemented stem; or a documented reason for a different implant.",
+  "population": "Hemiarthroplasties for displaced intracapsular fracture in adults ≥60. Exclude revisions and pathological fractures.",
+  "sample": "40 consecutive hemiarthroplasties over the last 3–4 months.",
+  "data_source": "Theatre system implant log (stickers/barcodes) or NJR submission; operation note; theatre stores for the nominated implant.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "date_of_surgery",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "stem_brand_model",
+    "type": "text",
+    "options": [],
+    "note": "From implant log"
+   },
+   {
+    "field": "cemented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "nominated_stem_used",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_documented_if_not",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "operating_surgeon_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "registrar",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "trust_has_written_nominated_stem",
+    "type": "yes/no",
+    "options": [],
+    "note": "Record once at baseline"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Agree one nominated cemented stem in writing and set theatre stores so only that stem is on the trauma shelf; others by request.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 hemiarthroplasties, same template.",
+  "close_loop": "Present at the hip and trauma consultant meeting with theatre stores. If it works, record the choice in the Trust hip fracture pathway.",
+  "evidence": [
+   "no audit in corpus on stem standardisation",
+   "[1335] arthroplasty component cost audit against a price ceiling (cost only, not stem choice)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from the theatre implant log"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of patients with suspected hip fracture and normal X-rays have an MRI within 24 hours?",
+  "why": "Delayed MRI prolongs bed rest and delays surgery. The corpus has one hip audit [1491] (2013) with a mean wait of 34 hours; imaging capacity has changed since.",
+  "standard": {
+   "source": "NICE CG124 rec 1.1.1 (2011, amended 2014)",
+   "wording": "Offer MRI if hip fracture is suspected despite negative X‑rays of the hip of an adequate standard. If MRI is not available within 24 hours or is contraindicated, consider CT. [2011, amended 2014]",
+   "url": "https://www.nice.org.uk/guidance/cg124/chapter/Recommendations"
+  },
+  "pass": "MRI done within 24 h of the negative X-ray; or CT within 24 h where MRI is contraindicated or not available.",
+  "population": "Adults ≥60 with suspected hip fracture, adequate negative X-rays, and cross-sectional hip imaging requested.",
+  "sample": "30 consecutive cases over the last 6–12 months.",
+  "data_source": "RIS/PACS search for MRI or CT hip with 'occult' or '?NOF' in the request; RIS timestamps for X-ray, request and scan; ED notes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "xray_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "cross_sectional_request_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "scan_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "modality",
+    "type": "choice",
+    "options": [
+     "MRI",
+     "CT",
+     "CT then MRI"
+    ],
+    "note": ""
+   },
+   {
+    "field": "scan_within_24h_of_xray",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fracture_found",
+    "type": "choice",
+    "options": [
+     "hip fracture",
+     "pelvic fracture",
+     "other",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "delay_reason",
+    "type": "text",
+    "options": [],
+    "note": "e.g. weekend, vetting, safety form"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Agree a protected daily MRI slot for occult hip fracture with radiographer vetting and the MRI safety form in the ED order set.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (extend window if under 30 cases): same template.",
+  "close_loop": "Present at radiology and trauma governance. If it works, write the slot into the imaging service level agreement.",
+  "evidence": [
+   "[1491] occult NOF MRI: mean wait 2025 → 1374 min, +16% within 24 h (fixing vetting, direct radiologist contact and weekend scanning)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from RIS"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients taking psychotropic medicines have a documented falls-focused review of them before discharge?",
+  "why": "Most hip fractures follow a fall and psychotropics raise falls risk. Lying and standing BP is overdone in the corpus; medication review after a fall was 9% in one hospital [1794].",
+  "standard": {
+   "source": "NICE NG249 recs 1.1.7 and 1.2.2 (April 2025)",
+   "wording": "1.1.7 Offer a comprehensive falls assessment and comprehensive falls management to people in hospital inpatient settings and residential care settings . ... 1.2.2 Include the following assessments and examinations (where appropriate) in the comprehensive falls assessment to identify the person's individual fall risk factors: ... Medication review.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "pass": "Each psychotropic on admission has a documented decision (stop, reduce, or continue with reason) by a doctor or pharmacist before discharge.",
+  "population": "Adults ≥65 with hip fracture after a fall, taking ≥1 psychotropic (antidepressant, antipsychotic, benzodiazepine, Z-drug, anticonvulsant for mood/pain) on admission. Exclude deaths in hospital.",
+  "sample": "40 consecutive eligible discharges over the last 2–3 months.",
+  "data_source": "Admission medicines reconciliation (EPMA); orthogeriatric notes; discharge summary medication changes.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "number_of_psychotropics",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "psychotropic_classes",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "all_psychotropics_reviewed",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "any_stopped_or_reduced",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "change_explained_in_discharge_summary",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a 'falls-risk medicines: stop / reduce / continue because' table to the orthogeriatric review template, pre-filled from EPMA.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at the orthogeriatric and falls steering group. If it works, add the table to the elderly-care falls pathway.",
+  "evidence": [
+   "[1794] medication review after inpatient fall 9.09%; no changes made; no re-audit",
+   "[1742] primary care: falls medication review 22% → 94% (SystmOne prompts and MDT review)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~20 min per 10 patients from EPMA and notes"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of adults aged 50 and over with a low-energy wrist fracture have a fracture risk assessment?",
+  "why": "Bone health is heavily audited in hip fracture but non-hip fractures are missed: 25.7% assessed in one audit [1345]. NICE NG259 (July 2026) makes assessment mandatory after any fragility fracture.",
+  "standard": {
+   "source": "NICE NG259 rec 1.1.1 (July 2026)",
+   "wording": "Assess fragility fracture risk in all people aged 50 and over and women who have experienced menopause with either of the following risk factors: a previous fragility fracture current or frequent use of systemic glucocorticoids",
+   "url": "https://www.nice.org.uk/guidance/ng259/chapter/Fragility-fracture-risk-assessment"
+  },
+  "pass": "FRAX or QFracture recorded, or referral to the fracture liaison service documented, within 12 weeks of the fracture.",
+  "population": "Adults ≥50 with a distal radius fracture from a standing-height fall or less. Exclude high-energy injury and pathological fracture.",
+  "sample": "40 consecutive virtual fracture clinic or fracture clinic cases over the last 2 months.",
+  "data_source": "Virtual fracture clinic list; fracture clinic letters; FLS database or referral inbox.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "fracture_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sex",
+    "type": "choice",
+    "options": [
+     "female",
+     "male"
+    ],
+    "note": ""
+   },
+   {
+    "field": "mechanism_low_energy",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fls_referral_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "frax_or_qfracture_recorded",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "risk_assessed_within_12_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "already_on_bone_treatment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add an automatic FLS referral tick box to the virtual fracture clinic outcome form, pre-set to 'yes' for age ≥50 with low-energy mechanism.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14: next 40 consecutive cases, same template.",
+  "close_loop": "Present at the fracture clinic meeting and to the FLS lead. If it works, extend the tick box to all upper limb fragility fractures.",
+  "evidence": [
+   "[1345] osteoporosis assessment non-hip 25.7% vs hip 100%; proforma planned, no re-audit",
+   "[1601] named team responsibility: 13.9% → 100% assessed (per bone health topic card)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~10 min per 10 patients from VFC records and FLS database"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of adults aged 65 and over with a fall-related wrist or shoulder fracture are offered a comprehensive falls assessment?",
+  "why": "A wrist or proximal humerus fracture is often the first sign of falls risk. Only 12% had a full falls assessment in one corpus audit [1345]. No closed loop in fracture clinic.",
+  "standard": {
+   "source": "NICE NG249 rec 1.1.3 (April 2025)",
+   "wording": "Offer a comprehensive falls assessment and comprehensive falls management to people who have fallen in the last year and meet any of the following criteria (this can be carried out in the same service or involve an appropriate referral): ... Were injured in a fall and needed medical (including surgical) treatment.",
+   "url": "https://www.nice.org.uk/guidance/ng249/chapter/Recommendations"
+  },
+  "pass": "Referral to a falls service, or a documented comprehensive falls assessment, within 16 weeks of the fracture.",
+  "population": "Adults ≥65 with a distal radius or proximal humerus fracture after a fall, managed as outpatients. Exclude high-energy injury.",
+  "sample": "40 consecutive fracture clinic or virtual clinic cases over the last 2 months.",
+  "data_source": "Virtual fracture clinic list; clinic letters; FLS database; community falls service referral system.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "fracture_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_site",
+    "type": "choice",
+    "options": [
+     "distal radius",
+     "proximal humerus"
+    ],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "falls_referral_or_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "referral_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "previous_falls_documented",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "lives_alone",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a falls service referral option to the virtual fracture clinic outcome form, pre-set for age ≥65 with a fall.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 consecutive cases, same template.",
+  "close_loop": "Present at the fracture clinic meeting and to the community falls team. If it works, share referral numbers with the falls team monthly.",
+  "evidence": [
+   "[1345] full falls assessment in 12% of fracture admissions; no re-audit",
+   "[1742] primary care: falls medication review 22% → 94% (SystmOne prompts)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 patients from VFC records"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of hip fracture patients recommended intravenous zoledronate receive the first dose before discharge?",
+  "why": "NHFD KPI 7 is 62% nationally. Leaving the first dose to the GP fails. The corpus bone health card says audit whether the first dose is given before discharge; only one closed loop does this [1173].",
+  "standard": {
+   "source": "NHFD KPI 7 definition (Royal College of Physicians FFFAP, 2021 onwards)",
+   "wording": "KPI 7. - Bone strengthening medication Given a suitable form of bone strengthening treatment and followed up to ensure that they are still receiving this protection at 120 days after fracture.",
+   "url": "https://www.nhfd.co.uk/20/nhfdcharts.nsf/vwInfo/KPI7-Medication"
+  },
+  "pass": "Zoledronate given before discharge; or a documented reason to defer (low vitamin D, low calcium, eGFR <35, dental issue) with a date for the dose.",
+  "population": "Adults ≥60 with hip fracture whose orthogeriatric bone plan recommends zoledronate. Exclude deaths in hospital.",
+  "sample": "40 consecutive eligible discharges over the last 2–3 months.",
+  "data_source": "NHFD extract (bone medication plan); EPMA administration record; lab system for vitamin D, calcium and eGFR.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "admission_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "discharge_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vitamin_d_result_nmol_l",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "egfr",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "zoledronate_given_before_discharge",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "zoledronate_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "deferral_reason_documented",
+    "type": "text",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Add a zoledronate line to the hip fracture order set that is due on post-op day 3–5 once vitamin D and calcium are checked, with a deferral reason box.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 eligible discharges, same template.",
+  "close_loop": "Present at the orthogeriatric and bone health meeting. If it works, report it monthly beside NHFD KPI 7.",
+  "evidence": [
+   "[1173] Scottish hip fracture: IV zoledronate 12% → 95% (stickers, protocols, referral pathways)",
+   "[1676] teaching, protocols and MDTs: 64% still not given (per bone health topic card)"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from NHFD and EPMA"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of older adults with a periprosthetic or non-hip femoral fragility fracture are seen by a senior geriatrician within 72 hours?",
+  "why": "These patients are as frail as hip fracture patients but fall outside the hip pathway. Orthogeriatric review within 72 h was 32.6% versus 91.9% for hip fractures in one audit [1385]; no loop closed.",
+  "standard": {
+   "source": "NHFD KPI 1 definition (RCP FFFAP); BOA Non-Ambulatory Fragility Fracture review principles",
+   "wording": "1. Prompt orthogeriatric assessment - Assessed by a senior geriatrician (ST3+) within 72 hours of presentation. BOA: Although originally labelled a “hip fracture review”, we have always recommended that the principles of care should apply equally to all patients with similar clinical needs and the reviews are now formally targeted at the care of all patients with non-ambulatory fragility fractures (NAFFs).",
+   "url": "https://www.nhfd.co.uk/20/nhfdcharts.nsf/vwInfo/KPIsOverview"
+  },
+  "pass": "Documented review by a geriatrician ST3 or above within 72 hours of arrival.",
+  "population": "Adults ≥60 admitted with a low-energy periprosthetic femoral fracture or femoral shaft/distal femur fracture. Exclude hip fractures (already in NHFD).",
+  "sample": "30 consecutive admissions over the last 9–12 months.",
+  "data_source": "Coding list (S72.3, S72.4, T84.0/M96.6 periprosthetic) or trauma meeting list; notes for geriatrician review time and grade.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "arrival_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fracture_type",
+    "type": "choice",
+    "options": [
+     "periprosthetic hip",
+     "periprosthetic knee",
+     "femoral shaft",
+     "distal femur"
+    ],
+    "note": ""
+   },
+   {
+    "field": "geriatrician_review_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "reviewer_grade",
+    "type": "choice",
+    "options": [
+     "consultant",
+     "ST3+/SAS",
+     "junior",
+     "none"
+    ],
+    "note": ""
+   },
+   {
+    "field": "review_within_72h_senior",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "surgery_datetime",
+    "type": "datetime",
+    "options": [],
+    "note": "Context only"
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Put all femoral fragility fractures on the orthogeriatric daily referral list automatically from the trauma meeting list.",
+  "target": "≥90%",
+  "reaudit": "Wk 13–14 (extend window if under 30 cases): same template.",
+  "close_loop": "Present at trauma and orthogeriatric governance. If it works, write 'all femoral fragility fractures' into the hip fracture programme scope.",
+  "evidence": [
+   "[1385] orthogeriatric review within 72 h: non-hip femoral 32.6% vs hip 91.9%; proforma planned, no re-audit",
+   "[1369] non-hip femoral fractures: orthogeriatric review 84%; no re-audit",
+   "[1264] periprosthetic fractures: 3.7 days to surgery vs 1.3 for hip; re-audit not reported"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 patients from notes"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of DXA scans done after a fragility fracture in women aged 60 and over or men aged 70 and over include a vertebral fracture assessment?",
+  "why": "Most vertebral fractures are silent and change treatment choice. NICE NG259 (July 2026) now advises VFA with DXA in these age groups. No audit in corpus.",
+  "standard": {
+   "source": "NICE NG259 rec 1.5.1 (July 2026)",
+   "wording": "Consider doing a VFA when doing a DXA scan for: men aged 70 and over women aged 60 and over.",
+   "url": "https://www.nice.org.uk/guidance/ng259/chapter/Identifying-vertebral-fragility-fractures"
+  },
+  "pass": "VFA done and reported with the DXA; or a documented reason not to (spinal imaging in past 3 months, scoliosis, body mass limit).",
+  "population": "Women ≥60 and men ≥70 having DXA via the fracture liaison service after a fragility fracture.",
+  "sample": "40 consecutive FLS DXA scans over the last 1–2 months.",
+  "data_source": "DXA service reports; DXA request forms; FLS database.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "dxa_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "sex",
+    "type": "choice",
+    "options": [
+     "female",
+     "male"
+    ],
+    "note": ""
+   },
+   {
+    "field": "index_fracture_site",
+    "type": "text",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "vfa_done",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "reason_not_done",
+    "type": "choice",
+    "options": [
+     "spinal imaging in last 3 months",
+     "scoliosis",
+     "body mass limit",
+     "none recorded"
+    ],
+    "note": ""
+   },
+   {
+    "field": "vertebral_fracture_found",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "treatment_plan_changed",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Make VFA the default protocol on the DXA request form for FLS patients in the NICE age groups.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 FLS DXA scans, same template.",
+  "close_loop": "Present at the bone health and radiology meeting. If it works, report new vertebral fractures found per month.",
+  "evidence": [
+   "no audit in corpus on VFA with DXA",
+   "[1162] FLS DXA: 70.6% left to the GP to order (system not owned by FLS)"
+  ],
+  "novelty": "new",
+  "effort": "~10 min per 10 scans from DXA reports"
+ },
+ {
+  "area": "Hip and fragility fracture",
+  "question": "What proportion of adults aged 50 and over with a newly reported vertebral fracture on CT are identified by the fracture liaison service?",
+  "why": "Radiology reporting of vertebral fractures is audited [1569][1683] but not whether the patient reaches the FLS. Onward referral was recommended in 2.6% of reports nationally [1569].",
+  "standard": {
+   "source": "Royal Osteoporosis Society Clinical Standards for FLS, standard 1.1 (September 2025)",
+   "wording": "1.1. The FLS identifies people aged 50 years or older presenting with a new fragility fracture. This includes: • Newly identified vertebral fracture. (a prevalent vertebral fragility fracture which has not been previously documented)",
+   "url": "https://royal-osteoporosis-society.uksouth01.umbraco.io/media/arqkorn2/ros-clinical-standards-for-fracture-liaison-service.pdf"
+  },
+  "pass": "Patient appears on the FLS database or has an FLS referral within 12 weeks of the CT report.",
+  "population": "Adults ≥50 with a CT (chest, abdomen, pelvis or spine) report newly describing a vertebral fracture, wedge or compression deformity. Exclude trauma CTs, known myeloma or metastases, and patients already on the FLS database.",
+  "sample": "40 consecutive reports over the last 2–3 months.",
+  "data_source": "RIS free-text search ('vertebral fracture', 'wedge', 'compression', 'loss of height'); FLS database.",
+  "template": [
+   {
+    "field": "hospital_number_pseudonymised",
+    "type": "text",
+    "options": [],
+    "note": "Local audit code only; key kept on a Trust drive"
+   },
+   {
+    "field": "ct_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "age",
+    "type": "number",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "ct_type",
+    "type": "choice",
+    "options": [
+     "chest",
+     "abdomen/pelvis",
+     "spine",
+     "other"
+    ],
+    "note": ""
+   },
+   {
+    "field": "report_uses_term_vertebral_fracture",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "report_recommends_bone_assessment",
+    "type": "yes/no",
+    "options": [],
+    "note": ""
+   },
+   {
+    "field": "fls_identified_within_12_weeks",
+    "type": "yes/no",
+    "options": [],
+    "note": "Pass criterion"
+   },
+   {
+    "field": "fls_identification_date",
+    "type": "date",
+    "options": [],
+    "note": ""
+   }
+  ],
+  "timeline": "Wk 1–2 collect; Wk 3 analyse/present; Wk 4 change; Wk 5–12 embed; Wk 13–14 re-audit",
+  "change": "Set a RIS keyword rule that copies reports with a new vertebral fracture in patients ≥50 to the FLS inbox automatically.",
+  "target": "≥80%",
+  "reaudit": "Wk 13–14: next 40 reports, same template.",
+  "close_loop": "Present at the radiology and bone health meeting. If it works, add the rule to the RIS reporting standard.",
+  "evidence": [
+   "[1569] national CT audit: onward referral recommended in 2.6% of reports",
+   "[1683] radiology re-audit: modest reporting gain after interventions; FLS capture not measured"
+  ],
+  "novelty": "under-audited",
+  "effort": "~15 min per 10 reports from RIS and FLS database"
+ }
+]

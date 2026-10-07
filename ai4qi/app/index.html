@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://plausible.io https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://plausible.io https://cloudflareinsights.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Ai4Qi Clinical Audit Library</title>
+<meta name="description" content="Find published clinical audits and ready-to-run audit protocols with standards, templates and evidence.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 48 48&quot;%3E%3Crect width=&quot;48&quot; height=&quot;48&quot; rx=&quot;11&quot; fill=&quot;#0B1F3A&quot;/%3E%3Ccircle cx=&quot;20.5&quot; cy=&quot;23&quot; r=&quot;11.8&quot; fill=&quot;none&quot; stroke=&quot;#fff&quot; stroke-width=&quot;3.2&quot;/%3E%3Cpath d=&quot;M26.6 30.2l5.8 6.6&quot; stroke=&quot;#C9A45C&quot; stroke-width=&quot;3.4&quot; stroke-linecap=&quot;round&quot;/%3E%3Cpath d=&quot;M17.65 24.9V24.02H22.89V24.9ZM25.08 27.77 26.28 28.19V28.6H21.93V28.19L23.27 27.79L19.78 19.37H20.23L16.97 27.79L18.24 28.19V28.6H14.75V28.19L15.95 27.79L19.92 18H20.95Z&quot; fill=&quot;#fff&quot;/%3E%3Crect x=&quot;37&quot; y=&quot;26&quot; width=&quot;3.2&quot; height=&quot;10.6&quot; rx=&quot;1.6&quot; fill=&quot;#fff&quot;/%3E%3Ccircle cx=&quot;38.6&quot; cy=&quot;21.4&quot; r=&quot;2.2&quot; fill=&quot;#C9A45C&quot;/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0B1F3A" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A1424" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ai4Qi">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="styles.css?v=de5975abf3">
+<!-- analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "798363fe65fd43d9b40090dcf562ae1f", "spa": false}'></script>
+<!-- /analytics -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#/" aria-label="Ai4Qi home">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#0B1F3A"/><circle cx="20.5" cy="23" r="11.8" fill="none" stroke="#fff" stroke-width="3.2"/><path d="M26.6 30.2l5.8 6.6" stroke="#C9A45C" stroke-width="3.4" stroke-linecap="round"/><path d="M17.65 24.9V24.02H22.89V24.9ZM25.08 27.77 26.28 28.19V28.6H21.93V28.19L23.27 27.79L19.78 19.37H20.23L16.97 27.79L18.24 28.19V28.6H14.75V28.19L15.95 27.79L19.92 18H20.95Z" fill="#fff"/><rect x="37" y="26" width="3.2" height="10.6" rx="1.6" fill="#fff"/><circle cx="38.6" cy="21.4" r="2.2" fill="#C9A45C"/></svg></span>
+      <span class="brand-text"><strong>Ai4Qi</strong><span class="brand-sub">Clinical audit</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#/" data-nav="build">Build an audit</a>
+      <a href="#/search" data-nav="search">Search</a>
+      <a href="#/proposed" data-nav="proposed">Proposed audits</a>
+      <a href="#/topics" data-nav="topics">Topics</a>
+      <a href="#/standards" data-nav="standards">Standards</a>
+      <button class="install-btn" type="button" data-install hidden>Install app</button>
+    </nav>
+    <button class="qr-btn" type="button" data-qr-open aria-label="Show the QR code for ai4qi.com" title="Show QR code"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 5.5h2v2h-2zM16.5 5.5h2v2h-2zM5.5 16.5h2v2h-2zM14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    <div class="acct" data-acct>
+      <button class="acct-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu" data-acct-btn>
+        <span class="acct-avatar" data-acct-initials aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <span class="visually-hidden" data-acct-label>Your menu</span>
+      </button>
+      <div class="acct-menu" id="acct-menu" role="menu" hidden data-acct-menu>
+        <p class="acct-who" data-acct-who hidden></p>
+        <a role="menuitem" href="#/account" data-account hidden>Sign in</a>
+        <a role="menuitem" href="#/my-audits" data-nav="my-audits">My audits</a>
+        <a role="menuitem" href="#/privacy">How your data is protected</a>
+        <a role="menuitem" href="#/demo" class="acct-demo" data-demo-toggle>Demo mode</a>
+        <button role="menuitem" type="button" class="acct-out" data-signout data-acct-signout hidden>Sign out</button>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="main" class="wrap" tabindex="-1">
+  <div class="loading" role="status"><span class="spinner" aria-hidden="true"></span>Loading the library…</div>
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p><strong>Ai4Qi</strong> brings together published clinical audits and quality improvement projects, and ready-to-run audit protocols built on current standards.</p>
+    <p>Published work is summarised with a link to the original source. Abstracts and figures are reproduced only where the article licence allows it (CC BY or CC0), with the required credit. Proposed audits have not yet been run. Topic cards marked as drafts have not yet been reviewed by a consultant.</p>
+    <nav class="footer-links" aria-label="Legal"><a href="#/ideas"><strong>Report a problem or suggest a change</strong></a><a href="#/how-it-works">How Ai4Qi works</a><a href="#/demo" data-demo-toggle>Try demo mode</a><a href="#/terms">Terms of use</a><a href="#/privacy-notice">Privacy notice</a><a href="#/privacy">How your data is protected</a><a href="#/cookies">Cookies and storage</a><a href="#/accessibility">Accessibility</a><a href="#/security">Security</a></nav>
+    <p class="offline-note" data-offline hidden><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Available offline</p>
+  </div>
+</footer>
+<script src="boot.js"></script>
+<script src="app.js?v=845be2f7d7"></script>
+</body>
+</html>
