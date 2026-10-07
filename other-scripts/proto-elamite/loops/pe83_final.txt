@@ -1,0 +1,24 @@
+pe83 final (7 Oct 2026). Brief: try to KILL pe81 (square-cornered blanks carry a header; partial r 0.35, grade B).
+Three cycles, each test pre-registered with a kill line before running (loops/pe83_cycle1-3.txt).
+
+| PE-83.c1 | Photo artefacts: photo kind / batch / collection, lighting and shadow, perspective, neighbours and crops, ink vs clay (top vs bottom corners, hull, closing, reverse face, planted ink band), 200 random segmentation pipelines with shuffled nulls | every photo control leaves r 0.31-0.39; 0/200 pipelines below 0.10; ink ruled out because the reverse face, which has no header, is square at the same end (0.43). The effect is all at the header END: top corners 0.43, bottom 0.09 | survives; sharpened to the top end |
+| PE-83.c2 | Breakage, flexible confounds, document type, deposit: line-1 lacuna flags; 1,000 random confound models; double ML; text profile minus line 1; within numeric system, Sb block, volume | a lost first line hides the header (rate 0.14 vs 0.66) and spoils the top; on the full set double ML 0.12-0.14 and document type 0.11-0.13 cross the kill line. On tablets whose first line survives (n 589): top-end r 0.36, double ML 0.21-0.27, document type 0.26-0.30, within Sb/5 blocks 0.41, complete tablets 0.43 | pe81 as stated KILLED; restated top-end claim survives |
+| PE-83.c3 | Second source + calibration: CDLI hand-drawn line art (1,173 tablets); proto-cuneiform photos (818) with the same pipeline | drawings: top end 0.35 (intact 0.29), bottom 0.13; proto-cuneiform: top -0.12 | survives on an independent outline record; no generic artefact |
+
+Grades
+- KILLED: pe81's statement in its stated form (all tablets, all four corners, r 0.35, 'square-cornered blanks'). About a
+  third to a half of that number came from broken tablets: losing the first line removes the header AND the square top.
+- B (restated, survived 3 cycles): on Proto-Elamite tablets whose first line is preserved, a header line goes with a
+  squarer HEADER END (top corners of the obverse and the same end of the reverse), r ~0.3-0.4, beyond size, shape, line
+  count, damage, photo source, lighting, perspective, segmentation, ink, document type and find batch, and it is
+  reproduced on century-old hand drawings. The bottom end does not differ (0.09). Not A: no tablets outside the CDLI/MDP
+  record yet, and the frozen Tehran test (data/pe81_frozen_tehran.json, unaltered) is still open.
+- C (meaning, revised): not 'the blank was formed for the record kind' (that predicts all four corners). The end that
+  takes the header is squared, or the header end is chosen as the square end: the writer squares or picks the top before
+  writing the header. Would support: square top ends on headed Tehran tablets (the frozen claim uses all corners, so it is
+  a weaker check); 3D scans showing a flattened top face. Would kill: no top/bottom difference on 3D scans of complete
+  headed tablets, or Tehran gap < 0.05.
+- B- (re-run on intact tablets): pe81's 'number-only lines on rounded blanks' holds (-0.15) and lives at the OTHER end:
+  the bottom corners of the obverse and the same end of the reverse (-0.15 each), not the top (-0.05). So the two ends
+  of a tablet carry different information: a square top goes with a header, a round bottom with bare-number lines.
+Not cracked; no sign is read.

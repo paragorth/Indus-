@@ -36,3 +36,17 @@ Pre-registered tests (all on the same pe81 tablet set; partial r and stratified-
       physical end (CDLI fat cross: the reverse's lower image corners are the obverse's top end), the top and bottom edge
       views, and ink darkness / mask roughness of the obverse top strip as covariates. Kill (ink): reverse corners at the
       header end r < 0.10 (the reverse carries no header ink), or cf_top with ink covariates < 0.15.
+ Deviation (logged before results): C1.5 was cut from 400 to 200 pipelines and the hull metric was dropped from it
+      (shared 4-core machine, first run too slow); the hull metric is tested on its own in C1.4.
+
+RESULTS (tools/pe83_common.py, pe83_cycle1.py, pe83_cycle1b.py, pe83_cycle1c.py, pe83_cycle1d.py; data/pe83_ckpt/c1*.json)
+Baseline on the pe81 set (1,202 tablets): corner fill partial r 0.35 (reproduced).
+
+| PE-83.1.1 | Photo kind (background, colour, blob count, frame touch, tile), CDLI photo batch, collection as covariates; inside the homogeneous kind; within Louvre, Tehran and each batch | all covariates 0.31; homogeneous black/colour/untouched (n 1,125) 0.35; Louvre 0.33, Tehran 0.31; batches 0.29 / 0.38 / 0.32 (all p <= 0.001) | survives |
+| PE-83.1.2 | Lighting: corner vs centre brightness, top-bottom and left-right gradients, clay brightness, dark rim (shadow) as covariates | 0.33; header vs lighting |r| <= 0.17 | survives |
+| PE-83.1.3 | Perspective: keystone, left-right asymmetry, principal-axis tilt as covariates; and the third with least keystone and tilt | 0.33; least-distorted third 0.39 | survives |
+| PE-83.1.4 | Ink vs clay: top vs bottom corners; convex hull; closing r 6; reverse face; edge views; planted dark header band | top corners 0.43, BOTTOM 0.09; hull 0.35, closing 0.35; planted band moves box and hull fill alike (+0.11, r 0.30 as a label) but not the bottom corners. The effect is an END effect, the header end only | needs C1.4e |
+| PE-83.1.4e | Ink guard: the REVERSE photo (no header on it), split by physical end; edge views; top-strip darkness and roughness as covariates | reverse at the header end 0.43, reverse at the other end 0.12; obverse vs reverse end-asymmetry r 0.91; cf_top with ink covariates 0.42; cleanest-top third 0.29; edge-view end fill 0.03-0.05 | ink killed as the cause: the same end is square on the face that carries no header |
+| PE-83.1.5 | 200 random segmentation pipelines (channel, threshold 15-90, blur, opening, closing, corner box 8-25%, box or chamfer metric), each vs 20 stratified header shuffles | 0/200 below 0.10, none negative; median 0.32 (5-95%: 0.25-0.35); 158 credible pipelines min 0.23; shuffled |r| max median 0.07; 200/200 beat their own null | survives |
+| PE-83.1.6 | No frame touch, no wide neighbour blob, no tile | 0.35 (n 1,125) | survives |
+| PE-83.1.V | Verdict | No photographic, lighting, perspective, segmentation, neighbour or ink artefact kills it. New fact: the effect sits at the header END (top corners on the obverse and the same end on the reverse); bottom corners carry almost nothing (0.09) | survives; target sharpened to the top end |

@@ -179,7 +179,7 @@ def rank_acc(Q, Ref, groups, lam, pos=None, far=0):
             if far and pos is not None: ok &= np.abs(pos[idx] - pos[idx[a]]) > far
             if ok.sum() < 2: continue
             o = S[a][ok]
-            ranks.append(((o < S[a, a]).sum() + 0.5 * (o == S[a, a]).sum()) / (n - 1))
+            ranks.append(((o < S[a, a]).sum() + 0.5 * (o == S[a, a]).sum()) / len(o))
     return float(np.mean(ranks)) if ranks else 0.5, len(ranks)
 
 

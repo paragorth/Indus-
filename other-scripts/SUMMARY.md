@@ -91,6 +91,7 @@ Data: CDLI, 1,585 transliterated tablets, 95% from Susa, so nearly every result 
 | A 48-per-unit grade local to one dossier (P008764-P008810) | pe69 | C | |
 | pe69 scope clause ('signs + M288' lines do not follow the rule) and pe70 'M288-final' separator, both demoted from B/B- by pe74 | pe69, pe70, pe74 | C | |
 | Tablets with M297 have their own clay format (taller for width, thinner than the text predicts; frozen model held out +25 mbit, p 0.006) | pe75 | C+ | frozen model gain <= 0 on >= 30 newly measured M297 tablets |
+| The tablet end that takes the header is squared: on 589 tablets with line 1 intact, top-end squareness vs header r 0.36 (complete tablets 0.43; bottom end 0.09; CDLI hand drawings 0.29; proto-cuneiform -0.12); survives photo kind, batch, lighting, perspective and 200 random segmentations. Number-only lines go with a rounder bottom end (-0.15). The broader 'whole blank shaped for the record type' version was killed by pe83. | pe81, pe83 | B (meaning: C) | frozen Tehran header predictions (data/pe81_frozen_tehran.json) fail on the 87 Tehran tablets, or r < 0.15 on an independent photo set |
 | PE tablet heights step at ~11 mm (both museums); no ~17 mm finger (B negative) | pe75 | C | ripple lost on independent re-measurement |
 
 About 30 further guesses cannot be tested on the existing corpus (`proto-elamite/loops/pe66_final.txt`, F28-F29).

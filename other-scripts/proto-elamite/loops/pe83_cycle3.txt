@@ -18,3 +18,14 @@ Written before running.
       unrelated accounting script. Reported for all corners, top, bottom and the reverse at the line-1 end.
  C3.4 Planted on the drawings: a fake header tied to drawing top-end fill at r 0.3 must be recovered (power check), and a
       shuffled header within size x line-count strata must give |r| < 0.08 (95th pct of 1,000 shuffles reported).
+
+RESULTS (tools/pe83_lineart.py, pe83_cycle3.py, pe83_protocun.py; data/pe83_ckpt/lineart_feats.json, c3.json, protocun.json)
+Line art: 1,422 drawings fetched, 1,406 outlines, 1,173 on the pe81 tablet set. Credibility: drawing vs catalogue aspect
+rho 0.80; drawing vs photo corner fill rho 0.66 (top 0.63, bottom 0.67): the drawings are a separate but valid record.
+
+| PE-83.3.1 | Second source: CDLI line art (hand drawings), filled outline and convex hull of strokes; pe81 covariates | all corners 0.31, TOP 0.35, bottom 0.13; hull top 0.35; credible subset (n 950) top 0.36. Line-1 intact (n 575): cf 0.26, top 0.29, hull top 0.27, bottom 0.09. With line-1 flags (full): cf 0.20, top 0.20 | survives (>= 0.20 on the honest subset); same top-end signature |
+| PE-83.3.2 | Second photo source: Louvre collections (robot check, not passed by script, not clicked) and Wikimedia Commons (~15 PE tablet photos, oblique) | not run: no usable independent photo set | logged |
+| PE-83.3.3 | Calibration: same photo pipeline on 818 Uruk III proto-cuneiform tablets (CDLI); 'header analogue' = obverse line 1 signs without numerals (11%) | cf -0.09, top -0.12, bottom 0.02, reverse at line-1 end -0.11; line-1 intact (274) top -0.10 (p 0.15) | the pipeline does not manufacture a positive top-end link in another script; PE's +0.36 is not a generic property of archaic tablets or of the method |
+| PE-83.3.4 | Drawings: header shuffled within size x line strata (1,000); planted fake header tied to drawing top fill | shuffled |r| 95th pct 0.058; planted raw 0.45 recovered 0.45 | controls behave |
+| PE-83.3.5 | Re-run of pe81's second claim (share of numeric-only lines vs corner fill, header as covariate) on line-1-intact tablets, split by end, both faces | all corners -0.15 (p 0.005); top end -0.05 (n.s.); BOTTOM end -0.15 (p 0.001), and the reverse at the same bottom end -0.15 (p 0.002) | survives; it is a bottom-end effect, physical (both faces) |
+| PE-83.3.V | Verdict | An outline source made a century earlier, by hand, with no lighting or threshold, reproduces the top-end effect (0.29 on intact tablets). Proto-cuneiform shows no such link | restated claim B; A blocked by the open Tehran test and the absence of tablets outside the CDLI/MDP record |
