@@ -12,6 +12,9 @@ G = {}
 def init(corpus, wseed):
     if corpus in ('PE', 'PC'):
         G['T'], G['maps'] = pc.load_corpus(corpus)
+    elif corpus in ('PEPN', 'PEPK'):        # PE with a planted name-magnitude tie (N: >= 2-sign keys; K: any key)
+        T, G['maps'] = pc.load_corpus('PE')
+        G['T'], nk = pc.plant_magstr(T, seed=wseed, names_only=(corpus == 'PEPN'))
     else:
         G['T'], G['maps'] = pc.planted_world(seed=wseed, hidden=(corpus == 'W1'))
 

@@ -153,7 +153,7 @@ def zvec(R, P):
 
 # ---------------------------------------------------------------- target with null variants
 class Target:
-    def __init__(self, units_tok, n_null=20, seed=0, drop_top=0, null_kind='rot'):
+    def __init__(self, units_tok, n_null=20, seed=0, drop_top=0, null_kind='block'):
         self.n = n = len(units_tok)
         self.lens = np.array([len(u) for u in units_tok], float)
         rng = np.random.default_rng(seed)
@@ -163,6 +163,11 @@ class Target:
                 s = rng.integers(n // 10, n - n // 10)
                 p = np.roll(np.arange(n), s)
                 if k % 2: p = p[::-1]
+            elif null_kind == 'block':   # permute blocks of ~n/16 units (each block maybe reversed): keeps local
+                b = max(3, n // 16)         # drift, destroys any long ordered correspondence
+                blocks = [np.arange(i, min(n, i + b)) for i in range(0, n, b)]
+                blocks = [bl[::-1] if rng.random() < 0.5 else bl for bl in blocks]
+                p = np.concatenate([blocks[j] for j in rng.permutation(len(blocks))])
             else:
                 p = rng.permutation(n)
             perms.append(p)
@@ -278,16 +283,28 @@ def score_align(src, tgt, a, variants=None):
     return np.array(sa), np.array(sb)
 
 
-def search(src, tgt, n_rand=1500, top=5, refine=30, seed=0):
-    """random search + local refinement, run separately for every target variant (real = 0, nulls 1..K).
-    Returns per variant: best A score and its held-out B score."""
+def grid_aligns(src, n, rng, max_off=600, n_span=12):
+    """dense ordered grid for the 'unif' (entry-by-entry) mapping: every offset x a geometric ladder of spans."""
+    spans = sorted(set([float(n)] + list(np.geomspace(max(2.0, n / 3), n * 3, n_span))))
+    out = []
+    for sp_ in spans:
+        sp_ = min(sp_, src.M * 0.98)
+        hi = src.M - sp_
+        offs = np.arange(0, hi + 1e-9, max(1.0, hi / max_off)) if hi > 0 else np.array([0.0])
+        for o in offs:
+            out.append({'off': float(o), 'span': float(sp_), 'mode': 'unif', 'jit': 0.0,
+                        'drop': int(rng.choice(Source.DROPS)), 'seed': 0})
+    return out
+
+
+def search(src, tgt, n_rand=800, top=5, refine=30, seed=0, grid=True):
+    """ordered grid (entry-by-entry maps) + random alignments of all modes + local refinement, run separately for
+    every target variant (real = 0, nulls 1..K). Returns per variant: best A score and its held-out B score."""
     rng = np.random.default_rng(seed)
     nv = len(tgt.perms)
-    A = []
-    SA = np.zeros((n_rand, nv)); SB = np.zeros((n_rand, nv))
-    for i in range(n_rand):
-        a = draw_align(rng, src, tgt.n)
-        A.append(a)
+    A = (grid_aligns(src, tgt.n, rng) if grid else []) + [draw_align(rng, src, tgt.n) for _ in range(n_rand)]
+    SA = np.zeros((len(A), nv)); SB = np.zeros((len(A), nv))
+    for i, a in enumerate(A):
         SA[i], SB[i] = score_align(src, tgt, a)
     out = []
     for v in range(nv):
@@ -295,12 +312,12 @@ def search(src, tgt, n_rand=1500, top=5, refine=30, seed=0):
         for i in np.argsort(-SA[:, v])[:top]:
             a, sa, sb = A[i], SA[i, v], SB[i, v]
             for r in range(refine):
-                b = draw_align(rng, src, tgt.n, base=a, step=0.15 if r < refine // 2 else 0.05)
+                b = draw_align(rng, src, tgt.n, base=a, step=0.1 if r < refine // 2 else 0.03)
                 x, y = score_align(src, tgt, b, variants=[v])
                 if x[0] > sa: a, sa, sb = b, x[0], y[0]
             best.append((sa, sb, a))
         best.sort(key=lambda z: -z[0])
-        out.append({'A': best[0][0], 'B': best[0][1], 'a': best[0][2], 'Btop': float(np.mean([z[1] for z in best]))})
+        out.append({'A': best[0][0], 'B': best[0][1], 'a': best[0][2], 'Btop': float(np.mean([z[1] for z in best])), 'nA': len(A)})
     return out
 
 

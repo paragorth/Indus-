@@ -2,7 +2,7 @@
 same frozen search as cycle 1. Kill: rotated/reversed unit orders (zB), genre-matched decoys (rank), shuffled-paragraph
 null (perm) for the top hits, IT2a replication for the top hits (cycle 3)."""
 import os, sys, json, time, zlib
-os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ.setdefault('VOY_MODE', 'glyph')
+os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ.setdefault('V89_LOWRANK', '2'); os.environ.setdefault('VOY_MODE', 'glyph')
 import numpy as np
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +24,7 @@ def job(args):
     tgt = TOBJ[sec]
     src = L.Source(T[sk]['units'])
     t0 = time.time()
-    res = L.search(src, tgt, n_rand=800, top=5, refine=30, seed=zlib.crc32((sec + sk).encode()))
+    res = L.search(src, tgt, n_rand=400, top=5, refine=30, seed=zlib.crc32((sec + sk).encode()))
     s = L.summarize(res)
     s.update({'target': sec, 'src': sk, 'n': tgt.n, 'sec': time.time() - t0, 'tr': TR, 'view': VIEW})
     return s

@@ -596,3 +596,32 @@ def run_forger(T, maps, spec, seed, shuffle_labels=False, K=40):
 def sha_list(obj):
     s = json.dumps(obj, sort_keys=True, separators=(',', ':'))
     return hashlib.sha256(s.encode()).hexdigest()
+
+
+def plant_magstr(T, frac=1.0, seed=0, jitter=0.3, names_only=True):
+    """PE-shaped plant for MAGSTR power: for a share `frac` of entry keys (signs minus the final sign) that occur
+    in 2-20 entries and have >= 2 signs (name-like), every occurrence gets the same numeral group (one of its own, chosen at random), with
+    probability `jitter` moved by one unit.  Everything else (strings, systems, layout, repetition rate) is real."""
+    rng = random.Random(seed)
+    occ = collections.defaultdict(list)
+    for ti, t in enumerate(T):
+        for li, l in enumerate(t['lines']):
+            if l[1] and l[2]:
+                key = l[1][:-1] if len(l[1]) > 1 else l[1]
+                occ[key].append((ti, li))
+    T2 = [{'id': t['id'], 'lines': list(t['lines'])} for t in T]
+    nk = 0
+    for key, oc in occ.items():
+        if len(oc) < 2 or len(oc) > 20 or (names_only and len(key) < 2) or rng.random() >= frac:
+            continue
+        nk += 1
+        ti, li = rng.choice(oc)
+        ref = T[ti]['lines'][li][2]
+        for ti, li in oc:
+            nm = list(ref)
+            if rng.random() < jitter:
+                k = rng.randrange(len(nm))
+                nm[k] = (max(1, nm[k][0] + rng.choice([-1, 1])), nm[k][1])
+            l = T2[ti]['lines'][li]
+            T2[ti]['lines'][li] = (l[0], l[1], tuple(nm))
+    return T2, nk

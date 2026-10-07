@@ -3,7 +3,7 @@ Targets: translation halves (Celsus, Psalms, Pliny with different chapter cuts, 
 on Celsus English, and an abridged + coded Celsus English. Partner must top the decoys on held-out pairs (B) and beat
 rotated/reversed target orders (zB)."""
 import os, sys, json, time, zlib
-os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'; os.environ['OPENBLAS_NUM_THREADS'] = '1'; os.environ.setdefault('V89_LOWRANK', '2')
 import numpy as np
 from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +41,7 @@ def job(args):
     tgt = TOBJ[tname]
     src = L.Source(T[sk]['units'])
     t0 = time.time()
-    res = L.search(src, tgt, n_rand=800, top=5, refine=30, seed=zlib.crc32((tname + sk).encode()))
+    res = L.search(src, tgt, n_rand=400, top=5, refine=30, seed=zlib.crc32((tname + sk).encode()))
     s = L.summarize(res)
     s.update({'target': tname, 'src': sk, 'partner': TG[tname][1], 'sec': time.time() - t0})
     return s

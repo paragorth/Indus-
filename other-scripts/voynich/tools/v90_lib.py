@@ -341,7 +341,10 @@ def concept_of(w, salt, A=LULL):
     return A[h % k], A[(h // k) % k]
 
 
-def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, unit='para', A=None, hstr=0.35):
+HOMO = [chr(0x3b1 + i) for i in range(18)]   # 18 synthetic glyphs (homophone partners of LULL18)
+
+
+def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, unit='para', A=None, hstr=0.35, homo=False):
     """Carrier = Voynich words shuffled within hand+section (no page signal), lengths >= 4.
     mode 'concept': f2,l2 <- Lullian concept pair of the plaintext token; plaintext laid out entry
                     by entry, one entry starting at each paragraph start (entries continue if short).
@@ -401,6 +404,11 @@ def plant(toks, page_order, mode, text_id=None, seed=0, frac=1.0, drift=0.0, uni
         else:
             a = AA[int(rng.choice(len(AA), p=hab1[p]))]
             b = AA[int(rng.choice(len(AA), p=hab2[p]))]
+        if homo:
+            if rng.random() < 0.5 and a in LULL18:
+                a = HOMO[LULL18.index(a)]
+            if rng.random() < 0.5 and b in LULL18:
+                b = HOMO[LULL18.index(b)]
         if rng.random() < frac:
             u[1] = a; u[-2] = b
         if hdr is not None:
@@ -417,27 +425,37 @@ def sha(obj):
 def recur_lift(enc, v, pages_set, lo=2, hi=20):
     """rare wheel values (corpus count lo..hi) on even lines of pages_set: is the value present in the
     odd lines of its own page more often than in the odd lines of the other pages of the same
-    section x hand x language stratum? -> lift, z, n."""
-    K = v.max() + 1
+    section x hand x language stratum? -> lift, z, n. (vectorised)"""
+    v = np.asarray(v)
+    K = int(v.max()) + 1
     tot = np.bincount(v, minlength=K)
     odd = enc.par == 0
-    pres = defaultdict(set)
-    for i in np.where(odd)[0]:
-        pres[enc.page[i]].add(v[i])
-    pc = {}
-    for p, c in enc.psec.items():
-        pc.setdefault(c, []).append(p)
-    cnt = {c: Counter(x for p in ps for x in pres[p]) for c, ps in pc.items()}
+    keys = np.unique(enc.page[odd].astype(np.int64) * K + v[odd])
+    kp = keys // K; kv = keys % K
+    if not hasattr(enc, '_pc'):
+        pc = np.full(enc.npage, -1)
+        for p, c in enc.psec.items():
+            pc[p] = c
+        enc._pc = pc
+        enc._npc = np.bincount(pc[pc >= 0])
+        enc._pset = np.zeros(enc.npage, bool)
+    pc = enc._pc
+    ckeys = pc[kp].astype(np.int64) * K + kv
+    cu, cc = np.unique(ckeys, return_counts=True)
     inset = np.isin(enc.page, list(pages_set))
     ev = np.where(inset & (enc.par == 1) & (tot[v] >= lo) & (tot[v] <= hi))[0]
-    H = E = Var = 0.0
-    n = 0
-    for i in ev:
-        p = enc.page[i]; c = enc.psec[p]; x = v[i]
-        m = len(pc[c]) - 1
-        if m < 2:
-            continue
-        own = 1.0 if x in pres[p] else 0.0
-        e = (cnt[c][x] - own) / m
-        H += own; E += e; Var += e * (1 - e); n += 1
-    return {'lift': H / max(E, 1e-9), 'z': (H - E) / math.sqrt(max(Var, 1e-9)), 'n': n, 'hits': H, 'exp': E}
+    if len(ev) == 0:
+        return {'lift': 0.0, 'z': 0.0, 'n': 0, 'hits': 0.0, 'exp': 0.0}
+    p = enc.page[ev]; x = v[ev]; c = pc[p]
+    m = enc._npc[c] - 1
+    ok = m >= 2
+    p, x, c, m = p[ok], x[ok], c[ok], m[ok]
+    own = np.isin(p.astype(np.int64) * K + x, keys).astype(float)
+    ck = c.astype(np.int64) * K + x
+    idx = np.searchsorted(cu, ck)
+    idx = np.minimum(idx, len(cu) - 1)
+    cnt = np.where(cu[idx] == ck, cc[idx], 0)
+    e = (cnt - own) / m
+    H, E, Var = own.sum(), e.sum(), (e * (1 - e)).sum()
+    return {'lift': float(H / max(E, 1e-9)), 'z': float((H - E) / math.sqrt(max(Var, 1e-9))), 'n': int(len(e)),
+            'hits': float(H), 'exp': float(E)}
