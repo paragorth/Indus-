@@ -80,7 +80,7 @@ def resid_from_sets(X):
     with np.errstate(divide='ignore', invalid='ignore'):
         C = S / np.sqrt(np.outer(k, k))
     C[~np.isfinite(C)] = 0.0
-    return resid(C)
+    return resid(C, k)
 
 
 _LAG = {}
@@ -90,7 +90,7 @@ def _lagmat(n):
     return _LAG[n]
 
 
-def resid(C):
+def resid(C, k=None):
     n = C.shape[0]
     C = C.copy()
     np.fill_diagonal(C, np.nan)
@@ -105,6 +105,14 @@ def resid(C):
     ct = np.bincount(D.ravel(), ok.ravel().astype(float), minlength=n)
     m = sm / np.maximum(ct, 1)
     C = C - m[D]
+    if k is not None:   # regress out unit-size structure (log size sum, product, squared difference)
+        lk = np.log1p(k); lk = lk - lk.mean()
+        I, J = np.triu_indices(n, 1)
+        F = np.stack([np.ones(len(I)), lk[I] + lk[J], lk[I] * lk[J], (lk[I] - lk[J]) ** 2, np.abs(lk[I] - lk[J])], 1)
+        y = C[I, J]
+        beta, *_ = np.linalg.lstsq(F, y, rcond=None)
+        e = y - F @ beta
+        C = np.full((n, n), np.nan); C[I, J] = e; C[J, I] = e
     np.fill_diagonal(C, np.nan)
     return C
 
@@ -208,7 +216,7 @@ def draw_align(rng, src, n, base=None, step=None):
         spanU = float(np.exp(rng.uniform(np.log(max(1.0, n / 5)), np.log(n * 3))))
         spanU = min(spanU, src.M * 0.98)
         off = float(rng.uniform(0, src.M - spanU))
-        a = {'off': off, 'span': spanU, 'mode': ['prop', 'snap', 'rand'][rng.integers(3)],
+        a = {'off': off, 'span': spanU, 'mode': ['prop', 'snap', 'rand', 'unif', 'unif'][rng.integers(5)],
              'jit': float(rng.uniform(0, 0.5)), 'drop': int(rng.choice(Source.DROPS)), 'seed': int(rng.integers(1 << 30))}
     else:
         a = dict(base)
@@ -220,8 +228,7 @@ def draw_align(rng, src, n, base=None, step=None):
 
 
 def unit_to_tok(src, u):
-    i = int(np.floor(u)); f = u - i
-    i = min(i, src.M - 1)
+    i = np.minimum(np.floor(u).astype(int), src.M - 1); f = u - i
     return src.bounds[i] + f * (src.bounds[i + 1] - src.bounds[i])
 
 
@@ -231,6 +238,10 @@ def make_cuts(src, a, lens):
     rng = np.random.default_rng(a['seed'])
     if a['mode'] == 'rand':
         inner = np.sort(rng.uniform(t0, t1, n - 1))
+    elif a['mode'] == 'unif':
+        us = a['off'] + np.arange(1, n) * a['span'] / n + rng.normal(0, a['jit'] * 0.2, n - 1)
+        us = np.clip(np.sort(us), a['off'], a['off'] + a['span'])
+        inner = unit_to_tok(src, us)
     else:
         cl = np.cumsum(lens)[:-1] / lens.sum()
         mean = (t1 - t0) / n
@@ -252,7 +263,7 @@ def score_align(src, tgt, a, variants=None):
     sa, sb = [], []
     cache = {}
     for v in V:
-        key = 0 if a['mode'] == 'rand' else v   # random cuts ignore the length profile
+        key = 0 if a['mode'] in ('rand', 'unif') else v   # random cuts ignore the length profile
         if key not in cache:
             cuts = make_cuts(src, a, tgt.vlens[v])
             R = resid_from_sets(src.pieces(cuts, a['drop']))
