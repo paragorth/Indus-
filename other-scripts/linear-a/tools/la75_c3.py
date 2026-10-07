@@ -91,8 +91,10 @@ def plant_copies(rows, rng, n=10):
     docs = sorted(set(r['doc'] for r in rows)); site = {r['doc']: r['site'] for r in rows}
     cand = [k for k, r in enumerate(new) if word_ok(r['word'])]
     planted = []
-    for k in rng.choice(cand, n, replace=False):
+    for k in rng.choice(cand, min(len(cand), int(n * 1.5)), replace=False):
+        if len(planted) >= n: break
         src = new[k]; tg = [d for d in docs if site[d] == src['site'] and d != src['doc']]
+        if not tg: continue
         d = rng.choice(tg); tgt = [j for j, r in enumerate(new) if r['doc'] == d]
         j = rng.choice(tgt)
         new[j]['word'] = src['word']; new[j]['v'] = src['v']; new[j]['frac'] = src['frac']
@@ -123,6 +125,15 @@ if __name__ == '__main__':
         pr, pl = plant_copies(rows, np.random.default_rng(7800 + s))
         o = copy_test(pr, rng, 1000); o['planted'] = pl; out[f'plant_copies_{s}'] = o
     out['LA_habit'] = habit_test(rows, feats, rng); print('habit', time.time() - t0, flush=True)
+    # the same with sign-groups already graded as commodities (NI, *304, *306, *308, E, SU) moved into the stratum
+    cw = {'NI', '*304', '*306', '*308', 'E', 'SU'}; rn = [dict(x) for x in rows]
+    for x in rn:
+        if x['word'] in cw:
+            x['tg'] = 'C:' + x['word']; x['stratum'] = (x['site'], x['tg'], x['mb']); x['word'] = ''
+    out['LA_habit_noCW'] = habit_test(rn, feats, rng)
+    # held-out style check: HT only and non-HT only for the top fraction feature
+    for nm, sub in (('HT', [x for x in rows if x['site'] == 'Haghia Triada']), ('nonHT', [x for x in rows if x['site'] != 'Haghia Triada'])):
+        out['LA_habit_' + nm] = habit_test(sub, [('frac', (4, 5, 6)), ('frac', (4, 5)), ('div', 5)], rng, 2000)
     # planted habit: a fake word put on 20 random entries across documents, numbers rounded to multiples of 5
     pr = [dict(r) for r in rows]; cand = [k for k, r in enumerate(pr) if r['v'] >= 6]
     for k in np.random.default_rng(7900).choice(cand, 20, replace=False):

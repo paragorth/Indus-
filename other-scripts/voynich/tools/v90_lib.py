@@ -503,3 +503,88 @@ def conjunction(enc, Fsub, pages_set, R=8, seed=0):
     sd = max(sh.std(ddof=1), math.sqrt(max(a['exp'], 1.0)) * 0.5)
     return {'obs': obs, 'sh_mu': float(sh.mean()), 'sh_sd': float(sh.std(ddof=1)), 'z': float((obs - sh.mean()) / sd),
             'lift': a['lift'], 'lz': a['z'], 'n': a['n']}
+
+
+# ------------------------------------------------------------------ generic unit (page / paragraph / line)
+def recur_unit(v, unit, ugroup, A, B, tot=None, lo=2, hi=20):
+    """values present in half A of a unit; rare-value events in half B (one per unit x value);
+    expected = share of the other units of the same group having the value in their half A."""
+    v = np.asarray(v); K = int(v.max()) + 1
+    if tot is None:
+        tot = np.bincount(v, minlength=K)
+    keys = np.unique(unit[A].astype(np.int64) * K + v[A])
+    ku = keys // K; kv = keys % K
+    units_with_A = np.unique(unit[A])
+    ng = np.bincount(ugroup[units_with_A], minlength=int(ugroup.max()) + 1)
+    ck = ugroup[ku].astype(np.int64) * K + kv
+    cu, cc = np.unique(ck, return_counts=True)
+    ev = np.where(B & (tot[v] >= lo) & (tot[v] <= hi))[0]
+    if len(ev) == 0:
+        return {'hits': 0.0, 'exp': 0.0, 'n': 0, 'lift': 0.0, 'z': 0.0}
+    _, first = np.unique(unit[ev].astype(np.int64) * K + v[ev], return_index=True)
+    ev = ev[np.sort(first)]
+    u = unit[ev]; x = v[ev]; g = ugroup[u]
+    hasA = np.isin(u, units_with_A)
+    m = ng[g] - hasA
+    ok = m >= 2
+    u, x, g, m, hasA = u[ok], x[ok], g[ok], m[ok], hasA[ok]
+    own = np.isin(u.astype(np.int64) * K + x, keys).astype(float)
+    q = g.astype(np.int64) * K + x
+    idx = np.minimum(np.searchsorted(cu, q), len(cu) - 1)
+    cnt = np.where(cu[idx] == q, cc[idx], 0)
+    e = (cnt - own) / m
+    H, E, Var = own.sum(), e.sum(), (e * (1 - e)).sum()
+    return {'hits': float(H), 'exp': float(E), 'n': int(len(e)), 'lift': float(H / max(E, 1e-9)),
+            'z': float((H - E) / math.sqrt(max(Var, 1e-9)))}
+
+
+def unit_shuffle(unit_idx, Fsub, rng):
+    G = Fsub.copy()
+    for idx in unit_idx:
+        if len(idx) < 2:
+            continue
+        for j in range(G.shape[1]):
+            G[idx, j] = Fsub[idx[rng.permutation(len(idx))], j]
+    return G
+
+
+def conj_unit(Fsub, unit, ugroup, A, B, unit_idx, R=16, seed=0):
+    v = _codes(Fsub)
+    a = recur_unit(v, unit, ugroup, A, B)
+    rng = np.random.default_rng(seed)
+    sh = []
+    for _ in range(R):
+        b = recur_unit(_codes(unit_shuffle(unit_idx, Fsub, rng)), unit, ugroup, A, B)
+        sh.append(b['hits'] - b['exp'])
+    sh = np.array(sh)
+    sd = max(sh.std(ddof=1), math.sqrt(max(a['exp'], 1.0)) * 0.5)
+    return {'obs': a['hits'] - a['exp'], 'sh_mu': float(sh.mean()), 'z': float((a['hits'] - a['exp'] - sh.mean()) / sd),
+            'lift': a['lift'], 'lz': a['z'], 'n': a['n']}
+
+
+def units(enc, toks, level):
+    """-> unit id per token, group id per unit, half A mask, half B mask, list of token-index arrays per unit."""
+    n = len(toks)
+    if level == 'page':
+        unit = enc.page.copy()
+        grp = np.array([enc.psec.get(p, 0) for p in range(enc.npage)])
+        A = enc.par == 0; B = enc.par == 1
+    elif level == 'para':
+        unit = enc.para.copy()
+        npara = unit.max() + 1
+        grp = np.zeros(npara, int)
+        for i in range(n):
+            grp[unit[i]] = enc.coarse[i]        # baseline: other paragraphs of the same section x hand x language
+        A = enc.par == 0; B = enc.par == 1
+    elif level == 'line':
+        lk = {}
+        unit = np.array([lk.setdefault((t['page'], t['line']), len(lk)) for t in toks])
+        grp = np.zeros(len(lk), int)
+        for i in range(n):
+            grp[unit[i]] = enc.page[i]          # baseline: other lines of the same page
+        pos = np.zeros(n, int); c = Counter()
+        for i in range(n):
+            pos[i] = c[unit[i]]; c[unit[i]] += 1
+        A = pos % 2 == 0; B = pos % 2 == 1
+    idx = [np.where(unit == u)[0] for u in range(unit.max() + 1)]
+    return unit, grp, A, B, idx

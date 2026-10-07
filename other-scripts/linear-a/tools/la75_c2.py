@@ -60,6 +60,25 @@ def run(rows, feats, rng, label, nsub=NS, nperm=NPERM):
                 best_rel=float(real[best[0]]), union=[feats[keep[i]] for i in union], docs=P.docs, prof=prof)
 
 
+def round_score(rows, feat=('last', (0, 5))):
+    F = fmatrix(rows, [feat]); P = FastPanel(rows); R = P.resid(F)[:, 0].astype(float)
+    G = np.bincount(P.g, weights=R, minlength=len(P.docs)); V = np.bincount(P.g, weights=np.full(len(R), R.var()), minlength=len(P.docs))
+    return P.docs, G / np.sqrt(V + 1e-12)
+
+
+def outside_anova(docs, z, attr, rng, nperm=20000):
+    lab = [attr.get(d, '') for d in docs]; ix = [i for i, l in enumerate(lab) if l]
+    if len(ix) < 6: return None
+    zz = z[ix]; L = np.array([lab[i] for i in ix]); u, inv = np.unique(L, return_inverse=True)
+    def stat(inv):
+        n = np.bincount(inv, minlength=len(u)); m = np.bincount(inv, weights=zz, minlength=len(u)) / np.maximum(n, 1)
+        return (n * (m - zz.mean()) ** 2).sum()
+    obs = stat(inv); ge = 1 + sum(stat(rng.permutation(inv)) >= obs for _ in range(nperm))
+    n = np.bincount(inv); m = np.bincount(inv, weights=zz) / n
+    top = sorted(zip(u, n, m), key=lambda t: -abs(t[2]) * np.sqrt(t[1]))[:5]
+    return dict(n=len(ix), n_labels=len(u), stat=float(obs), p=ge / (nperm + 1), top=[(a, int(b), round(float(c), 2)) for a, b, c in top])
+
+
 def outside(docs, prof, attr, rng, nperm=20000):
     """mean profile distance between docs sharing a non-empty attribute vs not; permute labels among labelled docs."""
     lab = [attr.get(d, '') for d in docs]; ix = [i for i, l in enumerate(lab) if l]
@@ -96,6 +115,9 @@ if __name__ == '__main__':
     r['out_scribe'] = outside(r['docs'], r['prof'], sc, rng)
     r['out_site'] = outside(r['docs'], r['prof'], site, rng)
     r['out_context'] = outside(r['docs'], r['prof'], ctx, rng)
+    zd, z = round_score(rows)
+    r['round_findspot'] = outside_anova(zd, z, fs, rng); r['round_scribe'] = outside_anova(zd, z, sc, rng)
+    r['round_site'] = outside_anova(zd, z, site, rng)
     out['LA'] = r
     # ---- planted rooms: round5 planted on 50 % of docs (full rounding), 'room' label = planted or not, plus noise label
     from la75_c1 import plant
@@ -104,6 +126,11 @@ if __name__ == '__main__':
         rp = run(pr, feats, rng, f'plant rooms s{s}', nperm=50)
         room = {d: ('R1' if d in pl else 'R2') if rng.random() < 0.8 else rng.choice(['R1', 'R2']) for d in rp['docs']}
         rp['out_room'] = outside(rp['docs'], rp['prof'], room, rng, 5000)
+        zd, z = round_score(pr); rp['round_room'] = outside_anova(zd, z, room, rng, 5000)
+        # realistic planted rooms: 25 % docs at p 0.7, label tracks plant 80 %
+        pr2, pl2 = plant(rows, np.random.default_rng(7750 + s), 'round5', 0.25, 0.7)
+        room2 = {d: ('R1' if d in pl2 else 'R2') if rng.random() < 0.8 else rng.choice(['R1', 'R2']) for d in rp['docs']}
+        zd, z = round_score(pr2); rp['round_room_weak'] = outside_anova(zd, z, room2, rng, 5000)
         out[f'plant_{s}'] = rp; print('plant', s, time.time() - t0, flush=True)
     # ---- LB controls: hand
     for p in ('KN', 'PY'):
@@ -111,6 +138,7 @@ if __name__ == '__main__':
         hand = {}
         for x in b: hand[x['doc']] = x['scribe'] if x['scribe'] not in ('', '-') else ''
         rb['out_hand'] = outside(rb['docs'], rb['prof'], hand, rng, 5000)
+        zd, z = round_score(b); rb['round_hand'] = outside_anova(zd, z, hand, rng, 5000)
         out['LB_' + p] = rb; print(p, time.time() - t0, flush=True)
     pickle.dump(out, open(os.path.join(CK, 'c2.pkl'), 'wb'))
     for k, o in out.items():

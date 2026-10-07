@@ -10,15 +10,13 @@ FROZEN = os.path.join(P.DATA, 'pe76_frozen_span.json')
 T = common.load(); n = len(T); ids = [t['id'] for t in T]
 
 if sys.argv[1] == 'freeze':
-    c1 = json.load(open(os.path.join(P.CKPT, sys.argv[2])))
-    c2a = json.load(open(os.path.join(P.CKPT, 'cycle2_varA.json')))
-    c2b = json.load(open(os.path.join(P.CKPT, 'cycle2_varB.json')))
+    c3 = json.load(open(os.path.join(P.CKPT, 'cycle3a.json')))
     fr = dict(
-        span_full={k: v['real'] for k, v in c1.items() if k.startswith('seed')},
-        span_halfA=c2a['real'], span_halfB=c2b['real'],
+        span_logS_real=c3['real'], span_halfA=c3.get('halfA'), span_halfB=c3.get('halfB'), seed2=c3.get('seed2'),
+        block_null=c3['BLOCK_null'], calib=c3['calib'],
         prereg=[
-            'P1 levels: if pooled S >= 2 careers, tablet pairs from DIFFERENT CDLI stratigraphic levels (Susa Acropole I, Malyan) share fewer variant habits than same-level pairs, beyond the variant-shuffle null; if S < 1 no difference.',
-            'P2 museum/volume distance: if S >= 2, habit-sharing excess over the variant-shuffle null declines from near-Sb-number pairs (|d| <= 10, same volume) to same-volume far pairs to different-volume pairs, and the different-volume excess is < half the same-volume-far excess; if S < 1, same-volume-far ~ different-volume (flat beyond the lot).',
+            'P1 levels: if pooled S >= 2 careers AND real beats the BLOCK null, tablet pairs from DIFFERENT CDLI stratigraphic levels (Susa Acropole I, Malyan) share fewer variant habits than same-level pairs, beyond the variant-shuffle null; otherwise no difference expected.',
+            'P2 museum/volume distance: if S >= 2 and real beats BLOCK, habit-sharing excess over the variant-shuffle null declines from near-Sb-number pairs (|d| <= 10, same volume) to same-volume far pairs to different-volume pairs, and the different-volume excess is < half the same-volume-far excess; if S < 1 or no BLOCK excess, same-volume-far ~ different-volume (flat beyond the lot).',
         ])
     s = json.dumps(fr, sort_keys=True, default=float)
     fr['sha256'] = hashlib.sha256(s.encode()).hexdigest()
