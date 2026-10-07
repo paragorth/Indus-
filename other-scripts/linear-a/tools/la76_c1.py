@@ -11,6 +11,7 @@ NSPLIT = int(sys.argv[2]) if len(sys.argv) > 2 else 8
 TOP = 50; NPERM = 200; CH = 20000
 os.makedirs(CK, exist_ok=True)
 rows = entries(read_only=os.environ.get('RD') is None, frac_mode=os.environ.get('FRACM', 'int'))
+rows = [r for r in rows if r['q'] >= float(os.environ.get('MINQ', '0'))]
 rows = [r for r in rows if r['com'] not in os.environ.get('EXCL', '').split(',')]
 goods = goods_list(rows); mk = Market(rows, goods); K = len(goods)
 
