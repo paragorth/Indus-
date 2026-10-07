@@ -44,6 +44,20 @@ for name in ['ZL3b', 'IT2a']:
     out['voy_' + name] = dict(base=pb_, wide=pw_, prior_wide=dict(is_list=float(Pw[:, 0].mean()), ptt=float(Pw[:, 1].mean()),
                                                                  pwl=float(Pw[:, 2].mean())))
     print(name, json.dumps(out['voy_' + name]))
+    # section encoder-family stability under the wide prior (cycle-2 support / kill line)
+    uw = np.array([r['unit'] for r in Rw]); UN = ['letter', 'chunk', 'word', 'nomen']
+    secs = L.voy_chunks(L.voy_lines(name), key=lambda l: l['sec'])
+    rows = []
+    for s, chs in secs.items():
+        for c in chs:
+            po = L.abc(Fw[:, C.TI], Pw, C.fvec(c)[C.TI], scw)
+            u = Counter()
+            for i, w in zip(po['idx'], po['w']): u[uw[i]] += w
+            t = sum(u.values()); rows.append((s, [u[x] / t for x in UN], po['ptt']))
+    dd = [0.5 * sum(abs(a - b) for a, b in zip(rows[i][1], rows[j][1])) for i in range(len(rows)) for j in range(i + 1, len(rows)) if rows[i][0] != rows[j][0]]
+    secu = {s: np.mean([r[1] for r in rows if r[0] == s], 0).tolist() for s in set(r[0] for r in rows)}
+    out['wide_sections_' + name] = dict(dunit_diff_median=float(np.median(dd)), dunit_diff_max=float(np.max(dd)), sec_units=secu)
+    print('wide sections', name, json.dumps(out['wide_sections_' + name]))
 
 
 # ---- (ii) out-of-scale prediction
