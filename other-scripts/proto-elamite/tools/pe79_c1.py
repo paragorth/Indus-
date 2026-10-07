@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PE-79 cycle 1: every grammar architecture x 20,000 random grafts, leave-one-civilisation-out.
+"""PE-79 cycle 1: every grammar architecture x 100,000 random grafts, leave-one-civilisation-out.
 
 Usage: pe79_c1.py [half]   half = A (judge trained on PE half A; default) or B (cycle 3 replication).
 Per architecture: the PE judge is trained on one half of the PE tablets.  20,000 random role->sign grafts H
@@ -13,7 +13,7 @@ from multiprocessing import Pool
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pe79_common as C
 
-NH = 20000
+NH = 100000
 NPERM = 3
 PLANT_MAP = {'COM': 'M288', 'HDR': 'M157', 'UNI': 'M297', 'PER': 'M388', 'PLA': 'M387', 'TRA': 'M346',
              'TOT': 'M003'}

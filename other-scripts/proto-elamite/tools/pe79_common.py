@@ -238,11 +238,12 @@ def skeleton(docs, judge):
 
 
 def score_H(H, sk, judge):
-    """H: [nH, 7] sign indices.  returns mean PMI over the skeleton's role tokens, per H."""
+    """H: [nH, 7] sign indices.  Role-balanced score: mean over roles present of the mean PMI of that role's
+    tokens (so a role with few tokens, e.g. khipu top cords, weighs as much as a common one)."""
     if len(sk) == 0:
         return np.full(len(H), np.nan)
     K = len(judge.signs)
-    tot = np.zeros(len(H)); n = sk[:, 3].sum()
+    tot = np.zeros((len(ROLES), len(H))); n = np.zeros(len(ROLES))
     for ci, r, pc, w in sk:
         s = H[:, r]
         if judge.pmi_b is None or pc == WILD:
@@ -251,8 +252,9 @@ def score_H(H, sk, judge):
             v = judge.pmi_b[ci, K, s]
         else:
             v = judge.pmi_b[ci, H[:, pc], s]
-        tot += w * v
-    return tot / n
+        tot[r] += w * v; n[r] += w
+    pr = n > 0
+    return (tot[pr] / n[pr, None]).mean(0)
 
 
 def random_H(n, K, rng):
